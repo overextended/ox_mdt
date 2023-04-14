@@ -7,7 +7,6 @@ module.exports = {
         main: ['Roboto'],
       },
       colors: {
-        // Mantine dark colours
         durple: {
           50: '#33343F',
           100: '#2E2F3A',
@@ -21,6 +20,7 @@ module.exports = {
           900: '#151519',
           950: '#131317',
         },
+        // Mantine dark colours
         dark: {
           50: '#C1C2C5',
           100: '#A6A7AB',

@@ -36,7 +36,7 @@ const AnnouncementList: Component = () => {
     <div class="flex flex-col gap-2">
       <For each={announcements()}>
         {(announcement) => (
-          <div class="flex flex-col gap-3 rounded-md bg-[#2E2F3A] p-3 text-dark-200 shadow-md">
+          <div class="flex flex-col gap-3 rounded-md bg-durple-200 p-3 text-dark-200 shadow-md">
             <div class="flex justify-between">
               <p>{`${announcement.firstName} ${announcement.lastName}`}</p>
               <p>{announcement.createdAt.toLocaleDateString()}</p>
