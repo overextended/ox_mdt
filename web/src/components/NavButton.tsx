@@ -10,7 +10,7 @@ export const NavButton: Component<{ label: string; path: string; icon: Component
       onClick={() => navigate(props.path)}
       class={`transition-color flex w-full gap-4 rounded-md p-4 font-bold duration-150 ${
         location.pathname === props.path
-          ? 'bg-blue-600/20 text-blue-300 hover:bg-blue-600/20'
+          ? 'bg-sky-600/20 text-sky-300 hover:bg-sky-600/20'
           : 'text-dark-50 hover:bg-durple-200 hover:text-white'
       }`}
     >

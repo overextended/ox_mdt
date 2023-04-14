@@ -1,3 +1,4 @@
+import { IconDotsVertical, IconEdit } from '@tabler/icons-solidjs';
 import { Component, For, createSignal } from 'solid-js';
 
 interface Announcement {
@@ -37,11 +38,16 @@ const AnnouncementList: Component = () => {
       <For each={announcements()}>
         {(announcement) => (
           <div class="flex flex-col gap-3 rounded-md bg-durple-200 p-3 text-dark-200 shadow-md">
-            <div class="flex justify-between">
-              <p>{`${announcement.firstName} ${announcement.lastName}`}</p>
-              <p>{announcement.createdAt.toLocaleDateString()}</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <p>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callsign}`}</p>
+                <p class="text-xs">{announcement.createdAt.toLocaleDateString()}</p>
+              </div>
+              <button class="rounded-md p-2 text-sm hover:bg-durple-50 hover:text-white">
+                <IconEdit />
+              </button>
             </div>
-            <div class="text-dark-50">{announcement.content}</div>
+            <div class="text-sm text-dark-50">{announcement.content}</div>
           </div>
         )}
       </For>
