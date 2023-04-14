@@ -2,6 +2,7 @@ import { Component } from 'solid-js';
 import AnnouncementList from './AnnouncementList';
 import { IconFileDescription, IconMessageCircle, IconPhoneCall } from '@tabler/icons-solidjs';
 import WarrantList from './WarrantList';
+import CallsList from './CallsList';
 
 const Dashboard: Component = () => {
   return (
@@ -25,6 +26,7 @@ const Dashboard: Component = () => {
           <p class="text-xl">Active calls</p>
           <IconPhoneCall />
         </div>
+        <CallsList />
       </div>
     </div>
   );

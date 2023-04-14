@@ -34,16 +34,18 @@ const WarrantList: Component = () => {
         {(warrant) => (
           <div class="flex gap-3 rounded-md bg-durple-200 p-3 text-dark-200 shadow-md">
             <img src={warrant.image} alt="warrant_image" class="w-1/3 rounded-md" />
-            <div class="flex flex-col">
-              <p class="text-lg text-dark-50">
+            <div class="flex flex-col gap-1">
+              <p class="text-lg leading-none text-dark-50">
                 {warrant.firstName} {warrant.lastName}
               </p>
-              <p class="text-xs">
-                Wanted for: <span class="text-dark-50">{warrant.reason}</span>
-              </p>
-              <p class="text-xs">
-                Expires: <span class="text-dark-50">{new Date(warrant.expiresIn).toLocaleDateString()}</span>
-              </p>
+              <div>
+                <p class="text-xs">
+                  Wanted for: <span class="text-dark-50">{warrant.reason}</span>
+                </p>
+                <p class="text-xs">
+                  Expires: <span class="text-dark-50">{new Date(warrant.expiresIn).toLocaleDateString()}</span>
+                </p>
+              </div>
             </div>
           </div>
         )}

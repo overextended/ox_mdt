@@ -24,11 +24,11 @@ export const Navbar: Component = () => {
         <p class="self-start py-2 text-xs font-bold uppercase text-dark-200">Management</p>
         <NavButton icon={IconUserShield} label="Officers" path="/officers" />
       </div>
-      <div class="flex w-full items-center gap-4 rounded-md bg-durple-200 p-2">
+      <div class="flex w-full items-center gap-4 rounded-md bg-durple-200 p-2 shadow-md">
         <img src="https://avatars.githubusercontent.com/u/39926192?s=120&v=4" alt="pp" class="h-10 w-10 rounded-full" />
-        <div class="flex flex-col justify-center overflow-hidden">
-          <p class="truncate text-sm text-dark-50">Svetozar Miletić</p>
-          <p class="text-xs text-dark-200">LSPD Officer</p>
+        <div class="overflow-hidde1 flex flex-col justify-center gap-1">
+          <p class="truncate text-sm leading-none text-dark-50">Svetozar Miletić</p>
+          <p class="text-xs leading-none text-dark-200">LSPD Officer</p>
         </div>
       </div>
     </aside>
