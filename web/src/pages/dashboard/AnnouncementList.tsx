@@ -37,7 +37,7 @@ const AnnouncementList: Component = () => {
     <div class="flex flex-col gap-2">
       <For each={announcements()}>
         {(announcement) => (
-          <div class="flex flex-col gap-3 rounded-md bg-durple-200 p-3 text-dark-200 shadow-md">
+          <div class="flex flex-col gap-3 rounded-md bg-durple-200 p-3 font-bold text-dark-50 shadow-md">
             <div class="flex items-center justify-between">
               <div>
                 <p>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callsign}`}</p>
@@ -47,7 +47,7 @@ const AnnouncementList: Component = () => {
                 <IconEdit />
               </button>
             </div>
-            <div class="text-sm text-dark-50">{announcement.content}</div>
+            <div class="text-sm font-normal text-dark-100">{announcement.content}</div>
           </div>
         )}
       </For>
