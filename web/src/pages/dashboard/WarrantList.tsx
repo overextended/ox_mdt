@@ -1,3 +1,4 @@
+import { IconFileOff } from '@tabler/icons-solidjs';
 import { Component, For, createSignal } from 'solid-js';
 
 interface Warrant {
@@ -27,6 +28,14 @@ const WARRANTS: Warrant[] = [
 
 const WarrantList: Component = () => {
   const [warrants, setWarrants] = createSignal<Warrant[]>(WARRANTS);
+
+  if (!warrants() || warrants().length <= 0)
+    return (
+      <div class="flex h-full flex-col items-center justify-center text-2xl text-dark-200">
+        <IconFileOff size={36} />
+        <p>No active warrants</p>
+      </div>
+    );
 
   return (
     <div class="flex flex-col gap-2">
