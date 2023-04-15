@@ -28,13 +28,40 @@ const ANNOUNCEMENTS: Announcement[] = [
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente aperiam neque ratione consectetur in ullam voluptatum, quod eos velit fugiat iste aspernatur dolores vero nihil nam earum magnam incidunt illo dolore. Repellendus quaerat minus obcaecati harum repellat est, iusto consectetur deleniti nesciunt vel officia dolores placeat commodi neque dignissimos fugiat.',
     createdAt: new Date(),
   },
+  {
+    firstName: 'Peter',
+    lastName: 'Pan',
+    callsign: 233,
+    image: '',
+    content:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente aperiam neque ratione consectetur in ullam voluptatum, quod eos velit fugiat iste aspernatur dolores vero nihil nam earum magnam incidunt illo dolore. Repellendus quaerat minus obcaecati harum repellat est, iusto consectetur deleniti nesciunt vel officia dolores placeat commodi neque dignissimos fugiat.',
+    createdAt: new Date(),
+  },
+  {
+    firstName: 'Peter',
+    lastName: 'Pan',
+    callsign: 233,
+    image: '',
+    content:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente aperiam neque ratione consectetur in ullam voluptatum, quod eos velit fugiat iste aspernatur dolores vero nihil nam earum magnam incidunt illo dolore. Repellendus quaerat minus obcaecati harum repellat est, iusto consectetur deleniti nesciunt vel officia dolores placeat commodi neque dignissimos fugiat.',
+    createdAt: new Date(),
+  },
+  {
+    firstName: 'Peter',
+    lastName: 'Pan',
+    callsign: 233,
+    image: '',
+    content:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente aperiam neque ratione consectetur in ullam voluptatum, quod eos velit fugiat iste aspernatur dolores vero nihil nam earum magnam incidunt illo dolore. Repellendus quaerat minus obcaecati harum repellat est, iusto consectetur deleniti nesciunt vel officia dolores placeat commodi neque dignissimos fugiat.',
+    createdAt: new Date(),
+  },
 ];
 
 const AnnouncementList: Component = () => {
   const [announcements, setAnnouncements] = createSignal<Announcement[]>(ANNOUNCEMENTS);
 
   return (
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 overflow-y-auto px-4">
       <For each={announcements()}>
         {(announcement) => (
           <div class="flex flex-col gap-3 rounded-md bg-durple-200 p-3 font-bold text-dark-50 shadow-md">
