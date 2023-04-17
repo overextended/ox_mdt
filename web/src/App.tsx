@@ -1,23 +1,31 @@
-import type { Component } from 'solid-js';
-import { Route, Routes } from '@solidjs/router';
+import { AppShell, Box, Container, Group } from '@mantine/core';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
-import Dashboard from './pages/dashboard/Dashboard';
-import Modal from './components/Modal';
+import { Route, Routes } from 'react-router-dom';
 
-const App: Component = () => {
+function App() {
   return (
-    <div class="flex h-full w-full items-center justify-center">
-      <div class="flex h-[750px] w-[1300px] rounded-md bg-durple-500">
+    <Box style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Group
+        spacing={0}
+        sx={(theme) => ({
+          width: 1300,
+          height: 750,
+          borderRadius: theme.radius.md,
+          backgroundColor: theme.colors.durple[7],
+          color: theme.colors.dark[2],
+        })}
+      >
         <Navbar />
-        <div class="w-full rounded-br-md rounded-tr-md">
+        <Box sx={{ alignSelf: 'baseline' }}>
           <Routes>
-            <Route path="/" component={Dashboard} />
+            <Route path="/" element={<>Dashboard</>} />
+            <Route path="/reports" element={<>Reports</>} />
           </Routes>
-        </div>
-      </div>
-      <Modal />
-    </div>
+        </Box>
+      </Group>
+    </Box>
   );
-};
+}
 
 export default App;

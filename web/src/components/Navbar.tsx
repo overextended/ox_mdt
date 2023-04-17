@@ -1,37 +1,79 @@
-import {
-  IconAlertTriangle,
-  IconGavel,
-  IconLayoutDashboard,
-  IconMap2,
-  IconReceipt,
-  IconSettings,
-  IconUserShield,
-  IconUsers,
-} from '@tabler/icons-solidjs';
-import { Component } from 'solid-js';
-import NavButton from './NavButton';
+import { Group, Stack, UnstyledButton, Text, Box, Avatar } from '@mantine/core';
+import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUserShield, IconUsers } from '@tabler/icons-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export const Navbar: Component = () => {
+const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: string }> = (props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <aside class="flex h-full w-1/4 flex-col justify-between rounded-bl-md rounded-tl-md bg-durple-400 p-4 font-main text-white">
-      <div>
-        <p class="self-start py-2 text-xs font-bold uppercase text-dark-200">Pages</p>
+    <UnstyledButton
+      onClick={() => navigate(props.path)}
+      sx={(theme) => ({
+        color: location.pathname === props.path ? theme.colors.blue[4] : theme.colors.dark[2],
+        backgroundColor: location.pathname === props.path ? theme.fn.rgba(theme.colors.blue[6], 0.2) : undefined,
+        padding: 16,
+        borderRadius: theme.radius.md,
+        fontWeight: 500,
+        '&:hover': location.pathname !== props.path && { backgroundColor: theme.colors.durple[2], color: 'white' },
+      })}
+    >
+      <Group>
+        <props.icon />
+        <Text>{props.label}</Text>
+      </Group>
+    </UnstyledButton>
+  );
+};
+
+const Navbar: React.FC = () => {
+  return (
+    <Stack
+      sx={(theme) => ({
+        height: '100%',
+        width: 280,
+        backgroundColor: theme.colors.durple[6],
+        padding: 16,
+        borderTopLeftRadius: theme.radius.md,
+        borderBottomLeftRadius: theme.radius.md,
+      })}
+      justify="space-between"
+    >
+      <Stack spacing={0}>
+        <Text size="xs" tt="uppercase" fw="bold" mb="xs">
+          Pages
+        </Text>
         <NavButton icon={IconLayoutDashboard} label="Dashboard" path="/" />
         <NavButton icon={IconUsers} label="Profiles" path="/profiles" />
         <NavButton icon={IconReceipt} label="Reports" path="/reports" />
         <NavButton icon={IconMap2} label="Dispatch" path="/dispatch" />
         <NavButton icon={IconGavel} label="Laws" path="/laws" />
-        <p class="self-start py-2 text-xs font-bold uppercase text-dark-200">Management</p>
+        <Text size="xs" tt="uppercase" fw="bold" mb="xs" mt="xs">
+          Management
+        </Text>
         <NavButton icon={IconUserShield} label="Officers" path="/officers" />
-      </div>
-      <div class="flex w-full items-center gap-4 rounded-md bg-durple-200 p-2 shadow-md">
-        <img src="https://avatars.githubusercontent.com/u/39926192?s=120&v=4" alt="pp" class="h-10 w-10 rounded-full" />
-        <div class="overflow-hidde1 flex flex-col justify-center gap-1">
-          <p class="truncate text-sm leading-none text-dark-50">Svetozar Miletić</p>
-          <p class="text-xs leading-none text-dark-200">LSPD Officer</p>
-        </div>
-      </div>
-    </aside>
+      </Stack>
+      <Box
+        sx={(theme) => ({
+          width: '100%',
+          background: theme.colors.durple[2],
+          borderRadius: theme.radius.md,
+          padding: 8,
+        })}
+      >
+        <Group noWrap>
+          <Avatar color="blue" radius="lg" />
+          <Stack spacing={0} sx={{ overflow: 'hidden' }}>
+            <Text truncate color="dark.0">
+              Svetozar Miletić
+            </Text>
+            <Text truncate size="xs">
+              LSPD Officer
+            </Text>
+          </Stack>
+        </Group>
+      </Box>
+    </Stack>
   );
 };
 
