@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
             <Text truncate color="dark.0">
               Svetozar Miletić
             </Text>
-            <Text truncate size="xs">
+            <Text truncate size="xs" color="dark.2">
               LSPD Officer
             </Text>
           </Stack>
