@@ -29,18 +29,18 @@ const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: stri
 const Navbar: React.FC = () => {
   return (
     <Stack
+      p="md"
+      w="25%"
+      h="100%"
       sx={(theme) => ({
-        height: '100%',
-        width: 280,
         backgroundColor: theme.colors.durple[6],
-        padding: 16,
         borderTopLeftRadius: theme.radius.md,
         borderBottomLeftRadius: theme.radius.md,
       })}
       justify="space-between"
     >
       <Stack spacing={0}>
-        <Text size="xs" tt="uppercase" fw="bold" mb="xs">
+        <Text size="xs" tt="uppercase" fw="bold" mb="xs" color="dark.2">
           Pages
         </Text>
         <NavButton icon={IconLayoutDashboard} label="Dashboard" path="/" />
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
         <NavButton icon={IconReceipt} label="Reports" path="/reports" />
         <NavButton icon={IconMap2} label="Dispatch" path="/dispatch" />
         <NavButton icon={IconGavel} label="Laws" path="/laws" />
-        <Text size="xs" tt="uppercase" fw="bold" mb="xs" mt="xs">
+        <Text size="xs" tt="uppercase" fw="bold" mb="xs" mt="xs" color="dark.2">
           Management
         </Text>
         <NavButton icon={IconUserShield} label="Officers" path="/officers" />
@@ -56,13 +56,13 @@ const Navbar: React.FC = () => {
       <Box
         sx={(theme) => ({
           width: '100%',
-          background: theme.colors.durple[2],
+          background: theme.colors.durple[4],
           borderRadius: theme.radius.md,
           padding: 8,
         })}
       >
         <Group noWrap>
-          <Avatar color="blue" radius="lg" />
+          <Avatar color="blue" radius="xl" />
           <Stack spacing={0} sx={{ overflow: 'hidden' }}>
             <Text truncate color="dark.0">
               Svetozar Miletić
