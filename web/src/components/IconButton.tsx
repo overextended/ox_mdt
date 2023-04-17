@@ -1,4 +1,5 @@
 import { Component, ComponentProps } from 'solid-js';
+import { classNames } from '../utils/classNames';
 
 type ButtonVariants = 'subtle' | 'primary' | 'tonal';
 
@@ -19,7 +20,10 @@ const IconButton: Component<IconButtonProps> = (props) => {
     <button
       disabled={props.disabled}
       {...props}
-      class={`${variants[props.variant || 'subtle']} rounded-md p-1 disabled:bg-dark-400 disabled:text-dark-600`}
+      class={classNames(
+        variants[props.variant || 'subtle'],
+        'rounded-md p-1 disabled:bg-dark-400 disabled:text-dark-600'
+      )}
     >
       <props.icon />
     </button>

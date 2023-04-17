@@ -1,4 +1,5 @@
 import { Component, ComponentProps, ParentComponent, JSX } from 'solid-js';
+import { classNames } from '../utils/classNames';
 
 type ButtonVariants = 'primary' | 'default' | 'tonal' | 'subtle';
 
@@ -22,9 +23,11 @@ const Button: Component<ButtonProps> = (props) => {
     <button
       {...props}
       disabled={props.disabled}
-      class={`${
-        variants[props.variant || 'default']
-      } flex items-center justify-center gap-1 rounded-md p-2 disabled:bg-dark-400 disabled:text-dark-600`}
+      class={classNames(
+        variants[props.variant || 'default'],
+        'flex items-center justify-center gap-1 rounded-md p-2 disabled:bg-dark-400 disabled:text-dark-600',
+        props.class
+      )}
     >
       {props?.leftIcon && <props.leftIcon />}
       {props.children}

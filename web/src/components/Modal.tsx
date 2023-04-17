@@ -20,7 +20,7 @@ const Modal: Component = () => {
           </div>
           <p>Content</p>
           <div class="flex justify-end gap-2">
-            <Button onClick={() => setVisible(false)} variant="subtle" class="bg-red-500">
+            <Button onClick={() => setVisible(false)} variant="subtle">
               Cancel
             </Button>
             <Button onClick={() => setVisible(false)}>Confirm</Button>
