@@ -1,5 +1,6 @@
 import { IconDotsVertical, IconEdit } from '@tabler/icons-solidjs';
 import { Component, For, createSignal } from 'solid-js';
+import IconButton from '../../components/IconButton';
 
 interface Announcement {
   firstName: string;
@@ -70,9 +71,7 @@ const AnnouncementList: Component = () => {
                 <p>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callsign}`}</p>
                 <p class="text-xs">{announcement.createdAt.toLocaleDateString()}</p>
               </div>
-              <button class="rounded-md p-2 text-sm hover:bg-durple-50 hover:text-white">
-                <IconEdit />
-              </button>
+              <IconButton icon={IconEdit} />
             </div>
             <div class="text-sm font-normal text-dark-100">{announcement.content}</div>
           </div>

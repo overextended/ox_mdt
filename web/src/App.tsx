@@ -2,6 +2,7 @@ import type { Component } from 'solid-js';
 import { Route, Routes } from '@solidjs/router';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/dashboard/Dashboard';
+import Modal from './components/Modal';
 
 const App: Component = () => {
   return (
@@ -14,6 +15,7 @@ const App: Component = () => {
           </Routes>
         </div>
       </div>
+      <Modal />
     </div>
   );
 };
