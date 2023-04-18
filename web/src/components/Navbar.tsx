@@ -10,7 +10,7 @@ const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: stri
     <UnstyledButton
       onClick={() => navigate(props.path)}
       sx={(theme) => ({
-        color: location.pathname === props.path ? theme.colors.blue[4] : theme.colors.dark[2],
+        color: location.pathname === props.path ? theme.colors.blue[4] : theme.colors.dark[0],
         backgroundColor: location.pathname === props.path ? theme.fn.rgba(theme.colors.blue[6], 0.2) : undefined,
         padding: 16,
         borderRadius: theme.radius.md,
