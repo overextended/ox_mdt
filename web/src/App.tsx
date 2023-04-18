@@ -1,4 +1,4 @@
-import { AppShell, Box, Group } from '@mantine/core';
+import { Box } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -17,7 +17,7 @@ function App() {
         })}
       >
         <Navbar />
-        <Box sx={{ alignSelf: 'baseline', width: '100%', height: '100%' }}>
+        <Box sx={{ alignSelf: 'baseline' }} w="100%" h="100%" p="md">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/reports" element={<>Reports</>} />
