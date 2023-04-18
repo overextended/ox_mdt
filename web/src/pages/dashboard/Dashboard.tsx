@@ -56,6 +56,7 @@ const Dashboard: React.FC = () => {
             styles={(theme) => ({
               input: {
                 backgroundColor: theme.colors.durple[4],
+                borderColor: 'transparent',
               },
             })}
           />
