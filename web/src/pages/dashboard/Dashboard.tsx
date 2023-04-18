@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionIcon, Avatar, Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Avatar, Box, Button, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
 import {
   IconBrandTelegram,
   IconClock,
@@ -10,6 +10,8 @@ import {
 } from '@tabler/icons-react';
 import AnnouncementList from './components/AnnoucementList';
 import WarrantList from './components/WarrantList';
+import { modals } from '@mantine/modals';
+import { theme } from '../../theme';
 
 const Dashboard: React.FC = () => {
   return (
@@ -30,7 +32,35 @@ const Dashboard: React.FC = () => {
             <IconMessageCircle2 />
           </Group>
           <Box>
-            <Button fullWidth variant="light" leftIcon={<IconBrandTelegram />}>
+            <Button
+              fullWidth
+              variant="light"
+              leftIcon={<IconBrandTelegram />}
+              onClick={() =>
+                modals.open({
+                  title: 'Create announcement',
+                  centered: true,
+                  // TODO: RTE support
+                  children: (
+                    <Stack>
+                      <Textarea
+                        placeholder="Announcement contents"
+                        minRows={8}
+                        styles={(theme) => ({
+                          input: {
+                            backgroundColor: theme.colors.durple[4],
+                            borderColor: 'transparent',
+                          },
+                        })}
+                      />
+                      <Button variant="light" fullWidth>
+                        Submit
+                      </Button>
+                    </Stack>
+                  ),
+                })
+              }
+            >
               Create announcement
             </Button>
           </Box>

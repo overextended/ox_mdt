@@ -3,6 +3,18 @@ import { MantineThemeOverride } from '@mantine/core';
 export const theme: MantineThemeOverride = {
   fontFamily: 'Roboto',
   colorScheme: 'dark',
+  components: {
+    Modal: {
+      styles: (theme) => ({
+        header: {
+          backgroundColor: theme.colors.durple[6],
+        },
+        body: {
+          backgroundColor: theme.colors.durple[6],
+        },
+      }),
+    },
+  },
   colors: {
     durple: [
       '#3F404C',

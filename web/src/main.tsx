@@ -6,12 +6,15 @@ import { MantineProvider } from '@mantine/core';
 import { HashRouter } from 'react-router-dom';
 import { isEnvBrowser } from './utils/misc';
 import { theme } from './theme';
+import { ModalsProvider } from '@mantine/modals';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <App />
+        <ModalsProvider>
+          <App />
+        </ModalsProvider>
       </MantineProvider>
     </HashRouter>
   </React.StrictMode>
