@@ -1,6 +1,7 @@
 import { Group, Stack, UnstyledButton, Text, Box, Avatar } from '@mantine/core';
 import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUserShield, IconUsers } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import NavCharacter from './NavCharacter';
 
 const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: string }> = (props) => {
   const navigate = useNavigate();
@@ -53,26 +54,7 @@ const Navbar: React.FC = () => {
         </Text>
         <NavButton icon={IconUserShield} label="Officers" path="/officers" />
       </Stack>
-      <Box
-        sx={(theme) => ({
-          width: '100%',
-          background: theme.colors.durple[4],
-          borderRadius: theme.radius.md,
-          padding: 8,
-        })}
-      >
-        <Group noWrap>
-          <Avatar color="blue" radius="xl" />
-          <Stack spacing={0} sx={{ overflow: 'hidden' }}>
-            <Text truncate color="dark.0">
-              Svetozar Miletić
-            </Text>
-            <Text truncate size="xs" color="dark.2">
-              LSPD Officer
-            </Text>
-          </Stack>
-        </Group>
-      </Box>
+      <NavCharacter />
     </Stack>
   );
 };
