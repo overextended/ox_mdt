@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { AppShell, Box } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -6,24 +6,27 @@ import Dashboard from './pages/dashboard/Dashboard';
 function App() {
   return (
     <Box style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Box
-        display="flex"
-        sx={(theme) => ({
-          width: 1300,
-          height: 750,
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.colors.durple[7],
-          color: theme.colors.dark[0],
+      <AppShell
+        navbar={<Navbar />}
+        fixed={false}
+        styles={(theme) => ({
+          root: {
+            width: 1300,
+            height: 750,
+          },
+          body: {
+            width: 'inherit',
+            height: 'inherit',
+            backgroundColor: theme.colors.durple[7],
+            borderRadius: theme.radius.md,
+          },
         })}
       >
-        <Navbar />
-        <Box sx={{ alignSelf: 'baseline' }} w="100%" h="100%" p="md">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/reports" element={<>Reports</>} />
-          </Routes>
-        </Box>
-      </Box>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/reports" element={<>Reports</>} />
+        </Routes>
+      </AppShell>
     </Box>
   );
 }

@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
   return (
     <Stack
       p="md"
-      w="25%"
+      w={300}
       h="100%"
       sx={(theme) => ({
         backgroundColor: theme.colors.durple[6],
