@@ -7,13 +7,15 @@ interface Character {
   title: string;
   grade: number;
   image?: string;
+  callSign: number;
 }
 
 const characterAtom = atom<Character>({
-  firstName: 'Billy',
-  lastName: 'bob',
+  firstName: 'Svetozar',
+  lastName: 'Miletić',
   title: 'LSPD Officer',
   grade: 3,
+  callSign: 192,
 });
 
 export const useCharacter = () => useAtomValue(characterAtom);

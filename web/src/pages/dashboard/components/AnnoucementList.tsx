@@ -1,70 +1,34 @@
 import React from 'react';
-import { ActionIcon, Avatar, Box, Group, Menu, ScrollArea, Stack, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Box, createStyles, Group, Menu, ScrollArea, Stack, Text } from '@mantine/core';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import dayjs from 'dayjs';
+import { useAnnouncements, useAnnouncementsState } from '../../../state/dashboard';
+import { modals } from '@mantine/modals';
+import AnnouncementModal from './AnnouncementModal';
+import announcementModal from './AnnouncementModal';
 
-interface Announcement {
-  firstName: string;
-  lastName: string;
-  image: string;
-  callSign: string;
-  createdAt: number;
-  content: string;
-}
-
-const ANNOUNCEMENTS: Announcement[] = [
-  {
-    firstName: 'Svetozar',
-    lastName: 'Miletić',
-    image: '',
-    callSign: '132',
-    createdAt: Date.now(),
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aut earum eius minima modi molestias possimus quis repellendus sint sunt? Excepturi explicabo in quo, reprehenderit temporibus ullam Aspernatur doloribus ducimus earum eius eum illum ipsum iure modi neque officia perspiciatis placeat quasi, quos saepe sequi sint tempora totam veniam vitae?',
+const useStyles = createStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    overflowY: 'auto',
   },
-  {
-    firstName: 'John',
-    lastName: 'Smith',
-    image: '',
-    callSign: '264',
-    createdAt: Date.now() - 3000000000,
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aut earum eius minima modi molestias possimus quis repellendus sint sunt? Excepturi explicabo in quo, reprehenderit temporibus ullam Aspernatur doloribus ducimus earum eius',
+  announcementContainer: {
+    backgroundColor: theme.colors.durple[4],
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
   },
-  {
-    firstName: 'John',
-    lastName: 'Smith',
-    image: '',
-    callSign: '264',
-    createdAt: Date.now(),
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aut earum eius minima modi molestias possimus quis repellendus sint sunt? Excepturi explicabo in quo, reprehenderit temporibus ullam Aspernatur doloribus ducimus earum eius',
-  },
-  {
-    firstName: 'John',
-    lastName: 'Smith',
-    image: '',
-    callSign: '264',
-    createdAt: Date.now(),
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aut earum eius minima modi molestias possimus quis repellendus sint sunt? Excepturi explicabo in quo, reprehenderit temporibus ullam Aspernatur doloribus ducimus earum eius',
-  },
-];
+}));
 
 const AnnouncementList: React.FC = () => {
-  const [announcements, setAnnouncements] = React.useState<Announcement[]>(ANNOUNCEMENTS);
+  const [announcements, setAnnouncements] = useAnnouncementsState();
+  const { classes } = useStyles();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 16, overflowY: 'auto' }}>
+    <Box className={classes.container}>
       {announcements.map((announcement) => (
-        <Stack
-          sx={(theme) => ({
-            backgroundColor: theme.colors.durple[4],
-            borderRadius: theme.radius.md,
-            boxShadow: theme.shadows.md,
-          })}
-          p="md"
-        >
+        <Stack key={announcement.id} className={classes.announcementContainer} p="md">
           <Group position="apart">
             <Group>
               <Avatar color="blue" radius="xl" />
@@ -83,14 +47,43 @@ const AnnouncementList: React.FC = () => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Item icon={<IconEdit size={18} />}>Edit</Menu.Item>
-                <Menu.Item color="red" icon={<IconTrash size={18} />}>
+                <Menu.Item
+                  icon={<IconEdit size={18} />}
+                  onClick={() => {
+                    modals.open({
+                      title: 'Edit announcement',
+                      centered: true,
+                      children: <AnnouncementModal announcement={announcement} />,
+                    });
+                  }}
+                >
+                  Edit
+                </Menu.Item>
+                <Menu.Item
+                  color="red"
+                  icon={<IconTrash size={18} />}
+                  onClick={() => {
+                    modals.openConfirmModal({
+                      title: 'Delete announcement',
+                      children: <Text>Are you sure you want to delete this announcement?</Text>,
+                      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                      centered: true,
+                      confirmProps: {
+                        color: 'red',
+                      },
+                      onConfirm: () => {
+                        // TODO: Server callback
+                        setAnnouncements((prev) => prev.filter((item) => item.id !== announcement.id));
+                      },
+                    });
+                  }}
+                >
                   Delete
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Group>
-          <Text size="sm">{announcement.content}</Text>
+          <Text size="sm">{announcement.contents}</Text>
         </Stack>
       ))}
     </Box>

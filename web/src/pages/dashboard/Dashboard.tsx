@@ -4,6 +4,7 @@ import { IconBrandTelegram, IconMessageCircle2, IconPrison, IconSearch } from '@
 import AnnouncementList from './components/AnnoucementList';
 import WarrantList from './components/WarrantList';
 import { modals } from '@mantine/modals';
+import AnnouncementModal from './components/AnnouncementModal';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -35,14 +36,7 @@ const Dashboard: React.FC = () => {
                 title: 'Create announcement',
                 centered: true,
                 // TODO: RTE support
-                children: (
-                  <Stack>
-                    <Textarea placeholder="Announcement contents..." minRows={8} />
-                    <Button variant="light" fullWidth>
-                      Submit
-                    </Button>
-                  </Stack>
-                ),
+                children: <AnnouncementModal />,
               })
             }
           >
