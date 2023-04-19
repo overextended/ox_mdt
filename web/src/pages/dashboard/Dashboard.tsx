@@ -1,31 +1,26 @@
 import React from 'react';
-import { ActionIcon, Avatar, Box, Button, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
-import {
-  IconBrandTelegram,
-  IconClock,
-  IconEdit,
-  IconMessageCircle2,
-  IconReceipt,
-  IconSearch,
-} from '@tabler/icons-react';
+import { Box, Button, createStyles, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
+import { IconBrandTelegram, IconMessageCircle2, IconPrison, IconSearch } from '@tabler/icons-react';
 import AnnouncementList from './components/AnnoucementList';
 import WarrantList from './components/WarrantList';
 import { modals } from '@mantine/modals';
-import { theme } from '../../theme';
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    flex: 1,
+    height: '100%',
+    backgroundColor: theme.colors.durple[6],
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
+  },
+}));
 
 const Dashboard: React.FC = () => {
+  const { classes } = useStyles();
+
   return (
     <Group h="100%" spacing="md">
-      <Stack
-        p="md"
-        sx={(theme) => ({
-          flex: 1,
-          height: '100%',
-          backgroundColor: theme.colors.durple[6],
-          borderRadius: theme.radius.md,
-          boxShadow: theme.shadows.md,
-        })}
-      >
+      <Stack p="md" className={classes.container}>
         <Group position="apart">
           <Text size="xl">Announcements</Text>
           <IconMessageCircle2 />
@@ -42,16 +37,7 @@ const Dashboard: React.FC = () => {
                 // TODO: RTE support
                 children: (
                   <Stack>
-                    <Textarea
-                      placeholder="Announcement contents"
-                      minRows={8}
-                      styles={(theme) => ({
-                        input: {
-                          backgroundColor: theme.colors.durple[4],
-                          borderColor: 'transparent',
-                        },
-                      })}
-                    />
+                    <Textarea placeholder="Announcement contents..." minRows={8} />
                     <Button variant="light" fullWidth>
                       Submit
                     </Button>
@@ -65,30 +51,12 @@ const Dashboard: React.FC = () => {
         </Box>
         <AnnouncementList />
       </Stack>
-      <Stack
-        p="md"
-        sx={(theme) => ({
-          flex: 1,
-          height: '100%',
-          backgroundColor: theme.colors.durple[6],
-          borderRadius: theme.radius.md,
-          boxShadow: theme.shadows.md,
-        })}
-      >
+      <Stack p="md" className={classes.container}>
         <Group position="apart">
           <Text size="xl">Active Warrants</Text>
-          <IconReceipt />
+          <IconPrison />
         </Group>
-        <TextInput
-          placeholder="Search warants..."
-          icon={<IconSearch size={20} />}
-          styles={(theme) => ({
-            input: {
-              backgroundColor: theme.colors.durple[4],
-              borderColor: 'transparent',
-            },
-          })}
-        />
+        <TextInput placeholder="Search warants..." icon={<IconSearch size={20} />} />
         <WarrantList />
       </Stack>
     </Group>

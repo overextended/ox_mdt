@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
         <NavButton icon={IconUsers} label="Profiles" path="/profiles" />
         <NavButton icon={IconReceipt} label="Reports" path="/reports" />
         <NavButton icon={IconMap2} label="Dispatch" path="/dispatch" />
-        <NavButton icon={IconGavel} label="Laws" path="/laws" />
+        <NavButton icon={IconGavel} label="Charges" path="/charges" />
         <Text size="xs" tt="uppercase" fw="bold" mb="xs" mt="xs" color="dark.2">
           Management
         </Text>
