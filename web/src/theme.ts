@@ -3,7 +3,21 @@ import { MantineThemeOverride } from '@mantine/core';
 export const theme: MantineThemeOverride = {
   fontFamily: 'Roboto',
   colorScheme: 'dark',
+  shadows: {
+    md: '0 4px 3px rgba(0, 0, 0, 0.07)',
+  },
   components: {
+    Menu: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colors.durple[6],
+          borderColor: theme.colors.durple[2],
+        },
+        arrow: {
+          borderColor: theme.colors.durple[2],
+        },
+      }),
+    },
     Modal: {
       styles: (theme) => ({
         header: {

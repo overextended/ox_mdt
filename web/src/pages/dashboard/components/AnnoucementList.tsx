@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActionIcon, Avatar, Box, Group, ScrollArea, Stack, Text } from '@mantine/core';
-import { IconEdit } from '@tabler/icons-react';
+import { ActionIcon, Avatar, Box, Group, Menu, ScrollArea, Stack, Text } from '@mantine/core';
+import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 
 interface Announcement {
   firstName: string;
@@ -60,7 +60,7 @@ const AnnouncementList: React.FC = () => {
           sx={(theme) => ({
             backgroundColor: theme.colors.durple[4],
             borderRadius: theme.radius.md,
-            shadow: theme.shadows.md,
+            boxShadow: theme.shadows.md,
           })}
           p="md"
         >
@@ -74,9 +74,20 @@ const AnnouncementList: React.FC = () => {
                 </Text>
               </Stack>
             </Group>
-            <ActionIcon size="lg" color="dark.2">
-              <IconEdit />
-            </ActionIcon>
+            <Menu position="bottom-end" offset={3} withArrow arrowPosition="center">
+              <Menu.Target>
+                <ActionIcon size="lg" color="dark.2">
+                  <IconDots />
+                </ActionIcon>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item icon={<IconEdit size={18} />}>Edit</Menu.Item>
+                <Menu.Item color="red" icon={<IconTrash size={18} />}>
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
           <Text size="sm">{announcement.content}</Text>
         </Stack>
