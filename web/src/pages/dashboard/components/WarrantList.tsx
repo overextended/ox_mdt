@@ -1,10 +1,11 @@
 import React from 'react';
 import { Avatar, Box, Group, Stack, Text } from '@mantine/core';
+import dayjs from 'dayjs';
 
 interface Warrant {
   firstName: string;
   lastName: string;
-  expiresIn: string;
+  expiresIn: number;
   reason: string;
 }
 
@@ -12,37 +13,37 @@ const WARRANTS: Warrant[] = [
   {
     firstName: 'Billy',
     lastName: 'Bob',
-    expiresIn: '3 hours',
+    expiresIn: 1682250523000,
     reason: 'Did some crime',
   },
   {
     firstName: 'Some',
     lastName: 'Dude',
-    expiresIn: '4 days',
+    expiresIn: Date.now(),
     reason: 'Stole a cat',
   },
   {
     firstName: 'Billy',
     lastName: 'Bob',
-    expiresIn: '3 hours',
+    expiresIn: Date.now(),
     reason: 'Did some crime',
   },
   {
     firstName: 'Some',
     lastName: 'Dude',
-    expiresIn: '4 days',
+    expiresIn: Date.now(),
     reason: 'Stole a cat',
   },
   {
     firstName: 'Billy',
     lastName: 'Bob',
-    expiresIn: '3 hours',
+    expiresIn: Date.now(),
     reason: 'Did some crime',
   },
   {
     firstName: 'Some',
     lastName: 'Dude',
-    expiresIn: '4 days',
+    expiresIn: Date.now(),
     reason: 'Stole a cat',
   },
 ];
@@ -77,7 +78,7 @@ const WarrantList: React.FC = () => {
                 <Text size="xs" c="dark.2">
                   Expires in:{' '}
                   <Text component="span" c="dark.0">
-                    {warrant.expiresIn}
+                    {dayjs().to(warrant.expiresIn, true)}
                   </Text>
                 </Text>
               </Box>

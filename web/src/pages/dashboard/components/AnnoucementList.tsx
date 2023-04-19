@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActionIcon, Avatar, Box, Group, Menu, ScrollArea, Stack, Text } from '@mantine/core';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
+import dayjs from 'dayjs';
 
 interface Announcement {
   firstName: string;
@@ -26,7 +27,7 @@ const ANNOUNCEMENTS: Announcement[] = [
     lastName: 'Smith',
     image: '',
     callSign: '264',
-    createdAt: Date.now(),
+    createdAt: Date.now() - 3000000000,
     content:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aut earum eius minima modi molestias possimus quis repellendus sint sunt? Excepturi explicabo in quo, reprehenderit temporibus ullam Aspernatur doloribus ducimus earum eius',
   },
@@ -70,7 +71,7 @@ const AnnouncementList: React.FC = () => {
               <Stack spacing={0}>
                 <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callSign}`}</Text>
                 <Text size="xs" c="dark.2">
-                  {new Date(announcement.createdAt).toLocaleDateString()}
+                  {dayjs(announcement.createdAt).fromNow()}
                 </Text>
               </Stack>
             </Group>
