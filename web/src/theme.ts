@@ -8,17 +8,19 @@ export const theme: MantineThemeOverride = {
   },
   components: {
     Button: {
-      styles: (theme, _, { variant }) => ({
-        root: {
-          backgroundColor: variant === 'default' ? theme.colors.durple[2] : undefined,
-          borderColor: variant === 'default' ? 'transparent' : undefined,
-          color: variant === 'default' ? theme.colors.dark[0] : undefined,
-          '&:hover': {
-            backgroundColor: variant === 'default' ? theme.colors.durple[0] : undefined,
-            color: variant === 'default' ? 'white' : undefined,
+      variants: {
+        default: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.durple[2],
+            borderColor: 'transparent',
+            color: theme.colors.dark[0],
+            '&:hover': {
+              backgroundColor: theme.colors.durple[0],
+              color: 'white',
+            },
           },
-        },
-      }),
+        }),
+      },
     },
     Input: {
       styles: (theme) => ({
