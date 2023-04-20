@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { atom } from 'jotai';
 
-interface Character {
+export interface Character {
   id: string;
   firstName: string;
   lastName: string;

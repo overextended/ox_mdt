@@ -9,15 +9,22 @@ import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
+import { Placeholder } from '@tiptap/extension-placeholder';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   // Character used only for testing
   const character = useCharacter();
   const setAnnouncements = useSetAnnouncements();
-  const [value, setValue] = React.useState(announcement?.contents || '');
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline, Highlight, TextAlign.configure({ types: ['heading', 'paragraph'] })],
+    content: announcement?.contents,
+    extensions: [
+      StarterKit,
+      Underline,
+      Highlight,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Placeholder.configure({ placeholder: 'Announcement contents...' }),
+    ],
   });
 
   const createAnnouncement = () => {
@@ -46,8 +53,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
     setAnnouncements((prev) => {
       return prev.map((item) => {
         if (item.id !== announcement.id) return item;
-        console.log(value);
-        return { ...item, contents: value };
+        return { ...item, contents: editor?.getHTML() || '' };
       });
     });
   };
@@ -55,6 +61,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
   return (
     <Stack>
       <RichTextEditor
+        placeholder="Announcement contents..."
         editor={editor}
         styles={(theme) => ({
           content: { maxHeight: 400, overflowY: 'auto' },
