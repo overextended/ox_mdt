@@ -7,6 +7,24 @@ export const theme: MantineThemeOverride = {
     md: '0 4px 3px rgba(0, 0, 0, 0.07)',
   },
   components: {
+    RichTextEditor: {
+      styles: (theme) => ({
+        content: {
+          backgroundColor: theme.colors.durple[4],
+          borderRadius: 0,
+        },
+        toolbar: {
+          backgroundColor: theme.colors.durple[4],
+          borderColor: theme.colors.durple[3],
+        },
+        root: {
+          borderColor: theme.colors.durple[3],
+        },
+        control: {
+          backgroundColor: theme.colors.durple[2],
+        },
+      }),
+    },
     Button: {
       variants: {
         default: (theme) => ({

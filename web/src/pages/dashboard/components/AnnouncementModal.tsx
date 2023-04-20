@@ -3,6 +3,12 @@ import { Button, Stack, Textarea } from '@mantine/core';
 import { Announcement, useSetAnnouncements } from '../../../state/dashboard';
 import { modals } from '@mantine/modals';
 import { useCharacter } from '../../../state/character';
+import { RichTextEditor } from '@mantine/tiptap';
+import { useEditor, BubbleMenu } from '@tiptap/react';
+import Highlight from '@tiptap/extension-highlight';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   // Character used only for testing
@@ -10,8 +16,13 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
   const setAnnouncements = useSetAnnouncements();
   const [value, setValue] = React.useState(announcement?.contents || '');
 
+  const editor = useEditor({
+    extensions: [StarterKit, Underline, Highlight, TextAlign.configure({ types: ['heading', 'paragraph'] })],
+  });
+
   const createAnnouncement = () => {
     modals.closeAll();
+    console.log(editor?.getHTML());
     setAnnouncements((prev) => [
       {
         id: prev.length > 0 ? prev[0].id + 1 : 0,
@@ -23,7 +34,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
           firstName: character.firstName,
         },
         createdAt: Date.now(),
-        contents: value,
+        contents: editor?.getHTML() || '',
       },
       ...prev,
     ]);
@@ -43,14 +54,49 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
 
   return (
     <Stack>
-      <Textarea
-        placeholder="Announcement contents..."
-        minRows={4}
-        maxRows={8}
-        autosize
-        onChange={(e) => setValue(e.target.value)}
-        value={value}
-      />
+      <RichTextEditor
+        editor={editor}
+        styles={(theme) => ({
+          content: { maxHeight: 400, overflowY: 'auto' },
+        })}
+      >
+        {editor && (
+          <>
+            <RichTextEditor.Toolbar sticky>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.AlignLeft />
+                  <RichTextEditor.AlignCenter />
+                  <RichTextEditor.AlignJustify />
+                  <RichTextEditor.AlignRight />
+                </RichTextEditor.ControlsGroup>
+              </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Blockquote />
+                <RichTextEditor.Hr />
+                <RichTextEditor.BulletList />
+                <RichTextEditor.OrderedList />
+              </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.H1 />
+                <RichTextEditor.H2 />
+                <RichTextEditor.H3 />
+                <RichTextEditor.H4 />
+              </RichTextEditor.ControlsGroup>
+            </RichTextEditor.Toolbar>
+            <BubbleMenu editor={editor}>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Bold />
+                <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
+                <RichTextEditor.Strikethrough />
+                <RichTextEditor.Highlight />
+              </RichTextEditor.ControlsGroup>
+            </BubbleMenu>
+          </>
+        )}
+        <RichTextEditor.Content />
+      </RichTextEditor>
       <Button variant="light" fullWidth onClick={() => (announcement ? editAnnouncement() : createAnnouncement())}>
         Confirm
       </Button>

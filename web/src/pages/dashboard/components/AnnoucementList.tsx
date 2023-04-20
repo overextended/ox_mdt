@@ -86,7 +86,7 @@ const AnnouncementList: React.FC = () => {
               </Menu.Dropdown>
             </Menu>
           </Group>
-          <Text size="sm">{announcement.contents}</Text>
+          <Text size="sm" dangerouslySetInnerHTML={{ __html: announcement.contents }} />
         </Stack>
       ))}
     </Box>

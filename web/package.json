@@ -10,10 +10,18 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
-    "@mantine/core": "^6.0.7",
-    "@mantine/hooks": "^6.0.7",
+    "@mantine/core": "^6.0.8",
+    "@mantine/hooks": "^6.0.8",
     "@mantine/modals": "^6.0.8",
+    "@mantine/tiptap": "^6.0.8",
     "@tabler/icons-react": "^2.16.0",
+    "@tiptap/extension-highlight": "^2.0.3",
+    "@tiptap/extension-link": "^2.0.3",
+    "@tiptap/extension-text-align": "^2.0.3",
+    "@tiptap/extension-underline": "^2.0.3",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/react": "^2.0.3",
+    "@tiptap/starter-kit": "^2.0.3",
     "dayjs": "^1.11.7",
     "jotai": "^2.0.4",
     "prettier": "^2.8.7",
@@ -22,10 +30,10 @@
     "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.2.0"
+    "typescript": "^4.9.5",
+    "vite": "^4.3.0"
   }
 }
