@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { useAnnouncements, useAnnouncementsState } from '../../../state/dashboard';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
-import announcementModal from './AnnouncementModal';
+import { useCharacter } from '../../../state/character';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -22,6 +22,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const AnnouncementList: React.FC = () => {
+  const character = useCharacter();
   const [announcements, setAnnouncements] = useAnnouncementsState();
   const { classes } = useStyles();
 
@@ -33,7 +34,9 @@ const AnnouncementList: React.FC = () => {
             <Group>
               <Avatar color="blue" radius="xl" />
               <Stack spacing={0}>
-                <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callSign}`}</Text>
+                <Text fw={500}>
+                  {`${announcement.creator.firstName} ${announcement.creator.lastName} · ${announcement.creator.callSign}`}
+                </Text>
                 <Text size="xs" c="dark.2">
                   {dayjs(announcement.createdAt).fromNow()}
                 </Text>
@@ -41,7 +44,7 @@ const AnnouncementList: React.FC = () => {
             </Group>
             <Menu position="bottom-end" offset={3} withArrow arrowPosition="center">
               <Menu.Target>
-                <ActionIcon size="lg" color="dark.2">
+                <ActionIcon disabled={announcement.creator.id !== character.id} size="lg" color="dark.2">
                   <IconDots />
                 </ActionIcon>
               </Menu.Target>

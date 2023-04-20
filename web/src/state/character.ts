@@ -2,6 +2,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { atom } from 'jotai';
 
 interface Character {
+  id: string;
   firstName: string;
   lastName: string;
   title: string;
@@ -11,6 +12,7 @@ interface Character {
 }
 
 const characterAtom = atom<Character>({
+  id: 'XYZ123',
   firstName: 'Svetozar',
   lastName: 'Miletić',
   title: 'LSPD Officer',

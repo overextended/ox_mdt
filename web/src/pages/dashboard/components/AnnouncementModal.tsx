@@ -15,11 +15,14 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
     setAnnouncements((prev) => [
       {
         id: prev.length > 0 ? prev[0].id + 1 : 0,
+        creator: {
+          id: character.id,
+          callSign: character.callSign,
+          image: character.image,
+          lastName: character.lastName,
+          firstName: character.firstName,
+        },
         createdAt: Date.now(),
-        callSign: character.callSign,
-        image: character.image,
-        lastName: character.lastName,
-        firstName: character.firstName,
         contents: value,
       },
       ...prev,
