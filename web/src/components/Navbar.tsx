@@ -16,13 +16,14 @@ const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: stri
         padding: 16,
         borderRadius: theme.radius.md,
         fontWeight: 500,
+        transition: '150ms',
         '&:hover': location.pathname !== props.path && { backgroundColor: theme.colors.durple[2], color: 'white' },
       })}
     >
-      <Group>
+      <Stack spacing={0} justify="center" align="center">
         <props.icon />
         <Text>{props.label}</Text>
-      </Group>
+      </Stack>
     </UnstyledButton>
   );
 };
@@ -31,7 +32,6 @@ const Navbar: React.FC = () => {
   return (
     <Stack
       p="md"
-      w={300}
       h="100%"
       sx={(theme) => ({
         backgroundColor: theme.colors.durple[6],
@@ -41,20 +41,13 @@ const Navbar: React.FC = () => {
       justify="space-between"
     >
       <Stack spacing={0}>
-        <Text size="xs" tt="uppercase" fw="bold" mb="xs" color="dark.2">
-          Pages
-        </Text>
         <NavButton icon={IconLayoutDashboard} label="Dashboard" path="/" />
         <NavButton icon={IconUsers} label="Profiles" path="/profiles" />
         <NavButton icon={IconReceipt} label="Reports" path="/reports" />
         <NavButton icon={IconMap2} label="Dispatch" path="/dispatch" />
         <NavButton icon={IconGavel} label="Charges" path="/charges" />
-        <Text size="xs" tt="uppercase" fw="bold" mb="xs" mt="xs" color="dark.2">
-          Management
-        </Text>
         <NavButton icon={IconUserShield} label="Officers" path="/officers" />
       </Stack>
-      <NavCharacter />
     </Stack>
   );
 };
