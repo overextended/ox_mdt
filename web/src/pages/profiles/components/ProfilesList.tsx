@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, createStyles, Group, Stack, Text } from '@mantine/core';
+import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 
 interface ProfileCard {
   firstName: string;
@@ -147,9 +147,9 @@ const ProfilesList: React.FC = () => {
   const { classes } = useStyles();
 
   return (
-    <Stack sx={{ overflowY: 'auto' }}>
+    <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {PROFILES.map((profile) => (
-        <Stack className={classes.profileContainer} p="md">
+        <Box className={classes.profileContainer} p="md">
           <Group>
             <Avatar color="blue" radius="md" size="lg" />
             <Stack spacing={0}>
@@ -164,7 +164,7 @@ const ProfilesList: React.FC = () => {
               </Text>
             </Stack>
           </Group>
-        </Stack>
+        </Box>
       ))}
     </Stack>
   );

@@ -12,6 +12,12 @@ export const theme: MantineThemeOverride = {
         content: {
           backgroundColor: theme.colors.durple[4],
           borderRadius: 0,
+          fontSize: 14,
+          '> .ProseMirror > blockquote': {
+            fontSize: 14,
+            padding: 0,
+            paddingLeft: 16,
+          },
         },
         toolbar: {
           backgroundColor: theme.colors.durple[4],

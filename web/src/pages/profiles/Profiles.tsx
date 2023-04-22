@@ -1,7 +1,7 @@
 import React from 'react';
-import { Avatar, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
-import { IconCalendar, IconId, IconSearch, IconUser, IconUsers } from '@tabler/icons-react';
-import ProfilesList from './ProfilesList';
+import { Avatar, Badge, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { IconCalendar, IconCertificate, IconId, IconSearch, IconUser, IconUsers } from '@tabler/icons-react';
+import ProfilesList from './components/ProfilesList';
 import { RichTextEditor } from '@mantine/tiptap';
 import { BubbleMenu, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -10,6 +10,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import ProfileField from './components/ProfileField';
+import Profile from './components/Profile';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -18,6 +19,12 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[6],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
+  },
+  infoContainer: {
+    backgroundColor: theme.colors.durple[6],
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
+    padding: 16,
   },
 }));
 
@@ -44,58 +51,28 @@ const Profiles: React.FC = () => {
         <ProfilesList />
       </Stack>
       <Stack className={classes.container} p="md">
-        <Avatar size={128} color="blue" radius="md" sx={{ alignSelf: 'center' }} />
-        <ProfileField icon={IconUser} label="Name" value="John Doe" />
-        <ProfileField icon={IconId} label="State ID" value="123456" />
-        <ProfileField icon={IconCalendar} label="DOB" value="19/05/1994" />
-        <Stack spacing={6}>
-          <Text size="xs" c="dark.2">
-            Notes:
-          </Text>
-          <RichTextEditor
-            placeholder="Announcement contents..."
-            editor={editor}
-            styles={(theme) => ({
-              content: { maxHeight: 400, overflowY: 'auto' },
-            })}
-          >
-            {editor && (
-              <>
-                <RichTextEditor.Toolbar sticky>
-                  <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.ControlsGroup>
-                      <RichTextEditor.AlignLeft />
-                      <RichTextEditor.AlignCenter />
-                      <RichTextEditor.AlignJustify />
-                      <RichTextEditor.AlignRight />
-                    </RichTextEditor.ControlsGroup>
-                  </RichTextEditor.ControlsGroup>
-                  <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.Blockquote />
-                    <RichTextEditor.Hr />
-                    <RichTextEditor.BulletList />
-                    <RichTextEditor.OrderedList />
-                  </RichTextEditor.ControlsGroup>
-                  <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.H1 />
-                    <RichTextEditor.H2 />
-                    <RichTextEditor.H3 />
-                    <RichTextEditor.H4 />
-                  </RichTextEditor.ControlsGroup>
-                </RichTextEditor.Toolbar>
-                <BubbleMenu editor={editor}>
-                  <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.Bold />
-                    <RichTextEditor.Italic />
-                    <RichTextEditor.Underline />
-                    <RichTextEditor.Strikethrough />
-                    <RichTextEditor.Highlight />
-                  </RichTextEditor.ControlsGroup>
-                </BubbleMenu>
-              </>
-            )}
-            <RichTextEditor.Content />
-          </RichTextEditor>
+        <Profile />
+      </Stack>
+      <Stack>
+        <Stack className={classes.infoContainer}>
+          <Group position="apart">
+            <Text size="lg">Licenses</Text>
+            <IconCertificate />
+          </Group>
+          <Group spacing={8}>
+            <Badge sx={(theme) => ({ backgroundColor: theme.colors.dark[4], color: theme.colors.dark[0] })}>
+              Driver's license (3 points)
+            </Badge>
+            <Badge sx={(theme) => ({ backgroundColor: theme.colors.dark[4], color: theme.colors.dark[0] })}>
+              Weapon's license
+            </Badge>
+            <Badge sx={(theme) => ({ backgroundColor: theme.colors.dark[4], color: theme.colors.dark[0] })}>
+              Hunting license
+            </Badge>
+            <Badge sx={(theme) => ({ backgroundColor: theme.colors.dark[4], color: theme.colors.dark[0] })}>
+              Some license
+            </Badge>
+          </Group>
         </Stack>
       </Stack>
     </SimpleGrid>
