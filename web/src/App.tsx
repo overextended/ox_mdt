@@ -2,6 +2,7 @@ import { AppShell, Box } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
+import Profiles from './pages/profiles/Profiles';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/profiles" element={<Profiles />} />
           <Route path="/reports" element={<>Reports</>} />
         </Routes>
       </AppShell>
