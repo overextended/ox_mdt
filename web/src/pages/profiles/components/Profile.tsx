@@ -35,33 +35,11 @@ const Profile: React.FC = () => {
           placeholder="Announcement contents..."
           editor={editor}
           styles={(theme) => ({
-            content: { maxHeight: 400, overflowY: 'auto' },
+            content: { maxHeight: 320, overflowY: 'auto' },
           })}
         >
           {editor && (
             <>
-              <RichTextEditor.Toolbar sticky>
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.AlignLeft />
-                    <RichTextEditor.AlignCenter />
-                    <RichTextEditor.AlignJustify />
-                    <RichTextEditor.AlignRight />
-                  </RichTextEditor.ControlsGroup>
-                </RichTextEditor.ControlsGroup>
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.Blockquote />
-                  <RichTextEditor.Hr />
-                  <RichTextEditor.BulletList />
-                  <RichTextEditor.OrderedList />
-                </RichTextEditor.ControlsGroup>
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.H1 />
-                  <RichTextEditor.H2 />
-                  <RichTextEditor.H3 />
-                  <RichTextEditor.H4 />
-                </RichTextEditor.ControlsGroup>
-              </RichTextEditor.Toolbar>
               <BubbleMenu editor={editor}>
                 <RichTextEditor.ControlsGroup>
                   <RichTextEditor.Bold />

@@ -1,8 +1,9 @@
-import { AppShell, Box } from '@mantine/core';
+import { AppShell, Box, Group, Header, Text } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
 import Profiles from './pages/profiles/Profiles';
+import NavCharacter from './components/NavCharacter';
 
 function App() {
   return (
