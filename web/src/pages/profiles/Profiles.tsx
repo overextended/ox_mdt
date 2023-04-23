@@ -8,6 +8,7 @@ import {
   IconId,
   IconReceipt,
   IconSearch,
+  IconSword,
   IconUser,
   IconUsers,
 } from '@tabler/icons-react';
@@ -66,6 +67,11 @@ const Profiles: React.FC = () => {
             <Badge>Weapon's license</Badge>
             <Badge>Hunting license</Badge>
             <Badge>Some license</Badge>
+          </Group>
+        </ProfileCard>
+        <ProfileCard title="Weapons" icon={IconSword}>
+          <Group spacing={8}>
+            <Badge>Pistol (193249755XZY1322)</Badge>
           </Group>
         </ProfileCard>
         <ProfileCard title="Vehicles" icon={IconCar}>
