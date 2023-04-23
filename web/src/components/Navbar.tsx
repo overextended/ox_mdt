@@ -1,54 +1,92 @@
-import { Group, Stack, UnstyledButton, Text, Box, Avatar } from '@mantine/core';
+import { Group, Stack, UnstyledButton, Text, Box, Avatar, createStyles, Tooltip } from '@mantine/core';
 import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUserShield, IconUsers } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavCharacter from './NavCharacter';
+import { useMediaQuery } from '@mantine/hooks';
+import React from 'react';
+import NavButton from './NavButton';
 
-const NavButton: React.FC<{ icon: React.ComponentType; label: string; path: string }> = (props) => {
-  const navigate = useNavigate();
+const useStyles = createStyles((theme, params: { isSmall?: boolean; isActive?: boolean }) => ({
+  navContainer: {
+    backgroundColor: theme.colors.durple[6],
+    borderTopLeftRadius: theme.radius.md,
+    borderBottomLeftRadius: theme.radius.md,
+    width: 300,
+    height: '100%',
+    padding: theme.spacing.md,
+  },
+}));
+
+const NAV_BUTTONS = [
+  {
+    label: 'Dashboard',
+    icon: IconLayoutDashboard,
+    path: '/',
+  },
+  {
+    label: 'Profiles',
+    icon: IconUsers,
+    path: '/profiles',
+  },
+  {
+    label: 'Reports',
+    icon: IconReceipt,
+    path: '/reports',
+  },
+  {
+    label: 'Dispatch',
+    icon: IconMap2,
+    path: '/dispatch',
+  },
+  {
+    label: 'Charges',
+    icon: IconGavel,
+    path: '/charges',
+  },
+  {
+    label: 'Officers',
+    icon: IconUserShield,
+    path: '/Officers',
+  },
+];
+
+const Navbar: React.FC = () => {
+  const matches = useMediaQuery('(max-width: 1599px)');
+  const { classes } = useStyles({});
   const location = useLocation();
 
   return (
-    <UnstyledButton
-      onClick={() => navigate(props.path)}
-      sx={(theme) => ({
-        color: location.pathname === props.path ? theme.colors.blue[4] : theme.colors.dark[0],
-        backgroundColor: location.pathname === props.path ? theme.fn.rgba(theme.colors.blue[6], 0.2) : undefined,
-        padding: 16,
-        borderRadius: theme.radius.md,
-        fontWeight: 500,
-        transition: '150ms',
-        '&:hover': location.pathname !== props.path && { backgroundColor: theme.colors.durple[2], color: 'white' },
-      })}
-    >
-      <Stack spacing={0} justify="center" align="center">
-        <props.icon />
-        <Text>{props.label}</Text>
-      </Stack>
-    </UnstyledButton>
-  );
-};
-
-const Navbar: React.FC = () => {
-  return (
-    <Stack
-      p="md"
-      h="100%"
-      sx={(theme) => ({
-        backgroundColor: theme.colors.durple[6],
-        borderTopLeftRadius: theme.radius.md,
-        borderBottomLeftRadius: theme.radius.md,
-      })}
-      justify="space-between"
-    >
-      <Stack spacing={0}>
-        <NavButton icon={IconLayoutDashboard} label="Dashboard" path="/" />
-        <NavButton icon={IconUsers} label="Profiles" path="/profiles" />
-        <NavButton icon={IconReceipt} label="Reports" path="/reports" />
-        <NavButton icon={IconMap2} label="Dispatch" path="/dispatch" />
-        <NavButton icon={IconGavel} label="Charges" path="/charges" />
-        <NavButton icon={IconUserShield} label="Officers" path="/officers" />
-      </Stack>
-    </Stack>
+    <>
+      {!matches ? (
+        <Stack className={classes.navContainer} justify="space-between">
+          <Stack spacing={0}>
+            {NAV_BUTTONS.map((button) => (
+              <NavButton
+                icon={button.icon}
+                label={button.label}
+                path={button.path}
+                isActive={location.pathname === button.path}
+              />
+            ))}
+          </Stack>
+          <NavCharacter />
+        </Stack>
+      ) : (
+        <Stack w={80} className={classes.navContainer}>
+          <Stack spacing={0} justify="center" align="center">
+            {NAV_BUTTONS.map((button) => (
+              <NavButton
+                icon={button.icon}
+                label={button.label}
+                path={button.path}
+                isActive={location.pathname === button.path}
+                isSmall
+              />
+            ))}
+          </Stack>
+        </Stack>
+      )}
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   container: {
-    width: '100%',
     background: theme.colors.durple[4],
     borderRadius: theme.radius.md,
     padding: 8,
