@@ -24,6 +24,8 @@ import ProfileField from './components/ProfileField';
 import Profile from './components/Profile';
 import ProfileCard from './components/ProfileCard';
 import ProfileReport from './components/ProfileReport';
+import { useProfile } from '../../state/profiles/profile';
+import ProfileCards from './components/ProfileCards';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -37,6 +39,8 @@ const useStyles = createStyles((theme) => ({
 
 const Profiles: React.FC = () => {
   const { classes } = useStyles();
+  const profile = useProfile();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -57,47 +61,16 @@ const Profiles: React.FC = () => {
         <TextInput icon={<IconSearch size={20} />} placeholder="Search anything..." />
         <ProfilesList />
       </Stack>
-      <Stack className={classes.container} p="md">
-        <Profile />
-      </Stack>
-      <Stack sx={{ overflow: 'auto' }}>
-        <ProfileCard title="Licenses" icon={IconCertificate}>
-          <Group spacing={8}>
-            <Badge>Driver's license (3 points)</Badge>
-            <Badge>Weapon's license</Badge>
-            <Badge>Hunting license</Badge>
-            <Badge>Some license</Badge>
-          </Group>
-        </ProfileCard>
-        <ProfileCard title="Weapons" icon={IconSword}>
-          <Group spacing={8}>
-            <Badge>Pistol (193249755XZY1322)</Badge>
-          </Group>
-        </ProfileCard>
-        <ProfileCard title="Vehicles" icon={IconCar}>
-          <Group spacing={8}>
-            <Badge>Dinka Blista (XYZ123)</Badge>
-            <Badge>Vapid Dominator (ABC311)</Badge>
-            <Badge>Pfister Neon (EQP195)</Badge>
-          </Group>
-        </ProfileCard>
-        <ProfileCard title="Past charges" icon={IconGavel}>
-          <Group spacing={8}>
-            <Badge>3x Reckless evading</Badge>
-            <Badge>1x First degree murder</Badge>
-            <Badge>2x Bank Robbery</Badge>
-          </Group>
-        </ProfileCard>
-        <ProfileCard title="Related reports" icon={IconReceipt}>
-          {/*Might become an issue when there is too many reports?*/}
-          <Stack spacing="sm">
-            <ProfileReport title="Some incident" id="192345" author="Someoe Important" date="24/07/2023" />
-            <ProfileReport title="Some incident" id="192345" author="Someoe Important" date="24/07/2023" />
-            <ProfileReport title="Some incident" id="192345" author="Someoe Important" date="24/07/2023" />
-            <ProfileReport title="Some incident" id="192345" author="Someoe Important" date="24/07/2023" />
+      {profile && (
+        <>
+          <Stack className={classes.container} p="md">
+            <Profile />
           </Stack>
-        </ProfileCard>
-      </Stack>
+          <Stack sx={{ overflow: 'auto' }}>
+            <ProfileCards />
+          </Stack>
+        </>
+      )}
     </SimpleGrid>
   );
 };

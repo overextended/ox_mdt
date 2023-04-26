@@ -4,7 +4,7 @@ import { Group, Stack, Text } from '@mantine/core';
 interface Props {
   icon: React.ComponentType;
   label: string;
-  value: string;
+  value: string | number;
 }
 
 const ProfileField: React.FC<Props> = (props) => {

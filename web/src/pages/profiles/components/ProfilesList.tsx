@@ -149,7 +149,14 @@ const ProfilesList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {PROFILES.map((profile) => (
-        <Box className={classes.profileContainer} p="md">
+        <Box
+          className={classes.profileContainer}
+          p="md"
+          onClick={() => {
+            //   Fetch data
+            //   Set profile
+          }}
+        >
           <Group>
             <Avatar color="blue" radius="md" size="lg" />
             <Stack spacing={0}>

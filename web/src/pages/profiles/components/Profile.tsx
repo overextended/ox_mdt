@@ -9,9 +9,12 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
+import { useProfile } from '../../../state/profiles/profile';
 
 const Profile: React.FC = () => {
+  const profile = useProfile();
   const editor = useEditor({
+    content: profile?.notes,
     extensions: [
       StarterKit,
       Underline,
@@ -21,12 +24,14 @@ const Profile: React.FC = () => {
     ],
   });
 
+  if (!profile) return <></>;
+
   return (
     <>
       <Avatar size={128} color="blue" radius="md" sx={{ alignSelf: 'center' }} />
-      <ProfileField icon={IconUser} label="Name" value="John Doe" />
-      <ProfileField icon={IconId} label="State ID" value="123456" />
-      <ProfileField icon={IconCalendar} label="DOB" value="19/05/1994" />
+      <ProfileField icon={IconUser} label="Name" value={`${profile.firstName} ${profile.lastName}`} />
+      <ProfileField icon={IconId} label="State ID" value={profile.stateId} />
+      <ProfileField icon={IconCalendar} label="DOB" value={profile.dob} />
       <Stack spacing={6}>
         <Text size="xs" c="dark.2">
           Notes:

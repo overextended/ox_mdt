@@ -4,7 +4,7 @@ import { createStyles, Group, Stack, Text } from '@mantine/core';
 interface Props {
   author: string;
   date: string;
-  id: string;
+  id: number;
   title: string;
 }
 
