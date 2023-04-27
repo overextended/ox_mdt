@@ -10,6 +10,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { useProfile } from '../../../state/profiles/profile';
+import AvatarWrapper from './AvatarWrapper';
 
 const Profile: React.FC = () => {
   const profile = useProfile();
@@ -28,7 +29,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Avatar size={128} color="blue" radius="md" sx={{ alignSelf: 'center' }} />
+      <AvatarWrapper />
       <ProfileField icon={IconUser} label="Name" value={`${profile.firstName} ${profile.lastName}`} />
       <ProfileField icon={IconId} label="State ID" value={profile.stateId} />
       <ProfileField icon={IconCalendar} label="DOB" value={profile.dob} />
