@@ -27,17 +27,6 @@ const ProfileCards: React.FC = () => {
           </Group>
         </ProfileCard>
       )}
-      {profile.weapons && (
-        <ProfileCard title="Weapons" icon={IconSword}>
-          <Group spacing={8}>
-            {profile.weapons.map((weapon) => (
-              <Badge>
-                {weapon.label} ({weapon.serial})
-              </Badge>
-            ))}
-          </Group>
-        </ProfileCard>
-      )}
       {profile.vehicles && (
         <ProfileCard title="Vehicles" icon={IconCar}>
           <Group spacing={8}>

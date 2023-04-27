@@ -7,10 +7,6 @@ export interface Profile {
   dob: string;
   notes?: string;
   licenses?: Array<{ label: string; points: number } | string>;
-  weapons?: {
-    label: string;
-    serial: string;
-  }[];
   vehicles?: {
     label: string;
     plate: string;
@@ -39,16 +35,6 @@ const DEBUG_PROFILE: Profile = {
     },
     'Hunting license',
     'Fishing license',
-  ],
-  weapons: [
-    {
-      label: 'Pistol',
-      serial: 'XYZ123456789',
-    },
-    {
-      label: 'AP Pistol',
-      serial: 'XYZ123456789',
-    },
   ],
   vehicles: [
     {
