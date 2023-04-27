@@ -63,7 +63,7 @@ const Profiles: React.FC = () => {
       </Stack>
       {profile && (
         <>
-          <Stack className={classes.container} p="md">
+          <Stack className={classes.container} p="md" sx={{ overflow: 'auto' }}>
             <Profile />
           </Stack>
           <Stack sx={{ overflow: 'auto' }}>

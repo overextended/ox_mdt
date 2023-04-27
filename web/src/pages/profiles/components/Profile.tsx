@@ -1,9 +1,9 @@
 import React from 'react';
-import { Avatar, Stack, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Box, Group, Stack, Text, Tooltip } from '@mantine/core';
 import ProfileField from './ProfileField';
-import { IconCalendar, IconId, IconUser } from '@tabler/icons-react';
+import { IconCalendar, IconDeviceFloppy, IconId, IconUser } from '@tabler/icons-react';
 import { RichTextEditor } from '@mantine/tiptap';
-import { BubbleMenu, useEditor } from '@tiptap/react';
+import { BubbleMenu, FloatingMenu, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
@@ -36,13 +36,33 @@ const Profile: React.FC = () => {
         <Text size="xs" c="dark.2">
           Notes:
         </Text>
-        <RichTextEditor
-          placeholder="Announcement contents..."
-          editor={editor}
-          styles={(theme) => ({
-            content: { maxHeight: 320, overflowY: 'auto' },
-          })}
-        >
+        <RichTextEditor placeholder="Announcement contents..." editor={editor}>
+          <RichTextEditor.Toolbar sticky sx={{ display: 'block' }} stickyOffset={60}>
+            <Group position="apart" noWrap>
+              <Group>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.AlignLeft />
+                  <RichTextEditor.AlignCenter />
+                  <RichTextEditor.AlignJustify />
+                  <RichTextEditor.AlignRight />
+                </RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.H1 />
+                  <RichTextEditor.H2 />
+                  <RichTextEditor.H3 />
+                  <RichTextEditor.H4 />
+                </RichTextEditor.ControlsGroup>
+              </Group>
+
+              <RichTextEditor.ControlsGroup>
+                <Tooltip label="Save changes" withArrow sx={{ fontSize: 13 }} position="top" withinPortal>
+                  <ActionIcon variant="light" color="blue" size={26}>
+                    <IconDeviceFloppy size={20} />
+                  </ActionIcon>
+                </Tooltip>
+              </RichTextEditor.ControlsGroup>
+            </Group>
+          </RichTextEditor.Toolbar>
           {editor && (
             <>
               <BubbleMenu editor={editor}>
@@ -54,6 +74,14 @@ const Profile: React.FC = () => {
                   <RichTextEditor.Highlight />
                 </RichTextEditor.ControlsGroup>
               </BubbleMenu>
+              <FloatingMenu editor={editor}>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Blockquote />
+                  <RichTextEditor.Hr />
+                  <RichTextEditor.BulletList />
+                  <RichTextEditor.OrderedList />
+                </RichTextEditor.ControlsGroup>
+              </FloatingMenu>
             </>
           )}
           <RichTextEditor.Content />
