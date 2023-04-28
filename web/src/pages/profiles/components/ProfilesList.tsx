@@ -150,6 +150,7 @@ const ProfilesList: React.FC = () => {
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {PROFILES.map((profile) => (
         <Box
+          key={`${profile.playerId}`}
           className={classes.profileContainer}
           p="md"
           onClick={() => {

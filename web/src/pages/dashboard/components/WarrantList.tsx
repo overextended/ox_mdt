@@ -22,30 +22,6 @@ const WARRANTS: Warrant[] = [
     expiresIn: Date.now(),
     reason: 'Stole a cat',
   },
-  {
-    firstName: 'Billy',
-    lastName: 'Bob',
-    expiresIn: Date.now(),
-    reason: 'Did some crime',
-  },
-  {
-    firstName: 'Some',
-    lastName: 'Dude',
-    expiresIn: Date.now(),
-    reason: 'Stole a cat',
-  },
-  {
-    firstName: 'Billy',
-    lastName: 'Bob',
-    expiresIn: Date.now(),
-    reason: 'Did some crime',
-  },
-  {
-    firstName: 'Some',
-    lastName: 'Dude',
-    expiresIn: Date.now(),
-    reason: 'Stole a cat',
-  },
 ];
 
 const WarrantList: React.FC = () => {
@@ -55,6 +31,7 @@ const WarrantList: React.FC = () => {
     <Stack sx={{ overflow: 'auto' }}>
       {warrants.map((warrant) => (
         <Stack
+          key={`${warrant.firstName} ${warrant.lastName}`}
           sx={(theme) => ({
             backgroundColor: theme.colors.durple[4],
             borderRadius: theme.radius.md,

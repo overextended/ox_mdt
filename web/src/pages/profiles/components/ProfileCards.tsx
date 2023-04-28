@@ -17,9 +17,9 @@ const ProfileCards: React.FC = () => {
           <Group spacing={8}>
             {profile.licenses.map((license) =>
               typeof license === 'string' ? (
-                <Badge>{license}</Badge>
+                <Badge key={license}>{license}</Badge>
               ) : (
-                <Badge>
+                <Badge key={license.label}>
                   {license.label} ({license.points} points)
                 </Badge>
               )
@@ -31,7 +31,7 @@ const ProfileCards: React.FC = () => {
         <ProfileCard title="Vehicles" icon={IconCar}>
           <Group spacing={8}>
             {profile.vehicles.map((vehicle) => (
-              <Badge>
+              <Badge key={vehicle.label}>
                 {vehicle.label} ({vehicle.plate})
               </Badge>
             ))}
@@ -42,7 +42,7 @@ const ProfileCards: React.FC = () => {
         <ProfileCard title="Past charges" icon={IconGavel}>
           <Group spacing={8}>
             {profile.pastCharges.map((charge) => (
-              <Badge>
+              <Badge key={charge.label}>
                 {charge.count}x {charge.label}
               </Badge>
             ))}
@@ -54,7 +54,13 @@ const ProfileCards: React.FC = () => {
           {/*Might become an issue when there is too many reports?*/}
           <Stack spacing="sm">
             {profile.relatedReports.map((report) => (
-              <ProfileReport title={report.title} id={report.id} author={report.author} date={report.date} />
+              <ProfileReport
+                key={report.id}
+                title={report.title}
+                id={report.id}
+                author={report.author}
+                date={report.date}
+              />
             ))}
           </Stack>
         </ProfileCard>

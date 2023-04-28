@@ -62,6 +62,7 @@ const Navbar: React.FC = () => {
           <Stack spacing={0}>
             {NAV_BUTTONS.map((button) => (
               <NavButton
+                key={button.path}
                 icon={button.icon}
                 label={button.label}
                 path={button.path}
@@ -76,6 +77,7 @@ const Navbar: React.FC = () => {
           <Stack spacing={0} justify="center" align="center">
             {NAV_BUTTONS.map((button) => (
               <NavButton
+                key={button.path}
                 icon={button.icon}
                 label={button.label}
                 path={button.path}

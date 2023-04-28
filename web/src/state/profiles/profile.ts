@@ -6,6 +6,7 @@ export interface Profile {
   stateId: number;
   dob: string;
   notes?: string;
+  image?: string;
   licenses?: Array<{ label: string; points: number } | string>;
   vehicles?: {
     label: string;
