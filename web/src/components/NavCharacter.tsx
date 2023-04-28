@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCharacter } from '../state/character';
+import { useCharacter } from '../state';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({

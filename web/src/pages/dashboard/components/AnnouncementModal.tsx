@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Stack, Textarea } from '@mantine/core';
-import { Announcement, useSetAnnouncements } from '../../../state/dashboard';
+import { Announcement, useSetAnnouncements } from '../../../state';
 import { modals } from '@mantine/modals';
-import { useCharacter } from '../../../state/character';
+import { useCharacter } from '../../../state';
 import { RichTextEditor } from '@mantine/tiptap';
 import { useEditor, BubbleMenu } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';

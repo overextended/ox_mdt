@@ -3,7 +3,7 @@ import ProfileCard from './ProfileCard';
 import { IconCar, IconCertificate, IconGavel, IconReceipt, IconSword } from '@tabler/icons-react';
 import { Badge, Group, Stack } from '@mantine/core';
 import ProfileReport from './ProfileReport';
-import { useProfile } from '../../../state/profiles/profile';
+import { useProfile } from '../../../state';
 
 const ProfileCards: React.FC = () => {
   const profile = useProfile();
