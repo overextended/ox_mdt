@@ -24,7 +24,7 @@ import ProfileField from './components/ProfileField';
 import Profile from './components/Profile';
 import ProfileCard from './components/ProfileCard';
 import ProfileReport from './components/ProfileReport';
-import { useProfile } from '../../state/profiles/profile';
+import { useProfile } from '../../state';
 import ProfileCards from './components/ProfileCards';
 
 const useStyles = createStyles((theme) => ({

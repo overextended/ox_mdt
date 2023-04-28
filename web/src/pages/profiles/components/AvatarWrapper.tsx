@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionIcon, Avatar, Box, createStyles } from '@mantine/core';
-import { useProfile } from '../../../state/profiles/profile';
+import { useProfile } from '../../../state';
 import { IconEdit } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AvatarModal from './AvatarModal';

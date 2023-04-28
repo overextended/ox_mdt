@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
-import { useSetProfile } from '../../../state/profiles/profile';
+import { useSetProfile } from '../../../state';
 import { modals } from '@mantine/modals';
 
 interface Props {

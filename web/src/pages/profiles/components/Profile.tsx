@@ -9,7 +9,7 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { useProfile } from '../../../state/profiles/profile';
+import { useProfile } from '../../../state';
 import AvatarWrapper from './AvatarWrapper';
 
 const Profile: React.FC = () => {
