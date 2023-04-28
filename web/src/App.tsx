@@ -1,9 +1,11 @@
-import { AppShell, Box, createStyles, Group, Header, Text } from '@mantine/core';
+import { AppShell, Box, createStyles, Group, Header, Text, Transition } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
 import Profiles from './pages/profiles/Profiles';
 import NavCharacter from './components/NavCharacter';
+import React from 'react';
+import { useVisibility } from './state/visibility';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -37,16 +39,26 @@ const useStyles = createStyles((theme) => ({
 
 function App() {
   const { classes } = useStyles();
+  const visible = useVisibility();
 
   return (
     <Box className={classes.container}>
-      <AppShell navbar={<Navbar />} fixed={false} classNames={{ root: classes.root, body: classes.body }}>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/reports" element={<>Reports</>} />
-        </Routes>
-      </AppShell>
+      <Transition transition="fade" mounted={visible} keepMounted={true}>
+        {(style) => (
+          <AppShell
+            style={style}
+            navbar={<Navbar />}
+            fixed={false}
+            classNames={{ root: classes.root, body: classes.body }}
+          >
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/profiles" element={<Profiles />} />
+              <Route path="/reports" element={<>Reports</>} />
+            </Routes>
+          </AppShell>
+        )}
+      </Transition>
     </Box>
   );
 }
