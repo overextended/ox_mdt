@@ -5,7 +5,7 @@ import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
 import { Announcement, useSetAnnouncements } from '../../../state';
-import { Character, useCharacter } from '../../../state';
+import { Character } from '../../../state';
 import { useEditor } from '@tiptap/react';
 import { RichTextEditor } from '@mantine/tiptap';
 import StarterKit from '@tiptap/starter-kit';

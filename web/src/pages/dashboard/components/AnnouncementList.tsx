@@ -1,10 +1,6 @@
 import React from 'react';
-import { ActionIcon, Avatar, Box, createStyles, Group, Menu, ScrollArea, Stack, Text } from '@mantine/core';
-import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
-import dayjs from 'dayjs';
-import { useAnnouncements, useAnnouncementsState } from '../../../state';
-import { modals } from '@mantine/modals';
-import AnnouncementModal from './AnnouncementModal';
+import { Box, createStyles } from '@mantine/core';
+import { useAnnouncements } from '../../../state';
 import { useCharacter } from '../../../state';
 import AnnouncementCard from './AnnouncementCard';
 

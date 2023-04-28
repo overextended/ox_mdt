@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
+import { Box, Button, createStyles, Group, Stack, Text, TextInput } from '@mantine/core';
 import { IconBrandTelegram, IconMessageCircle2, IconPrison, IconSearch } from '@tabler/icons-react';
-import AnnouncementList from './components/AnnoucementList';
+import AnnouncementList from './components/AnnouncementList';
 import WarrantList from './components/WarrantList';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './components/AnnouncementModal';
