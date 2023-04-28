@@ -23,6 +23,7 @@
     "@tiptap/pm": "^2.0.3",
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
+    "@types/node": "^18.16.2",
     "dayjs": "^1.11.7",
     "jotai": "^2.0.4",
     "prettier": "^2.8.7",
