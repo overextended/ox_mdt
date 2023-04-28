@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
-import { Announcement, useSetAnnouncements } from '../../../state/dashboard';
-import { Character, useCharacter } from '../../../state/character';
+import { Announcement, useSetAnnouncements } from '../../../state';
+import { Character, useCharacter } from '../../../state';
 import { useEditor } from '@tiptap/react';
 import { RichTextEditor } from '@mantine/tiptap';
 import StarterKit from '@tiptap/starter-kit';
@@ -13,6 +13,7 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
+import { useConfig } from '../../../state/config';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -29,6 +30,7 @@ interface Props {
 const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
   const { classes } = useStyles();
   const setAnnouncements = useSetAnnouncements();
+  const config = useConfig();
 
   const editor = useEditor({
     content: announcement.contents,
@@ -58,13 +60,20 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
         </Group>
         <Menu position="bottom-end" offset={3} withArrow arrowPosition="center">
           <Menu.Target>
-            <ActionIcon disabled={announcement.creator.id !== character.id} size="lg" color="dark.2">
+            <ActionIcon
+              disabled={
+                announcement.creator.id !== character.id && character.grade < config.permissions.announcements.delete
+              }
+              size="lg"
+              color="dark.2"
+            >
               <IconDots />
             </ActionIcon>
           </Menu.Target>
 
           <Menu.Dropdown>
             <Menu.Item
+              disabled={announcement.creator.id !== character.id}
               icon={<IconEdit size={18} />}
               onClick={() => {
                 modals.open({

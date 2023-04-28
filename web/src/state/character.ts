@@ -16,7 +16,7 @@ const characterAtom = atom<Character>({
   firstName: 'Svetozar',
   lastName: 'Miletić',
   title: 'LSPD Officer',
-  grade: 3,
+  grade: 4,
   callSign: 192,
 });
 

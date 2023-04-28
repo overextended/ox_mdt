@@ -5,6 +5,8 @@ import AnnouncementList from './components/AnnoucementList';
 import WarrantList from './components/WarrantList';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './components/AnnouncementModal';
+import { useConfig } from '../../state/config';
+import { useCharacter } from '../../state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -18,6 +20,8 @@ const useStyles = createStyles((theme) => ({
 
 const Dashboard: React.FC = () => {
   const { classes } = useStyles();
+  const config = useConfig();
+  const character = useCharacter();
 
   return (
     <Group h="100%" spacing="md">
@@ -28,6 +32,7 @@ const Dashboard: React.FC = () => {
         </Group>
         <Box>
           <Button
+            disabled={character.grade < config.permissions.announcements.create}
             fullWidth
             variant="light"
             leftIcon={<IconBrandTelegram />}
@@ -35,7 +40,6 @@ const Dashboard: React.FC = () => {
               modals.open({
                 title: 'Create announcement',
                 centered: true,
-                // TODO: RTE support
                 children: <AnnouncementModal />,
               })
             }
