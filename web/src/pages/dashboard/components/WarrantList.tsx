@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Group, Stack, Text } from '@mantine/core';
+import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 
 interface Warrant {
@@ -24,21 +24,22 @@ const WARRANTS: Warrant[] = [
   },
 ];
 
+const useStyles = createStyles((theme) => ({
+  warrantContainer: {
+    backgroundColor: theme.colors.durple[4],
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
+  },
+}));
+
 const WarrantList: React.FC = () => {
   const [warrants, setWarrants] = React.useState(WARRANTS);
+  const { classes } = useStyles();
 
   return (
     <Stack sx={{ overflow: 'auto' }}>
       {warrants.map((warrant) => (
-        <Stack
-          key={`${warrant.firstName} ${warrant.lastName}`}
-          sx={(theme) => ({
-            backgroundColor: theme.colors.durple[4],
-            borderRadius: theme.radius.md,
-            boxShadow: theme.shadows.md,
-          })}
-          p="md"
-        >
+        <Stack key={`${warrant.firstName} ${warrant.lastName}`} className={classes.warrantContainer} p="md">
           <Group>
             <Avatar size="lg" color="blue" radius="xl" />
             <Stack spacing={2}>
