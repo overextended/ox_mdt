@@ -47,7 +47,9 @@ const Dashboard: React.FC = () => {
             Create announcement
           </Button>
         </Box>
-        <AnnouncementList />
+        <React.Suspense fallback={<>Loading...</>}>
+          <AnnouncementList />
+        </React.Suspense>
       </Stack>
       <Stack p="md" className={classes.container}>
         <Group position="apart">

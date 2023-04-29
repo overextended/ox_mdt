@@ -8,6 +8,7 @@ import React from 'react';
 import { useVisibility, useVisibilityState } from './state/visibility';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { fetchNui } from './utils/fetchNui';
+import { useSetAnnouncements } from './state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -42,6 +43,7 @@ const useStyles = createStyles((theme) => ({
 function App() {
   const { classes } = useStyles();
   const [visible, setVisible] = useVisibilityState();
+  const setAnnouncements = useSetAnnouncements();
 
   useNuiEvent('setVisible', () => {
     setVisible(true);

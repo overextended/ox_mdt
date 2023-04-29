@@ -1,5 +1,4 @@
-import { useAtomValue, useSetAtom } from 'jotai';
-import { atom } from 'jotai';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export interface Character {
   id: string;
@@ -12,13 +11,16 @@ export interface Character {
 }
 
 const characterAtom = atom<Character>({
-  id: 'XYZ123',
-  firstName: 'Svetozar',
-  lastName: 'Miletić',
-  title: 'LSPD Officer',
-  grade: 4,
-  callSign: 192,
+  key: 'character',
+  default: {
+    id: 'XYZ123',
+    firstName: 'Svetozar',
+    lastName: 'Miletić',
+    title: 'LSPD Officer',
+    grade: 4,
+    callSign: 192,
+  },
 });
 
-export const useCharacter = () => useAtomValue(characterAtom);
-export const useSetCharacter = () => useSetAtom(characterAtom);
+export const useCharacter = () => useRecoilValue(characterAtom);
+export const useSetCharacter = () => useSetRecoilState(characterAtom);

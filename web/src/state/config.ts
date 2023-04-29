@@ -1,4 +1,4 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 interface Config {
   permissions: {
@@ -10,13 +10,16 @@ interface Config {
 }
 
 const configAtom = atom<Config>({
-  permissions: {
-    announcements: {
-      create: 3,
-      delete: 4,
+  key: 'config',
+  default: {
+    permissions: {
+      announcements: {
+        create: 3,
+        delete: 4,
+      },
     },
   },
 });
 
-export const useConfig = () => useAtomValue(configAtom);
-export const useSetConfig = () => useSetAtom(configAtom);
+export const useConfig = () => useRecoilValue(configAtom);
+export const useSetConfig = () => useSetRecoilState(configAtom);

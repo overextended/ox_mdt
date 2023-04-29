@@ -9,6 +9,7 @@ import { theme } from './theme';
 import { ModalsProvider } from '@mantine/modals';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { RecoilRoot } from 'recoil';
 
 dayjs.extend(relativeTime);
 
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <ModalsProvider>
-          <App />
-        </ModalsProvider>
+        <RecoilRoot>
+          <ModalsProvider>
+            <App />
+          </ModalsProvider>
+        </RecoilRoot>
       </MantineProvider>
     </HashRouter>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export interface Profile {
   firstName: string;
@@ -85,7 +85,10 @@ const DEBUG_PROFILE: Profile = {
   ],
 };
 
-const profileAtom = atom<Profile | null>(DEBUG_PROFILE);
+const profileAtom = atom<Profile | null>({
+  key: 'profile',
+  default: DEBUG_PROFILE,
+});
 
-export const useProfile = () => useAtomValue(profileAtom);
-export const useSetProfile = () => useSetAtom(profileAtom);
+export const useProfile = () => useRecoilValue(profileAtom);
+export const useSetProfile = () => useSetRecoilState(profileAtom);
