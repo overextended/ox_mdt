@@ -60,25 +60,25 @@ const DEBUG_PROFILE: Profile = {
   relatedReports: [
     {
       title: 'Report title',
-      id: 31142,
+      id: 1,
       author: 'Some One',
       date: '13/03/2023',
     },
     {
       title: 'Report title',
-      id: 31142,
+      id: 2,
       author: 'Some One',
       date: '13/03/2023',
     },
     {
       title: 'Report title',
-      id: 31142,
+      id: 3,
       author: 'Some One',
       date: '13/03/2023',
     },
     {
       title: 'Report title',
-      id: 31142,
+      id: 4,
       author: 'Some One',
       date: '13/03/2023',
     },

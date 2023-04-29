@@ -1,29 +1,14 @@
 import React from 'react';
-import { Avatar, Badge, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
-import {
-  IconCalendar,
-  IconCar,
-  IconCertificate,
-  IconGavel,
-  IconId,
-  IconReceipt,
-  IconSearch,
-  IconSword,
-  IconUser,
-  IconUsers,
-} from '@tabler/icons-react';
+import { createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { IconSearch, IconUsers } from '@tabler/icons-react';
 import ProfilesList from './components/ProfilesList';
-import { RichTextEditor } from '@mantine/tiptap';
-import { BubbleMenu, useEditor } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import ProfileField from './components/ProfileField';
 import Profile from './components/Profile';
-import ProfileCard from './components/ProfileCard';
-import ProfileReport from './components/ProfileReport';
 import { useProfile } from '../../state';
 import ProfileCards from './components/ProfileCards';
 
