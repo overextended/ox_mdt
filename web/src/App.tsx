@@ -5,7 +5,9 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Profiles from './pages/profiles/Profiles';
 import NavCharacter from './components/NavCharacter';
 import React from 'react';
-import { useVisibility } from './state/visibility';
+import { useVisibility, useVisibilityState } from './state/visibility';
+import { useNuiEvent } from './hooks/useNuiEvent';
+import { fetchNui } from './utils/fetchNui';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -39,7 +41,24 @@ const useStyles = createStyles((theme) => ({
 
 function App() {
   const { classes } = useStyles();
-  const visible = useVisibility();
+  const [visible, setVisible] = useVisibilityState();
+
+  useNuiEvent('setVisible', () => {
+    setVisible(true);
+  });
+
+  const handleESC = (e: KeyboardEvent) => {
+    if (visible && e.key === 'Escape') {
+      setVisible(false);
+      fetchNui('hideMDT');
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('keydown', handleESC);
+
+    return () => window.removeEventListener('keydown', handleESC);
+  }, [visible]);
 
   return (
     <Box className={classes.container}>
