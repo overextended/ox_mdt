@@ -1,4 +1,4 @@
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export interface Profile {
   firstName: string;
@@ -29,6 +29,7 @@ const DEBUG_PROFILE: Profile = {
   lastName: 'Doe',
   stateId: 139235,
   dob: '15/06/1990',
+  notes: '<p></p>',
   licenses: [
     {
       label: 'Driving license',
@@ -92,3 +93,4 @@ const profileAtom = atom<Profile | null>({
 
 export const useProfile = () => useRecoilValue(profileAtom);
 export const useSetProfile = () => useSetRecoilState(profileAtom);
+export const useProfileState = () => useRecoilState(profileAtom);
