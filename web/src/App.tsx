@@ -1,14 +1,13 @@
-import { AppShell, Box, createStyles, Group, Header, Text, Transition } from '@mantine/core';
+import { AppShell, Box, createStyles, Transition } from '@mantine/core';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
 import Profiles from './pages/profiles/Profiles';
-import NavCharacter from './components/NavCharacter';
 import React from 'react';
-import { useVisibility, useVisibilityState } from './state/visibility';
+import { useVisibilityState } from './state/visibility';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { fetchNui } from './utils/fetchNui';
-import { useSetAnnouncements } from './state';
+import { Character, useSetCharacter } from './state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -43,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 function App() {
   const { classes } = useStyles();
   const [visible, setVisible] = useVisibilityState();
-  const setAnnouncements = useSetAnnouncements();
+  const setCharacter = useSetCharacter();
 
   useNuiEvent('setVisible', () => {
     setVisible(true);
@@ -62,9 +61,26 @@ function App() {
     return () => window.removeEventListener('keydown', handleESC);
   }, [visible]);
 
+  React.useEffect(() => {
+    console.log('uiLoaded');
+    fetchNui<Character>('uiLoaded', null, {
+      data: {
+        id: 'XYZ123',
+        firstName: 'Svetozar',
+        lastName: 'Miletić',
+        title: 'LSPD Officer',
+        grade: 4,
+        callSign: 192,
+      },
+    }).then((data) => {
+      console.log(JSON.stringify(data, null, 2));
+      setCharacter(data);
+    });
+  }, []);
+
   return (
     <Box className={classes.container}>
-      <Transition transition="fade" mounted={visible} keepMounted={true}>
+      <Transition transition="fade" mounted={visible}>
         {(style) => (
           <AppShell
             style={style}

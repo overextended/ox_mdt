@@ -19,7 +19,6 @@ const announcementsAtom = atom<Announcement[]>({
   default: selector({
     key: 'announcementsSelector',
     get: async () => {
-      console.log(1);
       return await fetchNui<Announcement[]>('getAnnouncements', null, {
         data: [
           {

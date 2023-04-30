@@ -13,12 +13,12 @@ export interface Character {
 const characterAtom = atom<Character>({
   key: 'character',
   default: {
-    id: 'XYZ123',
-    firstName: 'Svetozar',
-    lastName: 'Miletić',
-    title: 'LSPD Officer',
-    grade: 4,
-    callSign: 192,
+    id: '',
+    firstName: '',
+    lastName: '',
+    title: '',
+    grade: 0,
+    callSign: 0,
   },
 });
 
