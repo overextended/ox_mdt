@@ -8,6 +8,7 @@ import { useVisibilityState } from './state/visibility';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { fetchNui } from './utils/fetchNui';
 import { Character, useSetCharacter } from './state';
+import Reports from './pages/reports/Reports';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -91,7 +92,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/profiles" element={<Profiles />} />
-              <Route path="/reports" element={<>Reports</>} />
+              <Route path="/reports" element={<Reports />} />
             </Routes>
           </AppShell>
         )}

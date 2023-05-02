@@ -8,25 +8,29 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { useProfileState } from '../../../state';
+import { Report } from '../Reports';
 
-const NotesEditor: React.FC = () => {
-  const [profile, setProfile] = useProfileState();
+interface Props {
+  description?: string;
+  setReport: React.Dispatch<React.SetStateAction<Report | null>>;
+}
+
+const ReportEditor: React.FC<Props> = (props) => {
   const [canSave, setCanSave] = React.useState(false);
   const editor = useEditor({
-    content: profile?.notes,
+    content: props?.description,
     extensions: [
       StarterKit,
       Underline,
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: 'Profile notes...' }),
+      Placeholder.configure({ placeholder: 'Report contents...' }),
     ],
   });
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      if (editor?.getHTML() !== profile?.notes) setCanSave(true);
+      if (editor?.getHTML() !== props?.description) setCanSave(true);
       else setCanSave(false);
     }, 500);
 
@@ -34,7 +38,19 @@ const NotesEditor: React.FC = () => {
   }, [editor?.getHTML()]);
 
   return (
-    <RichTextEditor placeholder="Announcement contents..." editor={editor}>
+    <RichTextEditor
+      placeholder="Report contents..."
+      editor={editor}
+      styles={{
+        root: { height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' },
+        typographyStylesProvider: { height: '100%', flex: '1' },
+        content: {
+          height: '100%',
+          overflowY: 'scroll',
+          '> .ProseMirror': { height: '100%' },
+        },
+      }}
+    >
       <RichTextEditor.Toolbar sticky sx={{ display: 'block' }}>
         <Group position="apart" noWrap>
           <Group>
@@ -60,7 +76,7 @@ const NotesEditor: React.FC = () => {
                   color="blue"
                   size={26}
                   onClick={() =>
-                    setProfile((prev) => {
+                    props.setReport((prev) => {
                       if (!prev) return null;
 
                       setCanSave(false);
@@ -101,4 +117,4 @@ const NotesEditor: React.FC = () => {
   );
 };
 
-export default NotesEditor;
+export default ReportEditor;
