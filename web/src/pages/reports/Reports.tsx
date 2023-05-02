@@ -16,6 +16,7 @@ import {
 import {
   IconDeviceFloppy,
   IconDots,
+  IconFileImport,
   IconGavel,
   IconPaperBag,
   IconPlus,
@@ -80,6 +81,11 @@ const Reports: React.FC = () => {
           <IconReceipt />
         </Group>
         <TextInput icon={<IconSearch size={20} />} placeholder="Search anything..." />
+        <Box>
+          <Button fullWidth variant="light" leftIcon={<IconFileImport size={20} />}>
+            Create report
+          </Button>
+        </Box>
         <ReportsList />
       </Stack>
       {activeReport && (
@@ -99,7 +105,7 @@ const Reports: React.FC = () => {
           </Box>
           <Box sx={{ overflowY: 'scroll' }}>
             <Stack>
-              <Button variant="light" leftIcon={<IconPlus />}>
+              <Button variant="light" leftIcon={<IconPlus size={20} />}>
                 Add criminal
               </Button>
               <Stack className={classes.baseCard} p="md">

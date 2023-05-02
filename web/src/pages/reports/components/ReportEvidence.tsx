@@ -15,7 +15,7 @@ const ReportEvidence: React.FC = () => {
         <Badge>Image 3</Badge>
         <Badge>Image 4</Badge>
       </Group>
-      <Button leftIcon={<IconEdit />} variant="light">
+      <Button leftIcon={<IconEdit size={20} />} variant="light">
         Edit evidence
       </Button>
     </>

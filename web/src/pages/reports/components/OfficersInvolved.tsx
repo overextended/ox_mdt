@@ -14,8 +14,8 @@ const OfficersInvolved: React.FC = () => {
         <Badge>Jacob Gray (273)</Badge>
         <Badge>Edward Atkinson (125)</Badge>
       </Group>
-      <Button leftIcon={<IconEdit />} variant="light">
-        Edit involved
+      <Button leftIcon={<IconEdit size={20} />} variant="light">
+        Edit officers
       </Button>
     </>
   );
