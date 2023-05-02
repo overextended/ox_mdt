@@ -7,6 +7,27 @@ export const theme: MantineThemeOverride = {
     md: '0 4px 3px rgba(0, 0, 0, 0.07)',
   },
   components: {
+    Checkbox: {
+      styles: (theme) => ({
+        input: {
+          backgroundColor: theme.colors.durple[4],
+          borderColor: theme.colors.durple[2],
+        },
+      }),
+    },
+    Select: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colors.durple[4],
+          borderColor: 'transparent',
+        },
+        item: {
+          '&:hover': {
+            backgroundColor: theme.colors.durple[2],
+          },
+        },
+      }),
+    },
     Badge: {
       defaultProps: { variant: 'default' },
       variants: {
