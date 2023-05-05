@@ -8,9 +8,6 @@ export const theme: MantineThemeOverride = {
   },
   components: {
     Tooltip: {
-      defaultProps: {
-        withinPortal: true,
-      },
       styles: (theme) => ({
         tooltip: {
           fontSize: 13,

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Badge, Button, Group, Text } from '@mantine/core';
-import { IconEdit, IconPaperBag } from '@tabler/icons-react';
+import { ActionIcon, Badge, Button, Group, rem, Text } from '@mantine/core';
+import { IconEdit, IconPaperBag, IconX } from '@tabler/icons-react';
 import { useActiveReport } from '../../../state';
+import BadgeButton from '../../../components/BadgeButton';
 
 const ReportEvidence: React.FC = () => {
   const report = useActiveReport();
@@ -13,11 +14,21 @@ const ReportEvidence: React.FC = () => {
         <IconPaperBag />
       </Group>
       <Group spacing="xs">
-        {report?.evidence && report.evidence.map((evidence) => <Badge key={evidence.image}>{evidence.label}</Badge>)}
+        <BadgeButton label="Add evidence" />
+        {report?.evidence &&
+          report.evidence.map((evidence) => (
+            <Badge
+              key={evidence.image}
+              rightSection={
+                <ActionIcon size="xs" radius="xl" variant="transparent">
+                  <IconX size={rem(10)} />
+                </ActionIcon>
+              }
+            >
+              {evidence.label}
+            </Badge>
+          ))}
       </Group>
-      <Button leftIcon={<IconEdit size={20} />} variant="light">
-        Edit evidence
-      </Button>
     </>
   );
 };

@@ -3,6 +3,7 @@ import { ActionIcon, Badge, Box, Button, Checkbox, createStyles, Group, Select, 
 import { IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
 import BaseCard from './BaseCard';
 import { useActiveReport } from '../../../state';
+import BadgeButton from '../../../components/BadgeButton';
 
 const ReportCriminals: React.FC = () => {
   const report = useActiveReport();
@@ -28,16 +29,7 @@ const ReportCriminals: React.FC = () => {
                 </Group>
               </Group>
               <Group spacing="xs">
-                <Button
-                  size="xs"
-                  variant="light"
-                  radius="xl"
-                  h="20px"
-                  uppercase
-                  sx={{ fontSize: '0.6785rem', lineHeight: 'normal' }}
-                >
-                  Edit charges
-                </Button>
+                <BadgeButton label="Edit Charges" />
                 {criminal.charges.map((charge) => (
                   <Badge key={charge.label}>
                     {charge.count}x {charge.label}
