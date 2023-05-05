@@ -46,9 +46,7 @@ const Editor: React.FC<Props> = (props) => {
   });
 
   React.useEffect(() => {
-    if (!props.onChange) return;
-
-    props.onChange(editor?.getHTML());
+    props.onChange && props.onChange(editor?.getHTML());
 
     if (!props.onSave) return;
     const timer = setTimeout(() => {
