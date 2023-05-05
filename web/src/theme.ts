@@ -7,6 +7,18 @@ export const theme: MantineThemeOverride = {
     md: '0 4px 3px rgba(0, 0, 0, 0.07)',
   },
   components: {
+    Tooltip: {
+      defaultProps: {
+        withinPortal: true,
+      },
+      styles: (theme) => ({
+        tooltip: {
+          fontSize: 13,
+          backgroundColor: theme.colors.durple[0],
+          color: theme.colors.dark[0],
+        },
+      }),
+    },
     Checkbox: {
       styles: (theme) => ({
         input: {

@@ -38,6 +38,7 @@ const Reports: React.FC = () => {
   const [activeReport, setActiveReport] = React.useState<Report | null>({
     id: 0,
     title: 'Report title',
+    description: '<p></p>',
   });
 
   return (
