@@ -1,18 +1,19 @@
-import React from 'react';
-import { RichTextEditor } from '@mantine/tiptap';
-import { ActionIcon, createStyles, Group, Tooltip, Transition } from '@mantine/core';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+import React, { FormEventHandler } from 'react';
 import { BubbleMenu, FloatingMenu, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { Report } from '../Reports';
+import { RichTextEditor } from '@mantine/tiptap';
+import { ActionIcon, createStyles, Transition } from '@mantine/core';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 
 interface Props {
-  description?: string;
-  setReport: React.Dispatch<React.SetStateAction<Report | null>>;
+  onSave?: (value: string) => void;
+  placeholder?: string;
+  content?: string;
+  onChange?: (value?: string) => void;
 }
 
 const useStyles = createStyles({
@@ -29,23 +30,29 @@ const useStyles = createStyles({
   },
 });
 
-const ReportEditor: React.FC<Props> = (props) => {
+const Editor: React.FC<Props> = (props) => {
   const { classes } = useStyles();
   const [canSave, setCanSave] = React.useState(false);
   const editor = useEditor({
-    content: props?.description,
+    content: props?.content,
+
     extensions: [
       StarterKit,
       Underline,
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: 'Report contents...' }),
+      Placeholder.configure({ placeholder: props.placeholder }),
     ],
   });
 
   React.useEffect(() => {
+    if (!props.onChange) return;
+
+    props.onChange(editor?.getHTML());
+
+    if (!props.onSave) return;
     const timer = setTimeout(() => {
-      if (editor?.getHTML() !== props?.description) setCanSave(true);
+      if (editor?.getHTML() !== props?.content) setCanSave(true);
       else setCanSave(false);
     }, 500);
 
@@ -91,7 +98,7 @@ const ReportEditor: React.FC<Props> = (props) => {
               <RichTextEditor.OrderedList />
             </RichTextEditor.ControlsGroup>
           </FloatingMenu>
-          <Transition mounted={canSave} transition="slide-down">
+          <Transition mounted={!!(canSave && props.onSave)} transition="slide-down">
             {(style) => (
               <ActionIcon
                 style={style}
@@ -100,12 +107,8 @@ const ReportEditor: React.FC<Props> = (props) => {
                 variant="light"
                 size={26}
                 onClick={() => {
-                  props.setReport((prev) => {
-                    if (!prev) return null;
-
-                    setCanSave(false);
-                    return { ...prev, description: editor?.getHTML() };
-                  });
+                  setCanSave(false);
+                  props.onSave && props.onSave(editor?.getHTML());
                 }}
               >
                 <IconDeviceFloppy size={20} />
@@ -119,4 +122,4 @@ const ReportEditor: React.FC<Props> = (props) => {
   );
 };
 
-export default ReportEditor;
+export default Editor;

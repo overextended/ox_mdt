@@ -2,7 +2,7 @@ import React from 'react';
 import { Report } from '../Reports';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
-import ReportEditor from './ReportEditor';
+import Editor from '../../../components/Editor';
 
 interface Props {
   report: Report;
@@ -29,7 +29,17 @@ const ActiveReport: React.FC<Props> = ({ report, setReport }) => {
           </Tooltip>
         </Group>
       </Group>
-      <ReportEditor description={report.description} setReport={setReport} />
+      <Editor
+        placeholder="Report contents..."
+        content={report.description}
+        onSave={(value) =>
+          setReport((prev) => {
+            if (!prev) return null;
+
+            return { ...prev, description: value };
+          })
+        }
+      />
     </>
   );
 };

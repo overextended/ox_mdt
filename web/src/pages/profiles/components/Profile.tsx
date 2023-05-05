@@ -1,15 +1,13 @@
 import React from 'react';
-import { ActionIcon, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import ProfileField from './ProfileField';
-import { IconCalendar, IconDeviceFloppy, IconId, IconUser } from '@tabler/icons-react';
-import { RichTextEditor } from '@mantine/tiptap';
-import { BubbleMenu, FloatingMenu } from '@tiptap/react';
-import { useProfile } from '../../../state';
+import { IconCalendar, IconId, IconUser } from '@tabler/icons-react';
+import { useProfileState } from '../../../state';
 import AvatarWrapper from './AvatarWrapper';
-import NotesEditor from './NotesEditor';
+import Editor from '../../../components/Editor';
 
 const Profile: React.FC = () => {
-  const profile = useProfile();
+  const [profile, setProfile] = useProfileState();
 
   if (!profile) return <></>;
 
@@ -23,7 +21,17 @@ const Profile: React.FC = () => {
         <Text size="xs" c="dark.2">
           Notes:
         </Text>
-        <NotesEditor />
+        <Editor
+          placeholder="Profile notes contents..."
+          content={profile.notes}
+          onSave={(value) =>
+            setProfile((prev) => {
+              if (!prev) return null;
+
+              return { ...prev, notes: value };
+            })
+          }
+        />
       </Stack>
     </>
   );
