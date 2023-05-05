@@ -71,14 +71,6 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
           <>
             <RichTextEditor.Toolbar sticky>
               <RichTextEditor.ControlsGroup>
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.AlignLeft />
-                  <RichTextEditor.AlignCenter />
-                  <RichTextEditor.AlignJustify />
-                  <RichTextEditor.AlignRight />
-                </RichTextEditor.ControlsGroup>
-              </RichTextEditor.ControlsGroup>
-              <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Blockquote />
                 <RichTextEditor.Hr />
                 <RichTextEditor.BulletList />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { RichTextEditor } from '@mantine/tiptap';
-import { ActionIcon, Group, Tooltip } from '@mantine/core';
+import { ActionIcon, createStyles, Group, Tooltip, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { BubbleMenu, FloatingMenu, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -15,7 +15,22 @@ interface Props {
   setReport: React.Dispatch<React.SetStateAction<Report | null>>;
 }
 
+const useStyles = createStyles({
+  floatingMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  },
+  saveButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    zIndex: 99,
+  },
+});
+
 const ReportEditor: React.FC<Props> = (props) => {
+  const { classes } = useStyles();
   const [canSave, setCanSave] = React.useState(false);
   const editor = useEditor({
     content: props?.description,
@@ -51,46 +66,6 @@ const ReportEditor: React.FC<Props> = (props) => {
         },
       }}
     >
-      <RichTextEditor.Toolbar sticky sx={{ display: 'block' }}>
-        <Group position="apart" noWrap>
-          <Group>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.H1 />
-              <RichTextEditor.H2 />
-              <RichTextEditor.H3 />
-              <RichTextEditor.H4 />
-            </RichTextEditor.ControlsGroup>
-          </Group>
-
-          <RichTextEditor.ControlsGroup>
-            {canSave && (
-              <Tooltip label="Save changes" withArrow sx={{ fontSize: 13 }} position="top" withinPortal>
-                <ActionIcon
-                  variant="light"
-                  color="blue"
-                  size={26}
-                  onClick={() =>
-                    props.setReport((prev) => {
-                      if (!prev) return null;
-
-                      setCanSave(false);
-                      return { ...prev, notes: editor?.getHTML() };
-                    })
-                  }
-                >
-                  <IconDeviceFloppy size={20} />
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </RichTextEditor.ControlsGroup>
-        </Group>
-      </RichTextEditor.Toolbar>
       {editor && (
         <>
           <BubbleMenu editor={editor}>
@@ -102,7 +77,13 @@ const ReportEditor: React.FC<Props> = (props) => {
               <RichTextEditor.Highlight />
             </RichTextEditor.ControlsGroup>
           </BubbleMenu>
-          <FloatingMenu editor={editor}>
+          <FloatingMenu editor={editor} className={classes.floatingMenu}>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.H1 />
+              <RichTextEditor.H2 />
+              <RichTextEditor.H3 />
+              <RichTextEditor.H4 />
+            </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
               <RichTextEditor.Blockquote />
               <RichTextEditor.Hr />
@@ -110,6 +91,27 @@ const ReportEditor: React.FC<Props> = (props) => {
               <RichTextEditor.OrderedList />
             </RichTextEditor.ControlsGroup>
           </FloatingMenu>
+          <Transition mounted={canSave} transition="slide-down">
+            {(style) => (
+              <ActionIcon
+                style={style}
+                className={classes.saveButton}
+                color="blue"
+                variant="light"
+                size={26}
+                onClick={() => {
+                  props.setReport((prev) => {
+                    if (!prev) return null;
+
+                    setCanSave(false);
+                    return { ...prev, description: editor?.getHTML() };
+                  });
+                }}
+              >
+                <IconDeviceFloppy size={20} />
+              </ActionIcon>
+            )}
+          </Transition>
         </>
       )}
       <RichTextEditor.Content />

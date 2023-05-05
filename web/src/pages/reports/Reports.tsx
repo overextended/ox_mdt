@@ -1,30 +1,6 @@
 import React from 'react';
-import {
-  ActionIcon,
-  Badge,
-  Box,
-  Button,
-  Checkbox,
-  createStyles,
-  Group,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import {
-  IconDeviceFloppy,
-  IconDots,
-  IconFileImport,
-  IconGavel,
-  IconPaperBag,
-  IconPlus,
-  IconReceipt,
-  IconSearch,
-  IconTrash,
-  IconUsers,
-} from '@tabler/icons-react';
+import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { IconFileImport, IconReceipt, IconSearch } from '@tabler/icons-react';
 import ReportsList from './components/ReportsList';
 import ActiveReport from './components/ActiveReport';
 import OfficersInvolved from './components/OfficersInvolved';

@@ -39,12 +39,6 @@ const NotesEditor: React.FC = () => {
         <Group position="apart" noWrap>
           <Group>
             <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
-            <RichTextEditor.ControlsGroup>
               <RichTextEditor.H1 />
               <RichTextEditor.H2 />
               <RichTextEditor.H3 />
