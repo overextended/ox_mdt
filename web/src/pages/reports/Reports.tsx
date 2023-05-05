@@ -7,21 +7,7 @@ import OfficersInvolved from './components/OfficersInvolved';
 import ReportEvidence from './components/ReportEvidence';
 import ReportCriminals from './components/ReportCriminals';
 import BaseCard from './components/BaseCard';
-
-export interface Report {
-  id: number;
-  title: string;
-  description?: string;
-  evidence?: string[];
-  criminals?: {
-    id: string;
-    name: string;
-    charges: {
-      label: string;
-      count: number;
-    }[];
-  }[];
-}
+import { useActiveReport } from '../../state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -35,11 +21,7 @@ const useStyles = createStyles((theme) => ({
 
 const Reports: React.FC = () => {
   const { classes } = useStyles();
-  const [activeReport, setActiveReport] = React.useState<Report | null>({
-    id: 0,
-    title: 'Report title',
-    description: '<p></p>',
-  });
+  const report = useActiveReport();
 
   return (
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
@@ -56,12 +38,12 @@ const Reports: React.FC = () => {
         </Box>
         <ReportsList />
       </Stack>
-      {activeReport && (
+      {report && (
         <>
           <Box sx={{ overflowY: 'scroll' }}>
             <Stack>
               <BaseCard h={500}>
-                <ActiveReport report={activeReport} setReport={setActiveReport} />
+                <ActiveReport />
               </BaseCard>
               <BaseCard>
                 <OfficersInvolved />

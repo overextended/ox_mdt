@@ -1,15 +1,14 @@
 import React from 'react';
-import { Report } from '../Reports';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import Editor from '../../../components/Editor';
+import { useActiveReportState } from '../../../state';
 
-interface Props {
-  report: Report;
-  setReport: React.Dispatch<React.SetStateAction<Report | null>>;
-}
+const ActiveReport: React.FC = () => {
+  const [report, setReport] = useActiveReportState();
 
-const ActiveReport: React.FC<Props> = ({ report, setReport }) => {
+  if (!report) return null;
+
   return (
     <>
       <Group position="apart" noWrap>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Badge, Button, Group, Text } from '@mantine/core';
 import { IconEdit, IconPaperBag } from '@tabler/icons-react';
+import { useActiveReport } from '../../../state';
 
 const ReportEvidence: React.FC = () => {
+  const report = useActiveReport();
+
   return (
     <>
       <Group position="apart" noWrap>
@@ -10,10 +13,7 @@ const ReportEvidence: React.FC = () => {
         <IconPaperBag />
       </Group>
       <Group spacing="xs">
-        <Badge>Image 1</Badge>
-        <Badge>Image 2</Badge>
-        <Badge>Image 3</Badge>
-        <Badge>Image 4</Badge>
+        {report?.evidence && report.evidence.map((evidence) => <Badge key={evidence.image}>{evidence.label}</Badge>)}
       </Group>
       <Button leftIcon={<IconEdit size={20} />} variant="light">
         Edit evidence
