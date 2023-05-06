@@ -78,9 +78,31 @@ const activeReportAtom = atom<ActiveReport>({
 const criminalsAtom = focusAtom(activeReportAtom, (optic) => optic.prop('criminals'));
 const criminalsAtomsAtom = splitAtom(criminalsAtom);
 
+const officersAtom = focusAtom(activeReportAtom, (optic) => optic.prop('officersInvolved'));
+
+const evidenceAtom = focusAtom(activeReportAtom, (optic) => optic.prop('evidence'));
+
+const reportTitleAtom = focusAtom(activeReportAtom, (optic) => optic.prop('title'));
+
+const reportDescriptionAtom = focusAtom(activeReportAtom, (optic) => optic.prop('description'));
+
 const isReportActiveAtom = atom((get) => !!get(activeReportAtom));
 
 export const useCriminals = () => useAtomValue(criminalsAtomsAtom);
+
+export const useOfficersInvolved = () => useAtomValue(officersAtom);
+export const useSetOfficersInvolved = () => useSetAtom(officersAtom);
+
+export const useEvidence = () => useAtomValue(evidenceAtom);
+export const useSetEvidence = () => useSetAtom(evidenceAtom);
+
+export const useReportTitle = () => useAtomValue(reportTitleAtom);
+export const useSetReportTitle = () => useSetAtom(reportTitleAtom);
+
+export const useReportDescription = () => useAtomValue(reportDescriptionAtom);
+export const useSetReportDescription = () => useSetAtom(reportDescriptionAtom);
+export const useReportDescriptionState = () => useAtom(reportDescriptionAtom);
+
 export const useIsReportActive = () => useAtomValue(isReportActiveAtom);
 
 export const useActiveReport = () => useAtomValue(activeReportAtom);

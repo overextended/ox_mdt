@@ -1,11 +1,11 @@
 import React from 'react';
 import { ActionIcon, Badge, Button, Group, rem, Text } from '@mantine/core';
 import { IconEdit, IconPaperBag, IconX } from '@tabler/icons-react';
-import { useActiveReport } from '../../../state';
+import { useActiveReport, useEvidence } from '../../../state';
 import BadgeButton from '../../../components/BadgeButton';
 
 const ReportEvidence: React.FC = () => {
-  const report = useActiveReport();
+  const evidence = useEvidence();
 
   return (
     <>
@@ -15,19 +15,18 @@ const ReportEvidence: React.FC = () => {
       </Group>
       <Group spacing="xs">
         <BadgeButton label="Add evidence" />
-        {report?.evidence &&
-          report.evidence.map((evidence) => (
-            <Badge
-              key={evidence.image}
-              rightSection={
-                <ActionIcon size="xs" radius="xl" variant="transparent">
-                  <IconX size={rem(10)} />
-                </ActionIcon>
-              }
-            >
-              {evidence.label}
-            </Badge>
-          ))}
+        {evidence.map((evidence) => (
+          <Badge
+            key={evidence.image}
+            rightSection={
+              <ActionIcon size="xs" radius="xl" variant="transparent">
+                <IconX size={rem(10)} />
+              </ActionIcon>
+            }
+          >
+            {evidence.label}
+          </Badge>
+        ))}
       </Group>
     </>
   );

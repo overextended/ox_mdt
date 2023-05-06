@@ -1,11 +1,11 @@
 import React from 'react';
 import { ActionIcon, Badge, Button, Group, rem, Text } from '@mantine/core';
 import { IconEdit, IconUsers, IconX } from '@tabler/icons-react';
-import { useActiveReport } from '../../../state';
+import { useActiveReport, useOfficersInvolved } from '../../../state';
 import BadgeButton from '../../../components/BadgeButton';
 
 const OfficersInvolved: React.FC = () => {
-  const report = useActiveReport();
+  const officers = useOfficersInvolved();
 
   return (
     <>
@@ -15,19 +15,18 @@ const OfficersInvolved: React.FC = () => {
       </Group>
       <Group spacing="xs">
         <BadgeButton label="Add officers" />
-        {report?.officersInvolved &&
-          report.officersInvolved.map((officer) => (
-            <Badge
-              key={officer.callSign}
-              rightSection={
-                <ActionIcon size="xs" radius="xl" variant="transparent">
-                  <IconX size={rem(10)} />
-                </ActionIcon>
-              }
-            >
-              {officer.name} ({officer.callSign})
-            </Badge>
-          ))}
+        {officers.map((officer) => (
+          <Badge
+            key={officer.callSign}
+            rightSection={
+              <ActionIcon size="xs" radius="xl" variant="transparent">
+                <IconX size={rem(10)} />
+              </ActionIcon>
+            }
+          >
+            {officer.name} ({officer.callSign})
+          </Badge>
+        ))}
       </Group>
     </>
   );
