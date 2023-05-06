@@ -33,8 +33,6 @@ const ActiveReport: React.FC = () => {
         content={report.description}
         onSave={(value) =>
           setReport((prev) => {
-            if (!prev) return null;
-
             return { ...prev, description: value };
           })
         }

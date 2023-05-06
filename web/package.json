@@ -26,11 +26,13 @@
     "@tiptap/starter-kit": "^2.0.3",
     "@types/node": "^18.16.2",
     "dayjs": "^1.11.7",
+    "jotai": "^2.1.0",
+    "jotai-optics": "^0.3.0",
+    "optics-ts": "^2.4.0",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.10.0",
-    "recoil": "^0.7.7"
+    "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

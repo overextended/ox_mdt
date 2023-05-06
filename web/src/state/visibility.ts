@@ -1,11 +1,8 @@
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useAtomValue, useSetAtom, useAtom } from 'jotai';
 import { isEnvBrowser } from '../utils/misc';
 
-const visibilityAtom = atom<boolean>({
-  key: 'visibility',
-  default: isEnvBrowser(),
-});
+const visibilityAtom = atom<boolean>(isEnvBrowser());
 
-export const useVisibility = () => useRecoilValue(visibilityAtom);
-export const useSetVisibility = () => useSetRecoilState(visibilityAtom);
-export const useVisibilityState = () => useRecoilState(visibilityAtom);
+export const useVisibility = () => useAtomValue(visibilityAtom);
+export const useSetVisibility = () => useSetAtom(visibilityAtom);
+export const useVisibilityState = () => useAtom(visibilityAtom);

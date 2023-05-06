@@ -7,7 +7,7 @@ import OfficersInvolved from './components/OfficersInvolved';
 import ReportEvidence from './components/ReportEvidence';
 import ReportCriminals from './components/ReportCriminals';
 import BaseCard from './components/BaseCard';
-import { useActiveReport } from '../../state';
+import { useActiveReport, useIsReportActive } from '../../state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
 
 const Reports: React.FC = () => {
   const { classes } = useStyles();
-  const report = useActiveReport();
+  const isReportActive = useIsReportActive();
 
   return (
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
@@ -38,7 +38,7 @@ const Reports: React.FC = () => {
         </Box>
         <ReportsList />
       </Stack>
-      {report && (
+      {isReportActive && (
         <>
           <Box sx={{ overflowY: 'scroll' }}>
             <Stack>

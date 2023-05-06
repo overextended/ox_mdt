@@ -1,5 +1,4 @@
-import { fetchNui } from '../../utils/fetchNui';
-import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 export interface Announcement {
   id: number;
@@ -14,31 +13,8 @@ export interface Announcement {
   createdAt: number;
 }
 
-const announcementsAtom = atom<Announcement[]>({
-  key: 'announcements',
-  default: selector({
-    key: 'announcementsSelector',
-    get: async () => {
-      return await fetchNui<Announcement[]>('getAnnouncements', null, {
-        data: [
-          {
-            id: 1,
-            contents: 'Pogchamp',
-            creator: {
-              firstName: 'Some',
-              lastName: 'One',
-              id: 'ABD',
-              callSign: 132,
-            },
-            createdAt: Date.now(),
-          },
-        ],
-        delay: 1500,
-      });
-    },
-  }),
-});
+const announcementsAtom = atom<Announcement[]>([]);
 
-export const useAnnouncements = () => useRecoilValue(announcementsAtom);
-export const useSetAnnouncements = () => useSetRecoilState(announcementsAtom);
-export const useAnnouncementsState = () => useRecoilState(announcementsAtom);
+export const useAnnouncements = () => useAtomValue(announcementsAtom);
+export const useSetAnnouncements = () => useSetAtom(announcementsAtom);
+export const useAnnouncementsState = () => useAtom(announcementsAtom);
