@@ -19,7 +19,7 @@ export interface Criminal {
   };
 }
 
-export interface ActiveReport {
+export interface Report {
   title: string;
   id: number;
   description?: string;
@@ -34,7 +34,7 @@ export interface ActiveReport {
   criminals: Criminal[];
 }
 
-const activeReportAtom = atom<ActiveReport>({
+const reportAtom = atom<Report>({
   title: 'Report title',
   id: 0,
   description: '<p></p>',
@@ -76,20 +76,21 @@ const activeReportAtom = atom<ActiveReport>({
   ],
 });
 
-const criminalsAtom = focusAtom(activeReportAtom, (optic) => optic.prop('criminals'));
+const criminalsAtom = focusAtom(reportAtom, (optic) => optic.prop('criminals'));
 const criminalsAtomsAtom = splitAtom(criminalsAtom);
 
-const officersAtom = focusAtom(activeReportAtom, (optic) => optic.prop('officersInvolved'));
+const officersAtom = focusAtom(reportAtom, (optic) => optic.prop('officersInvolved'));
 
-const evidenceAtom = focusAtom(activeReportAtom, (optic) => optic.prop('evidence'));
+const evidenceAtom = focusAtom(reportAtom, (optic) => optic.prop('evidence'));
 
-const reportTitleAtom = focusAtom(activeReportAtom, (optic) => optic.prop('title'));
+const reportTitleAtom = focusAtom(reportAtom, (optic) => optic.prop('title'));
 
-const reportDescriptionAtom = focusAtom(activeReportAtom, (optic) => optic.prop('description'));
+const reportDescriptionAtom = focusAtom(reportAtom, (optic) => optic.prop('description'));
 
-const isReportActiveAtom = atom((get) => !!get(activeReportAtom));
+const isReportActiveAtom = atom((get) => !!get(reportAtom));
 
 export const useCriminals = () => useAtomValue(criminalsAtomsAtom);
+export const useSetCriminals = () => useSetAtom(criminalsAtom);
 
 export const useOfficersInvolved = () => useAtomValue(officersAtom);
 export const useSetOfficersInvolved = () => useSetAtom(officersAtom);
@@ -106,6 +107,6 @@ export const useReportDescriptionState = () => useAtom(reportDescriptionAtom);
 
 export const useIsReportActive = () => useAtomValue(isReportActiveAtom);
 
-export const useActiveReport = () => useAtomValue(activeReportAtom);
-export const useSetActiveReport = () => useSetAtom(activeReportAtom);
-export const useActiveReportState = () => useAtom(activeReportAtom);
+export const useActiveReport = () => useAtomValue(reportAtom);
+export const useSetActiveReport = () => useSetAtom(reportAtom);
+export const useActiveReportState = () => useAtom(reportAtom);
