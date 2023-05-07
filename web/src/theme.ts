@@ -109,6 +109,9 @@ export const theme: MantineThemeOverride = {
     Modal: {
       defaultProps: {
         centered: true,
+        transitionProps: {
+          transition: 'slide-up',
+        },
       },
       styles: (theme) => ({
         header: {
