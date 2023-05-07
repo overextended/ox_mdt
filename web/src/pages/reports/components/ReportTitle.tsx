@@ -15,7 +15,28 @@ const ReportTitle: React.FC = () => {
       </Text>
       <Group spacing="xs" noWrap>
         <Tooltip label="Delete report">
-          <ActionIcon color="red" variant="light">
+          <ActionIcon
+            color="red"
+            variant="light"
+            onClick={() =>
+              modals.openConfirmModal({
+                title: 'Delete report?',
+                children: (
+                  <Text size="sm">
+                    Deleting the report will permanently remove all the data associated with it, along with the criminal
+                    charges.
+                  </Text>
+                ),
+                labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                onConfirm: () => {
+                  //   Do stuff when confirm
+                },
+                confirmProps: {
+                  color: 'red',
+                },
+              })
+            }
+          >
             <IconTrash size={20} />
           </ActionIcon>
         </Tooltip>
