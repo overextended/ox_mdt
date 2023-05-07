@@ -5,16 +5,39 @@ import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
 import type { Criminal } from '../../../state';
 import { PrimitiveAtom, useAtom } from 'jotai';
+import { useSetCriminals } from '../../../state';
+import { modals } from '@mantine/modals';
 
 const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
+  const setCriminals = useSetCriminals();
 
   return (
     <BaseCard key={criminal.name}>
       <Group position="apart" noWrap>
         <Text size="xl">{criminal.name}</Text>
         <Group spacing="xs">
-          <ActionIcon color="red" variant="light">
+          <ActionIcon
+            color="red"
+            variant="light"
+            onClick={() =>
+              modals.openConfirmModal({
+                title: 'Remove criminal?',
+                size: 'sm',
+                labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                confirmProps: { color: 'red' },
+                onConfirm: () => {
+                  setCriminals((prev) => prev.filter((crim) => crim.name !== criminal.name));
+                  //   fetchNui and remove from server db
+                },
+                children: (
+                  <Text size="sm">
+                    Remove {criminal.name}? Removing them will also remove the charges fromt their profile.
+                  </Text>
+                ),
+              })
+            }
+          >
             <IconTrash size={20} />
           </ActionIcon>
           <ActionIcon color="blue" variant="light">
