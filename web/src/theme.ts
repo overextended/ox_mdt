@@ -107,6 +107,9 @@ export const theme: MantineThemeOverride = {
       }),
     },
     Modal: {
+      defaultProps: {
+        centered: true,
+      },
       styles: (theme) => ({
         header: {
           backgroundColor: theme.colors.durple[6],
