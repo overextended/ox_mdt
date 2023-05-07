@@ -38,7 +38,7 @@ const ReportsList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {reports.map((report) => (
-        <Stack className={classes.reportContainer} p="md" spacing={0}>
+        <Stack className={classes.reportContainer} p="md" key={report.id} spacing={0}>
           <Text>{report.title}</Text>
           <Group position="apart">
             <Text size="sm" c="dark.2">

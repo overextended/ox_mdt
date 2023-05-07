@@ -9,7 +9,7 @@ export interface Criminal {
     label: string;
     count: number;
   }[];
-  issueWarrant?: boolean;
+  issueWarrant: boolean;
   pleadedGuilty?: boolean;
   penalty?: {
     time?: number;
@@ -60,6 +60,7 @@ const activeReportAtom = atom<ActiveReport>({
   criminals: [
     {
       name: 'Archie Moss',
+      issueWarrant: false,
       id: 0,
       charges: [
         { label: 'Evading & Eluding', count: 3 },
