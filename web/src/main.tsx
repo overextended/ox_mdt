@@ -10,6 +10,7 @@ import { ModalsProvider } from '@mantine/modals';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Provider } from 'jotai';
+import { DatesProvider } from '@mantine/dates';
 
 dayjs.extend(relativeTime);
 
@@ -18,9 +19,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <HashRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Provider>
-          <ModalsProvider>
-            <App />
-          </ModalsProvider>
+          <DatesProvider settings={{ locale: 'en' }}>
+            <ModalsProvider>
+              <App />
+            </ModalsProvider>
+          </DatesProvider>
         </Provider>
       </MantineProvider>
     </HashRouter>

@@ -7,6 +7,7 @@ import type { Criminal } from '../../../state';
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
+import { DatePickerInput } from '@mantine/dates';
 
 const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
@@ -59,13 +60,21 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
         checked={criminal.issueWarrant}
         onChange={() => setCriminal((prev) => ({ ...prev, issueWarrant: !prev.issueWarrant }))}
       />
-      <Select label="Reduction" data={['25%', '50%']} clearable placeholder="No reduction" />
-      <Group position="apart">
-        <Text size="xs">Time: {criminal.penalty?.time || 0} months</Text>
-        <Text size="xs">Fine: ${criminal.penalty?.fine || 0}</Text>
-        <Text size="xs">Points: {criminal.penalty?.points || 0}</Text>
-      </Group>
-      <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
+      {criminal.issueWarrant ? (
+        <>
+          <DatePickerInput label="Warrant expiration date" placeholder="12/03/2023" />
+        </>
+      ) : (
+        <>
+          <Select label="Reduction" data={['25%', '50%']} clearable placeholder="No reduction" />
+          <Group position="apart">
+            <Text size="xs">Time: {criminal.penalty?.time || 0} months</Text>
+            <Text size="xs">Fine: ${criminal.penalty?.fine || 0}</Text>
+            <Text size="xs">Points: {criminal.penalty?.points || 0}</Text>
+          </Group>
+          <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
+        </>
+      )}
     </BaseCard>
   );
 };

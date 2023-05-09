@@ -7,6 +7,9 @@ dependencies:
   '@mantine/core':
     specifier: ^6.0.10
     version: 6.0.10(@emotion/react@11.10.6)(@mantine/hooks@6.0.10)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+  '@mantine/dates':
+    specifier: ^6.0.10
+    version: 6.0.10(@mantine/core@6.0.10)(@mantine/hooks@6.0.10)(dayjs@1.11.7)(react@18.2.0)
   '@mantine/hooks':
     specifier: ^6.0.10
     version: 6.0.10(react@18.2.0)
@@ -697,6 +700,21 @@ packages:
     transitivePeerDependencies:
       - '@emotion/react'
       - '@types/react'
+    dev: false
+
+  /@mantine/dates@6.0.10(@mantine/core@6.0.10)(@mantine/hooks@6.0.10)(dayjs@1.11.7)(react@18.2.0):
+    resolution: {integrity: sha512-v/yEhYa021FLtV8ccTFCABR81KPM2QlNi3+LpXhCysQe8sL3bmr2sQw5//idjb0qTyiKSEBfsjGxmq02W98e2Q==}
+    peerDependencies:
+      '@mantine/core': 6.0.10
+      '@mantine/hooks': 6.0.10
+      dayjs: '>=1.0.0'
+      react: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 6.0.10(@emotion/react@11.10.6)(@mantine/hooks@6.0.10)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 6.0.10(react@18.2.0)
+      '@mantine/utils': 6.0.10(react@18.2.0)
+      dayjs: 1.11.7
+      react: 18.2.0
     dev: false
 
   /@mantine/hooks@6.0.10(react@18.2.0):
