@@ -3,6 +3,7 @@ import { Button, createStyles } from '@mantine/core';
 
 interface Props {
   label: string;
+  onClick?: () => void;
 }
 
 const useStyles = createStyles({
@@ -12,11 +13,11 @@ const useStyles = createStyles({
   },
 });
 
-const BadgeButton: React.FC<Props> = ({ label }) => {
+const BadgeButton: React.FC<Props> = ({ label, onClick }) => {
   const { classes } = useStyles();
 
   return (
-    <Button size="xs" variant="light" radius="xl" h="20px" uppercase className={classes.button}>
+    <Button size="xs" variant="light" radius="xl" h="20px" uppercase className={classes.button} onClick={onClick}>
       {label}
     </Button>
   );

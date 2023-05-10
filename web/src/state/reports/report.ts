@@ -19,6 +19,18 @@ export interface Criminal {
   };
 }
 
+type ImageEvidence = {
+  type: 'image';
+  url: string;
+  label: string;
+};
+
+type ItemEvidence = {
+  type: 'item';
+  item: string;
+  count: number;
+};
+
 export interface Report {
   title: string;
   id: number;
@@ -27,10 +39,7 @@ export interface Report {
     name: string;
     callSign: number;
   }[];
-  evidence: {
-    label: string;
-    image: string;
-  }[];
+  evidence: Array<ImageEvidence | ItemEvidence>;
   criminals: Criminal[];
 }
 
@@ -52,11 +61,7 @@ const reportAtom = atom<Report>({
       callSign: 125,
     },
   ],
-  evidence: [
-    { label: 'Image 1', image: '1' },
-    { label: 'Image 2', image: '2' },
-    { label: 'Image 3', image: '3' },
-  ],
+  evidence: [],
   criminals: [
     {
       name: 'Archie Moss',
