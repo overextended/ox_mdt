@@ -8,6 +8,8 @@ import ReportEvidence from './components/ReportEvidence';
 import ReportCriminals from './components/ReportCriminals';
 import BaseCard from './components/BaseCard';
 import { useActiveReport, useIsReportActive } from '../../state';
+import { modals } from '@mantine/modals';
+import CreateReportModal from './components/modals/CreateReportModal';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -32,7 +34,12 @@ const Reports: React.FC = () => {
         </Group>
         <TextInput icon={<IconSearch size={20} />} placeholder="Search anything..." />
         <Box>
-          <Button fullWidth variant="light" leftIcon={<IconFileImport size={20} />}>
+          <Button
+            fullWidth
+            variant="light"
+            leftIcon={<IconFileImport size={20} />}
+            onClick={() => modals.open({ title: 'Create report', size: 'sm', children: <CreateReportModal /> })}
+          >
             Create report
           </Button>
         </Box>
