@@ -1,10 +1,10 @@
 import React from 'react';
-import { ActionIcon, Badge, Box, Button, Checkbox, createStyles, Group, Select, Stack, Text } from '@mantine/core';
-import { IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
-import BaseCard from './BaseCard';
-import { useActiveReport, useCriminals } from '../../../state';
-import BadgeButton from '../../../components/BadgeButton';
+import { Box, Button, Stack } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
+import { useCriminals } from '../../../state';
 import Criminal from './Criminal';
+import { modals } from '@mantine/modals';
+import AddCriminalModal from './modals/addCriminal/AddCriminalModal';
 
 const ReportCriminals: React.FC = () => {
   const criminals = useCriminals();
@@ -12,7 +12,17 @@ const ReportCriminals: React.FC = () => {
   return (
     <Box sx={{ overflowY: 'scroll' }}>
       <Stack>
-        <Button variant="light" leftIcon={<IconPlus size={20} />}>
+        <Button
+          variant="light"
+          leftIcon={<IconPlus size={20} />}
+          onClick={() =>
+            modals.open({
+              title: 'Add criminal',
+              children: <AddCriminalModal />,
+              styles: { body: { height: 400, overflow: 'hidden' } },
+            })
+          }
+        >
           Add criminal
         </Button>
         {criminals.map((criminal, index) => (
