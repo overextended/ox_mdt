@@ -1,0 +1,6 @@
+---@class CriminalProfile
+---@field firstName string
+---@field lastName string
+---@field dob string
+---@field id number
+---@field image? string
