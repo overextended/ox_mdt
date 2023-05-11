@@ -31,3 +31,10 @@ end)
 RegisterNUICallback('getAnnouncements', function(_, cb)
     cb({})
 end)
+
+---@param search string
+---@param cb function
+RegisterNUICallback('getCriminalProfiles', function(search, cb)
+    local response = lib.callback.await('ox_mdt:getCriminalProfiles', false, search) --[[@as CriminalProfile[]?]]
+    cb(response or {})
+end)
