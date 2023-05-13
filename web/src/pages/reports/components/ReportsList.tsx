@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
+import { useSetIsReportActive } from '../../../state';
 
 interface ReportCard {
   title: string;
@@ -34,11 +35,21 @@ for (let i = 0; i < 25; i++) {
 const ReportsList: React.FC = () => {
   const { classes } = useStyles();
   const [reports, setReports] = useState<ReportCard[]>(REPORTS);
+  const setIsReportActive = useSetIsReportActive();
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {reports.map((report) => (
-        <Stack className={classes.reportContainer} p="md" key={report.id} spacing={0}>
+        <Stack
+          className={classes.reportContainer}
+          p="md"
+          key={report.id}
+          spacing={0}
+          onClick={() => {
+            //   Fetch report data
+            setIsReportActive(true);
+          }}
+        >
           <Text>{report.title}</Text>
           <Group position="apart">
             <Text size="sm" c="dark.2">

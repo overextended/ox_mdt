@@ -1,6 +1,7 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { splitAtom } from 'jotai/utils';
 import { focusAtom } from 'jotai-optics';
+import { isEnvBrowser } from '../../utils/misc';
 
 export interface Criminal {
   name: string;
@@ -92,7 +93,7 @@ const reportTitleAtom = focusAtom(reportAtom, (optic) => optic.prop('title'));
 
 const reportDescriptionAtom = focusAtom(reportAtom, (optic) => optic.prop('description'));
 
-const isReportActiveAtom = atom((get) => !!get(reportAtom));
+const isReportActiveAtom = atom(isEnvBrowser());
 
 export const useCriminals = () => useAtomValue(criminalsAtomsAtom);
 export const useSetCriminals = () => useSetAtom(criminalsAtom);
@@ -111,6 +112,7 @@ export const useSetReportDescription = () => useSetAtom(reportDescriptionAtom);
 export const useReportDescriptionState = () => useAtom(reportDescriptionAtom);
 
 export const useIsReportActive = () => useAtomValue(isReportActiveAtom);
+export const useSetIsReportActive = () => useSetAtom(isReportActiveAtom);
 
 export const useActiveReport = () => useAtomValue(reportAtom);
 export const useSetActiveReport = () => useSetAtom(reportAtom);

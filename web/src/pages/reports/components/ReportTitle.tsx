@@ -1,12 +1,13 @@
 import React from 'react';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { useReportTitle } from '../../../state';
+import { useReportTitle, useSetIsReportActive } from '../../../state';
 import { modals } from '@mantine/modals';
 import EditTitleModal from './modals/EditTitleModal';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();
+  const setIsReportActive = useSetIsReportActive();
 
   return (
     <Group position="apart" noWrap>
@@ -30,6 +31,7 @@ const ReportTitle: React.FC = () => {
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
                 onConfirm: () => {
                   //   Do stuff when confirm
+                  setIsReportActive(false);
                 },
                 confirmProps: {
                   color: 'red',
