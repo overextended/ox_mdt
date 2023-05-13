@@ -44,7 +44,7 @@ export interface Report {
   criminals: Criminal[];
 }
 
-const reportAtom = atom<Report>({
+export const reportAtom = atom<Report>({
   title: 'Report title',
   id: 0,
   description: '<p></p>',
