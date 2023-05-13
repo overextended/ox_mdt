@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCriminalProfiles } from '../../../../../state/reports/addCriminal';
+import { useCriminalProfiles } from '../../../../../state';
 import { Avatar, createStyles, Group, Stack, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useSetCriminals } from '../../../../../state';

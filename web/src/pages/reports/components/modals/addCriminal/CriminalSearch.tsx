@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import { useCriminalSearch, useSetCriminalDebounce } from '../../../../../state/reports/addCriminal';
+import { useCriminalSearch, useSetCriminalDebounce } from '../../../../../state';
 
 const CriminalSearch: React.FC = () => {
   const search = useCriminalSearch();

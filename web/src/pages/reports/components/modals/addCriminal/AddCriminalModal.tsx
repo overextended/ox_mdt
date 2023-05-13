@@ -1,11 +1,7 @@
 import React from 'react';
 import { Center, Loader, Skeleton, Stack } from '@mantine/core';
 import CriminalSearch from './CriminalSearch';
-import {
-  useCriminalProfiles,
-  useIsCriminalsDebouncing,
-  useSetCriminalDebounce,
-} from '../../../../../state/reports/addCriminal';
+import { useIsCriminalsDebouncing, useSetCriminalDebounce } from '../../../../../state';
 import CriminalsResults from './CriminalsResults';
 
 const AddCriminalModal: React.FC = () => {
