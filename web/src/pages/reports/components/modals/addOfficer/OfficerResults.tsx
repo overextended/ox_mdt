@@ -1,7 +1,8 @@
 import React from 'react';
-import { useOfficers, useSetSelectedOfficers } from '../../../../../state';
+import { useOfficers, useSetOfficersInvolved } from '../../../../../state';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { IconUserOff, IconUserX } from '@tabler/icons-react';
+import { IconUserX } from '@tabler/icons-react';
+import { modals } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
   officerContainer: {
@@ -18,7 +19,7 @@ const useStyles = createStyles((theme) => ({
 
 const OfficerResults: React.FC = () => {
   const officers = useOfficers();
-  const setSelectedOfficers = useSetSelectedOfficers();
+  const setOfficersInvolved = useSetOfficersInvolved();
   const { classes } = useStyles();
 
   return (
@@ -29,7 +30,10 @@ const OfficerResults: React.FC = () => {
             key={officer.callSign}
             className={classes.officerContainer}
             position="apart"
-            onClick={() => setSelectedOfficers((prev) => [...prev, { name: officer.name, callSign: officer.callSign }])}
+            onClick={() => {
+              modals.closeAll();
+              setOfficersInvolved((prev) => [...prev, { name: officer.name, callSign: officer.callSign }]);
+            }}
           >
             <Text>{officer.name}</Text>
             <Text c="dark.2">{officer.callSign}</Text>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { ActionIcon, Badge, Button, Group, rem, Text } from '@mantine/core';
-import { IconEdit, IconUsers, IconX } from '@tabler/icons-react';
-import { useActiveReport, useOfficersInvolved, useSetOfficersInvolved, useSetSelectedOfficers } from '../../../state';
+import { ActionIcon, Badge, Group, rem, Text } from '@mantine/core';
+import { IconUsers, IconX } from '@tabler/icons-react';
+import { useOfficersInvolved, useSetOfficersInvolved } from '../../../state';
 import BadgeButton from '../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
 import AddOfficerModal from './modals/addOfficer/AddOfficerModal';
 
 const OfficersInvolved: React.FC = () => {
   const officers = useOfficersInvolved();
-  const setSelectedOfficers = useSetSelectedOfficers();
+  const setOfficersInvolved = useSetOfficersInvolved();
 
   return (
     <>
@@ -18,9 +18,8 @@ const OfficersInvolved: React.FC = () => {
       </Group>
       <Group spacing="xs">
         <BadgeButton
-          label="Edit officers"
+          label="Add officer"
           onClick={() => {
-            setSelectedOfficers(officers);
             modals.open({
               title: 'Add involved officer',
               children: <AddOfficerModal />,
@@ -28,8 +27,32 @@ const OfficersInvolved: React.FC = () => {
             });
           }}
         />
-        {officers.map((officer) => (
-          <Badge key={officer.callSign}>
+        {officers.map((officer, index) => (
+          <Badge
+            key={officer.callSign}
+            rightSection={
+              <ActionIcon
+                size="xs"
+                radius="xl"
+                variant="transparent"
+                onClick={() => {
+                  modals.openConfirmModal({
+                    title: 'Remove officer',
+                    children: (
+                      <Text size="sm">
+                        Are you sure you want to remove {officer.name} ({officer.callSign}) from involved officers?
+                      </Text>
+                    ),
+                    confirmProps: { color: 'red' },
+                    labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                    onConfirm: () => setOfficersInvolved((prev) => prev.filter((_, indx) => indx !== index)),
+                  });
+                }}
+              >
+                <IconX size={rem(10)} />
+              </ActionIcon>
+            }
+          >
             {officer.name} ({officer.callSign})
           </Badge>
         ))}
