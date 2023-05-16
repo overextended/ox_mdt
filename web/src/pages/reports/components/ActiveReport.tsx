@@ -1,5 +1,4 @@
 import React from 'react';
-import { useActiveReportState } from '../../../state';
 import ReportTitle from './ReportTitle';
 import ReportRTE from './ReportRTE';
 

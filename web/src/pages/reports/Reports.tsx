@@ -7,7 +7,7 @@ import OfficersInvolved from './components/OfficersInvolved';
 import ReportEvidence from './components/ReportEvidence';
 import ReportCriminals from './components/ReportCriminals';
 import BaseCard from './components/BaseCard';
-import { useActiveReport, useIsReportActive } from '../../state';
+import { useIsReportActive } from '../../state';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
 
