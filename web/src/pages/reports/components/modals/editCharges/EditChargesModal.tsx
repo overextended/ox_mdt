@@ -7,12 +7,12 @@ import {
   TextInput,
   Text,
   Group,
-  Box,
   createStyles,
   Badge,
   ActionIcon,
+  SimpleGrid,
 } from '@mantine/core';
-import { IconMinus, IconPlus, IconSearch } from '@tabler/icons-react';
+import { IconMinus, IconPlus, IconQuestionMark, IconSearch } from '@tabler/icons-react';
 
 interface Charge {
   label: string;
@@ -44,15 +44,19 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
-    '&:hover': {
-      backgroundColor: theme.colors.durple[2],
-      cursor: 'pointer',
-    },
   },
   countButton: {
     backgroundColor: theme.colors.dark[4],
     '&:hover': {
       backgroundColor: theme.colors.durple[2],
+    },
+  },
+  infoContainer: {
+    backgroundColor: theme.colors.durple[2],
+    borderRadius: theme.radius.md,
+    padding: 4,
+    '&:hover': {
+      backgroundColor: theme.colors.durple[0],
     },
   },
 }));
@@ -65,11 +69,16 @@ const EditChargesModal: React.FC = () => {
       <Grid.Col span={7}>
         <Stack>
           <TextInput icon={<IconSearch size={20} />} placeholder="Search charges..." />
-          <Group>
+          <SimpleGrid cols={3} spacing="xs">
             {CHARGES.map((charge) => (
-              <Stack className={classes.chargeContainer} key={charge.description}>
-                <Group>
+              <Stack className={classes.chargeContainer} key={charge.description} justify="space-between">
+                <Group noWrap position="apart">
                   <Text>{charge.label}</Text>
+                  <Stack sx={{ alignSelf: 'baseline' }} className={classes.infoContainer}>
+                    <IconQuestionMark size={20} />
+                  </Stack>
+                </Group>
+                <Group position="right">
                   <Badge
                     variant="light"
                     color={charge.type === 'felony' ? 'red' : charge.type === 'misdemeanour' ? 'yellow' : 'green'}
@@ -77,13 +86,12 @@ const EditChargesModal: React.FC = () => {
                     {charge.type}
                   </Badge>
                 </Group>
-                <Text size="xs">{charge.description}</Text>
               </Stack>
             ))}
-          </Group>
+          </SimpleGrid>
         </Stack>
       </Grid.Col>
-      <Divider orientation="vertical" />
+      <Divider orientation="vertical" sx={{ marginBottom: '8px' }} />
       <Grid.Col span={3}>
         <Stack justify="space-between" h="100%">
           <Group
@@ -95,14 +103,14 @@ const EditChargesModal: React.FC = () => {
               borderRadius: theme.radius.md,
             })}
           >
-            <Text>Robbery of a financial institution</Text>
+            <Text>Robbery of a financial institution (Accomplice)</Text>
             <Group noWrap>
               <ActionIcon variant="light" color="blue">
-                <IconMinus />
+                <IconMinus size={20} />
               </ActionIcon>
               1
               <ActionIcon variant="light" color="blue">
-                <IconPlus />
+                <IconPlus size={20} />
               </ActionIcon>
             </Group>
           </Group>
