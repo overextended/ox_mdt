@@ -8,6 +8,7 @@ import { PrimitiveAtom, useAtom } from 'jotai';
 import { useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
 import { DatePickerInput } from '@mantine/dates';
+import EditChargesModal from './modals/editCharges/EditChargesModal';
 
 const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
@@ -47,7 +48,17 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
         </Group>
       </Group>
       <Group spacing="xs">
-        <BadgeButton label="Edit Charges" />
+        <BadgeButton
+          label="Edit Charges"
+          onClick={() =>
+            modals.open({
+              title: 'Edit charges',
+              children: <EditChargesModal />,
+              size: 1200,
+              styles: { body: { height: 600, overflow: 'auto' }, content: { width: 900 } },
+            })
+          }
+        />
         {criminal.charges.map((charge) => (
           <Badge key={charge.label}>
             {charge.count}x {charge.label}
