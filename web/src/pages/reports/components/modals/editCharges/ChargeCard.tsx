@@ -1,6 +1,6 @@
 import React from 'react';
 import { Charge } from './ChargeCardsList';
-import { ActionIcon, Badge, createStyles, Group, Menu, Stack, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, createStyles, Group, Menu, rem, Stack, Text, Tooltip } from '@mantine/core';
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 
 interface Props {
@@ -13,6 +13,13 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
+  },
+  infoHover: {
+    backgroundColor: theme.colors.durple[0],
+    width: rem(28),
+    height: rem(28),
+    borderRadius: theme.radius.sm,
+    '&:hover': { backgroundColor: theme.colors.durple[0] },
   },
 }));
 
@@ -45,15 +52,9 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
             multiline
             withinPortal
           >
-            <ActionIcon
-              variant="default"
-              sx={(theme) => ({
-                backgroundColor: theme.colors.durple[0],
-                '&:hover': { backgroundColor: theme.colors.durple[0] },
-              })}
-            >
+            <Stack justify="center" align="center" className={classes.infoHover}>
               <IconQuestionMark size={20} />
-            </ActionIcon>
+            </Stack>
           </Tooltip>
           <Menu position="right-start" withArrow withinPortal>
             <Menu.Target>
