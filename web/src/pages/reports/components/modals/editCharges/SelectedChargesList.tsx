@@ -1,23 +1,18 @@
 import React from 'react';
 import { Button, Stack, Text } from '@mantine/core';
 import SelectedChargeItem from './SelectedChargeItem';
-
-export interface SelectedCharge {
-  label: string;
-  count: number;
-  involvement: 'actor' | 'accessory' | 'accomplice';
-}
-
-const SELECTED_CHARGES: SelectedCharge[] = [
-  { label: 'Robbery of a financial institution', count: 1, involvement: 'actor' },
-];
+import { useSelectedCharges } from '../../../../../state/reports/editCharges';
 
 const SelectedChargesList: React.FC = () => {
+  const selectedCharges = useSelectedCharges();
+
   return (
-    <Stack justify="space-between" h="100%">
-      {SELECTED_CHARGES.map((charge) => (
-        <SelectedChargeItem charge={charge} />
-      ))}
+    <Stack justify="space-between" h="100%" sx={{ overflowY: 'scroll' }}>
+      <Stack spacing="xs" sx={{ overflowY: 'scroll' }}>
+        {selectedCharges.map((chargeAtom) => (
+          <SelectedChargeItem chargeAtom={chargeAtom} />
+        ))}
+      </Stack>
       <Button color="blue" variant="light">
         Confirm
       </Button>
@@ -26,3 +21,5 @@ const SelectedChargesList: React.FC = () => {
 };
 
 export default SelectedChargesList;
+
+export class SelectedCharge {}

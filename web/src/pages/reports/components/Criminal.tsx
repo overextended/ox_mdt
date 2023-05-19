@@ -55,7 +55,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
               title: 'Edit charges',
               children: <EditChargesModal />,
               size: 1200,
-              styles: { body: { height: 600, overflow: 'auto' }, content: { width: 900 } },
+              styles: { body: { height: 600, overflow: 'hidden' }, content: { width: 900 } },
             })
           }
         />

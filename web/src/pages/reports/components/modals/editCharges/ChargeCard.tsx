@@ -1,7 +1,8 @@
 import React from 'react';
-import { Charge } from './ChargeCardsList';
-import { ActionIcon, Badge, createStyles, Group, Menu, rem, Stack, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, createStyles, Group, rem, Stack, Text, Tooltip } from '@mantine/core';
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
+import { Charge } from '../../../../../state/charges';
+import { useSelectedCharges, useSetSelectedCharges } from '../../../../../state/reports/editCharges';
 
 interface Props {
   charge: Charge;
@@ -25,6 +26,7 @@ const useStyles = createStyles((theme) => ({
 
 const ChargeCard: React.FC<Props> = ({ charge }) => {
   const { classes } = useStyles();
+  const setSelectedCharges = useSetSelectedCharges();
 
   return (
     <Stack className={classes.chargeContainer} key={`${charge.label}-${charge.description}`} justify="space-between">
@@ -56,20 +58,13 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
               <IconQuestionMark size={20} />
             </Stack>
           </Tooltip>
-          <Menu position="right-start" withArrow withinPortal>
-            <Menu.Target>
-              <ActionIcon color="blue" variant="light">
-                <IconPlus size={20} />
-              </ActionIcon>
-            </Menu.Target>
-
-            <Menu.Dropdown>
-              <Menu.Label>Add charge</Menu.Label>
-              <Menu.Item>As actor</Menu.Item>
-              <Menu.Item>As accessory</Menu.Item>
-              <Menu.Item>As accomplice</Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          <ActionIcon
+            color="blue"
+            variant="light"
+            onClick={() => setSelectedCharges((prev) => [...prev, { label: charge.label, count: 1 }])}
+          >
+            <IconPlus size={20} />
+          </ActionIcon>
         </Group>
       </Group>
     </Stack>
