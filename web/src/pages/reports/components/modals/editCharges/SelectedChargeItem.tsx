@@ -1,11 +1,12 @@
 import React from 'react';
 import { ActionIcon, createStyles, Group, Text } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
-import { SelectedCharge } from '../../../../../state/reports/editCharges';
+import { SelectedCharge, useSetSelectedCharges } from '../../../../../state/reports/editCharges';
 import { PrimitiveAtom, useAtom } from 'jotai';
 
 interface Props {
   chargeAtom: PrimitiveAtom<SelectedCharge>;
+  index: number;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -16,9 +17,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const SelectedChargeItem: React.FC<Props> = ({ chargeAtom }) => {
+const SelectedChargeItem: React.FC<Props> = ({ chargeAtom, index }) => {
   const { classes } = useStyles();
   const [charge, setCharge] = useAtom(chargeAtom);
+  const setSelectedCharges = useSetSelectedCharges();
 
   return (
     <Group position="apart" noWrap className={classes.chargeContainer}>
@@ -27,7 +29,12 @@ const SelectedChargeItem: React.FC<Props> = ({ chargeAtom }) => {
         <ActionIcon
           variant="light"
           color="blue"
-          onClick={() => setCharge((prev) => ({ ...prev, count: --prev.count }))}
+          onClick={() => {
+            if (charge.count === 1) {
+              return setSelectedCharges((prev) => prev.filter((_, indx) => indx !== index));
+            }
+            setCharge((prev) => ({ ...prev, count: --prev.count }));
+          }}
         >
           <IconMinus size={20} />
         </ActionIcon>
