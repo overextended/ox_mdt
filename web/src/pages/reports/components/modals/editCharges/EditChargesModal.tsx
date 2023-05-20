@@ -36,9 +36,9 @@ const EditChargesModal: React.FC = () => {
   const { classes } = useStyles();
 
   return (
-    <Grid grow h="100%">
+    <Grid grow h="100%" sx={{ overflow: 'hidden' }}>
       <Grid.Col span={7}>
-        <Stack>
+        <Stack h="100%">
           <TextInput icon={<IconSearch size={20} />} placeholder="Search charges..." />
           <ChargeCardsList />
         </Stack>
