@@ -9,9 +9,11 @@ import { useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
 import { DatePickerInput } from '@mantine/dates';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
+import { useSetSelectedCharges } from '../../../state/reports/editCharges';
 
 const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
+  const setSelectedCharges = useSetSelectedCharges();
   const setCriminals = useSetCriminals();
 
   return (
@@ -51,6 +53,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
         <BadgeButton
           label="Edit Charges"
           onClick={() => {
+            setSelectedCharges(criminal.charges);
             modals.open({
               title: 'Edit charges',
               children: <EditChargesModal criminalAtom={criminalAtom} />,
