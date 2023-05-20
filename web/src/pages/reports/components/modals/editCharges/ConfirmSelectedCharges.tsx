@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelectedCharges } from '../../../../../state/reports/editCharges';
+import { useSelectedCharges } from '../../../../../state';
 import { PrimitiveAtom, useSetAtom } from 'jotai';
 import { Button } from '@mantine/core';
 import { Criminal } from '../../../../../state';

@@ -9,7 +9,7 @@ import { useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
 import { DatePickerInput } from '@mantine/dates';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
-import { useSetSelectedCharges } from '../../../state/reports/editCharges';
+import { useSetSelectedCharges } from '../../../state';
 
 const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
