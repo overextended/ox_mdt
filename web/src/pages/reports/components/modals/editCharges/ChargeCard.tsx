@@ -2,7 +2,7 @@ import React from 'react';
 import { ActionIcon, Badge, createStyles, Group, rem, Stack, Text, Tooltip } from '@mantine/core';
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 import { Charge } from '../../../../../state/charges';
-import { useSelectedCharges, useSetSelectedCharges } from '../../../../../state/reports/editCharges';
+import { useSelectedChargesAtoms, useSetSelectedCharges } from '../../../../../state/reports/editCharges';
 
 interface Props {
   charge: Charge;

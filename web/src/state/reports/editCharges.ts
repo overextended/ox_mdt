@@ -9,5 +9,6 @@ export interface SelectedCharge {
 const selectedChargesAtom = atom<SelectedCharge[]>([]);
 const selectedChargesAtomsAtom = splitAtom(selectedChargesAtom);
 
-export const useSelectedCharges = () => useAtomValue(selectedChargesAtomsAtom);
+export const useSelectedCharges = () => useAtomValue(selectedChargesAtom);
+export const useSelectedChargesAtoms = () => useAtomValue(selectedChargesAtomsAtom);
 export const useSetSelectedCharges = () => useSetAtom(selectedChargesAtom);

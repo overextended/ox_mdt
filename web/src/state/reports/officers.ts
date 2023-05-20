@@ -19,8 +19,6 @@ const OFFICERS: Officer[] = [
 const officersAtom = atom<Promise<Officer[]>>(async (get) => {
   const searchValue = get(debouncedValueAtom);
 
-  console.log(searchValue);
-
   if (searchValue === '') return [];
 
   return await fetchNui('getSearchOfficers', searchValue, { data: OFFICERS, delay: 300 });

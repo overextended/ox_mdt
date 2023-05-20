@@ -63,7 +63,6 @@ function App() {
   }, [visible]);
 
   React.useEffect(() => {
-    console.log('uiLoaded');
     fetchNui<Character>('uiLoaded', null, {
       data: {
         id: 'XYZ123',
@@ -74,7 +73,6 @@ function App() {
         callSign: 192,
       },
     }).then((data) => {
-      console.log(JSON.stringify(data, null, 2));
       setCharacter(data);
     });
   }, []);

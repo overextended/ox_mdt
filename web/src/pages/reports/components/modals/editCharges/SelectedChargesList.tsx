@@ -1,19 +1,22 @@
 import React from 'react';
 import { Button, Stack, Text } from '@mantine/core';
 import SelectedChargeItem from './SelectedChargeItem';
-import { useSelectedCharges } from '../../../../../state/reports/editCharges';
+import { useSelectedCharges, useSelectedChargesAtoms } from '../../../../../state/reports/editCharges';
 import { IconReceiptOff } from '@tabler/icons-react';
+import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai';
+import { Criminal } from '../../../../../state';
+import ConfirmSelectedCharges from './ConfirmSelectedCharges';
 
-const SelectedChargesList: React.FC = () => {
-  const selectedCharges = useSelectedCharges();
+const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
+  const selectedChargesAtoms = useSelectedChargesAtoms();
 
   return (
     <Stack justify="space-between" h="100%">
       <Stack spacing="xs" sx={{ flex: '1 1 0', overflowY: 'scroll' }}>
-        {selectedCharges.length > 0 ? (
+        {selectedChargesAtoms.length > 0 ? (
           <Stack spacing="xs">
-            {selectedCharges.map((chargeAtom, index) => (
-              <SelectedChargeItem chargeAtom={chargeAtom} index={index} />
+            {selectedChargesAtoms.map((chargeAtom, index) => (
+              <SelectedChargeItem key={chargeAtom.toString()} chargeAtom={chargeAtom} index={index} />
             ))}
           </Stack>
         ) : (
@@ -23,9 +26,7 @@ const SelectedChargesList: React.FC = () => {
           </Stack>
         )}
       </Stack>
-      <Button color="blue" variant="light">
-        Confirm
-      </Button>
+      <ConfirmSelectedCharges criminalAtom={criminalAtom} />
     </Stack>
   );
 };

@@ -10,7 +10,7 @@ const ChargeCardsList: React.FC = () => {
     <Box sx={{ flex: '1 1 0', overflowY: 'scroll' }}>
       <SimpleGrid cols={3} spacing="xs">
         {charges.map((charge) => (
-          <ChargeCard charge={charge} />
+          <ChargeCard charge={charge} key={`${charge.label}-${charge.description}`} />
         ))}
       </SimpleGrid>
     </Box>

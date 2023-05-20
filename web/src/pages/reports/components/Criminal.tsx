@@ -50,14 +50,14 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
       <Group spacing="xs">
         <BadgeButton
           label="Edit Charges"
-          onClick={() =>
+          onClick={() => {
             modals.open({
               title: 'Edit charges',
-              children: <EditChargesModal />,
+              children: <EditChargesModal criminalAtom={criminalAtom} />,
               size: 1200,
               styles: { body: { height: 600, overflow: 'hidden' }, content: { width: 900 } },
-            })
-          }
+            });
+          }}
         />
         {criminal.charges.map((charge) => (
           <Badge key={charge.label}>
