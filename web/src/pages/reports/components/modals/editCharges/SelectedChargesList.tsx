@@ -8,10 +8,14 @@ const SelectedChargesList: React.FC = () => {
   const selectedCharges = useSelectedCharges();
 
   return (
-    <Stack justify="space-between" h="100%" sx={{ overflowY: 'scroll' }}>
-      <Stack spacing="xs" sx={{ overflowY: 'scroll' }}>
+    <Stack justify="space-between" h="100%">
+      <Stack spacing="xs" sx={{ flex: '1 1 0', overflowY: 'scroll' }}>
         {selectedCharges.length > 0 ? (
-          selectedCharges.map((chargeAtom, index) => <SelectedChargeItem chargeAtom={chargeAtom} index={index} />)
+          <Stack spacing="xs">
+            {selectedCharges.map((chargeAtom, index) => (
+              <SelectedChargeItem chargeAtom={chargeAtom} index={index} />
+            ))}
+          </Stack>
         ) : (
           <Stack justify="center" align="center" c="dark.2" spacing={0}>
             <IconReceiptOff size={36} />

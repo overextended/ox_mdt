@@ -29,7 +29,12 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
   const setSelectedCharges = useSetSelectedCharges();
 
   return (
-    <Stack className={classes.chargeContainer} key={`${charge.label}-${charge.description}`} justify="space-between">
+    <Stack
+      className={classes.chargeContainer}
+      key={`${charge.label}-${charge.description}`}
+      justify="space-between"
+      spacing="xs"
+    >
       <Text>{charge.label}</Text>
       <Group position="apart">
         <Badge
