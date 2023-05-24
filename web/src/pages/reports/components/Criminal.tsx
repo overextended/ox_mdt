@@ -13,19 +13,20 @@ import { useSetSelectedCharges } from '../../../state';
 
 const percentages = [25, 50, 75, 80, 90];
 
-const calculatePenalty = (percent?: number, value: number) => {
+const calculatePenalty = (value: number, percent: number | null) => {
   if (!percent) return value;
   return Math.round(value - (percent / 100) * value);
 };
 
 const calculateReductions = (penalties: Criminal['penalty']) => {
   const reductions: Array<{ label: string; value: string }> = [];
+  if (!penalties) return [];
 
   for (let i = 0; i < percentages.length; i++) {
     const percent = percentages[i];
-    const time = penalties?.time !== undefined ? calculatePenalty(percent, penalties.time) : 0;
-    const fine = penalties?.fine ? calculatePenalty(percent, penalties.fine) : 0;
-    const points = penalties?.points ? calculatePenalty(percent, penalties.points) : 0;
+    const time = calculatePenalty(penalties.time, percent);
+    const fine = calculatePenalty(penalties.fine, percent);
+    const points = calculatePenalty(penalties.points, percent);
 
     reductions[i] = {
       label: `${percent}% (${time} months / $${fine} / ${points} points)`,
@@ -109,15 +110,15 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
             <>
               <Select
                 label="Reduction"
-                value={criminal.penalty?.reduction ? criminal.penalty.reduction.toString() : undefined}
+                value={criminal.penalty.reduction ? criminal.penalty.reduction.toString() : null}
                 data={calculateReductions(criminal.penalty)}
                 icon={<IconClockDown size={20} />}
                 onChange={(val) =>
                   setCriminal((prev) => ({
                     ...prev,
                     penalty: prev.penalty
-                      ? { ...prev.penalty, reduction: val ? +val : undefined }
-                      : { reduction: val ? +val : undefined, time: 0, fine: 0, points: 0 },
+                      ? { ...prev.penalty, reduction: val ? +val : null }
+                      : { reduction: val ? +val : null, time: 0, fine: 0, points: 0 },
                   }))
                 }
                 clearable
@@ -125,10 +126,10 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
               />
               <Group position="apart">
                 <Text size="xs">
-                  Time: {calculatePenalty(criminal.penalty.reduction, criminal.penalty.time)} months
+                  Time: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} months
                 </Text>
-                <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.reduction, criminal.penalty.fine)}</Text>
-                <Text size="xs">Points: {calculatePenalty(criminal.penalty.reduction, criminal.penalty.points)}</Text>
+                <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
+                <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
               </Group>
               <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
             </>

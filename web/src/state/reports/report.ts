@@ -16,7 +16,7 @@ export interface Criminal {
     time: number;
     fine: number;
     points: number;
-    reduction?: number;
+    reduction: number | null;
   };
 }
 
@@ -77,6 +77,7 @@ export const reportAtom = atom<Report>({
         time: 32,
         fine: 3000,
         points: 2,
+        reduction: null,
       },
     },
   ],
