@@ -13,9 +13,9 @@ export interface Criminal {
   issueWarrant: boolean;
   pleadedGuilty?: boolean;
   penalty?: {
-    time?: number;
-    fine?: number;
-    points?: number;
+    time: number;
+    fine: number;
+    points: number;
     reduction?: number;
   };
 }
