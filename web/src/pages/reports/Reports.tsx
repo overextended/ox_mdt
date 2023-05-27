@@ -2,14 +2,9 @@ import React from 'react';
 import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import { IconFileImport, IconReceipt, IconSearch } from '@tabler/icons-react';
 import ReportsList from './components/ReportsList';
-import ActiveReport from './components/ActiveReport';
-import OfficersInvolved from './components/OfficersInvolved';
-import ReportEvidence from './components/ReportEvidence';
-import ReportCriminals from './components/ReportCriminals';
-import BaseCard from './components/BaseCard';
-import { useIsReportActive } from '../../state';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
+import ActiveReport from './components/ActiveReport';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -23,7 +18,6 @@ const useStyles = createStyles((theme) => ({
 
 const Reports: React.FC = () => {
   const { classes } = useStyles();
-  const isReportActive = useIsReportActive();
 
   return (
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
@@ -45,24 +39,7 @@ const Reports: React.FC = () => {
         </Box>
         <ReportsList />
       </Stack>
-      {isReportActive && (
-        <>
-          <Box sx={{ overflowY: 'scroll' }}>
-            <Stack>
-              <BaseCard h={500}>
-                <ActiveReport />
-              </BaseCard>
-              <BaseCard>
-                <OfficersInvolved />
-              </BaseCard>
-              <BaseCard>
-                <ReportEvidence />
-              </BaseCard>
-            </Stack>
-          </Box>
-          <ReportCriminals />
-        </>
-      )}
+      <ActiveReport />
     </SimpleGrid>
   );
 };
