@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useSetReportTitle } from '../../../../state';
+import { useReportId, useSetReportTitle } from '../../../../state';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 interface Props {
   title: string;
@@ -10,12 +11,13 @@ interface Props {
 const EditTitleModal: React.FC<Props> = (props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const setReportTitle = useSetReportTitle();
+  const id = useReportId();
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setReportTitle(inputRef.current?.value!);
+    await fetchNui('setReportTitle', { id, title: inputRef.current?.value });
     modals.closeAll();
-    //   fetchNui update title and stuff
   };
 
   return (

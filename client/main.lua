@@ -68,3 +68,13 @@ RegisterNUICallback('getReports', function(search, cb)
         }
     })
 end)
+
+---@param id number
+RegisterNUICallback('deleteReport', function(id, cb)
+    cb(1)
+end)
+
+-- data: {id: number; title: string}
+RegisterNUICallback('setReportTitle', function(data, cb)
+    cb(1)
+end)

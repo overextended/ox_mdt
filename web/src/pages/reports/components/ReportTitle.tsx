@@ -1,12 +1,14 @@
 import React from 'react';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { useReportTitle, useSetIsReportActive } from '../../../state';
+import { useReportId, useReportTitle, useSetIsReportActive } from '../../../state';
 import { modals } from '@mantine/modals';
 import EditTitleModal from './modals/EditTitleModal';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();
+  const id = useReportId();
   const setIsReportActive = useSetIsReportActive();
 
   return (
@@ -29,8 +31,9 @@ const ReportTitle: React.FC = () => {
                   </Text>
                 ),
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
-                onConfirm: () => {
+                onConfirm: async () => {
                   //   Do stuff when confirm
+                  await fetchNui('deleteReport', id);
                   setIsReportActive(false);
                 },
                 confirmProps: {
