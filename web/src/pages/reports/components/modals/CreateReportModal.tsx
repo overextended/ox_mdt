@@ -1,26 +1,29 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import React, { useRef } from 'react';
-import { useSetActiveReport } from '../../../../state';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../state';
 import { modals } from '@mantine/modals';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 const CreateReportModal: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const setReport = useSetActiveReport();
+  const setIsReportActive = useSetIsReportActive();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const reportTitle = inputRef.current?.value;
     if (!reportTitle) return;
     modals.closeAll();
-    // fetchNUI and update server side
+    const resp = await fetchNui<{ id: number }>('createReport', reportTitle, { data: { id: 1 } });
     setReport({
       title: reportTitle,
-      id: 1,
+      id: resp.id,
       criminals: [],
       description: '<p></p>',
       evidence: [],
       officersInvolved: [],
     });
+    setIsReportActive(true);
   };
 
   return (
