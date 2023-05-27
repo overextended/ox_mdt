@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { useSetIsReportActive } from '../../../state';
+import { Report, useSetActiveReport, useSetIsReportActive } from '../../../state';
+import { fetchNui } from '../../../utils/fetchNui';
 
 interface ReportCard {
   title: string;
@@ -36,6 +37,7 @@ const ReportsList: React.FC = () => {
   const { classes } = useStyles();
   const [reports, setReports] = useState<ReportCard[]>(REPORTS);
   const setIsReportActive = useSetIsReportActive();
+  const setActiveReport = useSetActiveReport();
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
@@ -45,8 +47,18 @@ const ReportsList: React.FC = () => {
           p="md"
           key={report.id}
           spacing={0}
-          onClick={() => {
-            //   Fetch report data
+          onClick={async () => {
+            const resp = await fetchNui<Report>('getReport', report.id, {
+              data: {
+                id: 1,
+                officersInvolved: [],
+                evidence: [],
+                title: report.title,
+                description: '<p></p>',
+                criminals: [],
+              },
+            });
+            setActiveReport(resp);
             setIsReportActive(true);
           }}
         >

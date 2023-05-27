@@ -94,7 +94,7 @@ const reportTitleAtom = focusAtom(reportAtom, (optic) => optic.prop('title'));
 
 const reportDescriptionAtom = focusAtom(reportAtom, (optic) => optic.prop('description'));
 
-const isReportActiveAtom = atom(isEnvBrowser());
+const isReportActiveAtom = atom(false);
 
 export const useCriminals = () => useAtomValue(criminalsAtomsAtom);
 export const useSetCriminals = () => useSetAtom(criminalsAtom);
