@@ -1,5 +1,5 @@
 import React from 'react';
-import { Center, Loader, Skeleton, Stack } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
 import CriminalSearch from './CriminalSearch';
 import { useIsCriminalsDebouncing, useSetCriminalDebounce } from '../../../../../state';
 import CriminalsResults from './CriminalsResults';

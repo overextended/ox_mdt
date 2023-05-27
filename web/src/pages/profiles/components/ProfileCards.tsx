@@ -1,6 +1,6 @@
 import React from 'react';
 import ProfileCard from './ProfileCard';
-import { IconCar, IconCertificate, IconGavel, IconReceipt, IconSword } from '@tabler/icons-react';
+import { IconCar, IconCertificate, IconGavel, IconReceipt } from '@tabler/icons-react';
 import { Badge, Group, Stack } from '@mantine/core';
 import ProfileReport from './ProfileReport';
 import { useProfile } from '../../../state';

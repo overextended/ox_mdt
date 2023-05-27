@@ -1,6 +1,5 @@
 import React from 'react';
-import { Badge, createStyles, Group, Stack, Text } from '@mantine/core';
-import { IconCertificate } from '@tabler/icons-react';
+import { createStyles, Group, Text, Stack } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   infoContainer: {

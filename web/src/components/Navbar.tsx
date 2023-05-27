@@ -1,12 +1,12 @@
-import { Group, Stack, UnstyledButton, Text, Box, Avatar, createStyles, Tooltip } from '@mantine/core';
+import { Stack, createStyles } from '@mantine/core';
 import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUserShield, IconUsers } from '@tabler/icons-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import NavCharacter from './NavCharacter';
 import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 import NavButton from './NavButton';
 
-const useStyles = createStyles((theme, params: { isSmall?: boolean; isActive?: boolean }) => ({
+const useStyles = createStyles((theme) => ({
   navContainer: {
     backgroundColor: theme.colors.durple[6],
     borderTopLeftRadius: theme.radius.md,
@@ -52,7 +52,7 @@ const NAV_BUTTONS = [
 
 const Navbar: React.FC = () => {
   const matches = useMediaQuery('(max-width: 1599px)');
-  const { classes } = useStyles({});
+  const { classes } = useStyles();
   const location = useLocation();
 
   return (
