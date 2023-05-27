@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { Report, useSetActiveReport, useSetIsReportActive } from '../../../state';
-import { fetchNui } from '../../../utils/fetchNui';
+import { Report, useSetActiveReport, useSetIsReportActive } from '../../../../state';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 interface ReportCard {
   title: string;

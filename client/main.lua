@@ -38,3 +38,33 @@ RegisterNUICallback('getCriminalProfiles', function(search, cb)
     local response = lib.callback.await('ox_mdt:getCriminalProfiles', false, search) --[[@as CriminalProfile[]?]]
     cb(response or {})
 end)
+
+---@param id number Report ID
+RegisterNUICallback('getReport', function(id, cb)
+    cb({
+        id = 1,
+        officersInvolved = {},
+        evidence = {},
+        title = 'Some report title',
+        description = '<p></p>',
+        criminals = {},
+      })
+end)
+
+---@param title string Report Title
+RegisterNUICallback('createReport', function(title, cb)
+    local reportId = 1
+    cb(reportId)
+end)
+
+---@param search string
+RegisterNUICallback('getReports', function(search, cb)
+    cb({
+        {
+            id = 1,
+            title = 'Report title',
+            author = 'Michael Jordan',
+            date = '01/01/1970',
+        }
+    })
+end)
