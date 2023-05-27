@@ -16,7 +16,7 @@ const EditTitleModal: React.FC<Props> = (props) => {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setReportTitle(inputRef.current?.value!);
-    await fetchNui('setReportTitle', { id, title: inputRef.current?.value });
+    await fetchNui('setReportTitle', { id, title: inputRef.current?.value }, { data: 1 });
     modals.closeAll();
   };
 

@@ -33,7 +33,7 @@ const ReportTitle: React.FC = () => {
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
                 onConfirm: async () => {
                   //   Do stuff when confirm
-                  await fetchNui('deleteReport', id);
+                  await fetchNui('deleteReport', id, { data: 1 });
                   setIsReportActive(false);
                 },
                 confirmProps: {
