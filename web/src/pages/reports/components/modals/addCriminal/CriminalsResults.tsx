@@ -1,9 +1,10 @@
 import React from 'react';
-import { useCriminalProfiles } from '../../../../../state';
+import { useCriminalProfiles, useReportId } from '../../../../../state';
 import { Avatar, createStyles, Group, Stack, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useSetCriminals } from '../../../../../state';
 import { IconUserX } from '@tabler/icons-react';
+import { fetchNui } from '../../../../../utils/fetchNui';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -22,6 +23,7 @@ const CriminalsResults: React.FC = () => {
   const { classes } = useStyles();
   const profiles = useCriminalProfiles();
   const setCriminals = useSetCriminals();
+  const id = useReportId();
 
   return (
     <Stack sx={{ overflowY: 'scroll' }} spacing="sm">
@@ -31,7 +33,8 @@ const CriminalsResults: React.FC = () => {
             <Group
               className={classes.profileContainer}
               key={profile.id}
-              onClick={() => {
+              onClick={async () => {
+                await fetchNui('addCriminal', { id, criminalId: profile.id }, { data: 1 });
                 modals.closeAll();
                 setCriminals((prev) => [
                   ...prev,

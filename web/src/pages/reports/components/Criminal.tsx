@@ -5,11 +5,12 @@ import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
 import type { Criminal } from '../../../state';
 import { PrimitiveAtom, useAtom } from 'jotai';
-import { useSetCriminals } from '../../../state';
+import { useReportId, useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
 import { DatePickerInput } from '@mantine/dates';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { useSetSelectedCharges } from '../../../state';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -37,8 +38,9 @@ const calculateReductions = (penalties: Criminal['penalty']) => {
   return reductions;
 };
 
-const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
+const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number }> = ({ criminalAtom, index }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
+  const id = useReportId();
   const setSelectedCharges = useSetSelectedCharges();
   const setCriminals = useSetCriminals();
 
@@ -58,7 +60,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
                 confirmProps: { color: 'red' },
                 onConfirm: () => {
                   setCriminals((prev) => prev.filter((crim) => crim.name !== criminal.name));
-                  //   fetchNui and remove from server db
+                  fetchNui('deleteCriminal', { id, index }, { data: 1 });
                 },
                 children: (
                   <Text size="sm">
@@ -70,7 +72,13 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
           >
             <IconTrash size={20} />
           </ActionIcon>
-          <ActionIcon color="blue" variant="light">
+          <ActionIcon
+            color="blue"
+            variant="light"
+            onClick={() => {
+              fetchNui('saveCriminal', { id, criminal }, { data: 1 });
+            }}
+          >
             <IconDeviceFloppy size={20} />
           </ActionIcon>
         </Group>

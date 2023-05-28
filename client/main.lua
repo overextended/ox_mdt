@@ -78,3 +78,18 @@ end)
 RegisterNUICallback('setReportTitle', function(data, cb)
     cb(1)
 end)
+
+-- data: {id: number (Reprot ID); criminalId: string/number?????}
+RegisterNUICallback('addCriminal', function(data, cb)
+    cb(1)
+end)
+
+-- data: {id: number (Report ID); index: number;}
+RegisterNUICallback('deleteCriminal', function(data, cb)
+    cb(1)
+end)
+
+-- data: {id: number (Report ID); criminal: Criminal}
+RegisterNUICallback('saveCriminal', function(data, cb)
+    cb(1)
+end)

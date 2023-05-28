@@ -26,7 +26,7 @@ const ReportCriminals: React.FC = () => {
           Add criminal
         </Button>
         {criminals.map((criminal, index) => (
-          <Criminal key={criminal.toString()} criminalAtom={criminal} />
+          <Criminal key={criminal.toString()} criminalAtom={criminal} index={index} />
         ))}
       </Stack>
     </Box>
