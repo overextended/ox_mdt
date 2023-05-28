@@ -60,7 +60,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 confirmProps: { color: 'red' },
                 onConfirm: () => {
                   setCriminals((prev) => prev.filter((crim) => crim.name !== criminal.name));
-                  fetchNui('deleteCriminal', { id, index }, { data: 1 });
+                  fetchNui('removeCriminal', { id, index }, { data: 1 });
                 },
                 children: (
                   <Text size="sm">

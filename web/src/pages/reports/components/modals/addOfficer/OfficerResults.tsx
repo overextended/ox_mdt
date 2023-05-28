@@ -1,8 +1,9 @@
 import React from 'react';
-import { useOfficers, useSetOfficersInvolved } from '../../../../../state';
+import { useOfficers, useReportId, useSetOfficersInvolved } from '../../../../../state';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
 import { IconUserX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { fetchNui } from '../../../../../utils/fetchNui';
 
 const useStyles = createStyles((theme) => ({
   officerContainer: {
@@ -19,6 +20,7 @@ const useStyles = createStyles((theme) => ({
 
 const OfficerResults: React.FC = () => {
   const officers = useOfficers();
+  const id = useReportId();
   const setOfficersInvolved = useSetOfficersInvolved();
   const { classes } = useStyles();
 
@@ -30,7 +32,8 @@ const OfficerResults: React.FC = () => {
             key={officer.callSign}
             className={classes.officerContainer}
             position="apart"
-            onClick={() => {
+            onClick={async () => {
+              await fetchNui('addOfficer', { id, callSign: officer.callSign }, { data: 1 });
               modals.closeAll();
               setOfficersInvolved((prev) => [...prev, { name: officer.name, callSign: officer.callSign }]);
             }}

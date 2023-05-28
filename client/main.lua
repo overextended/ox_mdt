@@ -85,11 +85,21 @@ RegisterNUICallback('addCriminal', function(data, cb)
 end)
 
 -- data: {id: number (Report ID); index: number;}
-RegisterNUICallback('deleteCriminal', function(data, cb)
+RegisterNUICallback('removeCriminal', function(data, cb)
     cb(1)
 end)
 
 -- data: {id: number (Report ID); criminal: Criminal}
 RegisterNUICallback('saveCriminal', function(data, cb)
+    cb(1)
+end)
+
+-- data: {id: number (Report ID); callSign: number}
+RegisterNUICallback('addOfficer', function(data, cb)
+    cb(1)
+end)
+
+-- data: {id: number (Report ID); index: number}
+RegisterNUICallback('removeOfficer', function(data, cb)
     cb(1)
 end)

@@ -1,12 +1,14 @@
 import React from 'react';
 import { ActionIcon, Badge, Group, rem, Text } from '@mantine/core';
 import { IconUsers, IconX } from '@tabler/icons-react';
-import { useOfficersInvolved, useSetOfficersInvolved } from '../../../state';
+import { useOfficersInvolved, useReportId, useSetOfficersInvolved } from '../../../state';
 import BadgeButton from '../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
 import AddOfficerModal from './modals/addOfficer/AddOfficerModal';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const OfficersInvolved: React.FC = () => {
+  const id = useReportId();
   const officers = useOfficersInvolved();
   const setOfficersInvolved = useSetOfficersInvolved();
 
@@ -45,7 +47,10 @@ const OfficersInvolved: React.FC = () => {
                     ),
                     confirmProps: { color: 'red' },
                     labels: { confirm: 'Confirm', cancel: 'Cancel' },
-                    onConfirm: () => setOfficersInvolved((prev) => prev.filter((_, indx) => indx !== index)),
+                    onConfirm: async () => {
+                      await fetchNui('removeOfficer', { id, index }, { data: 1 });
+                      setOfficersInvolved((prev) => prev.filter((_, indx) => indx !== index));
+                    },
                   });
                 }}
               >
