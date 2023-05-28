@@ -4,6 +4,11 @@ import { splitAtom } from 'jotai/utils';
 export interface SelectedCharge {
   label: string;
   count: number;
+  penalty: {
+    time: number;
+    fine: number;
+    points: number;
+  };
 }
 
 const selectedChargesAtom = atom<SelectedCharge[]>([]);

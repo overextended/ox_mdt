@@ -2,14 +2,12 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { selectAtom, splitAtom } from 'jotai/utils';
 import { focusAtom } from 'jotai-optics';
 import { isEnvBrowser } from '../../utils/misc';
+import { SelectedCharge } from './editCharges';
 
 export interface Criminal {
   name: string;
   id: number;
-  charges: {
-    label: string;
-    count: number;
-  }[];
+  charges: SelectedCharge[];
   issueWarrant: boolean;
   pleadedGuilty?: boolean;
   penalty?: {
@@ -68,15 +66,11 @@ export const reportAtom = atom<Report>({
       name: 'Archie Moss',
       issueWarrant: false,
       id: 0,
-      charges: [
-        { label: 'Evading & Eluding', count: 3 },
-        { label: 'Resisting Arrest', count: 4 },
-        { label: 'Robbery of a financial institution', count: 1 },
-      ],
+      charges: [],
       penalty: {
-        time: 32,
-        fine: 3000,
-        points: 2,
+        time: 0,
+        fine: 0,
+        points: 0,
         reduction: null,
       },
     },

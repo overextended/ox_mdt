@@ -62,7 +62,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ crimina
                 },
                 children: (
                   <Text size="sm">
-                    Remove {criminal.name}? Removing them will also remove the charges fromt their profile.
+                    Remove {criminal.name}? Removing them will also remove the charges from their profile.
                   </Text>
                 ),
               })

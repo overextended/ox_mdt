@@ -49,9 +49,9 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
               <Stack>
                 <Text>{charge.description}</Text>
                 <Group spacing="xs" noWrap position="apart">
-                  <Text size="xs"> ${charge.penalties.fine || 0}</Text>
-                  <Text size="xs"> {charge.penalties.time || 0} months</Text>
-                  <Text size="xs">{charge.penalties.points || 0} points</Text>
+                  <Text size="xs"> ${charge.penalty.fine || 0}</Text>
+                  <Text size="xs"> {charge.penalty.time || 0} months</Text>
+                  <Text size="xs">{charge.penalty.points || 0} points</Text>
                 </Group>
               </Stack>
             }
@@ -66,7 +66,9 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
           <ActionIcon
             color="blue"
             variant="light"
-            onClick={() => setSelectedCharges((prev) => [...prev, { label: charge.label, count: 1 }])}
+            onClick={() =>
+              setSelectedCharges((prev) => [...prev, { label: charge.label, count: 1, penalty: charge.penalty }])
+            }
           >
             <IconPlus size={20} />
           </ActionIcon>
