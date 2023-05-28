@@ -1,15 +1,17 @@
 import React, { useRef } from 'react';
 import { Button, NumberInput, Select, Stack, TextInput } from '@mantine/core';
-import { useSetEvidence } from '../../../../state';
+import { ImageEvidence, ItemEvidence, useReportId, useSetEvidence } from '../../../../state';
 import { modals } from '@mantine/modals';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 const AddEvidenceModal: React.FC = () => {
   const [type, setType] = React.useState('image');
   const setEvidence = useSetEvidence();
+  const id = useReportId();
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const secondInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     modals.closeAll();
 
@@ -18,12 +20,13 @@ const AddEvidenceModal: React.FC = () => {
 
     if (!firstInput || !secondInput) return;
 
-    setEvidence((prev) => [
-      ...prev,
+    const evidence: ImageEvidence | ItemEvidence =
       type === 'image'
         ? { type: 'image', label: firstInput, url: secondInput }
-        : { type: 'item', item: firstInput, count: +secondInput },
-    ]);
+        : { type: 'item', item: firstInput, count: +secondInput };
+
+    await fetchNui('addEvidence', { id, evidence }, { data: 1 });
+    setEvidence((prev) => [...prev, evidence]);
   };
 
   return (

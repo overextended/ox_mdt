@@ -18,13 +18,13 @@ export interface Criminal {
   };
 }
 
-type ImageEvidence = {
+export type ImageEvidence = {
   type: 'image';
   url: string;
   label: string;
 };
 
-type ItemEvidence = {
+export type ItemEvidence = {
   type: 'item';
   item: string;
   count: number;

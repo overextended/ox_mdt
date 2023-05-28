@@ -103,3 +103,13 @@ end)
 RegisterNUICallback('removeOfficer', function(data, cb)
     cb(1)
 end)
+
+-- data: {id: number (Report ID); evidence: ItemEvidence | ImageEvidence}
+RegisterNUICallback('addEvidence', function(data, cb)
+    cb(1)
+end)
+
+-- data: {id: number (Reprot ID); index: number}
+RegisterNUICallback('removeEvidence', function(data, cb)
+    cb(1)
+end)
