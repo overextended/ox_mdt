@@ -62,7 +62,7 @@ const Editor: React.FC<Props> = (props) => {
       placeholder="Report contents..."
       editor={editor}
       styles={{
-        root: { height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' },
+        root: { height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', flex: '1 1 0' },
         typographyStylesProvider: { height: '100%', flex: '1' },
         content: {
           height: '100%',
