@@ -42,7 +42,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
   };
 
   return (
-    <Stack>
+    <Stack h={400}>
       <Editor
         placeholder="Announcement contents..."
         content={announcement?.contents}

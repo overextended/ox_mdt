@@ -6,7 +6,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { RichTextEditor } from '@mantine/tiptap';
-import { ActionIcon, createStyles, Transition } from '@mantine/core';
+import { ActionIcon, createStyles, rem, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 
 interface Props {
@@ -62,7 +62,12 @@ const Editor: React.FC<Props> = (props) => {
       placeholder="Report contents..."
       editor={editor}
       styles={{
-        root: { height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', flex: '1 1 0' },
+        root: {
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          flex: '1 1 0',
+        },
         typographyStylesProvider: { height: '100%', flex: '1' },
         content: {
           height: '100%',
