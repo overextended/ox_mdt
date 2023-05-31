@@ -11,6 +11,7 @@ import { DatePickerInput } from '@mantine/dates';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { useSetSelectedCharges } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
+import WarrantExpiry from './WarrantExpiry';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -76,6 +77,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             color="blue"
             variant="light"
             onClick={() => {
+              console.log(criminal);
               fetchNui('saveCriminal', { id, criminal }, { data: 1 });
             }}
           >
@@ -109,9 +111,12 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
         onChange={() => setCriminal((prev) => ({ ...prev, issueWarrant: !prev.issueWarrant }))}
       />
       {criminal.issueWarrant ? (
-        <>
-          <DatePickerInput icon={<IconCalendar size={20} />} label="Warrant expiration date" placeholder="12/03/2023" />
-        </>
+        <WarrantExpiry
+          charges={criminal.charges}
+          reportId={id}
+          index={index}
+          onChange={(val) => setCriminal((prev) => ({ ...prev, warrantExpiry: val }))}
+        />
       ) : (
         <>
           {criminal.penalty && (

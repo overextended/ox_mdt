@@ -3,6 +3,7 @@ import { selectAtom, splitAtom } from 'jotai/utils';
 import { focusAtom } from 'jotai-optics';
 import { isEnvBrowser } from '../../utils/misc';
 import { SelectedCharge } from './editCharges';
+import { DateValue } from '@mantine/dates';
 
 export interface Criminal {
   name: string;
@@ -10,6 +11,7 @@ export interface Criminal {
   charges: SelectedCharge[];
   issueWarrant: boolean;
   pleadedGuilty?: boolean;
+  warrantExpiry?: DateValue;
   penalty?: {
     time: number;
     fine: number;
