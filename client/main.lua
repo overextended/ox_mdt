@@ -39,44 +39,41 @@ RegisterNUICallback('getCriminalProfiles', function(search, cb)
     cb(response or {})
 end)
 
----@param id number Report ID
-RegisterNUICallback('getReport', function(id, cb)
-    cb({
+---@param title string Report Title
+RegisterNUICallback('createReport', function(title, cb)
+    local response = lib.callback.await('ox_mdt:createReport', false, title) --[[@as number?]]
+    cb(response)
+end)
+
+---@param search string
+RegisterNUICallback('getReports', function(search, cb)
+    local response = lib.callback.await('ox_mdt:getReports', false, search) --[[@as ReportCard[] ]]
+    cb(response or {})
+end)
+
+---@param reportId number
+RegisterNUICallback('getReport', function(reportId, cb)
+    local response = lib.callback.await('ox_mdt:getReport', false, reportId) --[[@as Report]]
+    cb(response or {
         id = 1,
         officersInvolved = {},
         evidence = {},
         title = 'Some report title',
         description = '<p></p>',
         criminals = {},
-      })
-end)
-
----@param title string Report Title
-RegisterNUICallback('createReport', function(title, cb)
-    local reportId = 1
-    cb(reportId)
-end)
-
----@param search string
-RegisterNUICallback('getReports', function(search, cb)
-    cb({
-        {
-            id = 1,
-            title = 'Report title',
-            author = 'Michael Jordan',
-            date = '01/01/1970',
-        }
     })
 end)
 
----@param id number
-RegisterNUICallback('deleteReport', function(id, cb)
-    cb(1)
+---@param reportId number
+RegisterNUICallback('deleteReport', function(reportId, cb)
+    local response = lib.callback.await('ox_mdt:deleteReport', false, reportId)
+    cb(response)
 end)
 
--- data: {id: number; title: string}
+---@param data { id: number, title: string}
 RegisterNUICallback('setReportTitle', function(data, cb)
-    cb(1)
+    local response = lib.callback.await('ox_mdt:setReportTitle', false, data.title, data.id)
+    cb(response)
 end)
 
 -- data: {id: number (Reprot ID); criminalId: string/number?????}
