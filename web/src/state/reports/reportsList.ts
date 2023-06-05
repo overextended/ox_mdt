@@ -5,7 +5,7 @@ import { fetchNui } from '../../utils/fetchNui';
 interface ReportCard {
   title: string;
   author: string;
-  date: string;
+  date: number;
   id: number;
 }
 
@@ -16,7 +16,7 @@ for (let i = 0; i < 25; i++) {
     title: `Report ${i + 1}`,
     id: i,
     author: 'Some One',
-    date: new Date().toLocaleDateString(),
+    date: Date.now(),
   };
 }
 

@@ -54,7 +54,7 @@ const ReportsList: React.FC = () => {
           <Text>{report.title}</Text>
           <Group position="apart">
             <Text size="sm" c="dark.2">
-              {report.author} - {report.date}
+              {report.author} - {new Date(report.date).toLocaleDateString()}
             </Text>
             <Text size="sm" c="dark.2">
               #{report.id}
