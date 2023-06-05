@@ -32,81 +32,23 @@ RegisterNUICallback('getAnnouncements', function(_, cb)
     cb({})
 end)
 
----@param search string
----@param cb function
-RegisterNUICallback('getCriminalProfiles', function(search, cb)
-    local response = lib.callback.await('ox_mdt:getCriminalProfiles', false, search) --[[@as CriminalProfile[]?]]
-    cb(response or {})
-end)
+---@param event string
+local function serverNuiCallback(event)
+    RegisterNuiCallback(event, function(data, cb)
+        cb(lib.callback.await('ox_mdt:'..event, false, data))
+    end)
+end
 
----@param title string Report Title
-RegisterNUICallback('createReport', function(title, cb)
-    local response = lib.callback.await('ox_mdt:createReport', false, title) --[[@as number?]]
-    cb(response)
-end)
-
----@param search string
-RegisterNUICallback('getReports', function(search, cb)
-    local response = lib.callback.await('ox_mdt:getReports', false, search) --[[@as ReportCard[] ]]
-    cb(response or {})
-end)
-
----@param reportId number
-RegisterNUICallback('getReport', function(reportId, cb)
-    local response = lib.callback.await('ox_mdt:getReport', false, reportId) --[[@as Report]]
-    cb(response or {
-        id = 1,
-        officersInvolved = {},
-        evidence = {},
-        title = 'Some report title',
-        description = '<p></p>',
-        criminals = {},
-    })
-end)
-
----@param reportId number
-RegisterNUICallback('deleteReport', function(reportId, cb)
-    local response = lib.callback.await('ox_mdt:deleteReport', false, reportId)
-    cb(response)
-end)
-
----@param data { id: number, title: string}
-RegisterNUICallback('setReportTitle', function(data, cb)
-    local response = lib.callback.await('ox_mdt:setReportTitle', false, data.title, data.id)
-    cb(response)
-end)
-
--- data: {id: number (Reprot ID); criminalId: string/number?????}
-RegisterNUICallback('addCriminal', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Report ID); index: number;}
-RegisterNUICallback('removeCriminal', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Report ID); criminal: Criminal}
-RegisterNUICallback('saveCriminal', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Report ID); callSign: number}
-RegisterNUICallback('addOfficer', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Report ID); index: number}
-RegisterNUICallback('removeOfficer', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Report ID); evidence: ItemEvidence | ImageEvidence}
-RegisterNUICallback('addEvidence', function(data, cb)
-    cb(1)
-end)
-
--- data: {id: number (Reprot ID); index: number}
-RegisterNUICallback('removeEvidence', function(data, cb)
-    cb(1)
-end)
+serverNuiCallback('getCriminalProfiles')
+serverNuiCallback('createReport')
+serverNuiCallback('getReports')
+serverNuiCallback('getReport')
+serverNuiCallback('deleteReport')
+serverNuiCallback('setReportTitle')
+serverNuiCallback('addCriminal')
+serverNuiCallback('removeCriminal')
+serverNuiCallback('saveCriminal')
+serverNuiCallback('addOfficer')
+serverNuiCallback('removeOfficer')
+serverNuiCallback('addEvidence')
+serverNuiCallback('removeEvidence')
