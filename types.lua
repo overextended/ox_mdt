@@ -27,3 +27,13 @@
 ---@field author string
 ---@field date string
 ---@field id number
+
+---@class ImageEvidence
+---@field type 'image'
+---@field url string
+---@field label string
+
+---@class ItemEvidence
+---@field type 'item'
+---@field item string
+---@field count number

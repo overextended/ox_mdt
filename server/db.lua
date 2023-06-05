@@ -4,7 +4,7 @@ local wildcard = '%s%%'
 
 local selectCharacterById = selectCharacter .. ' WHERE `charid` LIKE ?'
 
----@param id number
+---@param id number | string
 function db.selectCharacterById(id)
     return MySQL.query.await(selectCharacterById, { wildcard:format(id) })
 end
@@ -40,7 +40,7 @@ end
 local selectReports = 'SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports`'
 local selectReportsById = selectReports .. 'WHERE `id` LIKE ?'
 
----@param id number
+---@param id number | string
 function db.selectReportsById(id)
     return MySQL.query.await(selectReportsById, { wildcard:format(id) })
 end
