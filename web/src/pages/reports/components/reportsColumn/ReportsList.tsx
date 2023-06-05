@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { Report, useSetActiveReport, useSetIsReportActive } from '../../../../state';
+import { Report, useReportsList, useSetActiveReport, useSetIsReportActive } from '../../../../state';
 import { fetchNui } from '../../../../utils/fetchNui';
 
 interface ReportCard {
@@ -22,20 +22,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-let REPORTS: ReportCard[] = [];
-
-for (let i = 0; i < 25; i++) {
-  REPORTS[i] = {
-    title: `Report ${i + 1}`,
-    id: i,
-    author: 'Some One',
-    date: new Date().toLocaleDateString(),
-  };
-}
-
 const ReportsList: React.FC = () => {
   const { classes } = useStyles();
-  const [reports, setReports] = useState<ReportCard[]>(REPORTS);
+  const reports = useReportsList();
   const setIsReportActive = useSetIsReportActive();
   const setActiveReport = useSetActiveReport();
 
