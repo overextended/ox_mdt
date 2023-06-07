@@ -1,11 +1,15 @@
 import { Center, Loader } from '@mantine/core';
 import React from 'react';
-import { useIsProfilesDebouncing, useSetProfilesDebounce } from '../../../state';
-import ProfilesList from './ProfilesList';
+import { PrimitiveAtom, useAtomValue } from 'jotai';
 
-const ProfilesListContainer: React.FC = () => {
-  const isDebouncing = useIsProfilesDebouncing();
-  const setDebouncedSearch = useSetProfilesDebounce();
+interface Props {
+  debounceAtom: PrimitiveAtom<boolean>;
+  setDebouncedSearch: (prev: string) => void;
+  ListComponent: React.ComponentType;
+}
+
+const ListContainer: React.FC<Props> = ({ debounceAtom, setDebouncedSearch, ListComponent }) => {
+  const isDebouncing = useAtomValue(debounceAtom);
 
   React.useEffect(() => {
     return () => setDebouncedSearch('');
@@ -24,10 +28,10 @@ const ProfilesListContainer: React.FC = () => {
           <Loader />
         </Center>
       ) : (
-        <ProfilesList />
+        <ListComponent />
       )}
     </React.Suspense>
   );
 };
 
-export default ProfilesListContainer;
+export default ListContainer;

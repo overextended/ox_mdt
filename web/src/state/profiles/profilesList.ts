@@ -21,15 +21,15 @@ for (let i = 0; i < 25; i++) {
   };
 }
 
-const { isDebouncingAtom, debouncedValueAtom, currentValueAtom } = atomWithDebounce('');
+export const profilesListAtoms = atomWithDebounce('');
 
-const reportsListAtom = atom<Promise<ProfileCard[]>>(async (get) => {
-  const searchValue = get(debouncedValueAtom);
+const profilesListAtom = atom<Promise<ProfileCard[]>>(async (get) => {
+  const searchValue = get(profilesListAtoms.debouncedValueAtom);
 
   return await fetchNui('getProfiles', searchValue, { data: DEBUG_PROFILES, delay: 1000 });
 });
 
-export const useProfilesSearch = () => useAtomValue(currentValueAtom);
-export const useIsProfilesDebouncing = () => useAtomValue(isDebouncingAtom);
-export const useSetProfilesDebounce = () => useSetAtom(debouncedValueAtom);
-export const useProfilesList = () => useAtomValue(reportsListAtom);
+export const useProfilesSearch = () => useAtomValue(profilesListAtoms.currentValueAtom);
+export const useIsProfilesDebouncing = () => useAtomValue(profilesListAtoms.isDebouncingAtom);
+export const useSetProfilesDebounce = () => useSetAtom(profilesListAtoms.debouncedValueAtom);
+export const useProfilesList = () => useAtomValue(profilesListAtom);

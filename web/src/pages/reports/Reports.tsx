@@ -1,12 +1,13 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconFileImport, IconReceipt, IconSearch } from '@tabler/icons-react';
 import ReportsList from './components/reportsColumn/ReportsList';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
 import ActiveReport from './components/ActiveReport';
-import ReportsListContainer from './components/reportsColumn/ReportsListContainer';
 import ReportsSearch from './components/reportsColumn/ReportsSearch';
+import ListContainer from '../../components/ListContainer';
+import { useSetReportsDebounce, reportsListAtoms } from '../../state';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -20,6 +21,7 @@ const useStyles = createStyles((theme) => ({
 
 const Reports: React.FC = () => {
   const { classes } = useStyles();
+  const setDebouncedSearch = useSetReportsDebounce();
 
   return (
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
@@ -39,7 +41,11 @@ const Reports: React.FC = () => {
             Create report
           </Button>
         </Box>
-        <ReportsListContainer />
+        <ListContainer
+          ListComponent={ReportsList}
+          setDebouncedSearch={setDebouncedSearch}
+          debounceAtom={reportsListAtoms.isDebouncingAtom}
+        />
       </Stack>
       <ActiveReport />
     </SimpleGrid>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStyles, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
-import { IconSearch, IconUsers } from '@tabler/icons-react';
+import { createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
+import { IconUsers } from '@tabler/icons-react';
 import ProfilesList from './components/ProfilesList';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -9,10 +9,10 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import Profile from './components/Profile';
-import { useProfile } from '../../state';
+import { profilesListAtoms, useProfile, useSetProfilesDebounce } from '../../state';
 import ProfileCards from './components/ProfileCards';
-import ProfilesListContainer from './components/ProfilesListContainer';
 import ProfilesSearch from './components/ProfilesSearch';
+import ListContainer from '../../components/ListContainer';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -25,6 +25,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Profiles: React.FC = () => {
+  const setProfilesDebounce = useSetProfilesDebounce();
   const { classes } = useStyles();
   const profile = useProfile();
 
@@ -46,7 +47,11 @@ const Profiles: React.FC = () => {
           <IconUsers />
         </Group>
         <ProfilesSearch />
-        <ProfilesListContainer />
+        <ListContainer
+          ListComponent={ProfilesList}
+          debounceAtom={profilesListAtoms.isDebouncingAtom}
+          setDebouncedSearch={setProfilesDebounce}
+        />
       </Stack>
       {profile && (
         <>
