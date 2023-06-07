@@ -31,7 +31,7 @@ const ProfilesList: React.FC = () => {
           }}
         >
           <Group>
-            <Avatar color="blue" radius="md" size="lg" />
+            <Avatar color="blue" radius="md" size="lg" src={profile.image} />
             <Stack spacing={0}>
               <Text size="sm">
                 {profile.firstName} {profile.lastName}

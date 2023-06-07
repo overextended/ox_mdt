@@ -7,6 +7,7 @@ interface ProfileCard {
   lastName: string;
   dob: string;
   playerId: number | string;
+  image?: string;
 }
 
 const DEBUG_PROFILES: ProfileCard[] = [];
