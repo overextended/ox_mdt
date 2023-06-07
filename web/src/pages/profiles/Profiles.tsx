@@ -11,8 +11,8 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import Profile from './components/Profile';
 import { profilesListAtoms, useProfile, useSetProfilesDebounce } from '../../state';
 import ProfileCards from './components/ProfileCards';
-import ProfilesSearch from './components/ProfilesSearch';
 import ListContainer from '../../components/ListContainer';
+import ListSearch from '../../components/ListSearch';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -46,7 +46,7 @@ const Profiles: React.FC = () => {
           <Text size="xl">Profiles</Text>
           <IconUsers />
         </Group>
-        <ProfilesSearch />
+        <ListSearch setDebouncedValue={setProfilesDebounce} valueAtom={profilesListAtoms.currentValueAtom} />
         <ListContainer
           ListComponent={ProfilesList}
           debounceAtom={profilesListAtoms.isDebouncingAtom}

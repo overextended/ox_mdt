@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconFileImport, IconReceipt, IconSearch } from '@tabler/icons-react';
-import ReportsList from './components/reportsColumn/ReportsList';
+import ReportsList from './components/ReportsList';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
 import ActiveReport from './components/ActiveReport';
-import ReportsSearch from './components/reportsColumn/ReportsSearch';
 import ListContainer from '../../components/ListContainer';
 import { useSetReportsDebounce, reportsListAtoms } from '../../state';
+import ListSearch from '../../components/ListSearch';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -30,7 +30,7 @@ const Reports: React.FC = () => {
           <Text size="xl">Reports</Text>
           <IconReceipt />
         </Group>
-        <ReportsSearch />
+        <ListSearch setDebouncedValue={setDebouncedSearch} valueAtom={reportsListAtoms.currentValueAtom} />
         <Box>
           <Button
             fullWidth
