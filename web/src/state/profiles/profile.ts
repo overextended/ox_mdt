@@ -24,7 +24,7 @@ export interface Profile {
   }[];
 }
 
-const DEBUG_PROFILE: Profile = {
+export const DEBUG_PROFILE: Profile = {
   firstName: 'John',
   lastName: 'Doe',
   stateId: 139235,
@@ -86,8 +86,11 @@ const DEBUG_PROFILE: Profile = {
   ],
 };
 
-const profileAtom = atom<Profile | null>(DEBUG_PROFILE);
+const profileAtom = atom<Profile | null>(null);
+const isProfileActiveAtom = atom((get) => !!get(profileAtom));
 
 export const useProfile = () => useAtomValue(profileAtom);
 export const useSetProfile = () => useSetAtom(profileAtom);
 export const useProfileState = () => useAtom(profileAtom);
+
+export const useIsProfileActive = () => useAtomValue(isProfileActiveAtom);

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
-import { useProfilesList } from '../../../state';
+import { DEBUG_PROFILE, Profile, useProfilesList, useSetProfile } from '../../../state';
+import { fetchNui } from '../../../utils/fetchNui';
+import profile from './Profile';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -17,6 +19,7 @@ const useStyles = createStyles((theme) => ({
 const ProfilesList: React.FC = () => {
   const { classes } = useStyles();
   const profiles = useProfilesList();
+  const setProfile = useSetProfile();
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
@@ -25,9 +28,11 @@ const ProfilesList: React.FC = () => {
           key={`${profile.playerId}`}
           className={classes.profileContainer}
           p="md"
-          onClick={() => {
-            //   Fetch data
-            //   Set profile
+          onClick={async () => {
+            const resp = await fetchNui<Profile>('getProfile', profile.playerId, {
+              data: { ...DEBUG_PROFILE, firstName: profile.firstName, lastName: profile.lastName },
+            });
+            setProfile(resp);
           }}
         >
           <Group>

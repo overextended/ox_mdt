@@ -9,7 +9,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import Profile from './components/Profile';
-import { profilesListAtoms, useProfile, useSetProfilesDebounce } from '../../state';
+import { profilesListAtoms, useIsProfileActive, useProfile, useSetProfilesDebounce } from '../../state';
 import ProfileCards from './components/ProfileCards';
 import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
 const Profiles: React.FC = () => {
   const setProfilesDebounce = useSetProfilesDebounce();
   const { classes } = useStyles();
-  const profile = useProfile();
+  const isProfileActive = useIsProfileActive();
 
   const editor = useEditor({
     extensions: [
@@ -53,7 +53,7 @@ const Profiles: React.FC = () => {
           setDebouncedSearch={setProfilesDebounce}
         />
       </Stack>
-      {profile && (
+      {isProfileActive && (
         <>
           <Stack className={classes.container} p="md" sx={{ overflow: 'auto' }}>
             <Profile />
