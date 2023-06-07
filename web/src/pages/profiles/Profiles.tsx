@@ -11,6 +11,8 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import Profile from './components/Profile';
 import { useProfile } from '../../state';
 import ProfileCards from './components/ProfileCards';
+import ProfilesListContainer from './components/ProfilesListContainer';
+import ProfilesSearch from './components/ProfilesSearch';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -43,8 +45,8 @@ const Profiles: React.FC = () => {
           <Text size="xl">Profiles</Text>
           <IconUsers />
         </Group>
-        <TextInput icon={<IconSearch size={20} />} placeholder="Search anything..." />
-        <ProfilesList />
+        <ProfilesSearch />
+        <ProfilesListContainer />
       </Stack>
       {profile && (
         <>

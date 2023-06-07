@@ -1,27 +1,6 @@
 import React from 'react';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
-
-interface ProfileCard {
-  firstName: string;
-  lastName: string;
-  dob: string;
-  playerId: number | string;
-}
-
-const PROFILES: ProfileCard[] = [
-  {
-    firstName: 'John',
-    lastName: 'Doe',
-    dob: '1990-06-15',
-    playerId: 123456,
-  },
-  {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    dob: '1985-03-12',
-    playerId: 'ABCDEF',
-  },
-];
+import { useProfilesList } from '../../../state';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -37,10 +16,11 @@ const useStyles = createStyles((theme) => ({
 
 const ProfilesList: React.FC = () => {
   const { classes } = useStyles();
+  const profiles = useProfilesList();
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
-      {PROFILES.map((profile) => (
+      {profiles.map((profile) => (
         <Box
           key={`${profile.playerId}`}
           className={classes.profileContainer}

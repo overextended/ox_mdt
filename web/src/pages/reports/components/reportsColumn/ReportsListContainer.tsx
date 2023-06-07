@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIsReportsDebouncing } from '../../../../state/reports/reportsList';
+import { useIsReportsDebouncing } from '../../../../state';
 import { useSetCriminalDebounce } from '../../../../state';
 import { Center, Loader } from '@mantine/core';
 import ReportsList from './ReportsList';
