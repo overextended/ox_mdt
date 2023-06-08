@@ -5,6 +5,7 @@ import { IconCalendar, IconId, IconUser } from '@tabler/icons-react';
 import { useProfileState } from '../../../state';
 import AvatarWrapper from './AvatarWrapper';
 import Editor from '../../../components/Editor';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useProfileState();
@@ -27,6 +28,8 @@ const Profile: React.FC = () => {
           onSave={(value) =>
             setProfile((prev) => {
               if (!prev) return null;
+
+              fetchNui('saveProfileNotes', { id: prev.stateId, notes: value });
 
               return { ...prev, notes: value };
             })
