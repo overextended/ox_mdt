@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
 import { useSetProfile } from '../../../state';
 import { modals } from '@mantine/modals';
+import { fetchNui } from '../../../utils/fetchNui';
 
 interface Props {
   image?: string;
@@ -16,7 +17,10 @@ const AvatarModal: React.FC<Props> = (props) => {
     setProfile((prev) => {
       if (!prev) return null;
 
-      return { ...prev, image: inputRef.current?.value };
+      const image = inputRef.current?.value;
+
+      fetchNui('saveProfileImage', { id: prev.stateId, image });
+      return { ...prev, image };
     });
   };
 
