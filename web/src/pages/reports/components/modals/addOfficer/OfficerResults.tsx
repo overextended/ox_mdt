@@ -4,6 +4,7 @@ import { createStyles, Group, Stack, Text } from '@mantine/core';
 import { IconUserX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../../utils/fetchNui';
+import NotFound from '../../../../../components/NotFound';
 
 const useStyles = createStyles((theme) => ({
   officerContainer: {
@@ -43,10 +44,7 @@ const OfficerResults: React.FC = () => {
           </Group>
         ))
       ) : (
-        <Stack justify="center" align="center" spacing={0} c="dark.2">
-          <IconUserX size={36} />
-          <Text size="xl">No officers found</Text>
-        </Stack>
+        <NotFound icon={IconUserX} label="No officers found" />
       )}
     </Stack>
   );

@@ -6,6 +6,7 @@ import { IconReceiptOff } from '@tabler/icons-react';
 import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Criminal } from '../../../../../state';
 import ConfirmSelectedCharges from './ConfirmSelectedCharges';
+import NotFound from '../../../../../components/NotFound';
 
 const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const selectedChargesAtoms = useSelectedChargesAtoms();
@@ -20,10 +21,7 @@ const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> =
             ))}
           </Stack>
         ) : (
-          <Stack justify="center" align="center" c="dark.2" spacing={0}>
-            <IconReceiptOff size={36} />
-            <Text size="xl">No selected charges</Text>
-          </Stack>
+          <NotFound icon={IconReceiptOff} label="No selected charges" />
         )}
       </Stack>
       <ConfirmSelectedCharges criminalAtom={criminalAtom} />

@@ -5,6 +5,7 @@ import { modals } from '@mantine/modals';
 import { useSetCriminals } from '../../../../../state';
 import { IconUserX } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../utils/fetchNui';
+import NotFound from '../../../../../components/NotFound';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -64,10 +65,7 @@ const CriminalsResults: React.FC = () => {
             </Group>
           ))
         ) : (
-          <Stack justify="center" align="center" spacing={0} c="dark.2">
-            <IconUserX size={36} />
-            <Text size="xl">No profiles found</Text>
-          </Stack>
+          <NotFound icon={IconUserX} label="No profiles found" />
         )}
       </>
     </Stack>
