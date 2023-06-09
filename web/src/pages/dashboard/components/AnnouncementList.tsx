@@ -3,6 +3,8 @@ import { Box, createStyles } from '@mantine/core';
 import { useAnnouncements } from '../../../state';
 import { useCharacter } from '../../../state';
 import AnnouncementCard from './AnnouncementCard';
+import NotFound from '../../../components/NotFound';
+import { IconBellOff } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -20,9 +22,13 @@ const AnnouncementList: React.FC = () => {
 
   return (
     <Box className={classes.container}>
-      {announcements.map((announcement) => (
-        <AnnouncementCard key={announcement.id} announcement={announcement} character={character} />
-      ))}
+      {announcements.length > 0 ? (
+        announcements.map((announcement) => (
+          <AnnouncementCard key={announcement.id} announcement={announcement} character={character} />
+        ))
+      ) : (
+        <NotFound icon={IconBellOff} label="No announcements" />
+      )}
     </Box>
   );
 };

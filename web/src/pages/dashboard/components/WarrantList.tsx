@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
+import NotFound from '../../../components/NotFound';
+import { IconFileOff } from '@tabler/icons-react';
 
 interface Warrant {
   firstName: string;
@@ -38,32 +40,36 @@ const WarrantList: React.FC = () => {
 
   return (
     <Stack sx={{ overflow: 'auto' }}>
-      {warrants.map((warrant) => (
-        <Stack key={`${warrant.firstName} ${warrant.lastName}`} className={classes.warrantContainer} p="md">
-          <Group>
-            <Avatar size="lg" color="blue" radius="xl" />
-            <Stack spacing={2}>
-              <Text>
-                {warrant.firstName} {warrant.lastName}
-              </Text>
-              <Box>
-                <Text size="xs" c="dark.2">
-                  Wanted for:{' '}
-                  <Text component="span" c="dark.0">
-                    {warrant.reason}
-                  </Text>
+      {warrants.length > 0 ? (
+        warrants.map((warrant) => (
+          <Stack key={`${warrant.firstName} ${warrant.lastName}`} className={classes.warrantContainer} p="md">
+            <Group>
+              <Avatar size="lg" color="blue" radius="xl" />
+              <Stack spacing={2}>
+                <Text>
+                  {warrant.firstName} {warrant.lastName}
                 </Text>
-                <Text size="xs" c="dark.2">
-                  Expires in:{' '}
-                  <Text component="span" c="dark.0">
-                    {dayjs().to(warrant.expiresIn, true)}
+                <Box>
+                  <Text size="xs" c="dark.2">
+                    Wanted for:{' '}
+                    <Text component="span" c="dark.0">
+                      {warrant.reason}
+                    </Text>
                   </Text>
-                </Text>
-              </Box>
-            </Stack>
-          </Group>
-        </Stack>
-      ))}
+                  <Text size="xs" c="dark.2">
+                    Expires in:{' '}
+                    <Text component="span" c="dark.0">
+                      {dayjs().to(warrant.expiresIn, true)}
+                    </Text>
+                  </Text>
+                </Box>
+              </Stack>
+            </Group>
+          </Stack>
+        ))
+      ) : (
+        <NotFound icon={IconFileOff} label="No active warrants" />
+      )}
     </Stack>
   );
 };
