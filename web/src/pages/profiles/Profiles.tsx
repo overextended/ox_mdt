@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
-import { IconUsers } from '@tabler/icons-react';
+import { createStyles, Group, SimpleGrid, Center, Stack, Text } from '@mantine/core';
+import { IconUserOff, IconUsers } from '@tabler/icons-react';
 import ProfilesList from './components/ProfilesList';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -13,6 +13,7 @@ import { profilesListAtoms, useIsProfileActive, useProfile, useSetProfilesDeboun
 import ProfileCards from './components/ProfileCards';
 import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
+import NotFound from '../../components/NotFound';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -53,16 +54,26 @@ const Profiles: React.FC = () => {
           setDebouncedSearch={setProfilesDebounce}
         />
       </Stack>
-      {isProfileActive && (
-        <>
-          <Stack className={classes.container} p="md" sx={{ overflow: 'auto' }}>
+      <>
+        <Stack className={classes.container} p="md" sx={{ overflow: 'auto' }}>
+          {isProfileActive ? (
             <Profile />
-          </Stack>
-          <Stack sx={{ overflow: 'auto' }}>
+          ) : (
+            <Center h="100%">
+              <NotFound icon={IconUserOff} label="No profile selected" />
+            </Center>
+          )}
+        </Stack>
+        <Stack sx={{ overflow: 'auto' }}>
+          {isProfileActive ? (
             <ProfileCards />
-          </Stack>
-        </>
-      )}
+          ) : (
+            <Center h="100%" className={classes.container}>
+              <NotFound icon={IconUserOff} label="No profile selected" />
+            </Center>
+          )}
+        </Stack>
+      </>
     </SimpleGrid>
   );
 };
