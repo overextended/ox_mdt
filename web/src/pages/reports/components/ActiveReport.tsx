@@ -1,20 +1,33 @@
 import React from 'react';
-import { Box, Stack } from '@mantine/core';
+import { Box, createStyles, Stack } from '@mantine/core';
 import BaseCard from './BaseCard';
 import ReportContent from './ReportContent';
 import OfficersInvolved from './OfficersInvolved';
 import ReportEvidence from './ReportEvidence';
 import ReportCriminals from './ReportCriminals';
 import { useIsReportActive } from '../../../state';
+import NotFound from '../../../components/NotFound';
+import { IconReceiptOff } from '@tabler/icons-react';
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    overflow: 'hidden',
+    height: '100%',
+    backgroundColor: theme.colors.durple[6],
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
+  },
+}));
 
 const ActiveReport: React.FC = () => {
   const isReportActive = useIsReportActive();
+  const { classes } = useStyles();
 
   return (
     <>
-      {isReportActive && (
-        <>
-          <Box sx={{ overflowY: 'scroll' }}>
+      <>
+        <Box sx={{ overflowY: 'scroll' }}>
+          {isReportActive ? (
             <Stack>
               <BaseCard h={500}>
                 <ReportContent />
@@ -26,10 +39,20 @@ const ActiveReport: React.FC = () => {
                 <ReportEvidence />
               </BaseCard>
             </Stack>
-          </Box>
+          ) : (
+            <Stack className={classes.container} justify="center">
+              <NotFound icon={IconReceiptOff} label="No report selected" />
+            </Stack>
+          )}
+        </Box>
+        {isReportActive ? (
           <ReportCriminals />
-        </>
-      )}
+        ) : (
+          <Stack className={classes.container} justify="center">
+            <NotFound icon={IconReceiptOff} label="No report selected" />
+          </Stack>
+        )}
+      </>
     </>
   );
 };
