@@ -45,6 +45,10 @@ const Dispatch: React.FC = () => {
         <Stack className={classes.container}>
           <CardTitle title="Calls" icon={<IconPhoneCall />} />
           <SegmentedControl
+            styles={{
+              root: { height: 36 },
+              label: { height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' },
+            }}
             fullWidth
             defaultValue="active"
             data={[
