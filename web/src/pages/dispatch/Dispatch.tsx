@@ -44,23 +44,21 @@ const Dispatch: React.FC = () => {
       <Grid.Col span={2} pb={0} pt={0}>
         <Stack className={classes.container}>
           <CardTitle title="Calls" icon={<IconPhoneCall />} />
-          <Box h={36} w="100%">
-            <SegmentedControl
-              fullWidth
-              defaultValue="active"
-              data={[
-                { label: 'Active', value: 'active' },
-                { label: 'Completed', value: 'completed' },
-              ]}
-            />
-          </Box>
+          <SegmentedControl
+            fullWidth
+            defaultValue="active"
+            data={[
+              { label: 'Active', value: 'active' },
+              { label: 'Completed', value: 'completed' },
+            ]}
+          />
           <CallCard />
         </Stack>
       </Grid.Col>
       <Grid.Col span={2} pb={0} pt={0}>
         <Stack className={classes.container}>
           <CardTitle title="Units" icon={<IconCar />} />
-          <Button h={39.69} variant="light" leftIcon={<IconPlus />}>
+          <Button variant="light" leftIcon={<IconPlus />}>
             Create unit
           </Button>
           <UnitCard />
