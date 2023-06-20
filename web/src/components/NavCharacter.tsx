@@ -17,7 +17,7 @@ const NavCharacter: React.FC = () => {
   return (
     <Box className={classes.container}>
       <Group noWrap>
-        <Avatar color="blue" radius="xl" src={character.image} />
+        <Avatar color="blue" radius="md" src={character.image} />
         <Stack spacing={0} sx={{ overflow: 'hidden' }}>
           <Text truncate color="dark.0">
             {character.firstName} {character.lastName}

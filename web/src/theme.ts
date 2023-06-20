@@ -7,6 +7,16 @@ export const theme: MantineThemeOverride = {
     md: '0 4px 3px rgba(0, 0, 0, 0.07)',
   },
   components: {
+    SegmentedControl: {
+      styles: (theme) => ({
+        root: {
+          backgroundColor: theme.colors.durple[4],
+        },
+        indicator: {
+          backgroundColor: theme.colors.durple[2],
+        },
+      }),
+    },
     Popover: {
       styles: (theme) => ({
         dropdown: {

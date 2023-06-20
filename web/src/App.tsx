@@ -9,6 +9,7 @@ import { useNuiEvent } from './hooks/useNuiEvent';
 import { fetchNui } from './utils/fetchNui';
 import { Character, useSetCharacter } from './state';
 import Reports from './pages/reports/Reports';
+import Dispatch from './pages/dispatch/Dispatch';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -19,8 +20,8 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'center',
   },
   root: {
-    width: 1500,
-    height: 800,
+    width: 1650,
+    height: 825 ,
 
     ['@media (max-width: 1599px)']: {
       width: 1200,
@@ -91,6 +92,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/profiles" element={<Profiles />} />
               <Route path="/reports" element={<Reports />} />
+              <Route path="/dispatch" element={<Dispatch />} />
             </Routes>
           </AppShell>
         )}
