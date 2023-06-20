@@ -17,7 +17,9 @@ const UnitCard: React.FC = () => {
   return (
     <Stack className={classes.unitContainer}>
       <Group position="apart">
-        <Text>Unit 1</Text>
+        <Group spacing="xs">
+          <IconCar />-<Text>Unit 1</Text>
+        </Group>
         <Group spacing={8}>
           <ActionIcon color="blue" variant="light">
             <IconEdit size={20} />
