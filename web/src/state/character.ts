@@ -1,14 +1,5 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-
-export interface Character {
-  id: string;
-  firstName: string;
-  lastName: string;
-  title: string;
-  grade: number;
-  image?: string;
-  callSign: number;
-}
+import { Character } from '../typings';
 
 const characterAtom = atom<Character>({
   id: '',

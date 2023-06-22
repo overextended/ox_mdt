@@ -1,17 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-
-export interface Announcement {
-  id: number;
-  creator: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    callSign: number;
-    image?: string;
-  };
-  contents: string;
-  createdAt: number;
-}
+import { Announcement } from '../../typings';
 
 const announcementsAtom = atom<Announcement[]>([]);
 

@@ -2,7 +2,8 @@ import React from 'react';
 import { DatePickerInput, DateValue } from '@mantine/dates';
 import { IconCalendar } from '@tabler/icons-react';
 import { fetchNui } from '../../../utils/fetchNui';
-import { Criminal } from '../../../state';
+
+import {Criminal} from "../../../typings";
 
 interface Props {
   charges: Criminal['charges'];

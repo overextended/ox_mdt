@@ -1,14 +1,7 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { fetchNui } from '../../utils/fetchNui';
-
-interface ProfileCard {
-  firstName: string;
-  lastName: string;
-  dob: string;
-  playerId: number | string;
-  image?: string;
-}
+import { ProfileCard } from '../../typings';
 
 const DEBUG_PROFILES: ProfileCard[] = [];
 

@@ -1,14 +1,10 @@
 import atomWithDebounce from '../../utils/atomWithDebounce';
-import { atom, useSetAtom, useAtomValue } from 'jotai';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { fetchNui } from '../../utils/fetchNui';
-import type { Report } from './report';
+
+import { Officer, Report } from '../../typings';
 
 const { isDebouncingAtom, debouncedValueAtom, currentValueAtom } = atomWithDebounce('');
-
-interface Officer {
-  name: string;
-  callSign: number;
-}
 
 const OFFICERS: Officer[] = [
   { name: 'John Doe', callSign: 132 },

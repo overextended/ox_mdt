@@ -3,7 +3,6 @@ import { ActionIcon, Badge, Checkbox, Group, Select, Text } from '@mantine/core'
 import { IconCalendar, IconClockDown, IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
-import type { Criminal } from '../../../state';
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { useReportId, useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
@@ -12,6 +11,7 @@ import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { useSetSelectedCharges } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
+import {Criminal} from "../../../typings";
 
 const percentages = [25, 50, 75, 80, 90];
 

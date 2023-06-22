@@ -4,7 +4,8 @@ import { IconSearch } from '@tabler/icons-react';
 import ChargeCardsList from './ChargeCardsList';
 import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
-import { Criminal } from '../../../../../state';
+
+import {Criminal} from "../../../../../typings";
 
 const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   return (

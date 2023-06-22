@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { Button, NumberInput, Select, Stack, TextInput } from '@mantine/core';
-import { ImageEvidence, ItemEvidence, useReportId, useSetEvidence } from '../../../../state';
+import { useReportId, useSetEvidence } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
+import {ImageEvidence, ItemEvidence} from "../../../../typings";
 
 const AddEvidenceModal: React.FC = () => {
   const [type, setType] = React.useState('image');

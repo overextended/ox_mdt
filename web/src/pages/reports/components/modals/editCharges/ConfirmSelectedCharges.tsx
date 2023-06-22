@@ -1,9 +1,9 @@
 import React from 'react';
-import { SelectedCharge, useSelectedCharges } from '../../../../../state';
+import { useSelectedCharges } from '../../../../../state';
 import { PrimitiveAtom, useSetAtom } from 'jotai';
 import { Button } from '@mantine/core';
-import { Criminal } from '../../../../../state';
 import { modals } from '@mantine/modals';
+import {Criminal, SelectedCharge} from "../../../../../typings";
 
 interface Props {
   criminalAtom: PrimitiveAtom<Criminal>;

@@ -1,13 +1,5 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-
-interface Config {
-  permissions: {
-    announcements: {
-      create: number;
-      delete: number;
-    };
-  };
-}
+import { Config } from '../typings';
 
 const configAtom = atom<Config>({
   permissions: {

@@ -1,13 +1,7 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { fetchNui } from '../../utils/fetchNui';
-
-interface ReportCard {
-  title: string;
-  author: string;
-  date: number;
-  id: number;
-}
+import { ReportCard } from '../../typings';
 
 const DEBUG_REPORTS: ReportCard[] = [];
 

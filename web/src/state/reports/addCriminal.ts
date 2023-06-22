@@ -1,16 +1,9 @@
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { fetchNui } from '../../utils/fetchNui';
+import { CriminalProfile } from '../../typings';
 
 const { isDebouncingAtom, debouncedValueAtom, currentValueAtom } = atomWithDebounce('');
-
-interface CriminalProfile {
-  firstName: string;
-  lastName: string;
-  dob: string;
-  id: number;
-  image?: string;
-}
 
 const PROFILES: CriminalProfile[] = [
   { firstName: 'John', lastName: 'Doe', dob: '1985-06-15', id: 12345 },

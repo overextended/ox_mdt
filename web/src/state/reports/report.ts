@@ -1,48 +1,7 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { selectAtom, splitAtom } from 'jotai/utils';
 import { focusAtom } from 'jotai-optics';
-import { isEnvBrowser } from '../../utils/misc';
-import { SelectedCharge } from './editCharges';
-import { DateValue } from '@mantine/dates';
-
-export interface Criminal {
-  name: string;
-  id: number;
-  charges: SelectedCharge[];
-  issueWarrant: boolean;
-  pleadedGuilty?: boolean;
-  warrantExpiry?: DateValue;
-  penalty?: {
-    time: number;
-    fine: number;
-    points: number;
-    reduction: number | null;
-  };
-}
-
-export type ImageEvidence = {
-  type: 'image';
-  url: string;
-  label: string;
-};
-
-export type ItemEvidence = {
-  type: 'item';
-  item: string;
-  count: number;
-};
-
-export interface Report {
-  title: string;
-  id: number;
-  description?: string;
-  officersInvolved: {
-    name: string;
-    callSign: number;
-  }[];
-  evidence: Array<ImageEvidence | ItemEvidence>;
-  criminals: Criminal[];
-}
+import { Report } from '../../typings';
 
 export const reportAtom = atom<Report>({
   title: 'Report title',

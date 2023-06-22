@@ -7,9 +7,10 @@ import React from 'react';
 import { useVisibilityState } from './state/visibility';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import { fetchNui } from './utils/fetchNui';
-import { Character, useSetCharacter } from './state';
+import { useSetCharacter } from './state';
 import Reports from './pages/reports/Reports';
 import Dispatch from './pages/dispatch/Dispatch';
+import {Character} from "./typings";
 
 const useStyles = createStyles((theme) => ({
   container: {

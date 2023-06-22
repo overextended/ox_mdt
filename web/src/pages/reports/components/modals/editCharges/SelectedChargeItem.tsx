@@ -1,8 +1,9 @@
 import React from 'react';
 import { ActionIcon, createStyles, Group, Text } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
-import { SelectedCharge, useSetSelectedCharges } from '../../../../../state';
+import { useSetSelectedCharges } from '../../../../../state';
 import { PrimitiveAtom, useAtom } from 'jotai';
+import {SelectedCharge} from "../../../../../typings";
 
 interface Props {
   chargeAtom: PrimitiveAtom<SelectedCharge>;

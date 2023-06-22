@@ -4,9 +4,9 @@ import SelectedChargeItem from './SelectedChargeItem';
 import { useSelectedCharges, useSelectedChargesAtoms } from '../../../../../state';
 import { IconReceiptOff } from '@tabler/icons-react';
 import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Criminal } from '../../../../../state';
 import ConfirmSelectedCharges from './ConfirmSelectedCharges';
 import NotFound from '../../../../../components/NotFound';
+import {Criminal} from "../../../../../typings";
 
 const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const selectedChargesAtoms = useSelectedChargesAtoms();

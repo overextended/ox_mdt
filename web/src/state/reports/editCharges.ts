@@ -1,15 +1,6 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { splitAtom } from 'jotai/utils';
-
-export interface SelectedCharge {
-  label: string;
-  count: number;
-  penalty: {
-    time: number;
-    fine: number;
-    points: number;
-  };
-}
+import { SelectedCharge } from '../../typings';
 
 const selectedChargesAtom = atom<SelectedCharge[]>([]);
 const selectedChargesAtomsAtom = splitAtom(selectedChargesAtom);

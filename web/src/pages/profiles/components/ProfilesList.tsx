@@ -1,10 +1,11 @@
 import React from 'react';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
-import { DEBUG_PROFILE, Profile, useProfilesList, useSetProfile } from '../../../state';
+import { DEBUG_PROFILE, useProfilesList, useSetProfile } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
 import profile from './Profile';
 import NotFound from '../../../components/NotFound';
 import { IconUserOff } from '@tabler/icons-react';
+import {Profile} from "../../../typings";
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {

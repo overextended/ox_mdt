@@ -1,15 +1,5 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-
-export interface Charge {
-  label: string;
-  type: 'misdemeanour' | 'felony' | 'infraction';
-  description: string;
-  penalty: {
-    time: number;
-    fine: number;
-    points: number;
-  };
-}
+import { Charge } from '../typings';
 
 const CHARGES: Charge[] = [
   {

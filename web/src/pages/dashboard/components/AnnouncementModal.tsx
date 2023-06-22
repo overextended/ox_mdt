@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Stack } from '@mantine/core';
-import { Announcement, useSetAnnouncements } from '../../../state';
+import { useSetAnnouncements } from '../../../state';
 import { modals } from '@mantine/modals';
 import { useCharacter } from '../../../state';
 import Editor from '../../../components/Editor';
+import {Announcement} from "../../../typings";
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   // Character used only for testing

@@ -4,8 +4,7 @@ import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
-import { Announcement, useSetAnnouncements } from '../../../state';
-import { Character } from '../../../state';
+import { useSetAnnouncements } from '../../../state';
 import { useEditor } from '@tiptap/react';
 import { RichTextEditor } from '@mantine/tiptap';
 import StarterKit from '@tiptap/starter-kit';
@@ -14,6 +13,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { useConfig } from '../../../state/config';
+import {Announcement, Character} from "../../../typings";
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {

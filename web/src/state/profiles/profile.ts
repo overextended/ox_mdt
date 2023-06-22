@@ -1,28 +1,5 @@
-import { atom, useAtomValue, useSetAtom, useAtom } from 'jotai';
-
-export interface Profile {
-  firstName: string;
-  lastName: string;
-  stateId: number;
-  dob: string;
-  notes?: string;
-  image?: string;
-  licenses?: Array<{ label: string; points: number } | string>;
-  vehicles?: {
-    label: string;
-    plate: string;
-  }[];
-  pastCharges?: {
-    label: string;
-    count: number;
-  }[];
-  relatedReports?: {
-    title: string;
-    author: string;
-    date: string;
-    id: number;
-  }[];
-}
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { Profile } from '../../typings';
 
 export const DEBUG_PROFILE: Profile = {
   firstName: 'John',

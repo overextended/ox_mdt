@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { Report, useReportsList, useSetActiveReport, useSetIsReportActive } from '../../../state';
+import { useReportsList, useSetActiveReport, useSetIsReportActive } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
 import { IconReceiptOff } from '@tabler/icons-react';
 import NotFound from '../../../components/NotFound';
+import {Report} from "../../../typings";
 
 interface ReportCard {
   title: string;
