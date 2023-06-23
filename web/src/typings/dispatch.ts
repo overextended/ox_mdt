@@ -1,3 +1,5 @@
+import { Officer } from './officer';
+
 export interface Call {
   id: number;
   offense: {
@@ -6,8 +8,9 @@ export interface Call {
   };
   completed: boolean;
   linked: boolean;
+  coords: [number, number];
   info: {
-    time: Date;
+    time: number;
     location: string;
     plate?: string;
     description?: string;
@@ -18,6 +21,6 @@ export interface Call {
 
 export interface Unit {
   name: string;
-  members: string[];
+  members: Officer[];
   type: 'car' | 'motor' | 'heli' | 'boat';
 }

@@ -1,16 +1,18 @@
 import React from 'react';
-import { ActionIcon, Badge, createStyles, Divider, Group, rem, Stack, Text } from '@mantine/core';
+import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
 import {
   IconCar,
   IconCheck,
   IconClock,
-  IconEdit,
+  IconFileImport,
   IconHelicopter,
   IconLink,
   IconMapPin,
   IconMotorbike,
-  IconTrash,
+  IconSpeedboat,
 } from '@tabler/icons-react';
+import { Call } from '../../../typings';
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -21,67 +23,80 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CallCard: React.FC = () => {
+const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
 
   return (
     <Stack className={classes.callContainer}>
       <Group position="apart">
         <Group spacing="xs">
-          <Text>Drag racing</Text>
+          <Text>{call.offense.label}</Text>
           <Badge variant="light" color="blue">
-            10-94
+            {call.offense.code}
           </Badge>
         </Group>
         <Group spacing="xs">
-          <ActionIcon color="green" variant="light">
-            <IconCheck size={20} />
-          </ActionIcon>
-          <ActionIcon color="blue" variant="light">
-            <IconLink size={20} />
-          </ActionIcon>
+          {!call.completed ? (
+            <>
+              <Tooltip label="Mark as completed">
+                <ActionIcon color="green" variant="light">
+                  <IconCheck size={20} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Attach to call">
+                <ActionIcon color="blue" variant="light">
+                  <IconLink size={20} />
+                </ActionIcon>
+              </Tooltip>
+            </>
+          ) : (
+            <Tooltip label="Create report">
+              <ActionIcon color="blue" variant="light">
+                <IconFileImport size={20} />
+              </ActionIcon>
+            </Tooltip>
+          )}
         </Group>
       </Group>
       <Stack spacing="xs" c="dark.2">
         <Group spacing="xs">
           <IconClock size={16} />
-          <Text size="sm">3 minutes ago</Text>
+          <Text size="sm">{dayjs(call.info.time).fromNow()}</Text>
         </Group>
         <Group spacing="xs">
           <IconMapPin size={16} />
-          <Text size="sm">Strawberry Ave, Los Santos</Text>
+          <Text size="sm">{call.info.location}</Text>
         </Group>
       </Stack>
-      <Divider label="Attached units (3)" labelPosition="center" />
-      <Group>
-        <Badge
-          leftSection={
-            <Stack>
-              <IconCar size={18} />
-            </Stack>
-          }
-        >
-          Unit 1
-        </Badge>
-        <Badge
-          leftSection={
-            <Stack>
-              <IconMotorbike size={18} />
-            </Stack>
-          }
-        >
-          Unit 2
-        </Badge>
-        <Badge
-          leftSection={
-            <Stack>
-              <IconHelicopter size={18} />
-            </Stack>
-          }
-        >
-          Unit 3
-        </Badge>
-      </Group>
+      {call.units.length > 0 && (
+        <>
+          <Divider
+            label={`${call.completed ? 'Involved' : 'Attached'} units (${call.units.length})`}
+            labelPosition="center"
+          />
+          <Group spacing="xs">
+            {call.units.map((unit) => (
+              <Badge
+                leftSection={
+                  <Stack>
+                    {unit.type === 'car' ? (
+                      <IconCar size={18} />
+                    ) : unit.type === 'motor' ? (
+                      <IconMotorbike size={18} />
+                    ) : unit.type === 'boat' ? (
+                      <IconSpeedboat size={18} />
+                    ) : (
+                      <IconHelicopter size={18} />
+                    )}
+                  </Stack>
+                }
+              >
+                {unit.name}
+              </Badge>
+            ))}
+          </Group>
+        </>
+      )}
     </Stack>
   );
 };

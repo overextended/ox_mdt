@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Button, createStyles, Grid, SegmentedControl, Stack } from '@mantine/core';
-import 'leaflet/dist/leaflet.css';
 import CardTitle from '../../components/CardTitle';
 import { IconCar, IconEdit, IconPhoneCall, IconPlus, IconTrash } from '@tabler/icons-react';
 import UnitCard from './components/UnitCard';
 import CallCard from './components/CallCard';
 import MapWrapper from './components/MapWrapper';
+import CallsContainer from './components/CallsContainer';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -35,20 +35,7 @@ const Dispatch: React.FC = () => {
       </Grid.Col>
       <Grid.Col span={2} pb={0} pt={0}>
         <Stack className={classes.container}>
-          <CardTitle title="Calls" icon={<IconPhoneCall />} />
-          <SegmentedControl
-            styles={{
-              root: { height: 36 },
-              label: { height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' },
-            }}
-            fullWidth
-            defaultValue="active"
-            data={[
-              { label: 'Active', value: 'active' },
-              { label: 'Completed', value: 'completed' },
-            ]}
-          />
-          <CallCard />
+          <CallsContainer />
         </Stack>
       </Grid.Col>
       <Grid.Col span={2} pb={0} pt={0}>
