@@ -1,4 +1,4 @@
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Call } from '../../typings';
 import { isEnvBrowser } from '../../utils/misc';
 
@@ -50,5 +50,6 @@ const callsAtom = atom<Call[]>(isEnvBrowser() ? DEBUG_CALLS : []);
 const activeCalls = atom((get) => get(callsAtom).filter((call) => !call.completed));
 const completedCalls = atom((get) => get(callsAtom).filter((call) => call.completed));
 
+export const useSetCalls = () => useSetAtom(callsAtom);
 export const useActiveCalls = () => useAtomValue(activeCalls);
 export const useCompletedCalls = () => useAtomValue(completedCalls);

@@ -10,8 +10,8 @@ const CallsList: React.FC = () => {
   return (
     <>
       {callType === 'active'
-        ? activeCalls.map((call) => <CallCard call={call} />)
-        : completedCalls.map((call) => <CallCard call={call} />)}
+        ? activeCalls.map((call) => <CallCard key={call.id} call={call} />)
+        : completedCalls.map((call) => <CallCard key={call.id} call={call} />)}
     </>
   );
 };

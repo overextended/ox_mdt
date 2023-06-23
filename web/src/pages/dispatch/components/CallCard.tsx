@@ -13,6 +13,7 @@ import {
 } from '@tabler/icons-react';
 import { Call } from '../../../typings';
 import dayjs from 'dayjs';
+import { useSetCalls } from '../../../state/dispatch';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -25,6 +26,7 @@ const useStyles = createStyles((theme) => ({
 
 const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
+  const setCalls = useSetCalls();
 
   return (
     <Stack className={classes.callContainer}>
@@ -39,7 +41,20 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           {!call.completed ? (
             <>
               <Tooltip label="Mark as completed">
-                <ActionIcon color="green" variant="light">
+                <ActionIcon
+                  color="green"
+                  variant="light"
+                  onClick={() => {
+                    setCalls((prev) => {
+                      const calls = [...prev];
+                      const callIndex = calls.findIndex((value) => value.id === call.id);
+
+                      calls[callIndex] = { ...prev[callIndex], completed: true };
+
+                      return calls;
+                    });
+                  }}
+                >
                   <IconCheck size={20} />
                 </ActionIcon>
               </Tooltip>
@@ -77,6 +92,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           <Group spacing="xs">
             {call.units.map((unit) => (
               <Badge
+                key={unit.name}
                 leftSection={
                   <Stack>
                     {unit.type === 'car' ? (
