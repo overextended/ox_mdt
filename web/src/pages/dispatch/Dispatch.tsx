@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Checkbox,
-  createStyles,
-  Grid,
-  Group,
-  SegmentedControl,
-  Stack,
-  Switch,
-  Text,
-} from '@mantine/core';
+import { Box, Button, createStyles, Grid, SegmentedControl, Stack } from '@mantine/core';
+import 'leaflet/dist/leaflet.css';
 import CardTitle from '../../components/CardTitle';
 import { IconCar, IconEdit, IconPhoneCall, IconPlus, IconTrash } from '@tabler/icons-react';
 import UnitCard from './components/UnitCard';
 import CallCard from './components/CallCard';
+import MapWrapper from './components/MapWrapper';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -39,7 +29,9 @@ const Dispatch: React.FC = () => {
   return (
     <Grid grow h="100%" mt={0} mb={0}>
       <Grid.Col span={4} pb={0} pt={0}>
-        <Box className={classes.container}></Box>
+        <Box className={classes.container} p={0}>
+          <MapWrapper />
+        </Box>
       </Grid.Col>
       <Grid.Col span={2} pb={0} pt={0}>
         <Stack className={classes.container}>

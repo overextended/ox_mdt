@@ -25,14 +25,17 @@
     "@tiptap/pm": "^2.0.3",
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
+    "@types/leaflet": "^1.9.3",
     "@types/node": "^18.16.2",
     "dayjs": "^1.11.7",
     "jotai": "^2.1.0",
     "jotai-optics": "^0.3.0",
+    "leaflet": "^1.9.4",
     "optics-ts": "^2.4.0",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.10.0"
   },
   "devDependencies": {

@@ -11,7 +11,7 @@ import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { useSetSelectedCharges } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
-import {Criminal} from "../../../typings";
+import type { Criminal } from '../../../typings';
 
 const percentages = [25, 50, 75, 80, 90];
 
