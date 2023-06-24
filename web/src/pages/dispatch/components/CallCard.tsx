@@ -1,12 +1,14 @@
 import React from 'react';
-import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, createStyles, Divider, Group, Menu, Stack, Text, Tooltip } from '@mantine/core';
 import {
   IconCar,
   IconCheck,
   IconClock,
+  IconDots,
   IconFileImport,
   IconHelicopter,
   IconLink,
+  IconMap2,
   IconMapPin,
   IconMotorbike,
   IconSpeedboat,
@@ -14,6 +16,7 @@ import {
 import { Call } from '../../../typings';
 import dayjs from 'dayjs';
 import { useSetCalls } from '../../../state/dispatch';
+import { modals } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -40,29 +43,46 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
         <Group spacing="xs">
           {!call.completed ? (
             <>
-              <Tooltip label="Mark as completed">
-                <ActionIcon
-                  color="green"
-                  variant="light"
-                  onClick={() => {
-                    setCalls((prev) => {
-                      const calls = [...prev];
-                      const callIndex = calls.findIndex((value) => value.id === call.id);
+              <Menu withArrow position="right-start">
+                <Menu.Target>
+                  <ActionIcon variant="light" color="blue">
+                    <IconDots size={20} />
+                  </ActionIcon>
+                </Menu.Target>
 
-                      calls[callIndex] = { ...prev[callIndex], completed: true };
+                <Menu.Dropdown>
+                  <Menu.Item icon={<IconLink size={20} />}>Attach to call</Menu.Item>
+                  <Menu.Item icon={<IconMapPin size={20} />}>Set waypoint</Menu.Item>
+                  <Menu.Item icon={<IconMap2 size={20} />}>Find on map</Menu.Item>
+                  <Menu.Item
+                    icon={<IconCheck size={20} />}
+                    onClick={() => {
+                      modals.openConfirmModal({
+                        title: 'Mark call as completed?',
+                        children: (
+                          <Text size="sm">
+                            Mark {call.offense.label} ({call.offense.code}) as completed?
+                          </Text>
+                        ),
+                        labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                        confirmProps: { variant: 'light' },
+                        onConfirm: () => {
+                          setCalls((prev) => {
+                            const calls = [...prev];
+                            const callIndex = calls.findIndex((value) => value.id === call.id);
 
-                      return calls;
-                    });
-                  }}
-                >
-                  <IconCheck size={20} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Attach to call">
-                <ActionIcon color="blue" variant="light">
-                  <IconLink size={20} />
-                </ActionIcon>
-              </Tooltip>
+                            calls[callIndex] = { ...prev[callIndex], completed: true };
+
+                            return calls;
+                          });
+                        },
+                      });
+                    }}
+                  >
+                    Mark as completed
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </>
           ) : (
             <Tooltip label="Create report">
@@ -73,7 +93,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           )}
         </Group>
       </Group>
-      <Stack spacing="xs" c="dark.2">
+      <Stack spacing={2} c="dark.2">
         <Group spacing="xs">
           <IconClock size={16} />
           <Text size="sm">{dayjs(call.info.time).fromNow()}</Text>

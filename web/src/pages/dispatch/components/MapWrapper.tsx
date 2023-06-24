@@ -37,7 +37,7 @@ const MapWrapper: React.FC = () => {
       minZoom={2}
       zoomControl={false}
       crs={CRS}
-      style={{ width: '100%', height: '100%', borderRadius: theme.radius.md }}
+      style={{ width: '100%', height: '100%', borderRadius: theme.radius.md, zIndex: 1 }}
     >
       <Map />
     </MapContainer>
