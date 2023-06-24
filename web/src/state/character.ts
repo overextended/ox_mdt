@@ -1,4 +1,4 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Character } from '../typings';
 
 const characterAtom = atom<Character>({
@@ -12,3 +12,4 @@ const characterAtom = atom<Character>({
 
 export const useCharacter = () => useAtomValue(characterAtom);
 export const useSetCharacter = () => useSetAtom(characterAtom);
+export const useCharacterState = () => useAtom(characterAtom);

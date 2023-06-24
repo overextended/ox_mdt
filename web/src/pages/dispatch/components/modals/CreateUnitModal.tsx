@@ -1,16 +1,36 @@
-import React from 'react';
-import { Button, Select, Stack } from '@mantine/core';
+import React, { useRef } from 'react';
+import { Button, Loader, Select, Stack } from '@mantine/core';
 import { IconCar } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { useSetUnits } from '../../../../state/dispatch/units';
+import { useCharacterState } from '../../../../state';
+import { UnitType } from '../../../../typings';
 
 const CreateUnitModal: React.FC = () => {
-  const handleConfirm = () => {
+  const selectRef = useRef<HTMLInputElement>(null);
+  const setUnits = useSetUnits();
+  const [character, setCharacter] = useCharacterState();
+  const [value, setValue] = React.useState<UnitType>('car');
+
+  const handleConfirm = async () => {
     modals.closeAll();
+    setUnits((prev) => [
+      ...prev,
+      {
+        id: 1,
+        name: `Unit ${prev.length > 0 ? prev[prev.length - 1].id + 1 : 1}`,
+        type: value,
+        members: [{ name: `${character.firstName} ${character.lastName}`, callSign: character.callSign }],
+      },
+    ]);
+    setCharacter((prev) => ({ ...prev, unit: 1 }));
   };
 
   return (
     <Stack>
       <Select
+        value={value}
+        onChange={(val: UnitType) => setValue(val)}
         label="Unit vehicle type"
         withinPortal
         icon={<IconCar size={20} />}
@@ -18,7 +38,7 @@ const CreateUnitModal: React.FC = () => {
         data={[
           { label: 'Car', value: 'car' },
           { label: 'Boat', value: 'boat' },
-          { label: 'Heli', value: 'Heli' },
+          { label: 'Heli', value: 'heli' },
           { label: 'Motor', value: 'motor' },
         ]}
       />

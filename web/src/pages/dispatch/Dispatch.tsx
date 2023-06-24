@@ -1,13 +1,8 @@
 import React from 'react';
-import { Box, Button, createStyles, Grid, SegmentedControl, Stack } from '@mantine/core';
-import CardTitle from '../../components/CardTitle';
-import { IconCar, IconEdit, IconPhoneCall, IconPlus, IconTrash } from '@tabler/icons-react';
-import UnitCard from './components/UnitCard';
-import CallCard from './components/CallCard';
+import { Box, createStyles, Grid, Stack } from '@mantine/core';
 import MapWrapper from './components/MapWrapper';
 import CallsContainer from './components/CallsContainer';
-import { modals } from '@mantine/modals';
-import CreateUnitModal from './components/modals/CreateUnitModal';
+import UnitsContainer from './components/units/UnitsContainer';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -42,21 +37,7 @@ const Dispatch: React.FC = () => {
       </Grid.Col>
       <Grid.Col span={2} pb={0} pt={0}>
         <Stack className={classes.container}>
-          <CardTitle title="Units" icon={<IconCar />} />
-          <Button
-            variant="light"
-            leftIcon={<IconPlus />}
-            onClick={() =>
-              modals.open({
-                title: 'Create unit',
-                children: <CreateUnitModal />,
-                size: 'xs',
-              })
-            }
-          >
-            Create unit
-          </Button>
-          <UnitCard />
+          <UnitsContainer />
         </Stack>
       </Grid.Col>
     </Grid>

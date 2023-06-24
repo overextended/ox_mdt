@@ -1,5 +1,7 @@
 import { Officer } from './officer';
 
+export type UnitType = 'car' | 'motor' | 'heli' | 'boat';
+
 export interface Call {
   id: number;
   offense: {
@@ -20,7 +22,8 @@ export interface Call {
 }
 
 export interface Unit {
+  id: number;
   name: string;
   members: Officer[];
-  type: 'car' | 'motor' | 'heli' | 'boat';
+  type: UnitType;
 }

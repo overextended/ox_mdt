@@ -6,4 +6,5 @@ export interface Character {
   grade: number;
   image?: string;
   callSign: number;
+  unit?: number;
 }
