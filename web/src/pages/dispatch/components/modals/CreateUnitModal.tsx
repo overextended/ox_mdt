@@ -5,6 +5,7 @@ import { modals } from '@mantine/modals';
 import { useSetUnits } from '../../../../state/dispatch/units';
 import { useCharacterState } from '../../../../state';
 import { UnitType } from '../../../../typings';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 const CreateUnitModal: React.FC = () => {
   const selectRef = useRef<HTMLInputElement>(null);
@@ -14,16 +15,19 @@ const CreateUnitModal: React.FC = () => {
 
   const handleConfirm = async () => {
     modals.closeAll();
+    const resp = await fetchNui<{ id: number; name: string }>('createUnit', value, {
+      data: { id: 1, name: `Unit 1` },
+    });
     setUnits((prev) => [
       ...prev,
       {
-        id: 1,
-        name: `Unit ${prev.length > 0 ? prev[prev.length - 1].id + 1 : 1}`,
+        id: resp.id,
+        name: resp.name,
         type: value,
         members: [{ name: `${character.firstName} ${character.lastName}`, callSign: character.callSign }],
       },
     ]);
-    setCharacter((prev) => ({ ...prev, unit: 1 }));
+    setCharacter((prev) => ({ ...prev, unit: resp.id }));
   };
 
   return (
