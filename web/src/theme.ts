@@ -155,7 +155,7 @@ export const theme: MantineThemeOverride = {
       defaultProps: {
         centered: true,
         transitionProps: {
-          transition: 'slide-up',
+          transition: 'fade',
         },
       },
       styles: (theme) => ({
