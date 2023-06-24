@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, createStyles, Grid, Stack } from '@mantine/core';
 import MapWrapper from './components/MapWrapper';
-import CallsContainer from './components/CallsContainer';
+import CallsContainer from './components/calls/CallsContainer';
 import UnitsContainer from './components/units/UnitsContainer';
 
 const useStyles = createStyles((theme) => ({

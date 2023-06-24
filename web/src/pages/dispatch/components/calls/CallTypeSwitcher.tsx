@@ -1,6 +1,6 @@
 import React from 'react';
 import { SegmentedControl } from '@mantine/core';
-import { useCallTypeState } from '../../../state/dispatch';
+import { useCallTypeState } from '../../../../state/dispatch';
 
 const CallTypeSwitcher: React.FC = () => {
   const [callType, setCallType] = useCallTypeState();

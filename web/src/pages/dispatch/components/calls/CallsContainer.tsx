@@ -1,5 +1,5 @@
 import React from 'react';
-import CardTitle from '../../../components/CardTitle';
+import CardTitle from '../../../../components/CardTitle';
 import { IconPhoneCall } from '@tabler/icons-react';
 import CallTypeSwitcher from './CallTypeSwitcher';
 import CallsList from './CallsList';

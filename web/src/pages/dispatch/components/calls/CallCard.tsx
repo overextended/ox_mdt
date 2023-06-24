@@ -13,9 +13,9 @@ import {
   IconMotorbike,
   IconSpeedboat,
 } from '@tabler/icons-react';
-import { Call } from '../../../typings';
+import { Call } from '../../../../typings';
 import dayjs from 'dayjs';
-import { useSetCalls } from '../../../state/dispatch';
+import { useSetCalls } from '../../../../state/dispatch';
 import { modals } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
