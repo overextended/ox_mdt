@@ -33,14 +33,9 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
 
   return (
     <Stack className={classes.callContainer}>
-      <Group position="apart">
-        <Group spacing="xs">
-          <Text>{call.offense.label}</Text>
-          <Badge variant="light" color="blue">
-            {call.offense.code}
-          </Badge>
-        </Group>
-        <Group spacing="xs">
+      <Stack spacing={2}>
+        <Group spacing="xs" position="apart" noWrap>
+          <Text lineClamp={1}>{call.offense.label}</Text>
           {!call.completed ? (
             <>
               <Menu withArrow position="right-start">
@@ -92,13 +87,16 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
             </Tooltip>
           )}
         </Group>
-      </Group>
+        <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
+          {call.offense.code}
+        </Badge>
+      </Stack>
       <Stack spacing={2} c="dark.2">
         <Group spacing="xs">
           <IconClock size={16} />
           <Text size="sm">{dayjs(call.info.time).fromNow()}</Text>
         </Group>
-        <Group spacing="xs">
+        <Group spacing="xs" noWrap>
           <IconMapPin size={16} />
           <Text size="sm">{call.info.location}</Text>
         </Group>
