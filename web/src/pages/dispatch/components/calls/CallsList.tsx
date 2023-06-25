@@ -1,17 +1,15 @@
 import React from 'react';
-import { useActiveCalls, useCallTypeState, useCompletedCalls } from '../../../../state/dispatch';
+import { useCallTypeState, useFilteredCalls } from '../../../../state/dispatch';
 import CallCard from './CallCard';
 
 const CallsList: React.FC = () => {
-  const [callType] = useCallTypeState();
-  const activeCalls = useActiveCalls();
-  const completedCalls = useCompletedCalls();
+  const calls = useFilteredCalls();
 
   return (
     <>
-      {callType === 'active'
-        ? activeCalls.map((call) => <CallCard key={call.id} call={call} />)
-        : completedCalls.map((call) => <CallCard key={call.id} call={call} />)}
+      {calls.map((call) => (
+        <CallCard key={call.id} call={call} />
+      ))}
     </>
   );
 };

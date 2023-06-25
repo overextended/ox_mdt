@@ -17,8 +17,8 @@ const DEBUG_CALLS: Call[] = [
       code: '10-29',
     },
     units: [
-      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }] },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }] },
+      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
     ],
   },
   {
@@ -35,21 +35,23 @@ const DEBUG_CALLS: Call[] = [
       code: '10-13',
     },
     units: [
-      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }] },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }] },
-      { name: 'Unit 4', type: 'motor', members: [{ name: 'Someone', callSign: 823 }] },
-      { name: 'Unit 3', type: 'boat', members: [{ name: 'Someone', callSign: 823 }] },
+      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
+      { name: 'Unit 4', type: 'motor', members: [{ name: 'Someone', callSign: 823 }], id: 3 },
+      { name: 'Unit 3', type: 'boat', members: [{ name: 'Someone', callSign: 823 }], id: 4 },
     ],
   },
 ];
 
-const callType = atom<'active' | 'completed'>('active');
-export const useCallTypeState = () => useAtom(callType);
+const callTypeAtom = atom<'active' | 'completed'>('active');
+export const useCallTypeState = () => useAtom(callTypeAtom);
 
 const callsAtom = atom<Call[]>(isEnvBrowser() ? DEBUG_CALLS : []);
-const activeCalls = atom((get) => get(callsAtom).filter((call) => !call.completed));
-const completedCalls = atom((get) => get(callsAtom).filter((call) => call.completed));
+const filteredCallsAtom = atom((get) => {
+  const callType = get(callTypeAtom);
 
+  return get(callsAtom).filter((call) => (callType === 'active' ? !call.completed : call.completed));
+});
+
+export const useFilteredCalls = () => useAtomValue(filteredCallsAtom);
 export const useSetCalls = () => useSetAtom(callsAtom);
-export const useActiveCalls = () => useAtomValue(activeCalls);
-export const useCompletedCalls = () => useAtomValue(completedCalls);
