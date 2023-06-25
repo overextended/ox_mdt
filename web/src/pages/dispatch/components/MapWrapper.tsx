@@ -1,11 +1,12 @@
 // https://github.com/BubbleDK/bub-mdt/blob/main/src/pages/dispatch/index.tsx
 
 import React from 'react';
-import { MapContainer, Marker, Popup } from 'react-leaflet';
+import { MapContainer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Map from './Map';
 import L from 'leaflet';
 import { useMantineTheme } from '@mantine/core';
+import OfficerMarkers from './OfficerMarkers';
 
 const MapWrapper: React.FC = () => {
   const theme = useMantineTheme();
@@ -40,6 +41,7 @@ const MapWrapper: React.FC = () => {
       style={{ width: '100%', height: '100%', borderRadius: theme.radius.md, zIndex: 1 }}
     >
       <Map />
+      <OfficerMarkers />
     </MapContainer>
   );
 };
