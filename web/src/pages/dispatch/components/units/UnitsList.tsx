@@ -1,13 +1,13 @@
 import React from 'react';
 import { useUnits } from '../../../../state/dispatch/units';
-import { Stack } from '@mantine/core';
+import { Box, Stack } from '@mantine/core';
 import UnitCard from './UnitCard';
 
 const UnitsList: React.FC = () => {
   const units = useUnits();
 
   return (
-    <Stack>
+    <Stack sx={{ overflowY: 'scroll', flex: '1 1 0' }}>
       {units.map((unit) => (
         <UnitCard key={unit.name} unit={unit} />
       ))}
