@@ -41,6 +41,24 @@ const DEBUG_CALLS: Call[] = [
       { name: 'Unit 3', type: 'boat', members: [{ name: 'Someone', callSign: 823 }], id: 4 },
     ],
   },
+  {
+    id: 3,
+    info: {
+      time: Date.now(),
+      location: 'Somewhere',
+    },
+    coords: [500, 750],
+    completed: false,
+    linked: false,
+    offense: {
+      label: 'Officer Down',
+      code: '10-13',
+    },
+    units: [
+      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
+    ],
+  },
 ];
 
 const callTypeAtom = atom<'active' | 'completed'>('active');

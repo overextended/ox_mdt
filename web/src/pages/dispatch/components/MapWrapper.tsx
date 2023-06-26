@@ -7,6 +7,7 @@ import Map from './Map';
 import L from 'leaflet';
 import { useMantineTheme } from '@mantine/core';
 import OfficerMarkers from './OfficerMarkers';
+import CallMarkers from './CallMarkers';
 
 const MapWrapper: React.FC = () => {
   const theme = useMantineTheme();
@@ -42,6 +43,7 @@ const MapWrapper: React.FC = () => {
     >
       <Map />
       <OfficerMarkers />
+      <CallMarkers />
     </MapContainer>
   );
 };

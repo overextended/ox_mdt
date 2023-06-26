@@ -1,11 +1,12 @@
 import React from 'react';
-import { Marker, Popup } from 'react-leaflet';
+import { Marker } from 'react-leaflet';
 import * as ReactDOMServer from 'react-dom/server';
 import { createStyles, Text } from '@mantine/core';
 import { useNuiEvent } from '../../../hooks/useNuiEvent';
 import { debugData } from '../../../utils/debugData';
 import { IconCircleFilled } from '@tabler/icons-react';
 import L from 'leaflet';
+import MarkerPopup from './MarkerPopup';
 
 interface OfficerPosition {
   name: string;
@@ -14,21 +15,6 @@ interface OfficerPosition {
 }
 
 const useStyles = createStyles((theme) => ({
-  popup: {
-    '> .leaflet-popup-content-wrapper': {
-      backgroundColor: theme.colors.durple[4],
-      color: theme.colors.dark[0],
-      borderRadius: theme.radius.md,
-      '> .leaflet-popup-content': {
-        margin: 0,
-        width: 'fit-content',
-        padding: 8,
-      },
-    },
-    '.leaflet-popup-tip': {
-      backgroundColor: theme.colors.durple[4],
-    },
-  },
   icon: {
     color: theme.colors.blue[8],
   },
@@ -58,6 +44,7 @@ const OfficerMarkers: React.FC = () => {
       {officers.length > 0 &&
         officers.map((officer) => (
           <Marker
+            key={officer.callSign}
             position={officer.position}
             icon={L.divIcon({
               className: 'custom-icon',
@@ -65,11 +52,11 @@ const OfficerMarkers: React.FC = () => {
               html: ReactDOMServer.renderToString(<IconCircleFilled size={20} className={classes.icon} />),
             })}
           >
-            <Popup closeButton={false} className={classes.popup}>
+            <MarkerPopup>
               <Text>
                 {officer.name} ({officer.callSign})
               </Text>
-            </Popup>
+            </MarkerPopup>
           </Marker>
         ))}
     </>
