@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUnits } from '../../../../state/dispatch/units';
+import { useUnits } from '../../../../state';
 import { Box, Stack } from '@mantine/core';
 import UnitCard from './UnitCard';
 

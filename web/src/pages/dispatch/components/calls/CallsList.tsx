@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCallTypeState, useFilteredCalls } from '../../../../state/dispatch';
+import { useCallTypeState, useFilteredCalls } from '../../../../state';
 import CallCard from './CallCard';
 import { Stack } from '@mantine/core';
 

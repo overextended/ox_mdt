@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Loader, Select, Stack } from '@mantine/core';
 import { IconCar } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import { useSetUnits } from '../../../../state/dispatch/units';
-import { useCharacterState } from '../../../../state';
+import { useCharacterState, useSetUnits } from '../../../../state';
 import { UnitType } from '../../../../typings';
 import { fetchNui } from '../../../../utils/fetchNui';
 

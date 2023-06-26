@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFilteredCalls } from '../../../state/dispatch';
+import { useFilteredCalls } from '../../../state';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import * as ReactDOMServer from 'react-dom/server';
