@@ -15,7 +15,7 @@ import {
 } from '@tabler/icons-react';
 import { Call } from '../../../../typings';
 import dayjs from 'dayjs';
-import { useSetCalls } from '../../../../state';
+import { useDispatchMap, useSetCalls } from '../../../../state';
 import { modals } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
@@ -30,6 +30,7 @@ const useStyles = createStyles((theme) => ({
 const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
   const setCalls = useSetCalls();
+  const map = useDispatchMap();
 
   return (
     <Stack className={classes.callContainer}>
@@ -48,7 +49,14 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                 <Menu.Dropdown>
                   <Menu.Item icon={<IconLink size={20} />}>Attach to call</Menu.Item>
                   <Menu.Item icon={<IconMapPin size={20} />}>Set waypoint</Menu.Item>
-                  <Menu.Item icon={<IconMap2 size={20} />}>Find on map</Menu.Item>
+                  <Menu.Item
+                    icon={<IconMap2 size={20} />}
+                    onClick={() => {
+                      if (map) map.flyTo(call.coords, 4);
+                    }}
+                  >
+                    Find on map
+                  </Menu.Item>
                   <Menu.Item
                     icon={<IconCheck size={20} />}
                     onClick={() => {

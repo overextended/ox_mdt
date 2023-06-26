@@ -8,9 +8,11 @@ import L from 'leaflet';
 import { useMantineTheme } from '@mantine/core';
 import OfficerMarkers from './OfficerMarkers';
 import CallMarkers from './CallMarkers';
+import { useSetDispatchMap } from '../../../state';
 
 const MapWrapper: React.FC = () => {
   const theme = useMantineTheme();
+  const setMap = useSetDispatchMap();
 
   const CRS = L.extend({}, L.CRS.Simple, {
     projection: L.Projection.LonLat,
@@ -34,6 +36,7 @@ const MapWrapper: React.FC = () => {
     <MapContainer
       center={[0, -1024]}
       maxBoundsViscosity={1.0}
+      ref={setMap}
       zoom={6}
       maxZoom={6}
       minZoom={2}
