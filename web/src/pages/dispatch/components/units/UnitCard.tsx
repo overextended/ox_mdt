@@ -1,17 +1,9 @@
 import React from 'react';
-import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text } from '@mantine/core';
-import {
-  IconCar,
-  IconEdit,
-  IconHelicopter,
-  IconLogin,
-  IconLogout,
-  IconMotorbike,
-  IconSpeedboat,
-  IconTrash,
-} from '@tabler/icons-react';
+import { ActionIcon, Badge, createStyles, Group, Stack, Text } from '@mantine/core';
+import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpeedboat } from '@tabler/icons-react';
 import { Unit } from '../../../../typings';
-import { useCharacter } from '../../../../state';
+import { useCharacterState } from '../../../../state';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 const useStyles = createStyles((theme) => ({
   unitContainer: {
@@ -24,7 +16,7 @@ const useStyles = createStyles((theme) => ({
 
 const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
   const { classes } = useStyles();
-  const character = useCharacter();
+  const [character, setCharacter] = useCharacterState();
 
   return (
     <Stack className={classes.unitContainer}>
@@ -42,7 +34,20 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
           ·<Text>{unit.name}</Text>
         </Group>
         <Group spacing={8}>
-          <ActionIcon color={character.unit === unit.id ? 'red' : 'blue'} variant="light">
+          <ActionIcon
+            color={character.unit === unit.id ? 'red' : 'blue'}
+            variant="light"
+            onClick={async () => {
+              if (character.unit === unit.id) {
+                setCharacter((prev) => ({ ...prev, unit: undefined }));
+                const resp = await fetchNui('leaveUnit', { data: 1 });
+
+                return;
+              }
+              const resp = await fetchNui('joinUnit', unit.id, { data: 1 });
+              setCharacter((prev) => ({ ...prev, unit: unit.id }));
+            }}
+          >
             {character.unit === unit.id ? <IconLogout size={20} /> : <IconLogin size={20} />}
           </ActionIcon>
         </Group>

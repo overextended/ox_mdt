@@ -57,6 +57,8 @@ serverNuiCallback('getProfile')
 serverNuiCallback('saveProfileImage')
 serverNuiCallback('saveProfileNotes')
 serverNuiCallback('createUnit') -- Returns a table with id and name property which is the created unit id and name
+serverNuiCallback('joinUnit')
+serverNuiCallback('leaveUnit')
 
 SendNUIMessage({
     action = 'updateOfficerPositions',
