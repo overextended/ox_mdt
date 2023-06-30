@@ -64,4 +64,9 @@ function db.updateReportTitle(title, reportId)
     return MySQL.update.await('UPDATE `ox_mdt_reports` SET `title` = ? WHERE `id` = ?', { title, reportId })
 end
 
+function db.selectProfiles(search)
+    return MySQL.query.await('SELECT `charid` AS playerId, `firstname` AS firstName, `lastname` as lastName, `dateofbirth` AS dob FROM `characters`')
+end
+
+
 return db

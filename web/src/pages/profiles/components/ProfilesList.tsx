@@ -5,7 +5,7 @@ import { fetchNui } from '../../../utils/fetchNui';
 import profile from './Profile';
 import NotFound from '../../../components/NotFound';
 import { IconUserOff } from '@tabler/icons-react';
-import {Profile} from "../../../typings";
+import { Profile } from '../../../typings';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -46,7 +46,7 @@ const ProfilesList: React.FC = () => {
                   {profile.firstName} {profile.lastName}
                 </Text>
                 <Text size="xs" c="dark.2">
-                  DOB: {profile.dob}
+                  DOB: {new Date(profile.dob).toLocaleDateString()}
                 </Text>
                 <Text size="xs" c="dark.2">
                   ID: {profile.playerId}

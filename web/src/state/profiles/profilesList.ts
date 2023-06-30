@@ -9,7 +9,7 @@ for (let i = 0; i < 25; i++) {
   DEBUG_PROFILES[i] = {
     firstName: 'Firstname',
     lastName: `Lastname ${i + 1}`,
-    dob: '1/1/1990',
+    dob: Date.now(),
     playerId: i,
   };
 }

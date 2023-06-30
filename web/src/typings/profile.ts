@@ -25,7 +25,7 @@ export interface Profile {
 export interface ProfileCard {
   firstName: string;
   lastName: string;
-  dob: string;
+  dob: number;
   playerId: number | string;
   image?: string;
 }
