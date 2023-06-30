@@ -13,10 +13,12 @@ import {
   IconMotorbike,
   IconSpeedboat,
 } from '@tabler/icons-react';
-import { Call } from '../../../../typings';
+import { Call, Officer } from '../../../../typings';
 import dayjs from 'dayjs';
-import { useDispatchMap, useSetCalls } from '../../../../state';
+import { useDispatchMap, useSetActiveReport, useSetCalls, useSetIsReportActive } from '../../../../state';
 import { modals } from '@mantine/modals';
+import { useNavigate } from 'react-router-dom';
+import { fetchNui } from '../../../../utils/fetchNui';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -31,6 +33,9 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
   const setCalls = useSetCalls();
   const map = useDispatchMap();
+  const navigate = useNavigate();
+  const setReport = useSetActiveReport();
+  const setIsReportActive = useSetIsReportActive();
 
   return (
     <Stack className={classes.callContainer}>
@@ -89,7 +94,25 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
             </>
           ) : (
             <Tooltip label="Create report">
-              <ActionIcon color="blue" variant="light">
+              <ActionIcon
+                color="blue"
+                variant="light"
+                onClick={async () => {
+                  const resp = await fetchNui<{ id: number }>('createReport', null, { data: { id: 199 } });
+                  navigate('/reports');
+                  const officers: Officer[] = [];
+                  call.units.map((unit) => unit.members.map((officer) => officers.push(officer)));
+                  setReport({
+                    title: `${call.offense.label} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
+                    description: '<p></p>',
+                    id: resp.id,
+                    evidence: [],
+                    officersInvolved: officers,
+                    criminals: [],
+                  });
+                  setIsReportActive(true);
+                }}
+              >
                 <IconFileImport size={20} />
               </ActionIcon>
             </Tooltip>

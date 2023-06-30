@@ -18,7 +18,7 @@ const DEBUG_CALLS: Call[] = [
     },
     units: [
       { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Marc Marshall', callSign: 322 }], id: 2 },
     ],
   },
   {
@@ -35,10 +35,18 @@ const DEBUG_CALLS: Call[] = [
       code: '10-13',
     },
     units: [
-      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
-      { name: 'Unit 4', type: 'motor', members: [{ name: 'Someone', callSign: 823 }], id: 3 },
-      { name: 'Unit 3', type: 'boat', members: [{ name: 'Someone', callSign: 823 }], id: 4 },
+      {
+        name: 'Unit 1',
+        type: 'car',
+        members: [
+          { name: 'Billy bob', callSign: 132 },
+          { name: 'Martin Contreras', callSign: 521 },
+        ],
+        id: 1,
+      },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Bobby Hopkins', callSign: 823 }], id: 2 },
+      { name: 'Unit 4', type: 'motor', members: [{ name: 'Connor Collins', callSign: 531 }], id: 3 },
+      { name: 'Unit 3', type: 'boat', members: [{ name: 'Corey Hayes', callSign: 274 }], id: 4 },
     ],
   },
   {
@@ -56,7 +64,7 @@ const DEBUG_CALLS: Call[] = [
     },
     units: [
       { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Someone', callSign: 823 }], id: 2 },
+      { name: 'Unit 6', type: 'heli', members: [{ name: 'Freddie Reid', callSign: 823 }], id: 2 },
     ],
   },
 ];
