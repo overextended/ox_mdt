@@ -7,6 +7,7 @@ export interface Criminal {
   charges: SelectedCharge[];
   issueWarrant: boolean;
   pleadedGuilty?: boolean;
+  processed?: boolean;
   warrantExpiry?: DateValue;
   penalty?: {
     time: number;

@@ -144,7 +144,10 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
                 <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
               </Group>
-              <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
+              <Group>
+                <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
+                <Checkbox label="Processed" defaultChecked={criminal.processed} />
+              </Group>
             </>
           )}
         </>
