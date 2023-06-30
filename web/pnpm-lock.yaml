@@ -14,6 +14,9 @@ dependencies:
   '@mantine/dates':
     specifier: ^6.0.13
     version: 6.0.13(@mantine/core@6.0.13)(@mantine/hooks@6.0.13)(dayjs@1.11.7)(react@18.2.0)
+  '@mantine/form':
+    specifier: ^6.0.15
+    version: 6.0.15(react@18.2.0)
   '@mantine/hooks':
     specifier: ^6.0.13
     version: 6.0.13(react@18.2.0)
@@ -727,6 +730,16 @@ packages:
       '@mantine/hooks': 6.0.13(react@18.2.0)
       '@mantine/utils': 6.0.13(react@18.2.0)
       dayjs: 1.11.7
+      react: 18.2.0
+    dev: false
+
+  /@mantine/form@6.0.15(react@18.2.0):
+    resolution: {integrity: sha512-Tz4AuZZ/ddGvEh5zJbDyi9PlGqTilJBdCjRGIgs3zn3hQsfg+ku7/NUR5zNB64dcWPJvGKc074y4iopNIl3FWQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      fast-deep-equal: 3.1.3
+      klona: 2.0.6
       react: 18.2.0
     dev: false
 
@@ -1654,6 +1667,11 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dev: true
+
+  /klona@2.0.6:
+    resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
+    engines: {node: '>= 8'}
+    dev: false
 
   /leaflet@1.9.4:
     resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}

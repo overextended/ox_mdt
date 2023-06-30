@@ -3,27 +3,36 @@ import { Button, Stack, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useReportId, useSetReportTitle } from '../../../../state';
 import { fetchNui } from '../../../../utils/fetchNui';
+import { useForm } from '@mantine/form';
 
 interface Props {
   title: string;
 }
 
 const EditTitleModal: React.FC<Props> = (props) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const setReportTitle = useSetReportTitle();
   const id = useReportId();
 
-  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setReportTitle(inputRef.current?.value!);
-    await fetchNui('setReportTitle', { id, title: inputRef.current?.value }, { data: 1 });
+  const form = useForm({
+    initialValues: {
+      title: props.title,
+    },
+
+    validate: {
+      title: (value) => (value.length === 0 ? 'Report title is required' : null),
+    },
+  });
+
+  const submitForm = async (values: { title: string }) => {
+    setReportTitle(values.title);
+    await fetchNui('setReportTitle', { id, title: values.title }, { data: 1 });
     modals.closeAll();
   };
 
   return (
-    <form onSubmit={(e) => submitForm(e)}>
+    <form onSubmit={form.onSubmit((values) => submitForm(values))}>
       <Stack>
-        <TextInput data-autofocus required label="Title" defaultValue={props.title} ref={inputRef} />
+        <TextInput data-autofocus label="Title" withAsterisk {...form.getInputProps('title')} />
         <Button type="submit" fullWidth variant="light">
           Confirm
         </Button>

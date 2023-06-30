@@ -3,23 +3,35 @@ import { Button, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { useReportId, useSetEvidence } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
-import {ImageEvidence, ItemEvidence} from "../../../../typings";
+import { ImageEvidence, ItemEvidence } from '../../../../typings';
+import { useForm } from '@mantine/form';
 
 const AddEvidenceModal: React.FC = () => {
   const [type, setType] = React.useState('image');
   const setEvidence = useSetEvidence();
   const id = useReportId();
-  const firstInputRef = useRef<HTMLInputElement | null>(null);
-  const secondInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const form = useForm({
+    initialValues: {
+      firstInput: '',
+      secondInput: '',
+    },
+
+    validate: {
+      firstInput: (value) =>
+        value.length === 0 ? (type === 'image' ? 'Image label is required' : 'Item name is required') : null,
+      secondInput: (value) =>
+        value.length === 0 ? (type === 'image' ? 'Image URL is required' : 'Item count is required') : null,
+    },
+  });
+
+  React.useEffect(() => form.clearErrors(), [type]);
+
+  const handleSubmit = async (values: { firstInput: string; secondInput: string }) => {
     modals.closeAll();
 
-    const firstInput = firstInputRef.current?.value;
-    const secondInput = secondInputRef.current?.value;
-
-    if (!firstInput || !secondInput) return;
+    const firstInput = values.firstInput;
+    const secondInput = values.secondInput;
 
     const evidence: ImageEvidence | ItemEvidence =
       type === 'image'
@@ -31,7 +43,7 @@ const AddEvidenceModal: React.FC = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack>
         <Select
           data={[
@@ -44,13 +56,18 @@ const AddEvidenceModal: React.FC = () => {
         />
         {type === 'image' ? (
           <>
-            <TextInput label="Image label" required ref={firstInputRef} />
-            <TextInput label="Image URL" required placeholder="https://i.imgur.com/dqopYB9b.jpg" ref={secondInputRef} />
+            <TextInput label="Image label" withAsterisk {...form.getInputProps('firstInput')} />
+            <TextInput
+              label="Image URL"
+              withAsterisk
+              placeholder="https://i.imgur.com/dqopYB9b.jpg"
+              {...form.getInputProps('secondInput')}
+            />
           </>
         ) : (
           <>
-            <TextInput label="Item name" required ref={firstInputRef} />
-            <NumberInput label="Item count" required hideControls ref={secondInputRef} />
+            <TextInput label="Item name" withAsterisk {...form.getInputProps('firstInput')} />
+            <NumberInput label="Item count" withAsterisk hideControls {...form.getInputProps('secondInput')} />
           </>
         )}
         <Button color="blue" variant="light" type="submit">

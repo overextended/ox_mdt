@@ -13,14 +13,14 @@ interface Warrant {
 
 const WARRANTS: Warrant[] = [
   {
-    firstName: 'Billy',
-    lastName: 'Bob',
+    firstName: 'Spencer',
+    lastName: 'Carr',
     expiresIn: 1682250523000,
     reason: 'Did some crime',
   },
   {
-    firstName: 'Some',
-    lastName: 'Dude',
+    firstName: 'Lennon',
+    lastName: 'Herman',
     expiresIn: Date.now(),
     reason: 'Stole a cat',
   },

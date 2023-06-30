@@ -3,20 +3,31 @@ import React, { useRef } from 'react';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
+import { useForm } from '@mantine/form';
+
+type FormValues = {
+  title: string;
+};
 
 const CreateReportModal: React.FC = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const reportTitle = inputRef.current?.value;
-    if (!reportTitle) return;
+  const form = useForm({
+    initialValues: {
+      title: '',
+    },
+
+    validate: {
+      title: (value) => (value.length === 0 ? 'Report title is required' : null),
+    },
+  });
+
+  const handleSubmit = async (values: FormValues) => {
     modals.closeAll();
-    const resp = await fetchNui<{ id: number }>('createReport', reportTitle, { data: { id: 1 } });
+    const resp = await fetchNui<{ id: number }>('createReport', values.title, { data: { id: 1 } });
     setReport({
-      title: reportTitle,
+      title: values.title,
       id: resp.id,
       criminals: [],
       description: '<p></p>',
@@ -27,9 +38,9 @@ const CreateReportModal: React.FC = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack>
-        <TextInput label="Report title" data-autofocus required ref={inputRef} />
+        <TextInput label="Report title" data-autofocus withAsterisk {...form.getInputProps('title')} />
         <Button type="submit" fullWidth variant="light">
           Confirm
         </Button>
