@@ -44,7 +44,7 @@ const WarrantList: React.FC = () => {
         warrants.map((warrant) => (
           <Stack key={`${warrant.firstName} ${warrant.lastName}`} className={classes.warrantContainer} p="md">
             <Group>
-              <Avatar size="lg" color="blue" radius="xl" />
+              <Avatar size="lg" color="blue" radius="md" />
               <Stack spacing={2}>
                 <Text>
                   {warrant.firstName} {warrant.lastName}
