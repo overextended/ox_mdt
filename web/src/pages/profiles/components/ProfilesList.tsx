@@ -6,6 +6,7 @@ import profile from './Profile';
 import NotFound from '../../../components/NotFound';
 import { IconUserOff } from '@tabler/icons-react';
 import { Profile } from '../../../typings';
+import { modals } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -33,10 +34,18 @@ const ProfilesList: React.FC = () => {
             className={classes.profileContainer}
             p="md"
             onClick={async () => {
+              modals.openContextModal({
+                modal: 'loader',
+                innerProps: {},
+                withCloseButton: false,
+                closeOnClickOutside: false,
+                size: 'fit-content',
+              });
               const resp = await fetchNui<Profile>('getProfile', profile.playerId, {
                 data: { ...DEBUG_PROFILE, firstName: profile.firstName, lastName: profile.lastName },
               });
               setProfile(resp);
+              modals.closeAll();
             }}
           >
             <Group>

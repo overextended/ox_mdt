@@ -4,7 +4,8 @@ import { useReportsList, useSetActiveReport, useSetIsReportActive } from '../../
 import { fetchNui } from '../../../utils/fetchNui';
 import { IconReceiptOff } from '@tabler/icons-react';
 import NotFound from '../../../components/NotFound';
-import {Report} from "../../../typings";
+import { Report } from '../../../typings';
+import { modals } from '@mantine/modals';
 
 interface ReportCard {
   title: string;
@@ -41,6 +42,13 @@ const ReportsList: React.FC = () => {
             key={report.id}
             spacing={0}
             onClick={async () => {
+              modals.openContextModal({
+                modal: 'loader',
+                innerProps: {},
+                withCloseButton: false,
+                closeOnClickOutside: false,
+                size: 'fit-content',
+              });
               const resp = await fetchNui<Report>('getReport', report.id, {
                 data: {
                   id: 1,
@@ -53,6 +61,7 @@ const ReportsList: React.FC = () => {
               });
               setActiveReport(resp);
               setIsReportActive(true);
+              modals.closeAll();
             }}
           >
             <Text>{report.title}</Text>
