@@ -35,7 +35,10 @@ end)
 ---@param event string
 local function serverNuiCallback(event)
     RegisterNuiCallback(event, function(data, cb)
-        cb(lib.callback.await('ox_mdt:'..event, false, data))
+        print('triggered '..event)
+        local response = lib.callback.await('ox_mdt:'..event, false, data)
+        print('response '..event, json.encode(response, {indent=true,sort_keys=true}))
+        cb(response)
     end)
 end
 
