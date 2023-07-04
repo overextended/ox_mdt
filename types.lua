@@ -1,3 +1,19 @@
+---@class ProfileCard
+---@field firstName string
+---@field lastName string
+---@field dob number
+---@field playerId number | string
+---@field image? string
+
+
+---@class Profile : ProfileCard
+---@field stateId number | string
+---@field notes? string
+---@field licenses? table<{ label: string, points: number } | string>
+---@field vehicles? { label: string, plate: string }
+---@field pastCharges? { label: string, count: number }[]
+---@field relatedReports? { title: string, author: string, date: string, id: number }[]
+
 ---@class CriminalProfile
 ---@field firstName string
 ---@field lastName string

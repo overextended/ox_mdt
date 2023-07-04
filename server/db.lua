@@ -103,7 +103,32 @@ function db.selectProfiles()
     return MySQL.query.await(
         'SELECT `charid` AS playerId, `firstName`, `lastName`, `dateofbirth` AS dob FROM `characters`')
 end
-end
 
+---@param search number
+---@return Profile?
+function db.selectCharacterProfile(search)
+    local parameters = { search }
+    local profile = MySQL.rawExecute.await('SELECT `firstName`, `lastName`, `charid` AS stateId, `dateofbirth` AS dob FROM `characters` WHERE `charid` = ?', parameters)?[1]
+
+    if not profile then return end
+
+    profile.licenses = MySQL.rawExecute.await('SELECT ox_licenses.label, `issued` FROM character_licenses LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name WHERE charid = ?', parameters) or {}
+
+    for _, v in pairs(profile.licenses) do
+        v.points = 0
+    end
+
+    profile.vehicles = MySQL.rawExecute.await('SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?', parameters) or {}
+
+    for _, v in pairs(profile.vehicles) do
+        v.label = Ox.GetVehicleData(v.model)?.name or v.model
+        v.model = nil
+    end
+
+    profile.relatedReports = MySQL.rawExecute.await('SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_characters` b ON b.reportid = a.id WHERE `charid` = ?', parameters) or {}
+    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, COUNT(1) AS count FROM `ox_mdt_charges` WHERE `charid` = ? GROUP BY `charge`', parameters) or {}
+
+    return profile
+end
 
 return db

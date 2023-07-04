@@ -111,3 +111,9 @@ end)
 lib.callback.register('ox_mdt:getProfiles', function(source, data)
     return db.selectProfiles(data)
 end)
+
+---@param source number
+---@param data string
+lib.callback.register('ox_mdt:getProfile', function(source, data)
+    return db.selectCharacterProfile(data)
+end)
