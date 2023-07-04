@@ -67,7 +67,7 @@ end
 ---@return ProfileCard[]
 function db.selectProfiles()
     return MySQL.query.await(
-        'SELECT `charid` AS playerId, `firstName`, `lastName`, `dateofbirth` AS dob FROM `characters`')
+        'SELECT `charid` AS stateId, `firstName`, `lastName`, `dateofbirth` AS dob FROM `characters`')
 end
 
 function db.selectOfficersInvolved(reportId)
@@ -128,7 +128,7 @@ end
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
-    local profile = MySQL.rawExecute.await('SELECT `firstName`, `lastName`, `charid` AS stateId, `dateofbirth` AS dob FROM `characters` WHERE `charid` = ?', parameters)?[1]
+    local profile = MySQL.rawExecute.await('SELECT `firstName`, `lastName`, `charid` AS stateId, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") AS dob FROM `characters` WHERE `charid` = ?', parameters)?[1]
 
     if not profile then return end
 

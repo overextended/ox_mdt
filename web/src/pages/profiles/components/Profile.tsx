@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
       <AvatarWrapper />
       <ProfileField icon={IconUser} label="Name" value={`${profile.firstName} ${profile.lastName}`} />
       <ProfileField icon={IconId} label="State ID" value={profile.stateId} />
-      <ProfileField icon={IconCalendar} label="DOB" value={profile.dob} />
+      <ProfileField icon={IconCalendar} label="DOB" value={new Date(profile.dob).toLocaleDateString()} />
       <Stack spacing={6} h="100%">
         <Text size="xs" c="dark.2">
           Notes:
