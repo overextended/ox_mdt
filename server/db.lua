@@ -1,6 +1,6 @@
 local db = {}
 local selectCharacter =
-'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `charid` as id FROM `characters`'
+'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `charid` as stateId FROM `characters`'
 local wildcard = '%s%%'
 
 local selectCharacterById = selectCharacter .. ' WHERE `charid` LIKE ?'
@@ -78,7 +78,7 @@ end
 
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
-    local criminals = MySQL.rawExecute.await('SELECT a.charid as id, CONCAT(b.firstname, " ", b.lastname) as name FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ? LIMIT 1', parameters) or {}
+    local criminals = MySQL.rawExecute.await('SELECT a.charid as id, b.firstName, b.lastName FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ? LIMIT 1', parameters) or {}
     local charges = MySQL.rawExecute.await('SELECT `charid` as id, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`', parameters) or {}
 
 
@@ -99,7 +99,7 @@ end
 ---@param reportId number
 ---@param criminal Criminal
 function db.saveCriminal(reportId, criminal)
-    MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.id })
+    MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId })
 
     if next(criminal.charges) then
         local queries = {}
@@ -108,13 +108,13 @@ function db.saveCriminal(reportId, criminal)
         for _, v in pairs(criminal.charges) do
             for i = 1, v.count do
                 queryN += 1
-                queries[queryN] = { 'INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.id, v.label } }
+                queries[queryN] = { 'INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.stateId, v.label } }
             end
         end
 
         return MySQL.transaction.await(queries)
     else
-        return MySQL.prepare.await('INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.id })
+        return MySQL.prepare.await('INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.stateId })
     end
 end
 

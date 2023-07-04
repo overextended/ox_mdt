@@ -23,7 +23,7 @@
 
 ---@class Criminal
 ---@field name string
----@field id number
+---@field stateId number
 ---@field charges table[]
 ---@field issueWarrant boolean
 ---@field pleadedGuilty? boolean
