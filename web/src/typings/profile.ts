@@ -1,10 +1,5 @@
-export interface Profile {
-  firstName: string;
-  lastName: string;
-  stateId: number;
-  dob: string;
+export interface Profile extends ProfileCard {
   notes?: string;
-  image?: string;
   licenses?: Array<{ label: string; points: number } | string>;
   vehicles?: {
     label: string;
@@ -26,6 +21,6 @@ export interface ProfileCard {
   firstName: string;
   lastName: string;
   dob: number;
-  playerId: number | string;
+  stateId: number | string;
   image?: string;
 }

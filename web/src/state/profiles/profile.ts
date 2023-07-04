@@ -5,7 +5,7 @@ export const DEBUG_PROFILE: Profile = {
   firstName: 'John',
   lastName: 'Doe',
   stateId: 139235,
-  dob: '15/06/1990',
+  dob: Date.now(),
   notes: '<p></p>',
   licenses: [
     {

@@ -6,7 +6,6 @@ import BaseCard from './BaseCard';
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { useReportId, useSetCriminals } from '../../../state';
 import { modals } from '@mantine/modals';
-import { DatePickerInput } from '@mantine/dates';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { useSetSelectedCharges } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
@@ -46,9 +45,11 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
   const setCriminals = useSetCriminals();
 
   return (
-    <BaseCard key={criminal.name}>
+    <BaseCard key={criminal.stateId}>
       <Group position="apart" noWrap>
-        <Text size="xl">{criminal.name}</Text>
+        <Text size="xl">
+          {criminal.firstName} {criminal.lastName}
+        </Text>
         <Group spacing="xs">
           <ActionIcon
             color="red"
@@ -60,12 +61,13 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
                 confirmProps: { color: 'red' },
                 onConfirm: () => {
-                  setCriminals((prev) => prev.filter((crim) => crim.name !== criminal.name));
+                  setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
                   fetchNui('removeCriminal', { id, index }, { data: 1 });
                 },
                 children: (
                   <Text size="sm">
-                    Remove {criminal.name}? Removing them will also remove the charges from their profile.
+                    Remove {criminal.firstName} {criminal.lastName}? Removing them will also remove the charges from
+                    their profile.
                   </Text>
                 ),
               })

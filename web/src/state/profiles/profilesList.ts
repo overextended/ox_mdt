@@ -10,7 +10,7 @@ for (let i = 0; i < 25; i++) {
     firstName: 'Firstname',
     lastName: `Lastname ${i + 1}`,
     dob: Date.now(),
-    playerId: i,
+    stateId: i,
   };
 }
 

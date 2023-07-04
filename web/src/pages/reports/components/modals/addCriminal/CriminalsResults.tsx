@@ -33,15 +33,18 @@ const CriminalsResults: React.FC = () => {
           profiles.map((profile) => (
             <Group
               className={classes.profileContainer}
-              key={profile.id}
+              key={profile.stateId}
               onClick={async () => {
-                await fetchNui('addCriminal', { id, criminalId: profile.id }, { data: 1 });
+                await fetchNui('addCriminal', { id, criminalId: profile.stateId }, { data: 1 });
                 modals.closeAll();
                 setCriminals((prev) => [
                   ...prev,
                   {
-                    name: `${profile.firstName} ${profile.lastName}`,
-                    id: profile.id,
+                    stateId: profile.stateId,
+                    dob: profile.dob,
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    image: profile.image,
                     charges: [],
                     issueWarrant: false,
                     pleadedGuilty: false,
@@ -59,7 +62,7 @@ const CriminalsResults: React.FC = () => {
                   DOB: {profile.dob}
                 </Text>
                 <Text size="xs" c="dark.2">
-                  ID: {profile.id}
+                  ID: {profile.stateId}
                 </Text>
               </Stack>
             </Group>

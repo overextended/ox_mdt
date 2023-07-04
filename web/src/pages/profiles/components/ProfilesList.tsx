@@ -30,7 +30,7 @@ const ProfilesList: React.FC = () => {
       {profiles.length > 0 ? (
         profiles.map((profile) => (
           <Box
-            key={`${profile.playerId}`}
+            key={`${profile.stateId}`}
             className={classes.profileContainer}
             p="md"
             onClick={async () => {
@@ -41,7 +41,7 @@ const ProfilesList: React.FC = () => {
                 closeOnClickOutside: false,
                 size: 'fit-content',
               });
-              const resp = await fetchNui<Profile>('getProfile', profile.playerId, {
+              const resp = await fetchNui<Profile>('getProfile', profile.stateId, {
                 data: { ...DEBUG_PROFILE, firstName: profile.firstName, lastName: profile.lastName },
               });
               setProfile(resp);
@@ -58,7 +58,7 @@ const ProfilesList: React.FC = () => {
                   DOB: {new Date(profile.dob).toLocaleDateString()}
                 </Text>
                 <Text size="xs" c="dark.2">
-                  ID: {profile.playerId}
+                  ID: {profile.stateId}
                 </Text>
               </Stack>
             </Group>

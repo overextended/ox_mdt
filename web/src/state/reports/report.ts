@@ -24,9 +24,11 @@ export const reportAtom = atom<Report>({
   evidence: [],
   criminals: [
     {
-      name: 'Archie Moss',
+      firstName: 'Archie',
+      lastName: 'Moss',
+      dob: Date.now(),
       issueWarrant: false,
-      id: 0,
+      stateId: 0,
       charges: [],
       penalty: {
         time: 0,
