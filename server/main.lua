@@ -40,11 +40,9 @@ lib.callback.register('ox_mdt:getReport', function(source, reportId)
 
     if response then
         ---@todo
-        response.officersInvolved = {}
+        response.officersInvolved = db.selectOfficersInvolved(reportId)
         response.evidence = {}
-        response.criminals = {}
-
-        print(json.encode(response, { indent = true, sort_keys = true }))
+        response.criminals = db.selectCriminalsInvolved(reportId)
     end
 
     return response
@@ -67,7 +65,7 @@ end)
 ---@param source number
 ---@param data { id: number, criminalId: number }
 lib.callback.register('ox_mdt:addCriminal', function(source, data)
-    return 1
+    return db.addCriminal(data.id, data.criminalId)
 end)
 
 ---@param source number
@@ -79,7 +77,7 @@ end)
 ---@param source number
 ---@param data { id: number, criminal: Criminal }
 lib.callback.register('ox_mdt:saveCriminal', function(source, data)
-    return 1
+    return db.saveCriminal(data.id, data.criminal)
 end)
 
 ---@param source number
@@ -109,7 +107,7 @@ end)
 ---@param source number
 ---@param data string
 lib.callback.register('ox_mdt:getProfiles', function(source, data)
-    return db.selectProfiles(data)
+    return db.selectProfiles()
 end)
 
 ---@param source number

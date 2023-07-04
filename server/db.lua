@@ -1,37 +1,3 @@
-MySQL.transaction({
-    [[
-        CREATE TABLE IF NOT EXISTS `ox_mdt_reports` (
-            `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-            `title` VARCHAR(50) NOT NULL,
-            `description` TEXT NULL DEFAULT NULL,
-            `author` VARCHAR(50) NULL DEFAULT NULL,
-            `date` DATETIME NULL DEFAULT curtime(),
-            PRIMARY KEY (`id`) USING BTREE
-        ) ENGINE=InnoDB;
-    ]],
-
-    [[
-        CREATE TABLE IF NOT EXISTS `ox_mdt_reports_characters` (
-            `reportid` INT(10) UNSIGNED NOT NULL,
-            `charid` INT(10) UNSIGNED NOT NULL,
-            `type` TINYINT(3) UNSIGNED NOT NULL,
-            INDEX `FK_ox_mdt_reports_officers_characters` (`charid`) USING BTREE,
-            INDEX `reportid` (`reportid`) USING BTREE,
-            CONSTRAINT `FK_ox_mdt_reports_officers_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON UPDATE CASCADE ON DELETE CASCADE,
-            CONSTRAINT `FK_ox_mdt_reports_officers_ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-        ) ENGINE=InnoDB;        
-    ]],
-
-    [[
-        CREATE TABLE IF NOT EXISTS `ox_mdt_charges` (
-            `charid` INT(10) UNSIGNED NOT NULL,
-            `charge` VARCHAR(50) NOT NULL,
-            INDEX `FK_ox_mdt_charges_characters` (`charid`) USING BTREE,
-            CONSTRAINT `FK_ox_mdt_charges_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON UPDATE CASCADE ON DELETE CASCADE
-        ) ENGINE=InnoDB;        
-    ]],
-})
-
 local db = {}
 local selectCharacter =
 'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `charid` as id FROM `characters`'
@@ -63,12 +29,12 @@ end
 ---@param title string
 ---@param author string
 function db.createReport(title, author)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports` (`title`, `author`) VALUES (?, ?)', { title, author })
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports` (`title`, `author`) VALUES (?, ?)', { title, author }) --[[@as number?]]
 end
 
 ---@param id number
 function db.selectReportById(id)
-    return MySQL.prepare.await('SELECT `id`, `title`, `description` FROM `ox_mdt_reports` WHERE `id` = ? LIMIT 1', { id })
+    return MySQL.prepare.await('SELECT `id`, `title`, `description` FROM `ox_mdt_reports` WHERE `id` = ?', { id }) --[[@as MySQLRow]]
 end
 
 local selectReports = 'SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports`'
@@ -89,13 +55,13 @@ end
 
 ---@param id number
 function db.deleteReport(id)
-    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports` WHERE `id` = ?', { id })
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports` WHERE `id` = ?', { id }) --[[@as number?]]
 end
 
 ---@param title string
 ---@param reportId number
 function db.updateReportTitle(title, reportId)
-    return MySQL.prepare.await('UPDATE `ox_mdt_reports` SET `title` = ? WHERE `id` = ?', { title, reportId })
+    return MySQL.prepare.await('UPDATE `ox_mdt_reports` SET `title` = ? WHERE `id` = ?', { title, reportId }) --[[@as number?]]
 end
 
 ---@return ProfileCard[]
@@ -104,7 +70,61 @@ function db.selectProfiles()
         'SELECT `charid` AS playerId, `firstName`, `lastName`, `dateofbirth` AS dob FROM `characters`')
 end
 
----@param search number
+function db.selectOfficersInvolved(reportId)
+    local officers = MySQL.rawExecute.await('SELECT CONCAT(b.firstname, " ", b.lastname) AS name FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.charid = a.charid WHERE `reportid` = ?', { reportId }) or {}
+    print(json.encode(officers, {sort_keys=true,indent=true}))
+    return officers
+end
+
+function db.selectCriminalsInvolved(reportId)
+    local parameters = { reportId }
+    local criminals = MySQL.rawExecute.await('SELECT a.charid as id, CONCAT(b.firstname, " ", b.lastname) as name FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ? LIMIT 1', parameters) or {}
+    local charges = MySQL.rawExecute.await('SELECT `charid` as id, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = 20 GROUP BY `charge`', parameters) or {}
+
+
+    for _, v in pairs(criminals) do
+        v.charges = {}
+
+        for _, v2 in pairs(charges) do
+            if v2.label and v2.id == v.id then
+                v2.id = nil
+                v.charges[#v.charges + 1] = v2
+            end
+        end
+    end
+
+    return criminals
+end
+
+---@param reportId number
+---@param criminal Criminal
+function db.saveCriminal(reportId, criminal)
+    MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.id })
+
+    if next(criminal.charges) then
+        local queries = {}
+        local queryN = 0
+
+        for _, v in pairs(criminal.charges) do
+            for i = 1, v.count do
+                queryN += 1
+                queries[queryN] = { 'INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.id, v.label } }
+            end
+        end
+
+        return MySQL.transaction.await(queries)
+    else
+        return MySQL.prepare.await('INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.id })
+    end
+end
+
+---@param reportId number
+---@param charId string | number
+function db.addCriminal(reportId, charId)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, NULL)', { reportId, charId }) --[[@as number?]]
+end
+
+---@param search string | number
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
@@ -125,7 +145,7 @@ function db.selectCharacterProfile(search)
         v.model = nil
     end
 
-    profile.relatedReports = MySQL.rawExecute.await('SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_characters` b ON b.reportid = a.id WHERE `charid` = ?', parameters) or {}
+    profile.relatedReports = MySQL.rawExecute.await('SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_officers` b ON b.type = 1 AND b.reportid = a.id WHERE `charid` = ?', parameters) or {}
     profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, COUNT(1) AS count FROM `ox_mdt_charges` WHERE `charid` = ? GROUP BY `charge`', parameters) or {}
 
     return profile
