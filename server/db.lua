@@ -37,7 +37,7 @@ function db.selectReportById(id)
     return MySQL.prepare.await('SELECT `id`, `title`, `description` FROM `ox_mdt_reports` WHERE `id` = ?', { id }) --[[@as MySQLRow]]
 end
 
-local selectReports = 'SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports`'
+local selectReports = 'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports`'
 local selectReportsById = selectReports .. 'WHERE `id` LIKE ?'
 
 ---@param id number | string
@@ -145,8 +145,8 @@ function db.selectCharacterProfile(search)
         v.model = nil
     end
 
-    profile.relatedReports = MySQL.rawExecute.await('SELECT `id`, `title`, `author`, `date` FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_officers` b ON b.type = 1 AND b.reportid = a.id WHERE `charid` = ?', parameters) or {}
-    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, COUNT(1) AS count FROM `ox_mdt_charges` WHERE `charid` = ? GROUP BY `charge`', parameters) or {}
+    profile.relatedReports = MySQL.rawExecute.await('SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_charges` b ON b.reportid = a.id WHERE `charid` = ?', parameters) or {}
+    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, COUNT(1) AS count FROM `ox_mdt_charges` WHERE `charge` IS NOT NULL AND `charid` = ? GROUP BY `charge`', parameters) or {}
 
     return profile
 end
