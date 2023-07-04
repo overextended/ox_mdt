@@ -79,7 +79,7 @@ end
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
     local criminals = MySQL.rawExecute.await('SELECT a.charid as id, CONCAT(b.firstname, " ", b.lastname) as name FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ? LIMIT 1', parameters) or {}
-    local charges = MySQL.rawExecute.await('SELECT `charid` as id, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = 20 GROUP BY `charge`', parameters) or {}
+    local charges = MySQL.rawExecute.await('SELECT `charid` as id, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`', parameters) or {}
 
 
     for _, v in pairs(criminals) do
