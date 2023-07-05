@@ -8,7 +8,7 @@ export interface Criminal extends CriminalProfile {
   pleadedGuilty?: boolean;
   processed?: boolean;
   warrantExpiry?: DateValue;
-  penalty?: {
+  penalty: {
     time: number;
     fine: number;
     points: number;

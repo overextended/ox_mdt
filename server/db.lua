@@ -84,12 +84,23 @@ function db.selectCriminalsInvolved(reportId)
     for _, v in pairs(criminals) do
         v.charges = {}
 
+        -- todo: pull reduction from db
+        v.penalty = {
+            time = 0,
+            fine = 0,
+            points = 0,
+            reduction = nil
+        }
+
         for _, v2 in pairs(charges) do
             if v2.label and v2.id == v.id then
                 v2.id = nil
                 v.charges[#v.charges + 1] = v2
+                
+                -- todo: add charge time, fine, points into penalty table
             end
         end
+
     end
 
     return criminals

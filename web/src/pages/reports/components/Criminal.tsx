@@ -122,37 +122,31 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
         />
       ) : (
         <>
-          {criminal.penalty && (
-            <>
-              <Select
-                label="Reduction"
-                value={criminal.penalty.reduction ? criminal.penalty.reduction.toString() : null}
-                data={calculateReductions(criminal.penalty)}
-                icon={<IconClockDown size={20} />}
-                onChange={(val) =>
-                  setCriminal((prev) => ({
-                    ...prev,
-                    penalty: prev.penalty
-                      ? { ...prev.penalty, reduction: val ? +val : null }
-                      : { reduction: val ? +val : null, time: 0, fine: 0, points: 0 },
-                  }))
-                }
-                clearable
-                placeholder="No reduction"
-              />
-              <Group position="apart">
-                <Text size="xs">
-                  Time: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} months
-                </Text>
-                <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
-                <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
-              </Group>
-              <Group>
-                <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
-                <Checkbox label="Processed" defaultChecked={criminal.processed} />
-              </Group>
-            </>
-          )}
+          <Select
+            label="Reduction"
+            value={criminal.penalty.reduction ? criminal.penalty.reduction.toString() : null}
+            data={calculateReductions(criminal.penalty)}
+            icon={<IconClockDown size={20} />}
+            onChange={(val) =>
+              setCriminal((prev) => ({
+                ...prev,
+                penalty: prev.penalty
+                  ? { ...prev.penalty, reduction: val ? +val : null }
+                  : { reduction: val ? +val : null, time: 0, fine: 0, points: 0 },
+              }))
+            }
+            clearable
+            placeholder="No reduction"
+          />
+          <Group position="apart">
+            <Text size="xs">Time: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} months</Text>
+            <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
+            <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
+          </Group>
+          <Group>
+            <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
+            <Checkbox label="Processed" defaultChecked={criminal.processed} />
+          </Group>
         </>
       )}
     </BaseCard>
