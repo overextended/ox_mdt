@@ -1,46 +1,61 @@
 CREATE TABLE
+    IF NOT EXISTS `ox_mdt_offenses` (
+        `label` varchar(50) NOT NULL,
+        `type` varchar(50) NOT NULL,
+        `description` varchar(250) NOT NULL,
+        `time` int (10) unsigned NOT NULL DEFAULT 0,
+        `fine` int (10) unsigned NOT NULL DEFAULT 0,
+        `points` int (10) unsigned NOT NULL DEFAULT 0,
+        PRIMARY KEY (`label`) USING BTREE
+    );
+
+CREATE TABLE
     IF NOT EXISTS `ox_mdt_reports` (
-        `id` INT (10) UNSIGNED NOT NULL AUTO_INCREMENT,
-        `title` VARCHAR(50) NOT NULL,
-        `description` TEXT NULL DEFAULT NULL,
-        `author` VARCHAR(50) NULL DEFAULT NULL,
-        `date` DATETIME NULL DEFAULT curtime(),
+        `id` int (10) unsigned NOT NULL AUTO_INCREMENT,
+        `title` varchar(50) NOT NULL,
+        `description` text DEFAULT NULL,
+        `author` varchar(50) DEFAULT NULL,
+        `date` datetime DEFAULT curtime(),
         PRIMARY KEY (`id`) USING BTREE
-    ) ENGINE = InnoDB;
+    );
+
+CREATE TABLE
+    IF NOT EXISTS `ox_mdt_reports_criminals` (
+        `reportid` int (10) unsigned NOT NULL,
+        `charid` int (10) unsigned NOT NULL,
+        `reduction` tinyint (3) unsigned DEFAULT NULL,
+        KEY `reportid` (`reportid`) USING BTREE,
+        KEY `FK_ox_mdt_reports_reports_characters` (`charid`) USING BTREE,
+        CONSTRAINT `ox_mdt_reports_criminals_ibfk_1` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `ox_mdt_reports_criminals_ibfk_2` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_reports_officers` (
-        `reportid` INT (10) UNSIGNED NOT NULL,
-        `charid` INT (10) UNSIGNED NOT NULL,
-        INDEX `FK_ox_mdt_reports_officers_characters` (`charid`) USING BTREE,
-        INDEX `reportid` (`reportid`) USING BTREE,
-        CONSTRAINT `FK_ox_mdt_reports_officers_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON UPDATE CASCADE ON DELETE CASCADE,
-        CONSTRAINT `FK_ox_mdt_reports_officers_ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-    ) ENGINE = InnoDB;
+        `reportid` int (10) unsigned NOT NULL,
+        `charid` int (10) unsigned NOT NULL,
+        KEY `FK_ox_mdt_reports_officers_characters` (`charid`) USING BTREE,
+        KEY `reportid` (`reportid`) USING BTREE,
+        CONSTRAINT `FK_ox_mdt_reports_officers_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_reports_officers_ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
 
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_charges` (
-        `reportid` INT (10) UNSIGNED NOT NULL,
-        `charid` INT (10) UNSIGNED NOT NULL,
-        `charge` VARCHAR(50) NULL DEFAULT NULL,
-        INDEX `FK_ox_mdt_charges_characters` (`charid`) USING BTREE,
-        INDEX `FK_ox_mdt_charges_ox_mdt_offenses` (`charge`) USING BTREE,
-        INDEX `FK_ox_mdt_charges_ox_mdt_reports` (`reportid`) USING BTREE,
-        CONSTRAINT `FK_ox_mdt_charges_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON UPDATE CASCADE ON DELETE CASCADE,
-        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `ox_mdt_offenses` (`label`) ON UPDATE CASCADE ON DELETE CASCADE,
-        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-    ) ENGINE = InnoDB;
-
-CREATE TABLE
-    IF NOT EXISTS `ox_mdt_offenses` (
-        `label` VARCHAR(50) NOT NULL,
-        `type` VARCHAR(50) NOT NULL,
-        `description` VARCHAR(250) NOT NULL,
-        `time` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        `fine` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        `points` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        PRIMARY KEY (`label`) USING BTREE
-    ) ENGINE = InnoDB;
+        `reportid` int (10) unsigned NOT NULL,
+        `charid` int (10) unsigned NOT NULL,
+        `charge` varchar(50) DEFAULT NULL,
+        `count` int (10) unsigned NOT NULL DEFAULT 1,
+        `time` int (10) unsigned DEFAULT NULL,
+        `fine` int (10) unsigned DEFAULT NULL,
+        `points` int (10) unsigned DEFAULT NULL,
+        KEY `FK_ox_mdt_charges_ox_mdt_reports_criminals` (`reportid`),
+        KEY `FK_ox_mdt_charges_ox_mdt_reports_criminals_2` (`charid`),
+        KEY `FK_ox_mdt_charges_ox_mdt_offenses` (`charge`),
+        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `ox_mdt_offenses` (`label`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_reports_criminals` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports_criminals` (`reportid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`charid`) REFERENCES `ox_mdt_reports_criminals` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
 
 INSERT INTO
     `ox_mdt_offenses` (
