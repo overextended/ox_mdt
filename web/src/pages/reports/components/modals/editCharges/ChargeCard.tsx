@@ -2,7 +2,7 @@ import React from 'react';
 import { ActionIcon, Badge, createStyles, Group, rem, Stack, Text, Tooltip } from '@mantine/core';
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 import { useSelectedChargesAtoms, useSetSelectedCharges } from '../../../../../state';
-import {Charge} from "../../../../../typings";
+import { Charge } from '../../../../../typings';
 
 interface Props {
   charge: Charge;
@@ -67,7 +67,21 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
             color="blue"
             variant="light"
             onClick={() =>
-              setSelectedCharges((prev) => [...prev, { label: charge.label, count: 1, penalty: charge.penalty }])
+              setSelectedCharges((prev) => {
+                const prevChargeIndex = prev.findIndex((el) => el.label === charge.label);
+
+                if (prevChargeIndex === -1) {
+                  return [...prev, { label: charge.label, count: 1, penalty: charge.penalty }];
+                }
+
+                return prev.map((el, index) => {
+                  if (index === prevChargeIndex) {
+                    return { ...el, count: ++el.count };
+                  }
+
+                  return el;
+                });
+              })
             }
           >
             <IconPlus size={20} />
