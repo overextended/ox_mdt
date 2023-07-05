@@ -60,9 +60,10 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 size: 'sm',
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
                 confirmProps: { color: 'red' },
-                onConfirm: () => {
-                  setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
-                  fetchNui('removeCriminal', { id, index }, { data: 1 });
+                onConfirm: async () => {
+                  const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
+
+                  if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
                 },
                 children: (
                   <Text size="sm">
