@@ -98,7 +98,7 @@ end
 ---@param reportId number
 ---@param criminal Criminal
 function db.saveCriminal(reportId, criminal)
-    MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId })
+    db.removeCriminal(reportId, criminal.stateId)
 
     if next(criminal.charges) then
         local queries = {}
@@ -115,6 +115,10 @@ function db.saveCriminal(reportId, criminal)
     else
         return MySQL.prepare.await('INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`) VALUES (?, ?, ?)', { reportId, criminal.stateId })
     end
+end
+
+function db.removeCriminal(reportId, charId)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, charId })
 end
 
 ---@param reportId number

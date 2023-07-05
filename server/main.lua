@@ -69,9 +69,9 @@ lib.callback.register('ox_mdt:addCriminal', function(source, data)
 end)
 
 ---@param source number
----@param data { id: number, index: number }
+---@param data { id: number, criminalId: number }
 lib.callback.register('ox_mdt:removeCriminal', function(source, data)
-    return 1
+    return db.removeCriminal(data.id, data.criminalId)
 end)
 
 ---@param source number
