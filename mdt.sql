@@ -19,17 +19,6 @@ CREATE TABLE
     ) ENGINE = InnoDB;
 
 CREATE TABLE
-    IF NOT EXISTS `ox_mdt_offenses` (
-        `label` VARCHAR(50) NOT NULL,
-        `type` VARCHAR(50) NOT NULL,
-        `description` VARCHAR(250) NOT NULL,
-        `time` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        `fine` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        `points` INT (10) UNSIGNED NOT NULL DEFAULT '0',
-        PRIMARY KEY (`label`) USING BTREE
-    ) ENGINE = InnoDB;
-
-CREATE TABLE
     IF NOT EXISTS `ox_mdt_charges` (
         `reportid` INT (10) UNSIGNED NOT NULL,
         `charid` INT (10) UNSIGNED NOT NULL,
