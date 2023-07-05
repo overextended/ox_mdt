@@ -2,9 +2,8 @@
 ---@field firstName string
 ---@field lastName string
 ---@field dob number
----@field playerId number | string
+---@field stateId number | string
 ---@field image? string
-
 
 ---@class Profile : ProfileCard
 ---@field stateId number | string
@@ -14,28 +13,32 @@
 ---@field pastCharges? { label: string, count: number }[]
 ---@field relatedReports? { title: string, author: string, date: string, id: number }[]
 
----@class CriminalProfile
----@field firstName string
----@field lastName string
----@field dob string
----@field id number
----@field image? string
+---@class CriminalProfile : ProfileCard
 
----@class Criminal
----@field name string
----@field stateId number
----@field charges table[]
+---@class Criminal : CriminalProfile
+---@field charges SelectedCharge[]
 ---@field issueWarrant boolean
 ---@field pleadedGuilty? boolean
 ---@field warrantExpiry? string
 ---@field penalty? { time: number, fine: number, points: number, reduction?: number }
+
+---@class Charge
+---@field label string
+---@field type 'misdemeanour' | 'felony' | 'infraction'
+---@field description string
+---@field penalty { time: number, fine: number, points: number }
+
+---@class SelectedCharge
+---@field label string
+---@field count number
+---@field penalty { time: number, fine: number, points: number }
 
 ---@class Report
 ---@field title string
 ---@field id number
 ---@field description? string
 ---@field officersInvolved { name: string, callSign: number }
----@field evidence table[]
+---@field evidence table<ImageEvidence | ItemEvidence>
 ---@field criminals Criminal[]
 
 ---@class ReportCard
