@@ -78,8 +78,8 @@ end
 
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
-    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as id, b.firstName, b.lastName FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
-    local charges = MySQL.rawExecute.await('SELECT `charid` as id, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
+    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName FROM `ox_mdt_charges` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
+    local charges = MySQL.rawExecute.await('SELECT `charid` as stateId, `charge` as label, COUNT(1) as count FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
 
     for _, v in pairs(criminals) do
         v.charges = {}
