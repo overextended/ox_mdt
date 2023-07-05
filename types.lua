@@ -20,7 +20,7 @@
 ---@field issueWarrant boolean
 ---@field pleadedGuilty? boolean
 ---@field warrantExpiry? string
----@field penalty? { time: number, fine: number, points: number, reduction?: number }
+---@field penalty { time: number, fine: number, points: number, reduction?: number }
 
 ---@class Charge
 ---@field label string
