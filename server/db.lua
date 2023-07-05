@@ -78,32 +78,39 @@ end
 
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
-    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
+
+    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number }[]
+    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName, a.reduction FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
+
+    ---@type { stateId: number | string, label: string, time: number?, fine: number?, points: number?, count: number }[]
     local charges = MySQL.rawExecute.await('SELECT `charid` as stateId, `charge` as label, `time`, `fine`, `points`, `count` FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
 
-    for _, v in pairs(criminals) do
-        v.charges = {}
+    for _, criminal in pairs(criminals) do
+        ---@type SelectedCharge[]
+        criminal.charges = {}
         local chargesN = 0
 
-        -- todo: pull reduction from db
-        v.penalty = {
+        criminal.penalty = {
             time = 0,
             fine = 0,
             points = 0,
-            reduction = nil
+            reduction = criminal.reduction
         }
 
-        for _, v2 in pairs(charges) do
-            if v2.label and v2.id == v.id then
-                v2.penalty = {
-                    time = v2.time or 0,
-                    fine = v2.fine or 0,
-                    points = v2.points or 0
+        for _, charge in pairs(charges) do
+            if charge.label and charge.stateId == criminal.stateId then
+                charge.penalty = {
+                    time = charge.time or 0,
+                    fine = charge.fine or 0,
+                    points = charge.points or 0
                 }
 
-                v2.id, v2.time, v2.fine, v2.points = nil
+                charge.stateId, charge.time, charge.fine, charge.points = nil
+                criminal.penalty.time += charge.penalty.time
+                criminal.penalty.fine += charge.penalty.fine
+                criminal.penalty.points += charge.penalty.points
                 chargesN += 1
-                v.charges[chargesN] = v2
+                criminal.charges[chargesN] = charge
             end
         end
 
