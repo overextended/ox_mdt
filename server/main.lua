@@ -1,11 +1,10 @@
-local isAuthorised = require 'server.isAuthorised'
+local utils = require 'server.utils'
 local db = require 'server.db'
 
 ---@param source number
 ---@param search string
 ---@return CriminalProfile[]?
-lib.callback.register('ox_mdt:getCriminalProfiles', function(source, search)
-
+utils.registerCallback('ox_mdt:getCriminalProfiles', function(source, search)
     if tonumber(search) then
         return db.selectCharacterById(search)
     end
@@ -15,7 +14,7 @@ end)
 
 ---@param title string
 ---@return number?
-lib.callback.register('ox_mdt:createReport', function(source, title)
+utils.registerCallback('ox_mdt:createReport', function(source, title)
     local player = Ox.GetPlayer(source)
     return db.createReport(title, player.name)
 end)
@@ -23,7 +22,7 @@ end)
 ---@param source number
 ---@param search string
 ---@return ReportCard[]
-lib.callback.register('ox_mdt:getReports', function(source, search)
+utils.registerCallback('ox_mdt:getReports', function(source, search)
     if tonumber(search) then
         return db.selectReportsById(search)
     end
@@ -34,7 +33,7 @@ end)
 ---@param source number
 ---@param reportId number
 ---@return Report?
-lib.callback.register('ox_mdt:getReport', function(source, reportId)
+utils.registerCallback('ox_mdt:getReport', function(source, reportId)
     local response = db.selectReportById(reportId)
 
     if response then
@@ -50,67 +49,67 @@ end)
 ---@param source number
 ---@param reportId number
 ---@return number
-lib.callback.register('ox_mdt:deleteReport', function(source, reportId)
+utils.registerCallback('ox_mdt:deleteReport', function(source, reportId)
     return db.deleteReport(reportId)
 end)
 
 ---@param source number
 ---@param data { id: number, title: string}
 ---@return number
-lib.callback.register('ox_mdt:setReportTitle', function(source, data)
+utils.registerCallback('ox_mdt:setReportTitle', function(source, data)
     return db.updateReportTitle(data.title, data.id)
 end)
 
 ---@param source number
 ---@param data { id: number, criminalId: number }
-lib.callback.register('ox_mdt:addCriminal', function(source, data)
+utils.registerCallback('ox_mdt:addCriminal', function(source, data)
     return db.addCriminal(data.id, data.criminalId)
 end)
 
 ---@param source number
 ---@param data { id: number, criminalId: number }
-lib.callback.register('ox_mdt:removeCriminal', function(source, data)
+utils.registerCallback('ox_mdt:removeCriminal', function(source, data)
     return db.removeCriminal(data.id, data.criminalId)
 end)
 
 ---@param source number
 ---@param data { id: number, criminal: Criminal }
-lib.callback.register('ox_mdt:saveCriminal', function(source, data)
+utils.registerCallback('ox_mdt:saveCriminal', function(source, data)
     return db.saveCriminal(data.id, data.criminal)
 end)
 
 ---@param source number
 ---@param data { id: number, callSign: string }
-lib.callback.register('ox_mdt:addOfficer', function(source, data)
+utils.registerCallback('ox_mdt:addOfficer', function(source, data)
     return 1
 end)
 
 ---@param source number
 ---@param data { id: number, index: number }
-lib.callback.register('ox_mdt:removeOfficer', function(source, data)
+utils.registerCallback('ox_mdt:removeOfficer', function(source, data)
     return 1
 end)
 
 ---@param source number
 ---@param data { id: number, evidence: ItemEvidence | ImageEvidence }
-lib.callback.register('ox_mdt:addEvidence', function(source, data)
+utils.registerCallback('ox_mdt:addEvidence', function(source, data)
     return 1
 end)
 
 ---@param source number
 ---@param data { id: number, index: number }
-lib.callback.register('ox_mdt:removeEvidence', function(source, data)
+utils.registerCallback('ox_mdt:removeEvidence', function(source, data)
     return 1
 end)
 
 ---@param source number
 ---@param data string
-lib.callback.register('ox_mdt:getProfiles', function(source, data)
+utils.registerCallback('ox_mdt:getProfiles', function(source, data)
     return db.selectProfiles()
 end)
 
 ---@param source number
 ---@param data string
-lib.callback.register('ox_mdt:getProfile', function(source, data)
+utils.registerCallback('ox_mdt:getProfile', function(source, data)
     return db.selectCharacterProfile(data)
 end)
