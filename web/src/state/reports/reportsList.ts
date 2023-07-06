@@ -14,15 +14,28 @@ for (let i = 0; i < 25; i++) {
   };
 }
 
+const getReports = async (search?: string) =>
+  await fetchNui('getReports', search, { data: DEBUG_REPORTS, delay: 1000 });
+
 export const reportsListAtoms = atomWithDebounce('');
 
-const reportsListAtom = atom<Promise<ReportCard[]>>(async (get) => {
-  const searchValue = get(reportsListAtoms.debouncedValueAtom);
+const rawReportsAtom = atom<ReportCard[]>([]);
 
-  return await fetchNui('getReports', searchValue, { data: DEBUG_REPORTS, delay: 1000 });
-});
+// TODO: fix creating a new report while searching then removing the search not refreshing the reports list
+const reportsAtom = atom(
+  async (get) => {
+    const rawReports = get(rawReportsAtom);
+    const search = get(reportsListAtoms.debouncedValueAtom);
+    return rawReports.length === 0 || search !== '' ? getReports(search) : rawReports;
+  },
+  async (get, set, by?: ReportCard[] | undefined) => {
+    const search = get(reportsListAtoms.debouncedValueAtom);
+    return search !== '' ? set(rawReportsAtom, by ?? (await getReports(search))) : set(rawReportsAtom, by ?? []);
+  }
+);
 
 export const useReportsSearch = () => useAtomValue(reportsListAtoms.currentValueAtom);
 export const useIsReportsDebouncing = () => useAtomValue(reportsListAtoms.isDebouncingAtom);
 export const useSetReportsDebounce = () => useSetAtom(reportsListAtoms.debouncedValueAtom);
-export const useReportsList = () => useAtomValue(reportsListAtom);
+export const useReportsList = () => useAtomValue(reportsAtom);
+export const useSetReportsList = () => useSetAtom(reportsAtom);

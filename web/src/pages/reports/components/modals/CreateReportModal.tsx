@@ -1,6 +1,6 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import React, { useRef } from 'react';
-import { useSetActiveReport, useSetIsReportActive } from '../../../../state';
+import { useSetActiveReport, useSetIsReportActive, useSetReportsList } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
@@ -12,6 +12,7 @@ type FormValues = {
 const CreateReportModal: React.FC = () => {
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
+  const updateReportsList = useSetReportsList();
 
   const form = useForm({
     initialValues: {
@@ -26,6 +27,7 @@ const CreateReportModal: React.FC = () => {
   const handleSubmit = async (values: FormValues) => {
     modals.closeAll();
     const resp = await fetchNui<number>('createReport', values.title, { data: 1 });
+    await updateReportsList();
     setReport({
       title: values.title,
       id: resp,
