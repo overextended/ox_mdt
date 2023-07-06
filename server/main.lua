@@ -113,3 +113,10 @@ end)
 utils.registerCallback('ox_mdt:getProfile', function(source, data)
     return db.selectCharacterProfile(data)
 end)
+
+---@param source number
+---@param data string
+utils.registerCallback('ox_mdt:getSearchOfficers', function(source, data)
+    -- Probably should switch to using firstName and lastName rather than name
+    return { { name = 'John Doe', callSign = 132 }}
+end)
