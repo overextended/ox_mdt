@@ -25,10 +25,10 @@ const CreateReportModal: React.FC = () => {
 
   const handleSubmit = async (values: FormValues) => {
     modals.closeAll();
-    const resp = await fetchNui<{ id: number }>('createReport', values.title, { data: { id: 1 } });
+    const resp = await fetchNui<number>('createReport', values.title, { data: 1 });
     setReport({
       title: values.title,
-      id: resp.id,
+      id: resp,
       criminals: [],
       description: '<p></p>',
       evidence: [],
