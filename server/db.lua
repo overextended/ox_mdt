@@ -37,7 +37,7 @@ function db.selectReportById(id)
     return MySQL.prepare.await('SELECT `id`, `title`, `description` FROM `ox_mdt_reports` WHERE `id` = ?', { id }) --[[@as MySQLRow]]
 end
 
-local selectReports = 'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports`'
+local selectReports = 'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d %T") as date FROM `ox_mdt_reports`'
 local selectReportsById = selectReports .. 'WHERE `id` LIKE ?'
 
 ---@param id number | string
@@ -45,7 +45,7 @@ function db.selectReportsById(id)
     return MySQL.rawExecute.await(selectReportsById, { wildcard:format(id) })
 end
 
-local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author` LIKE ? or `date` LIKE ?'
+local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author` LIKE ? or `date` LIKE ? ORDER BY `date` DESC'
 
 ---@param search string
 function db.selectReports(search)
