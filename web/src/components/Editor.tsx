@@ -30,27 +30,27 @@ const useStyles = createStyles({
   },
 });
 
-const Editor: React.FC<Props> = (props) => {
+const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onChange }) => {
   const { classes } = useStyles();
   const [canSave, setCanSave] = React.useState(false);
   const editor = useEditor({
-    content: props?.content,
+    content,
 
     extensions: [
       StarterKit,
       Underline,
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: props.placeholder }),
+      Placeholder.configure({ placeholder }),
     ],
   });
 
   React.useEffect(() => {
-    props.onChange && props.onChange(editor?.getHTML());
+    onChange && onChange(editor?.getHTML());
 
-    if (!props.onSave) return;
+    if (!onSave) return;
     const timer = setTimeout(() => {
-      if (editor?.getHTML() !== props?.content) setCanSave(true);
+      if (editor?.getHTML() !== content) setCanSave(true);
       else setCanSave(false);
     }, 500);
 
@@ -101,7 +101,7 @@ const Editor: React.FC<Props> = (props) => {
               <RichTextEditor.OrderedList />
             </RichTextEditor.ControlsGroup>
           </FloatingMenu>
-          <Transition mounted={!!(canSave && props.onSave)} transition="slide-down">
+          <Transition mounted={!!(canSave && onSave)} transition="slide-down">
             {(style) => (
               <ActionIcon
                 style={style}
@@ -111,7 +111,7 @@ const Editor: React.FC<Props> = (props) => {
                 size={26}
                 onClick={() => {
                   setCanSave(false);
-                  props.onSave && props.onSave(editor?.getHTML());
+                  onSave && onSave(editor?.getHTML());
                 }}
               >
                 <IconDeviceFloppy size={20} />
