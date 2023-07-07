@@ -41,7 +41,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    IF NOT EXISTS `ox_mdt_charges` (
+    IF NOT EXISTS `ox_mdt_reports_charges` (
         `reportid` int (10) unsigned NOT NULL,
         `charid` int (10) unsigned NOT NULL,
         `charge` varchar(50) DEFAULT NULL,
@@ -49,12 +49,12 @@ CREATE TABLE
         `time` int (10) unsigned DEFAULT NULL,
         `fine` int (10) unsigned DEFAULT NULL,
         `points` int (10) unsigned DEFAULT NULL,
-        KEY `FK_ox_mdt_charges_ox_mdt_reports_criminals` (`reportid`),
-        KEY `FK_ox_mdt_charges_ox_mdt_reports_criminals_2` (`charid`),
-        KEY `FK_ox_mdt_charges_ox_mdt_offenses` (`charge`),
-        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `ox_mdt_offenses` (`label`) ON DELETE CASCADE ON UPDATE CASCADE,
-        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_reports_criminals` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports_criminals` (`reportid`) ON DELETE CASCADE ON UPDATE CASCADE,
-        CONSTRAINT `FK_ox_mdt_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`charid`) REFERENCES `ox_mdt_reports_criminals` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE
+        KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals` (`reportid`),
+        KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` (`charid`),
+        KEY `FK_ox_mdt_reports_charges_ox_mdt_offenses` (`charge`),
+        CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `ox_mdt_offenses` (`label`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports_criminals` (`reportid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`charid`) REFERENCES `ox_mdt_reports_criminals` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 INSERT INTO

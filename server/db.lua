@@ -83,7 +83,7 @@ function db.selectCriminalsInvolved(reportId)
     local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName, a.reduction FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
 
     ---@type { stateId: number | string, label: string, time: number?, fine: number?, points: number?, count: number }[]
-    local charges = MySQL.rawExecute.await('SELECT `charid` as stateId, `charge` as label, `time`, `fine`, `points`, `count` FROM `ox_mdt_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
+    local charges = MySQL.rawExecute.await('SELECT `charid` as stateId, `charge` as label, `time`, `fine`, `points`, `count` FROM `ox_mdt_reports_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
 
     for _, criminal in pairs(criminals) do
         ---@type SelectedCharge[]
@@ -122,7 +122,7 @@ end
 ---@param reportId number
 ---@param criminal Criminal
 function db.saveCriminal(reportId, criminal)
-    MySQL.prepare.await('DELETE FROM `ox_mdt_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId })
+    MySQL.prepare.await('DELETE FROM `ox_mdt_reports_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId })
 
     if next(criminal.charges) then
         local queries = {}
@@ -131,7 +131,7 @@ function db.saveCriminal(reportId, criminal)
         for _, v in pairs(criminal.charges) do
             queryN += 1
             ---@todo fetch and store all criminal offenses; use time, fine, and points
-            queries[queryN] = { 'INSERT INTO `ox_mdt_charges` (`reportid`, `charid`, `charge`, `count`, `time`, `fine`, `points`) VALUES (?, ?, ?, ?, ?, ?, ?)', { reportId, criminal.stateId, v.label, v.count } }
+            queries[queryN] = { 'INSERT INTO `ox_mdt_reports_charges` (`reportid`, `charid`, `charge`, `count`, `time`, `fine`, `points`) VALUES (?, ?, ?, ?, ?, ?, ?)', { reportId, criminal.stateId, v.label, v.count } }
         end
 
         return MySQL.transaction.await(queries)
@@ -169,8 +169,8 @@ function db.selectCharacterProfile(search)
         v.model = nil
     end
 
-    profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_charges` b ON b.reportid = a.id WHERE `charid` = ?', parameters) or {}
-    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_charges` WHERE `charge` IS NOT NULL AND `charid` = ? GROUP BY `charge`', parameters) or {}
+    profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_charges` b ON b.reportid = a.id WHERE `charid` = ?', parameters) or {}
+    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `charid` = ? GROUP BY `charge`', parameters) or {}
 
     return profile
 end
