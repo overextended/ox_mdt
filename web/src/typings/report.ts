@@ -1,6 +1,7 @@
 import { DateValue } from '@mantine/dates';
 import { SelectedCharge } from './charges';
 import { ProfileCard } from './profile';
+import { Officer } from './officer';
 
 export interface Criminal extends CriminalProfile {
   charges: SelectedCharge[];
@@ -31,10 +32,7 @@ export interface Report {
   title: string;
   id: number;
   description?: string;
-  officersInvolved: {
-    name: string;
-    callSign: number;
-  }[];
+  officersInvolved: Officer[];
   evidence: Array<ImageEvidence | ItemEvidence>;
   criminals: Criminal[];
 }

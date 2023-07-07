@@ -9,15 +9,18 @@ export const reportAtom = atom<Report>({
   description: '<p></p>',
   officersInvolved: [
     {
-      name: 'Callum Graham',
+      firstName: 'Callum',
+      lastName: 'Graham',
       callSign: 188,
     },
     {
-      name: 'Jacob Gray',
+      firstName: 'Jacob',
+      lastName: 'Gray',
       callSign: 273,
     },
     {
-      name: 'Edward Atkinson',
+      firstName: 'Edward',
+      lastName: 'Atkinson',
       callSign: 125,
     },
   ],

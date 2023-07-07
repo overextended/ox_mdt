@@ -17,8 +17,8 @@ const DEBUG_CALLS: Call[] = [
       code: '10-29',
     },
     units: [
-      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Marc Marshall', callSign: 322 }], id: 2 },
+      { name: 'Unit 1', type: 'car', members: [{ firstName: 'Billy', lastName: 'Bob', callSign: 132 }], id: 1 },
+      { name: 'Unit 6', type: 'heli', members: [{ firstName: 'Marc', lastName: 'Marshall', callSign: 322 }], id: 2 },
     ],
   },
   {
@@ -39,14 +39,14 @@ const DEBUG_CALLS: Call[] = [
         name: 'Unit 1',
         type: 'car',
         members: [
-          { name: 'Billy bob', callSign: 132 },
-          { name: 'Martin Contreras', callSign: 521 },
+          { firstName: 'Billy', lastName: 'bob', callSign: 132 },
+          { firstName: 'Martin', lastName: 'Contreras', callSign: 521 },
         ],
         id: 1,
       },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Bobby Hopkins', callSign: 823 }], id: 2 },
-      { name: 'Unit 4', type: 'motor', members: [{ name: 'Connor Collins', callSign: 531 }], id: 3 },
-      { name: 'Unit 3', type: 'boat', members: [{ name: 'Corey Hayes', callSign: 274 }], id: 4 },
+      { name: 'Unit 6', type: 'heli', members: [{ firstName: 'Bobby', lastName: 'Hopkins', callSign: 823 }], id: 2 },
+      { name: 'Unit 4', type: 'motor', members: [{ firstName: 'Connor', lastName: 'Collins', callSign: 531 }], id: 3 },
+      { name: 'Unit 3', type: 'boat', members: [{ firstName: 'Corey', lastName: 'Hayes', callSign: 274 }], id: 4 },
     ],
   },
   {
@@ -63,8 +63,8 @@ const DEBUG_CALLS: Call[] = [
       code: '10-13',
     },
     units: [
-      { name: 'Unit 1', type: 'car', members: [{ name: 'Billy bob', callSign: 132 }], id: 1 },
-      { name: 'Unit 6', type: 'heli', members: [{ name: 'Freddie Reid', callSign: 823 }], id: 2 },
+      { name: 'Unit 1', type: 'car', members: [{ firstName: 'Billy', lastName: 'bob', callSign: 132 }], id: 1 },
+      { name: 'Unit 6', type: 'heli', members: [{ firstName: 'Freddie', lastName: 'Reid', callSign: 823 }], id: 2 },
     ],
   },
 ];

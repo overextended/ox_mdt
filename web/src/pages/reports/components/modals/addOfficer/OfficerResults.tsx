@@ -36,10 +36,15 @@ const OfficerResults: React.FC = () => {
             onClick={async () => {
               await fetchNui('addOfficer', { id, callSign: officer.callSign }, { data: 1 });
               modals.closeAll();
-              setOfficersInvolved((prev) => [...prev, { name: officer.name, callSign: officer.callSign }]);
+              setOfficersInvolved((prev) => [
+                ...prev,
+                { firstName: officer.firstName, lastName: officer.lastName, callSign: officer.callSign },
+              ]);
             }}
           >
-            <Text>{officer.name}</Text>
+            <Text>
+              {officer.firstName} {officer.lastName}
+            </Text>
             <Text c="dark.2">{officer.callSign}</Text>
           </Group>
         ))

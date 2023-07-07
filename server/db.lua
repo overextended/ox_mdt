@@ -71,7 +71,7 @@ function db.selectProfiles()
 end
 
 function db.selectOfficersInvolved(reportId)
-    local officers = MySQL.rawExecute.await('SELECT CONCAT(b.firstname, " ", b.lastname) AS name FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.charid = a.charid WHERE `reportid` = ?', { reportId }) or {}
+    local officers = MySQL.rawExecute.await('SELECT b.firstName, b.lastName FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.charid = a.charid WHERE `reportid` = ?', { reportId }) or {}
     print(json.encode(officers, {sort_keys=true,indent=true}))
     return officers
 end

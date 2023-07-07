@@ -1,4 +1,5 @@
 export interface Officer {
-  name: string;
+  firstName: string;
+  lastName: string;
   callSign: number;
 }

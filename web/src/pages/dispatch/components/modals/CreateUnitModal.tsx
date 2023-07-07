@@ -23,7 +23,7 @@ const CreateUnitModal: React.FC = () => {
         id: resp.id,
         name: resp.name,
         type: value,
-        members: [{ name: `${character.firstName} ${character.lastName}`, callSign: character.callSign }],
+        members: [{ firstName: character.firstName, lastName: character.lastName, callSign: character.callSign }],
       },
     ]);
     setCharacter((prev) => ({ ...prev, unit: resp.id }));

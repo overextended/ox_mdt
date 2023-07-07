@@ -42,7 +42,8 @@ const OfficersInvolved: React.FC = () => {
                     title: 'Remove officer',
                     children: (
                       <Text size="sm">
-                        Are you sure you want to remove {officer.name} ({officer.callSign}) from involved officers?
+                        Are you sure you want to remove {officer.firstName} {officer.lastName} ({officer.callSign}) from
+                        involved officers?
                       </Text>
                     ),
                     confirmProps: { color: 'red' },
@@ -58,7 +59,7 @@ const OfficersInvolved: React.FC = () => {
               </ActionIcon>
             }
           >
-            {officer.name} ({officer.callSign})
+            {officer.firstName} {officer.lastName} ({officer.callSign})
           </Badge>
         ))}
       </Group>

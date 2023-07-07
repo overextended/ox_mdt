@@ -7,10 +7,9 @@ import { debugData } from '../../../utils/debugData';
 import { IconCircleFilled } from '@tabler/icons-react';
 import L from 'leaflet';
 import MarkerPopup from './MarkerPopup';
+import { Officer } from '../../../typings';
 
-interface OfficerPosition {
-  name: string;
-  callSign: number;
+interface OfficerPosition extends Officer {
   position: [number, number];
 }
 
@@ -27,9 +26,9 @@ const OfficerMarkers: React.FC = () => {
   debugData<OfficerPosition[]>([
     {
       data: [
-        { name: 'John Snow', position: [0, 0], callSign: 199 },
-        { name: 'Billy Bob', position: [250, 250], callSign: 564 },
-        { name: 'Merry Jane', position: [1000, 300], callSign: 751 },
+        { firstName: 'John', lastName: 'Snow', position: [0, 0], callSign: 199 },
+        { firstName: 'Billy', lastName: 'Bob', position: [250, 250], callSign: 564 },
+        { firstName: 'Merry', lastName: 'Jane', position: [1000, 300], callSign: 751 },
       ],
       action: 'updateOfficerPositions',
     },
@@ -54,7 +53,7 @@ const OfficerMarkers: React.FC = () => {
           >
             <MarkerPopup>
               <Text>
-                {officer.name} ({officer.callSign})
+                {officer.firstName} {officer.lastName} ({officer.callSign})
               </Text>
             </MarkerPopup>
           </Marker>
