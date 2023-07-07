@@ -2,7 +2,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Character } from '../typings';
 
 const characterAtom = atom<Character>({
-  id: '',
+  stateId: 199351,
   firstName: '',
   lastName: '',
   title: '',

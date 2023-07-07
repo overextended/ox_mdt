@@ -1,10 +1,25 @@
+local firstOpen = true
+
 local function openMDT()
     SetNuiFocus(true, true)
     SendNUIMessage({
         action = 'setVisible',
-        data = true
+        data = firstOpen and {
+            stateId = player.charid,
+            firstName = player.firstName,
+            lastName = player.lastName,
+            title = 'LSPD Officer',
+            grade = 4,
+            callSign = 132
+        }
     })
+    firstOpen = false
 end
+
+AddEventHandler('ox:playerLoaded', function(data)
+    firstOpen = true
+end)
+
 
 exports('openMDT', openMDT)
 
@@ -17,16 +32,6 @@ RegisterNUICallback('hideMDT', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-RegisterNUICallback('uiLoaded', function(_, cb)
-    cb({
-        id = 1,
-        firstName = 'John',
-        lastName = 'Snow',
-        title = 'LSPD Officer',
-        grade = 4,
-        callSign = 132
-    })
-end)
 
 RegisterNUICallback('getAnnouncements', function(_, cb)
     cb({})

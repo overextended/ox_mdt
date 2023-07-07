@@ -1,7 +1,7 @@
 export interface Announcement {
   id: number;
   creator: {
-    id: string;
+    stateId: number;
     firstName: string;
     lastName: string;
     callSign: number;

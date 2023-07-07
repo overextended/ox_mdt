@@ -10,7 +10,7 @@ import { fetchNui } from './utils/fetchNui';
 import { useSetCharacter } from './state';
 import Reports from './pages/reports/Reports';
 import Dispatch from './pages/dispatch/Dispatch';
-import {Character} from "./typings";
+import { Character } from './typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
   },
   root: {
     width: 1650,
-    height: 825 ,
+    height: 825,
 
     ['@media (max-width: 1599px)']: {
       width: 1200,
@@ -47,8 +47,9 @@ function App() {
   const [visible, setVisible] = useVisibilityState();
   const setCharacter = useSetCharacter();
 
-  useNuiEvent('setVisible', () => {
+  useNuiEvent('setVisible', (data?: Character) => {
     setVisible(true);
+    data && setCharacter(data);
   });
 
   const handleESC = (e: KeyboardEvent) => {
@@ -63,21 +64,6 @@ function App() {
 
     return () => window.removeEventListener('keydown', handleESC);
   }, [visible]);
-
-  React.useEffect(() => {
-    fetchNui<Character>('uiLoaded', null, {
-      data: {
-        id: 'XYZ123',
-        firstName: 'Svetozar',
-        lastName: 'Miletić',
-        title: 'LSPD Officer',
-        grade: 4,
-        callSign: 192,
-      },
-    }).then((data) => {
-      setCharacter(data);
-    });
-  }, []);
 
   return (
     <Box className={classes.container}>

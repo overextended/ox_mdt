@@ -13,7 +13,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { useConfig } from '../../../state/config';
-import {Announcement, Character} from "../../../typings";
+import { Announcement, Character } from '../../../typings';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -62,7 +62,8 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
           <Menu.Target>
             <ActionIcon
               disabled={
-                announcement.creator.id !== character.id && character.grade < config.permissions.announcements.delete
+                announcement.creator.stateId !== character.stateId &&
+                character.grade < config.permissions.announcements.delete
               }
               size="lg"
               color="dark.2"
@@ -73,7 +74,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
 
           <Menu.Dropdown>
             <Menu.Item
-              disabled={announcement.creator.id !== character.id}
+              disabled={announcement.creator.stateId !== character.stateId}
               icon={<IconEdit size={18} />}
               onClick={() => {
                 modals.open({

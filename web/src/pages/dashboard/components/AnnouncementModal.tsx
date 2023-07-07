@@ -4,7 +4,7 @@ import { useSetAnnouncements } from '../../../state';
 import { modals } from '@mantine/modals';
 import { useCharacter } from '../../../state';
 import Editor from '../../../components/Editor';
-import {Announcement} from "../../../typings";
+import { Announcement } from '../../../typings';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   // Character used only for testing
@@ -18,7 +18,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
       {
         id: prev.length > 0 ? prev[0].id + 1 : 0,
         creator: {
-          id: character.id,
+          stateId: character.stateId,
           callSign: character.callSign,
           image: character.image,
           lastName: character.lastName,
