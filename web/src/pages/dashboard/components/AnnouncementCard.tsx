@@ -48,7 +48,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
     <Stack className={classes.announcementContainer} p="md">
       <Group position="apart">
         <Group>
-          <Avatar color="blue" radius="xl" />
+          <Avatar color="blue" />
           <Stack spacing={0}>
             <Text fw={500}>
               {`${announcement.creator.firstName} ${announcement.creator.lastName} · ${announcement.creator.callSign}`}

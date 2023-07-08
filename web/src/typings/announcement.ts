@@ -1,12 +1,12 @@
+import { Officer } from './officer';
+
+interface AnnouncementCreator extends Officer {
+  image?: string;
+}
+
 export interface Announcement {
   id: number;
-  creator: {
-    stateId: number;
-    firstName: string;
-    lastName: string;
-    callSign: number;
-    image?: string;
-  };
+  creator: AnnouncementCreator;
   contents: string;
   createdAt: number;
 }
