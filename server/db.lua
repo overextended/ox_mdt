@@ -51,7 +51,6 @@ local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author
 ---@param search string
 function db.selectReports(page, search)
     search = wildcard:format(search)
-    print(search, (page - 1) * 10)
     return MySQL.rawExecute.await(selectReportsByString, { search, search, search, (page - 1) * 10 })
 end
 
