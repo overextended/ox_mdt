@@ -38,7 +38,12 @@ const OfficerResults: React.FC = () => {
               modals.closeAll();
               setOfficersInvolved((prev) => [
                 ...prev,
-                { firstName: officer.firstName, lastName: officer.lastName, callSign: officer.callSign },
+                {
+                  firstName: officer.firstName,
+                  lastName: officer.lastName,
+                  callSign: officer.callSign,
+                  stateId: officer.stateId,
+                },
               ]);
             }}
           >

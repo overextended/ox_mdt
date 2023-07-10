@@ -26,9 +26,9 @@ const OfficerMarkers: React.FC = () => {
   debugData<OfficerPosition[]>([
     {
       data: [
-        { firstName: 'John', lastName: 'Snow', position: [0, 0], callSign: 199 },
-        { firstName: 'Billy', lastName: 'Bob', position: [250, 250], callSign: 564 },
-        { firstName: 'Merry', lastName: 'Jane', position: [1000, 300], callSign: 751 },
+        { firstName: 'John', lastName: 'Snow', position: [0, 0], callSign: 199, stateId: 391231 },
+        { firstName: 'Billy', lastName: 'Bob', position: [250, 250], callSign: 564, stateId: 312351 },
+        { firstName: 'Merry', lastName: 'Jane', position: [1000, 300], callSign: 751, stateId: 103214 },
       ],
       action: 'updateOfficerPositions',
     },
