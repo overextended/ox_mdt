@@ -1,8 +1,10 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { fetchNui } from '../../utils/fetchNui';
 import { ReportCard } from '../../typings';
-
+import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
+import { isEnvBrowser } from '../../utils/misc';
+import { queryClient } from '../../main';
 const DEBUG_REPORTS: ReportCard[] = [];
 
 for (let i = 0; i < 25; i++) {
@@ -14,28 +16,28 @@ for (let i = 0; i < 25; i++) {
   };
 }
 
-const getReports = async (search?: string) =>
-  await fetchNui('getReports', search, { data: DEBUG_REPORTS, delay: 1000 });
+const getReports = async (page: number, search?: string) => {
+  if (isEnvBrowser()) {
+    return DEBUG_REPORTS.slice((page - 1) * 10, page * 10);
+  }
+  return await fetchNui('getReports', { page, search }, { data: DEBUG_REPORTS, delay: 1000 });
+};
 
 export const reportsListAtoms = atomWithDebounce('');
 
-const rawReportsAtom = atom<ReportCard[]>([]);
-
-// TODO: fix creating a new report while searching then removing the search not refreshing the reports list
-const reportsAtom = atom(
-  async (get) => {
-    const rawReports = get(rawReportsAtom);
-    const search = get(reportsListAtoms.debouncedValueAtom);
-    return rawReports.length === 0 || search !== '' ? getReports(search) : rawReports;
-  },
-  async (get, set, by?: ReportCard[] | undefined) => {
-    const search = get(reportsListAtoms.debouncedValueAtom);
-    return search !== '' ? set(rawReportsAtom, by ?? (await getReports(search))) : set(rawReportsAtom, by ?? []);
-  }
+const [reportsAtom, reportsStatusAtom] = atomsWithInfiniteQuery(
+  (get) => ({
+    queryKey: ['reports', get(reportsListAtoms.debouncedValueAtom)],
+    queryFn: async ({ queryKey, pageParam = 1 }) => {
+      return await getReports(pageParam, queryKey[1] as string);
+    },
+    getNextPageParam: (_, pages) => pages.length + 1,
+  }),
+  () => queryClient
 );
 
 export const useReportsSearch = () => useAtomValue(reportsListAtoms.currentValueAtom);
 export const useIsReportsDebouncing = () => useAtomValue(reportsListAtoms.isDebouncingAtom);
 export const useSetReportsDebounce = () => useSetAtom(reportsListAtoms.debouncedValueAtom);
-export const useReportsList = () => useAtomValue(reportsAtom);
+export const useReportsList = () => useAtom(reportsAtom);
 export const useSetReportsList = () => useSetAtom(reportsAtom);

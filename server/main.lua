@@ -20,14 +20,15 @@ utils.registerCallback('ox_mdt:createReport', function(source, title)
 end)
 
 ---@param source number
----@param search string
+---@param data {page: number, search: string;}
 ---@return ReportCard[]
-utils.registerCallback('ox_mdt:getReports', function(source, search)
-    if tonumber(search) then
-        return db.selectReportsById(search)
+utils.registerCallback('ox_mdt:getReports', function(source, data)
+    print('getReports', data.page)
+    if tonumber(data.search) then
+        return db.selectReportsById(data.search)
     end
 
-    return db.selectReports(search)
+    return db.selectReports(data.page, data.search)
 end)
 
 ---@param source number

@@ -1,9 +1,10 @@
 import { Button, Stack, TextInput } from '@mantine/core';
-import React, { useRef } from 'react';
-import { useSetActiveReport, useSetIsReportActive, useSetReportsList } from '../../../../state';
+import React from 'react';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
+import { queryClient } from '../../../../main';
 
 type FormValues = {
   title: string;
@@ -12,7 +13,7 @@ type FormValues = {
 const CreateReportModal: React.FC = () => {
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
-  const updateReportsList = useSetReportsList();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm({
     initialValues: {
@@ -27,7 +28,7 @@ const CreateReportModal: React.FC = () => {
   const handleSubmit = async (values: FormValues) => {
     modals.closeAll();
     const resp = await fetchNui<number>('createReport', values.title, { data: 1 });
-    await updateReportsList();
+    await queryClient.invalidateQueries(['reports']);
     setReport({
       title: values.title,
       id: resp,
@@ -43,7 +44,7 @@ const CreateReportModal: React.FC = () => {
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack>
         <TextInput label="Report title" data-autofocus withAsterisk {...form.getInputProps('title')} />
-        <Button type="submit" fullWidth variant="light">
+        <Button type="submit" fullWidth variant="light" loading={isLoading}>
           Confirm
         </Button>
       </Stack>

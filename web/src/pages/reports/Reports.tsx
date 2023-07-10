@@ -8,6 +8,10 @@ import ActiveReport from './components/ActiveReport';
 import ListContainer from '../../components/ListContainer';
 import { useSetReportsDebounce, reportsListAtoms } from '../../state';
 import ListSearch from '../../components/ListSearch';
+import { useAtomValue } from 'jotai';
+import { queryClientAtom } from 'jotai-tanstack-query';
+import { queryClient } from '../../main';
+import { ReportCard } from '../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -22,6 +26,19 @@ const useStyles = createStyles((theme) => ({
 const Reports: React.FC = () => {
   const { classes } = useStyles();
   const setDebouncedSearch = useSetReportsDebounce();
+
+  React.useEffect(() => {
+    return () => {
+      queryClient.setQueriesData<{ pages: ReportCard[][]; pageParams: number[] }>(['reports'], (data) => {
+        if (!data) return;
+
+        return {
+          pages: [data.pages[0]],
+          pageParams: [data.pageParams[0]],
+        };
+      });
+    };
+  }, []);
 
   return (
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>

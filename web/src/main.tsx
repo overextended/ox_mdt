@@ -12,20 +12,34 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { Provider } from 'jotai';
 import { DatesProvider } from '@mantine/dates';
 import LoaderModal from './components/LoaderModal';
+import { QueryClient } from '@tanstack/query-core';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 dayjs.extend(relativeTime);
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <Provider>
-          <DatesProvider settings={{ locale: 'en' }}>
-            <ModalsProvider modals={{ loader: LoaderModal }}>
-              <App />
-            </ModalsProvider>
-          </DatesProvider>
-        </Provider>
+        <QueryClientProvider client={queryClient}>
+          <Provider>
+            <DatesProvider settings={{ locale: 'en' }}>
+              <ModalsProvider modals={{ loader: LoaderModal }}>
+                <App />
+              </ModalsProvider>
+            </DatesProvider>
+          </Provider>
+        </QueryClientProvider>
       </MantineProvider>
     </HashRouter>
   </React.StrictMode>

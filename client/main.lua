@@ -6,8 +6,8 @@ local function openMDT()
         action = 'setVisible',
         data = firstOpen and {
             stateId = player.charid,
-            firstName = player.firstName,
-            lastName = player.lastName,
+            firstName = player.firstname,
+            lastName = player.lastname,
             title = 'LSPD Officer',
             grade = 4,
             callSign = 132

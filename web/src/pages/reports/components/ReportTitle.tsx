@@ -5,6 +5,7 @@ import { useReportId, useReportTitle, useSetIsReportActive } from '../../../stat
 import { modals } from '@mantine/modals';
 import EditTitleModal from './modals/EditTitleModal';
 import { fetchNui } from '../../../utils/fetchNui';
+import { queryClient } from '../../../main';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();
@@ -32,8 +33,8 @@ const ReportTitle: React.FC = () => {
                 ),
                 labels: { confirm: 'Confirm', cancel: 'Cancel' },
                 onConfirm: async () => {
-                  //   Do stuff when confirm
                   await fetchNui('deleteReport', id, { data: 1 });
+                  await queryClient.invalidateQueries(['reports']);
                   setIsReportActive(false);
                 },
                 confirmProps: {

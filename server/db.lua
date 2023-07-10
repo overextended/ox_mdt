@@ -45,12 +45,14 @@ function db.selectReportsById(id)
     return MySQL.rawExecute.await(selectReportsById, { wildcard:format(id) })
 end
 
-local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author` LIKE ? or `date` LIKE ? ORDER BY `date` DESC'
+local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author` LIKE ? or `date` LIKE ? ORDER BY `date` DESC LIMIT 10 OFFSET ?'
 
+---@param page number
 ---@param search string
-function db.selectReports(search)
+function db.selectReports(page, search)
     search = wildcard:format(search)
-    return MySQL.rawExecute.await(selectReportsByString, { search })
+    print(search, (page - 1) * 10)
+    return MySQL.rawExecute.await(selectReportsByString, { search, search, search, (page - 1) * 10 })
 end
 
 ---@param id number

@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useReportId, useSetReportTitle } from '../../../../state';
+import { useReportId, useReportsList, useSetReportTitle } from '../../../../state';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
+import { queryClient } from '../../../../main';
 
 interface Props {
   title: string;
@@ -12,6 +13,7 @@ interface Props {
 const EditTitleModal: React.FC<Props> = (props) => {
   const setReportTitle = useSetReportTitle();
   const id = useReportId();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm({
     initialValues: {
@@ -25,7 +27,10 @@ const EditTitleModal: React.FC<Props> = (props) => {
 
   const submitForm = async (values: { title: string }) => {
     setReportTitle(values.title);
+    setIsLoading(true);
     await fetchNui('setReportTitle', { id, title: values.title }, { data: 1 });
+    await queryClient.invalidateQueries(['reports']);
+    setIsLoading(false);
     modals.closeAll();
   };
 
@@ -33,7 +38,7 @@ const EditTitleModal: React.FC<Props> = (props) => {
     <form onSubmit={form.onSubmit((values) => submitForm(values))}>
       <Stack>
         <TextInput data-autofocus label="Title" withAsterisk {...form.getInputProps('title')} />
-        <Button type="submit" fullWidth variant="light">
+        <Button type="submit" fullWidth variant="light" loading={isLoading}>
           Confirm
         </Button>
       </Stack>
