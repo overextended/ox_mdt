@@ -16,11 +16,14 @@ for (let i = 0; i < 25; i++) {
   };
 }
 
-const getReports = async (page: number, search?: string) => {
+const getReports = async (page: number, search?: string): Promise<{ hasMore: boolean; reports: ReportCard[] }> => {
   if (isEnvBrowser()) {
-    return DEBUG_REPORTS.slice((page - 1) * 10, page * 10);
+    return {
+      hasMore: true,
+      reports: DEBUG_REPORTS.slice((page - 1) * 10, page * 10),
+    };
   }
-  return await fetchNui('getReports', { page, search }, { data: DEBUG_REPORTS, delay: 1000 });
+  return await fetchNui<{ hasMore: boolean; reports: ReportCard[] }>('getReports', { page, search });
 };
 
 export const reportsListAtoms = atomWithDebounce('');
@@ -31,7 +34,10 @@ const [reportsAtom, reportsStatusAtom] = atomsWithInfiniteQuery(
     queryFn: async ({ queryKey, pageParam = 1 }) => {
       return await getReports(pageParam, queryKey[1] as string);
     },
-    getNextPageParam: (_, pages) => pages.length + 1,
+    getNextPageParam: (_, pages) => {
+      if (!pages[pages.length - 1].hasMore) return;
+      return pages.length + 1;
+    },
   }),
   () => queryClient
 );

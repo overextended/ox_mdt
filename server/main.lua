@@ -23,11 +23,13 @@ end)
 ---@param data {page: number, search: string;}
 ---@return ReportCard[]
 utils.registerCallback('ox_mdt:getReports', function(source, data)
-    if tonumber(data.search) then
-        return db.selectReportsById(data.search)
-    end
 
-    return db.selectReports(data.page, data.search)
+    local reports = tonumber(data.search) and db.selectReportById(data.search) or db.selectReports(data.page, data.search)
+
+    return {
+        hasMore = #reports > 0,
+        reports = reports
+    }
 end)
 
 ---@param source number

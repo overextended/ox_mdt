@@ -31,7 +31,8 @@ const ReportsList: React.FC = () => {
     threshold: 1,
   });
 
-  // TODO: hasMore to prevent fetching new pages
+  const pages = reports.pages.flatMap((page) => page.reports);
+
   React.useEffect(() => {
     if (entry && entry.isIntersecting) {
       dispatch({ type: 'fetchNextPage' });
@@ -41,50 +42,46 @@ const ReportsList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {reports.pages.length > 0 ? (
-        reports.pages.map(
-          (page) =>
-            page &&
-            page.map((report, i) => (
-              <Stack
-                className={classes.reportContainer}
-                p="md"
-                key={report.id}
-                spacing={0}
-                onClick={async () => {
-                  modals.openContextModal({
-                    modal: 'loader',
-                    innerProps: {},
-                    withCloseButton: false,
-                    closeOnClickOutside: false,
-                    size: 'fit-content',
-                  });
-                  const resp = await fetchNui<Report>('getReport', report.id, {
-                    data: {
-                      id: 1,
-                      officersInvolved: [],
-                      evidence: [],
-                      title: report.title,
-                      description: '<p></p>',
-                      criminals: [],
-                    },
-                  });
-                  setActiveReport(resp);
-                  setIsReportActive(true);
-                  modals.closeAll();
-                }}
-              >
-                <Text>{report.title}</Text>
-                <Group position="apart">
-                  <Text size="sm" c="dark.2">
-                    {report.author} - {new Date(report.date).toLocaleDateString()}
-                  </Text>
-                  <Text size="sm" c="dark.2">
-                    #{report.id}
-                  </Text>
-                </Group>
-              </Stack>
-            ))
-        )
+        pages.map((report, i) => (
+          <Stack
+            className={classes.reportContainer}
+            p="md"
+            key={report.id}
+            spacing={0}
+            onClick={async () => {
+              modals.openContextModal({
+                modal: 'loader',
+                innerProps: {},
+                withCloseButton: false,
+                closeOnClickOutside: false,
+                size: 'fit-content',
+              });
+              const resp = await fetchNui<Report>('getReport', report.id, {
+                data: {
+                  id: 1,
+                  officersInvolved: [],
+                  evidence: [],
+                  title: report.title,
+                  description: '<p></p>',
+                  criminals: [],
+                },
+              });
+              setActiveReport(resp);
+              setIsReportActive(true);
+              modals.closeAll();
+            }}
+          >
+            <Text>{report.title}</Text>
+            <Group position="apart">
+              <Text size="sm" c="dark.2">
+                {report.author} - {new Date(report.date).toLocaleDateString()}
+              </Text>
+              <Text size="sm" c="dark.2">
+                #{report.id}
+              </Text>
+            </Group>
+          </Stack>
+        ))
       ) : (
         <NotFound label="No reports found" icon={IconReceiptOff} />
       )}
