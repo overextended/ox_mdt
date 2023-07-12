@@ -34,7 +34,7 @@ const OfficerResults: React.FC = () => {
             className={classes.officerContainer}
             position="apart"
             onClick={async () => {
-              await fetchNui('addOfficer', { id, callSign: officer.callSign }, { data: 1 });
+              await fetchNui('addOfficer', { id, stateId: officer.stateId }, { data: 1 });
               modals.closeAll();
               setOfficersInvolved((prev) => [
                 ...prev,

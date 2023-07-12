@@ -39,7 +39,7 @@ utils.registerCallback('ox_mdt:getReport', function(source, reportId)
     local response = db.selectReportById(reportId)
 
     if response then
-        ---@todo
+        ---@todo officersInvovled callSigns
         response.officersInvolved = db.selectOfficersInvolved(reportId)
         response.evidence = {}
         response.criminals = db.selectCriminalsInvolved(reportId)
@@ -119,6 +119,17 @@ end)
 ---@param source number
 ---@param data string
 utils.registerCallback('ox_mdt:getSearchOfficers', function(source, data)
-    -- Probably should switch to using firstName and lastName rather than name
-    return { { name = 'John Doe', callSign = 132 }}
+    return db.selectInvolvedOfficers(data)
+end)
+
+---@param source string
+---@param data {id: number, stateId: number}
+utils.registerCallback('ox_mdt:addOfficer', function(source, data)
+    return db.addOfficer(data.id, data.stateId)
+end)
+
+---@param source string
+---@param data {id: number, stateId: number}
+utils.registerCallback('ox_mdt:removeOfficer', function(source, data)
+    return db.removeOfficer(data.id, data.stateId)
 end)

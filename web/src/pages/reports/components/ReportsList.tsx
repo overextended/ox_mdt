@@ -41,7 +41,7 @@ const ReportsList: React.FC = () => {
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
-      {reports.pages.length > 0 ? (
+      {pages.length > 0 ? (
         pages.map((report, i) => (
           <Stack
             className={classes.reportContainer}

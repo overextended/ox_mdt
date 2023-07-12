@@ -49,8 +49,10 @@ const OfficersInvolved: React.FC = () => {
                     confirmProps: { color: 'red' },
                     labels: { confirm: 'Confirm', cancel: 'Cancel' },
                     onConfirm: async () => {
-                      await fetchNui('removeOfficer', { id, index }, { data: 1 });
-                      setOfficersInvolved((prev) => prev.filter((_, indx) => indx !== index));
+                      await fetchNui('removeOfficer', { id, stateId: officer.stateId }, { data: 1 });
+                      setOfficersInvolved((prev) =>
+                        prev.filter((prevOfficer) => prevOfficer.stateId !== officer.stateId)
+                      );
                     },
                   });
                 }}

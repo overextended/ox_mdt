@@ -72,7 +72,7 @@ function db.selectProfiles()
 end
 
 function db.selectOfficersInvolved(reportId)
-    local officers = MySQL.rawExecute.await('SELECT b.firstName, b.lastName FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.charid = a.charid WHERE `reportid` = ?', { reportId }) or {}
+    local officers = MySQL.rawExecute.await('SELECT b.firstName, b.lastName, b.charid as stateId FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.charid = a.charid WHERE `reportid` = ?', { reportId }) or {}
     print(json.encode(officers, {sort_keys=true,indent=true}))
     return officers
 end
@@ -174,6 +174,41 @@ function db.selectCharacterProfile(search)
     profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `charid` = ? GROUP BY `charge`', parameters) or {}
 
     return profile
+end
+
+---@param search string | number
+---@return Officer?
+function db.selectInvolvedOfficers(search)
+    -- todo: search based on callSign (tonumber(search))
+
+    local policePlayers = Ox.GetPlayers(false, {groups = {police = 0}})
+
+    local officers = {}
+
+    for i = 1, #policePlayers do
+        local player = policePlayers[i]
+        local officer = {}
+        officer.firstName = player.firstname
+        officer.lastName = player.lastname
+        officer.callSign = player.charid
+        officer.stateId = player.charid
+        officers[#officers+1] = officer
+    end
+
+    return officers
+end
+
+---@param reportId number
+---@param stateId number
+function db.addOfficer(reportId, stateId)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_officers` (`reportid`, `charid`) VALUES (?, ?)', {reportId, stateId})
+end
+
+---@param reportId number
+---@param stateId number
+function db.removeOfficer(reportId, stateId)
+    print(reportId, stateId)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_officers` WHERE `reportid` = ? AND `charid` = ?', {reportId, stateId})
 end
 
 return db

@@ -13,6 +13,12 @@
 ---@field pastCharges? { label: string, count: number }[]
 ---@field relatedReports? { title: string, author: string, date: string, id: number }[]
 
+---@class Officer
+---@field firstName string
+---@field lastName string
+---@field callSign number
+---@field stateId number
+
 ---@class CriminalProfile : ProfileCard
 
 ---@class Criminal : CriminalProfile
