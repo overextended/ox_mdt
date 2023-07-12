@@ -180,26 +180,44 @@ function db.selectCharacterProfile(search)
     return profile
 end
 
+local selectOfficerInvolved = [[
+    SELECT
+        firstName,
+        lastName,
+        characters.charid AS stateId,
+        characters.charid AS callSign,
+        character_groups.grade AS grade
+    FROM
+        character_groups
+    LEFT JOIN
+        characters
+    ON
+        character_groups.charid = characters.charid
+    WHERE
+        character_groups.name = "police"
+]]
+
+local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`firstName` LIKE ? OR `lastName` LIKE ?)'
+local selectOfficerInvolvedByNameB = selectOfficerInvolved .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
+
 ---@param search string | number
----@return Officer?
+---@return Officer | Officer[] | nil
 function db.selectInvolvedOfficers(search)
-    -- todo: search based on callSign (tonumber(search))
-
-    local policePlayers = Ox.GetPlayers(false, {groups = {police = 0}})
-
-    local officers = {}
-
-    for i = 1, #policePlayers do
-        local player = policePlayers[i]
-        local officer = {}
-        officer.firstName = player.firstname
-        officer.lastName = player.lastname
-        officer.callSign = player.charid
-        officer.stateId = player.charid
-        officers[#officers+1] = officer
+    if not search then
+        return MySQL.rawExecute.await(selectOfficerInvolved)
     end
 
-    return officers
+    -- todo: search based on callSign (tonumber(search))
+
+    local nameA, nameB = search:match('^([%w]+) ?([%w]*)$')
+
+    if nameB == '' then
+        nameA = wildcard:format(nameA)
+
+        return MySQL.rawExecute.await(selectOfficerInvolvedByNameA, { nameA, nameA })
+    end
+
+    return MySQL.rawExecute.await(selectOfficerInvolvedByNameB, { nameA, wildcard:format(nameB) })
 end
 
 ---@param reportId number
