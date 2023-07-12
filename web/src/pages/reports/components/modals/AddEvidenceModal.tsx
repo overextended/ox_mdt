@@ -3,11 +3,11 @@ import { Button, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { useReportId, useSetEvidence } from '../../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
-import { ImageEvidence, ItemEvidence } from '../../../../typings';
+import { Evidence } from '../../../../typings';
 import { useForm } from '@mantine/form';
 
 const AddEvidenceModal: React.FC = () => {
-  const [type, setType] = React.useState('image');
+  const [type, setType] = React.useState<'image' | 'item'>('image');
   const setEvidence = useSetEvidence();
   const id = useReportId();
 
@@ -33,10 +33,7 @@ const AddEvidenceModal: React.FC = () => {
     const firstInput = values.firstInput;
     const secondInput = values.secondInput;
 
-    const evidence: ImageEvidence | ItemEvidence =
-      type === 'image'
-        ? { type: 'image', label: firstInput, url: secondInput }
-        : { type: 'item', item: firstInput, count: +secondInput };
+    const evidence: Evidence = { type, label: firstInput, value: secondInput };
 
     await fetchNui('addEvidence', { id, evidence }, { data: 1 });
     setEvidence((prev) => [...prev, evidence]);
@@ -52,7 +49,7 @@ const AddEvidenceModal: React.FC = () => {
           ]}
           defaultValue="image"
           label="Evidence type"
-          onChange={(value) => value && setType(value)}
+          onChange={(value: 'image' | 'item') => value && setType(value)}
         />
         {type === 'image' ? (
           <>

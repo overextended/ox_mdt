@@ -17,15 +17,10 @@ export interface Criminal extends CriminalProfile {
   };
 }
 
-export type ImageEvidence = {
-  type: 'image';
-  url: string;
+export type Evidence = {
+  type: 'image' | 'item';
   label: string;
-};
-export type ItemEvidence = {
-  type: 'item';
-  item: string;
-  count: number;
+  value: string;
 };
 
 export interface Report {
@@ -33,7 +28,7 @@ export interface Report {
   id: number;
   description?: string;
   officersInvolved: Officer[];
-  evidence: Array<ImageEvidence | ItemEvidence>;
+  evidence: Evidence[];
   criminals: Criminal[];
 }
 

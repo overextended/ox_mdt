@@ -41,7 +41,7 @@ utils.registerCallback('ox_mdt:getReport', function(source, reportId)
     if response then
         ---@todo officersInvovled callSigns
         response.officersInvolved = db.selectOfficersInvolved(reportId)
-        response.evidence = {}
+        response.evidence = db.selectEvidence(reportId)
         response.criminals = db.selectCriminalsInvolved(reportId)
     end
 
@@ -93,15 +93,15 @@ utils.registerCallback('ox_mdt:removeOfficer', function(source, data)
 end)
 
 ---@param source number
----@param data { id: number, evidence: ItemEvidence | ImageEvidence }
+---@param data { id: number, evidence: Evidence }
 utils.registerCallback('ox_mdt:addEvidence', function(source, data)
-    return 1
+    return db.addEvidence(data.id, data.evidence.type, data.evidence.label, data.evidence.value)
 end)
 
 ---@param source number
----@param data { id: number, index: number }
+---@param data { id: number, label: string, value: string }
 utils.registerCallback('ox_mdt:removeEvidence', function(source, data)
-    return 1
+    return db.removeEvidence(data.id, data.label, data.value)
 end)
 
 ---@param source number

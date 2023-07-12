@@ -26,12 +26,12 @@ const ReportEvidence: React.FC = () => {
         {evidence.map((evidence, index) => (
           <Tooltip
             maw={800}
-            label={<Image src={(evidence.type === 'image' && evidence.url) || ''} />}
+            label={<Image src={(evidence.type === 'image' && evidence.value) || ''} />}
             sx={{ padding: 0 }}
             disabled={evidence.type !== 'image'}
           >
             <Badge
-              key={evidence.type === 'item' ? evidence.item : evidence.url}
+              key={`${evidence.label}-${evidence.value}`}
               rightSection={
                 <ActionIcon
                   size="xs"
@@ -43,14 +43,18 @@ const ReportEvidence: React.FC = () => {
                       children: (
                         <Text size="sm">
                           Are you sure you want to remove{' '}
-                          {evidence.type === 'image' ? evidence.label : `${evidence.count}x ${evidence.item}`} from
+                          {evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`} from
                           evidence?
                         </Text>
                       ),
                       labels: { confirm: 'Confirm', cancel: 'Cancel' },
                       confirmProps: { color: 'red' },
                       onConfirm: async () => {
-                        await fetchNui('removeEvidence', { id, index }, { data: 1 });
+                        await fetchNui(
+                          'removeEvidence',
+                          { id, label: evidence.label, value: evidence.value },
+                          { data: 1 }
+                        );
                         setEvidence((prev) => prev.filter((_, indx) => indx !== index));
                       },
                     })
@@ -60,7 +64,7 @@ const ReportEvidence: React.FC = () => {
                 </ActionIcon>
               }
             >
-              {evidence.type === 'image' ? evidence.label : `${evidence.count}x ${evidence.item}`}
+              {evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`}
             </Badge>
           </Tooltip>
         ))}

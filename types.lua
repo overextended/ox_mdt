@@ -44,7 +44,7 @@
 ---@field id number
 ---@field description? string
 ---@field officersInvolved { name: string, callSign: number }
----@field evidence table<ImageEvidence | ItemEvidence>
+---@field evidence table<Evidence>
 ---@field criminals Criminal[]
 
 ---@class ReportCard
@@ -53,12 +53,8 @@
 ---@field date string
 ---@field id number
 
----@class ImageEvidence
----@field type 'image'
----@field url string
+---@class Evidence
+---@field type 'image' | 'item'
 ---@field label string
+---@field value string
 
----@class ItemEvidence
----@field type 'item'
----@field item string
----@field count number

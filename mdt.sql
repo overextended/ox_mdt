@@ -57,6 +57,18 @@ CREATE TABLE
         CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`charid`) REFERENCES `ox_mdt_reports_criminals` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
+CREATE TABLE `ox_mdt_reports_evidence` (
+	`reportid` INT(10) UNSIGNED NOT NULL,
+	`label` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`value` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`type` ENUM('image','item') NOT NULL DEFAULT 'image' COLLATE 'utf8mb3_general_ci',
+	INDEX `reportid` (`reportid`) USING BTREE,
+	CONSTRAINT `FK__ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+);
+
+
+
+
 INSERT INTO
     `ox_mdt_offenses` (
         `label`,

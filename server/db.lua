@@ -120,6 +120,10 @@ function db.selectCriminalsInvolved(reportId)
     return criminals
 end
 
+function db.selectEvidence(reportId)
+    return MySQL.rawExecute.await('SELECT `label`, `value`, `type` FROM `ox_mdt_reports_evidence` WHERE reportid = ?', {reportId})
+end
+
 ---@param reportId number
 ---@param criminal Criminal
 function db.saveCriminal(reportId, criminal)
@@ -207,8 +211,23 @@ end
 ---@param reportId number
 ---@param stateId number
 function db.removeOfficer(reportId, stateId)
-    print(reportId, stateId)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_officers` WHERE `reportid` = ? AND `charid` = ?', {reportId, stateId})
+end
+
+---@param id number
+---@param type 'image' | 'item'
+---@param label string
+---@param value string | number 
+function db.addEvidence(id, type, label, value)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `value`, `type`) VALUES (?, ?, ?, ?)', {id, label, value, type})
+end
+
+---@param id number
+---@param label string
+---@param value string
+function db.removeEvidence(id, label, value)
+    print(id, label, value)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `value` = ?', {id, label, value})
 end
 
 return db

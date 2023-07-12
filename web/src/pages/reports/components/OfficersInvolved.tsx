@@ -29,7 +29,7 @@ const OfficersInvolved: React.FC = () => {
             });
           }}
         />
-        {officers.map((officer, index) => (
+        {officers.map((officer) => (
           <Badge
             key={officer.callSign}
             rightSection={
