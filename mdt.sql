@@ -59,11 +59,11 @@ CREATE TABLE
 
 CREATE TABLE IF NOT EXISTS `ox_mdt_reports_evidence` (
 	`reportid` INT(10) UNSIGNED NOT NULL,
-	`label` VARCHAR(50) NOT NULL DEFAULT ''
-	`value` VARCHAR(50) NOT NULL DEFAULT ''
-	`type` ENUM('image','item') NOT NULL DEFAULT 'image'
+	`label` VARCHAR(50) NOT NULL DEFAULT '',
+	`value` VARCHAR(50) NOT NULL DEFAULT '',
+	`type` ENUM('image','item') NOT NULL DEFAULT 'image',
 	INDEX `reportid` (`reportid`) USING BTREE,
-	CONSTRAINT `FK__ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ACTION ON DELETE CASCADE
+	CONSTRAINT `FK__ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO
