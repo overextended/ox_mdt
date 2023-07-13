@@ -1,5 +1,10 @@
 import React from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
+import { useSetActiveReport, useSetIsReportActive } from '../../../state';
+import { useSetLoader } from '../../../state/loader';
+import { fetchNui } from '../../../utils/fetchNui';
+import { Report } from '../../../typings';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   author: string;
@@ -22,9 +27,26 @@ const useStyles = createStyles((theme) => ({
 
 const ProfileReport: React.FC<Props> = (props) => {
   const { classes } = useStyles();
+  const setReport = useSetActiveReport();
+  const setIsReportActive = useSetIsReportActive();
+  const setLoaderModal = useSetLoader();
+
+  const navigate = useNavigate();
 
   return (
-    <Stack className={classes.container} p="md" spacing={0}>
+    <Stack
+      className={classes.container}
+      p="md"
+      spacing={0}
+      onClick={async () => {
+        setLoaderModal(true);
+        const resp = await fetchNui<Report>('getReport', props.id);
+        setReport(resp);
+        setIsReportActive(true);
+        setLoaderModal(false);
+        navigate('/reports');
+      }}
+    >
       <Text>{props.title}</Text>
       <Group position="apart">
         <Text size="xs" color="dark.2">
