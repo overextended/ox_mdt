@@ -15,10 +15,9 @@ interface Props {
 const WarrantExpiry: React.FC<Props> = ({ charges, reportId, index, onChange }) => {
   const [expiry, setExpiry] = React.useState<Date | null>(null);
 
-  // TODO: fetch calculated time based on charges for criminal
-
   React.useEffect(() => {
-    fetchNui<number>('getRecommendedWarrantExpiry', { charges, id: reportId, index }).then((resp) => {
+    if (charges.length === 0) return;
+    fetchNui<number>('getRecommendedWarrantExpiry', charges).then((resp) => {
       setExpiry(new Date(resp));
     });
   }, [charges]);

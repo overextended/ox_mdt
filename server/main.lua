@@ -133,3 +133,20 @@ end)
 utils.registerCallback('ox_mdt:removeOfficer', function(source, data)
     return db.removeOfficer(data.id, data.stateId)
 end)
+
+---@param source string
+---@param charges Charge[]
+utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, charges)
+    local currentTime = os.time(os.date("!*t"))
+    local baseWarrantDuration = 259200000 -- 72 hours
+    local addonTime = 0
+
+    for i = 1, #charges do
+        local charge = charges[i] -- [[as Charge]]
+        if charge.penalty.time ~= 0 then
+            addonTime = addonTime + (charge.penalty.time * 60 * 60000) -- 1 month of penalty time = 1 hour of warrant time
+        end
+    end
+
+    return currentTime * 1000 + addonTime + baseWarrantDuration
+end)

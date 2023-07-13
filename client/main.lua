@@ -32,7 +32,6 @@ RegisterNUICallback('hideMDT', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-
 RegisterNUICallback('getAnnouncements', function(_, cb)
     cb({})
 end)
@@ -68,6 +67,7 @@ serverNuiCallback('saveProfileNotes')
 serverNuiCallback('createUnit') -- Returns a table with id and name property which is the created unit id and name
 serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
+serverNuiCallback('getRecommendedWarrantExpiry')
 
 SendNUIMessage({
     action = 'updateOfficerPositions',
