@@ -7,6 +7,7 @@ import NotFound from '../../../components/NotFound';
 import { Report } from '../../../typings';
 import { modals } from '@mantine/modals';
 import { useIntersection } from '@mantine/hooks';
+import { useSetLoader } from '../../../state/loader';
 
 const useStyles = createStyles((theme) => ({
   reportContainer: {
@@ -25,6 +26,7 @@ const ReportsList: React.FC = () => {
   const [reports, dispatch] = useReportsList();
   const setIsReportActive = useSetIsReportActive();
   const setActiveReport = useSetActiveReport();
+  const setLoaderModal = useSetLoader();
   const lastPostRef = React.useRef<HTMLElement>(null);
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -49,13 +51,7 @@ const ReportsList: React.FC = () => {
             key={report.id}
             spacing={0}
             onClick={async () => {
-              modals.openContextModal({
-                modal: 'loader',
-                innerProps: {},
-                withCloseButton: false,
-                closeOnClickOutside: false,
-                size: 'fit-content',
-              });
+              setLoaderModal(true);
               const resp = await fetchNui<Report>('getReport', report.id, {
                 data: {
                   id: 1,
@@ -68,7 +64,7 @@ const ReportsList: React.FC = () => {
               });
               setActiveReport(resp);
               setIsReportActive(true);
-              modals.closeAll();
+              setLoaderModal(false);
             }}
           >
             <Text>{report.title}</Text>

@@ -34,8 +34,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <QueryClientProvider client={queryClient}>
           <Provider>
             <DatesProvider settings={{ locale: 'en' }}>
-              <ModalsProvider modals={{ loader: LoaderModal }}>
+              <ModalsProvider>
                 <App />
+                <LoaderModal />
               </ModalsProvider>
             </DatesProvider>
           </Provider>

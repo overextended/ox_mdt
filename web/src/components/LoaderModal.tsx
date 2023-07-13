@@ -1,12 +1,23 @@
 import React from 'react';
-import { Center, Loader } from '@mantine/core';
-import { ContextModalProps } from '@mantine/modals';
+import { Center, Loader, Modal } from '@mantine/core';
+import { useLoaderState } from '../state/loader';
 
-const LoaderModal = ({ context, id, innerProps }: ContextModalProps) => {
+const LoaderModal: React.FC = () => {
+  const [loading, setLoading] = useLoaderState();
+
   return (
-    <Center p="md">
-      <Loader />
-    </Center>
+    <Modal
+      opened={loading}
+      onClose={() => setLoading(false)}
+      withCloseButton={false}
+      closeOnClickOutside={false}
+      closeOnEscape={true}
+      size="fit-content"
+    >
+      <Center p="md">
+        <Loader />
+      </Center>
+    </Modal>
   );
 };
 
