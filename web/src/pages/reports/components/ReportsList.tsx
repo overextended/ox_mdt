@@ -5,9 +5,8 @@ import { fetchNui } from '../../../utils/fetchNui';
 import { IconReceiptOff } from '@tabler/icons-react';
 import NotFound from '../../../components/NotFound';
 import { Report } from '../../../typings';
-import { modals } from '@mantine/modals';
-import { useIntersection } from '@mantine/hooks';
 import { useSetLoader } from '../../../state/loader';
+import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';
 
 const useStyles = createStyles((theme) => ({
   reportContainer: {
@@ -27,19 +26,9 @@ const ReportsList: React.FC = () => {
   const setIsReportActive = useSetIsReportActive();
   const setActiveReport = useSetActiveReport();
   const setLoaderModal = useSetLoader();
-  const lastPostRef = React.useRef<HTMLElement>(null);
-  const { ref, entry } = useIntersection({
-    root: lastPostRef.current,
-    threshold: 1,
-  });
+  const { ref } = useInfiniteScroll(() => dispatch({ type: 'fetchNextPage' }));
 
   const pages = reports.pages.flatMap((page) => page.reports);
-
-  React.useEffect(() => {
-    if (entry && entry.isIntersecting) {
-      dispatch({ type: 'fetchNextPage' });
-    }
-  }, [entry]);
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
