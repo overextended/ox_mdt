@@ -67,14 +67,14 @@ CREATE TABLE IF NOT EXISTS `ox_mdt_reports_evidence` (
 );
 
 CREATE TABLE IF NOT EXISTS `ox_mdt_announcements` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`creator` INT(10) UNSIGNED NULL DEFAULT NULL,
-	`contents` LONGTEXT NOT NULL COLLATE ,
+	`contents` LONGTEXT NOT NULL,
 	`createdAt` DATETIME NOT NULL DEFAULT curtime(),
 	PRIMARY KEY (`id`) USING BTREE,
 	INDEX `FK_ox_mdt_announcements_characters` (`creator`) USING BTREE,
 	CONSTRAINT `FK_ox_mdt_announcements_characters` FOREIGN KEY (`creator`) REFERENCES `characters` (`charid`) ON UPDATE NO ACTION ON DELETE NO ACTION
-)
+);
 
 INSERT INTO
     `ox_mdt_offenses` (
