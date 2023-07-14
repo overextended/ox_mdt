@@ -266,7 +266,6 @@ end
 
 ---@param id number
 function db.removeAnnouncement(id)
-    print('Announcement id', id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', {id})
 end
 

@@ -34,7 +34,6 @@ end)
 utils.registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
     -- todo: permission check or creator check
 
-    print('delete announcement db call')
     return db.removeAnnouncement(id)
 end)
 
