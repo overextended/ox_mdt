@@ -32,10 +32,6 @@ RegisterNUICallback('hideMDT', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-RegisterNUICallback('getAnnouncements', function(_, cb)
-    cb({})
-end)
-
 ---@param event string
 local function serverNuiCallback(event)
     RegisterNuiCallback(event, function(data, cb)
@@ -46,6 +42,10 @@ local function serverNuiCallback(event)
     end)
 end
 
+serverNuiCallback('getAnnouncements')
+serverNuiCallback('createAnnouncement')
+serverNuiCallback('editAnnouncement')
+serverNuiCallback('deleteAnnouncement')
 serverNuiCallback('getCriminalProfiles')
 serverNuiCallback('createReport')
 serverNuiCallback('getReports')

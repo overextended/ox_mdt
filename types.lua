@@ -58,3 +58,11 @@
 ---@field label string
 ---@field value string
 
+---@class Announcement
+---@field contents string
+---@field firstName string
+---@field lastName string
+---@field image? string
+---@field stateId number
+---@field callSign number
+

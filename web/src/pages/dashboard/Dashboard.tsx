@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Button, Center, createStyles, Group, Loader, Stack, Text, TextInput } from '@mantine/core';
 import { IconBrandTelegram, IconMessageCircle2, IconPrison, IconSearch } from '@tabler/icons-react';
 import AnnouncementList from './components/AnnouncementList';
 import WarrantList from './components/WarrantList';
@@ -7,6 +7,8 @@ import { modals } from '@mantine/modals';
 import AnnouncementModal from './components/AnnouncementModal';
 import { useConfig } from '../../state/config';
 import { useCharacter } from '../../state';
+import { queryClient } from '../../main';
+import { Announcement, ReportCard } from '../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -22,6 +24,19 @@ const Dashboard: React.FC = () => {
   const { classes } = useStyles();
   const config = useConfig();
   const character = useCharacter();
+
+  React.useEffect(() => {
+    return () => {
+      queryClient.setQueriesData<{ pages: Announcement[][]; pageParams: number[] }>(['announcements'], (data) => {
+        if (!data) return;
+
+        return {
+          pages: [data.pages[0]],
+          pageParams: [data.pageParams[0]],
+        };
+      });
+    };
+  }, []);
 
   return (
     <Group h="100%" spacing="md">
@@ -47,7 +62,13 @@ const Dashboard: React.FC = () => {
             Create announcement
           </Button>
         </Box>
-        <React.Suspense fallback={<>Loading...</>}>
+        <React.Suspense
+          fallback={
+            <Center>
+              <Loader />
+            </Center>
+          }
+        >
           <AnnouncementList />
         </React.Suspense>
       </Stack>

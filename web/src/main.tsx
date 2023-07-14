@@ -31,16 +31,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <Provider>
-            <DatesProvider settings={{ locale: 'en' }}>
-              <ModalsProvider>
+        <ModalsProvider>
+          <DatesProvider settings={{ locale: 'en' }}>
+            <QueryClientProvider client={queryClient}>
+              <Provider>
                 <App />
                 <LoaderModal />
-              </ModalsProvider>
-            </DatesProvider>
-          </Provider>
-        </QueryClientProvider>
+              </Provider>
+            </QueryClientProvider>
+          </DatesProvider>
+        </ModalsProvider>
       </MantineProvider>
     </HashRouter>
   </React.StrictMode>

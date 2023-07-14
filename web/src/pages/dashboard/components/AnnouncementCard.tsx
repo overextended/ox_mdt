@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
-import { useSetAnnouncements } from '../../../state';
 import { useEditor } from '@tiptap/react';
 import { RichTextEditor } from '@mantine/tiptap';
 import StarterKit from '@tiptap/starter-kit';
@@ -14,12 +13,15 @@ import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { useConfig } from '../../../state/config';
 import { Announcement, Character } from '../../../typings';
+import { fetchNui } from '../../../utils/fetchNui';
+import { queryClient } from '../../../main';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
     backgroundColor: theme.colors.durple[4],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
+    minHeight: 400, // TODO: fix issue with cursor running twice due to height not being set
   },
 }));
 interface Props {
@@ -29,7 +31,6 @@ interface Props {
 
 const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
   const { classes } = useStyles();
-  const setAnnouncements = useSetAnnouncements();
   const config = useConfig();
 
   const editor = useEditor({
@@ -50,9 +51,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
         <Group>
           <Avatar color="blue" />
           <Stack spacing={0}>
-            <Text fw={500}>
-              {`${announcement.creator.firstName} ${announcement.creator.lastName} · ${announcement.creator.callSign}`}
-            </Text>
+            <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callSign}`}</Text>
             <Text size="xs" c="dark.2">
               {dayjs(announcement.createdAt).fromNow()}
             </Text>
@@ -62,8 +61,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
           <Menu.Target>
             <ActionIcon
               disabled={
-                announcement.creator.stateId !== character.stateId &&
-                character.grade < config.permissions.announcements.delete
+                announcement.stateId !== character.stateId && character.grade < config.permissions.announcements.delete
               }
               size="lg"
               color="dark.2"
@@ -74,7 +72,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
 
           <Menu.Dropdown>
             <Menu.Item
-              disabled={announcement.creator.stateId !== character.stateId}
+              disabled={announcement.stateId !== character.stateId}
               icon={<IconEdit size={18} />}
               onClick={() => {
                 modals.open({
@@ -98,9 +96,13 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
                   confirmProps: {
                     color: 'red',
                   },
-                  onConfirm: () => {
-                    // TODO: Server callback
-                    setAnnouncements((prev) => prev.filter((item) => item.id !== announcement.id));
+                  onConfirm: async () => {
+                    console.log('pogchmap');
+                    const resp = await fetchNui('deleteAnnouncement', announcement.id);
+                    console.log(resp);
+                    if (!resp) return;
+                    await queryClient.invalidateQueries(['announcements']);
+                    console.log('ok');
                   },
                 });
               }}

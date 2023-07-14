@@ -5,41 +5,31 @@ import { modals } from '@mantine/modals';
 import { useCharacter } from '../../../state';
 import Editor from '../../../components/Editor';
 import { Announcement } from '../../../typings';
+import { queryClient } from '../../../main';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
-  // Character used only for testing
-  const character = useCharacter();
-  const setAnnouncements = useSetAnnouncements();
+  const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState('');
 
-  const createAnnouncement = () => {
+  const createAnnouncement = async () => {
+    setIsLoading(true);
+    const resp = await fetchNui('createAnnouncement', value, { data: true, delay: 1500 });
+    if (!resp) return;
+    await queryClient.invalidateQueries(['announcements']);
+    setIsLoading(false);
     modals.closeAll();
-    setAnnouncements((prev) => [
-      {
-        id: prev.length > 0 ? prev[0].id + 1 : 0,
-        creator: {
-          stateId: character.stateId,
-          callSign: character.callSign,
-          image: character.image,
-          lastName: character.lastName,
-          firstName: character.firstName,
-        },
-        createdAt: Date.now(),
-        contents: value,
-      },
-      ...prev,
-    ]);
   };
 
-  const editAnnouncement = () => {
-    modals.closeAll();
+  const editAnnouncement = async () => {
     if (!announcement) return;
-    setAnnouncements((prev) => {
-      return prev.map((item) => {
-        if (item.id !== announcement.id) return item;
-        return { ...item, contents: value };
-      });
-    });
+    setIsLoading(true);
+    const resp = await fetchNui('editAnnouncement', { announcement, value }, { data: true, delay: 1500 });
+    if (!resp) return;
+    console.log(resp);
+    await queryClient.invalidateQueries(['announcements']);
+    setIsLoading(false);
+    modals.closeAll();
   };
 
   return (
@@ -49,7 +39,12 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
         content={announcement?.contents}
         onChange={(value) => setValue(value || '')}
       />
-      <Button variant="light" fullWidth onClick={() => (announcement ? editAnnouncement() : createAnnouncement())}>
+      <Button
+        variant="light"
+        fullWidth
+        onClick={() => (announcement ? editAnnouncement() : createAnnouncement())}
+        loading={isLoading}
+      >
         Confirm
       </Button>
     </Stack>

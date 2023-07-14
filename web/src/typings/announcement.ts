@@ -4,9 +4,8 @@ interface AnnouncementCreator extends Officer {
   image?: string;
 }
 
-export interface Announcement {
+export interface Announcement extends AnnouncementCreator {
   id: number;
-  creator: AnnouncementCreator;
   contents: string;
   createdAt: number;
 }

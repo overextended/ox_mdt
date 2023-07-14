@@ -34,8 +34,8 @@ const [reportsAtom, reportsStatusAtom] = atomsWithInfiniteQuery(
     queryFn: async ({ queryKey, pageParam = 1 }) => {
       return await getReports(pageParam, queryKey[1] as string);
     },
-    getNextPageParam: (_, pages) => {
-      if (!pages[pages.length - 1].hasMore) return;
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage.hasMore) return;
       return pages.length + 1;
     },
   }),

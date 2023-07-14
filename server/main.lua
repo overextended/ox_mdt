@@ -1,6 +1,43 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
 
+---@param source string
+---@param page number
+utils.registerCallback('ox_mdt:getAnnouncements', function(source, page)
+    local announcements = db.selectAnnouncements(page)
+    return {
+        hasMore = #announcements > 0,
+        announcements = announcements
+    }
+end)
+
+---@param source string
+---@param contents string
+utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
+    local player = Ox.GetPlayer(source)
+    -- todo: permission checks
+    return db.createAnnouncement(player.charid, contents)
+end)
+
+---@param source string
+---@param data {announcement: Announcement, value: string}
+utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
+    local player = Ox.GetPlayer(source)
+
+    if data.announcement.stateId ~= player.charid then return end
+
+    return db.updateAnnouncementContents(data.announcement.id, data.value)
+end)
+
+---@param source string
+---@param id number
+utils.registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
+    -- todo: permission check or creator check
+
+    print('delete announcement db call')
+    return db.removeAnnouncement(id)
+end)
+
 ---@param source number
 ---@param search string
 ---@return CriminalProfile[]?
