@@ -65,4 +65,4 @@
 ---@field image? string
 ---@field stateId number
 ---@field callSign number
-
+---@field createdAt number
