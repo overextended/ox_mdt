@@ -5,6 +5,7 @@ import { useSetLoader } from '../../../state/loader';
 import { fetchNui } from '../../../utils/fetchNui';
 import { Report } from '../../../typings';
 import { useNavigate } from 'react-router-dom';
+import { isEnvBrowser } from '../../../utils/misc';
 
 interface Props {
   author: string;
@@ -39,6 +40,7 @@ const ProfileReport: React.FC<Props> = (props) => {
       p="md"
       spacing={0}
       onClick={async () => {
+        if (isEnvBrowser()) return;
         setLoaderModal(true);
         const resp = await fetchNui<Report>('getReport', props.id);
         setReport(resp);
