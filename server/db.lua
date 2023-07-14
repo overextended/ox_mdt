@@ -121,7 +121,7 @@ function db.selectCriminalsInvolved(reportId)
 end
 
 function db.selectEvidence(reportId)
-    return MySQL.rawExecute.await('SELECT `label`, `value`, `type` FROM `ox_mdt_reports_evidence` WHERE reportid = ?', {reportId})
+    return MySQL.rawExecute.await('SELECT `label`, `value`, `type` FROM `ox_mdt_reports_evidence` WHERE reportid = ?', { reportId })
 end
 
 ---@param reportId number
@@ -223,13 +223,13 @@ end
 ---@param reportId number
 ---@param stateId number
 function db.addOfficer(reportId, stateId)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_officers` (`reportid`, `charid`) VALUES (?, ?)', {reportId, stateId})
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_officers` (`reportid`, `charid`) VALUES (?, ?)', { reportId, stateId })
 end
 
 ---@param reportId number
 ---@param stateId number
 function db.removeOfficer(reportId, stateId)
-    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_officers` WHERE `reportid` = ? AND `charid` = ?', {reportId, stateId})
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_officers` WHERE `reportid` = ? AND `charid` = ?', { reportId, stateId })
 end
 
 ---@param id number
@@ -237,36 +237,36 @@ end
 ---@param label string
 ---@param value string | number 
 function db.addEvidence(id, type, label, value)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `value`, `type`) VALUES (?, ?, ?, ?)', {id, label, value, type})
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `value`, `type`) VALUES (?, ?, ?, ?)', { id, label, value, type })
 end
 
 ---@param id number
 ---@param label string
 ---@param value string
 function db.removeEvidence(id, label, value)
-    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `value` = ?', {id, label, value})
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `value` = ?', { id, label, value })
 end
 
 ---@param page number
 function db.selectAnnouncements(page)
-     return MySQL.rawExecute.await('SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt FROM `ox_mdt_announcements` a LEFT JOIN `characters` b ON b.charid = a.creator ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?', {(page - 1) * 5})
+     return MySQL.rawExecute.await('SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt FROM `ox_mdt_announcements` a LEFT JOIN `characters` b ON b.charid = a.creator ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?', { (page - 1) * 5 })
 end
 
 ---@param creator number
 ---@param contents string
 function db.createAnnouncement(creator, contents)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_announcements` (`creator`, `contents`) VALUES (?, ?)', {creator, contents})
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_announcements` (`creator`, `contents`) VALUES (?, ?)', { creator, contents })
 end
 
 ---@param id number
 ---@param contents string
 function db.updateAnnouncementContents(id, contents)
-    return MySQL.prepare.await('UPDATE `ox_mdt_announcements` SET `contents` = ? WHERE `id` = ?', {contents, id})
+    return MySQL.prepare.await('UPDATE `ox_mdt_announcements` SET `contents` = ? WHERE `id` = ?', { contents, id })
 end
 
 ---@param id number
 function db.removeAnnouncement(id)
-    return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', {id})
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
 end
 
 return db
