@@ -126,4 +126,4 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
   );
 };
 
-export default AnnouncementCard;
+export default React.memo(AnnouncementCard);

@@ -23,8 +23,7 @@ const AnnouncementList: React.FC = () => {
   const { classes } = useStyles();
   const { ref } = useInfiniteScroll(() => dispatch({ type: 'fetchNextPage' }));
 
-  // TODO: Fix issue where announcements don't refresh on announcement edit
-  const pages = announcements.pages.flatMap((page) => page.announcements);
+  const pages = React.useMemo(() => announcements.pages.flatMap((page) => page.announcements), [announcements]);
 
   return (
     <Box className={classes.container}>
