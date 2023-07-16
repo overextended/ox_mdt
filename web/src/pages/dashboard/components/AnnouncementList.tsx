@@ -6,7 +6,6 @@ import AnnouncementCard from './AnnouncementCard';
 import NotFound from '../../../components/NotFound';
 import { IconBellOff } from '@tabler/icons-react';
 import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';
-import { useIntersection } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
   container: {

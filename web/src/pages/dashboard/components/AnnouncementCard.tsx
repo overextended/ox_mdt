@@ -21,9 +21,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[4],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
-    minHeight: 400, // TODO: fix issue with cursor running twice due to height not being set
+    height: 400, // Resolves an issue where the cursor fetches all pages due to initial load height not being set
   },
 }));
+
 interface Props {
   announcement: Announcement;
   character: Character;
