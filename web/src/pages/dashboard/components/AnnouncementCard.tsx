@@ -97,12 +97,9 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
                     color: 'red',
                   },
                   onConfirm: async () => {
-                    console.log('pogchmap');
                     const resp = await fetchNui('deleteAnnouncement', announcement.id);
-                    console.log(resp);
                     if (!resp) return;
                     await queryClient.invalidateQueries(['announcements']);
-                    console.log('ok');
                   },
                 });
               }}

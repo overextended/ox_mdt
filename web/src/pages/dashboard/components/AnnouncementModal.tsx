@@ -26,7 +26,6 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
     setIsLoading(true);
     const resp = await fetchNui('editAnnouncement', { announcement, value }, { data: true, delay: 1500 });
     if (!resp) return;
-    console.log(resp);
     await queryClient.invalidateQueries(['announcements']);
     setIsLoading(false);
     modals.closeAll();
