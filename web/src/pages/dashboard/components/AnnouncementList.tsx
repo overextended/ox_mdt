@@ -31,7 +31,11 @@ const AnnouncementList: React.FC = () => {
       {pages.length > 0 ? (
         <>
           {pages.map((announcement) => (
-            <AnnouncementCard key={announcement.id} announcement={announcement} character={character} />
+            <AnnouncementCard
+              key={`${announcement.id}-${announcement.contents}`}
+              announcement={announcement}
+              character={character}
+            />
           ))}
         </>
       ) : (
