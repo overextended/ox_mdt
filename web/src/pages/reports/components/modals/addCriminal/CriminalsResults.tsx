@@ -6,6 +6,7 @@ import { useSetCriminals } from '../../../../../state';
 import { IconUserX } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import NotFound from '../../../../../components/NotFound';
+import locales from '../../../../../locales';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -68,7 +69,7 @@ const CriminalsResults: React.FC = () => {
             </Group>
           ))
         ) : (
-          <NotFound icon={IconUserX} label="No profiles found" />
+          <NotFound icon={IconUserX} label={locales.no_profiles_found} />
         )}
       </>
     </Stack>

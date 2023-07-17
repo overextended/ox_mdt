@@ -4,6 +4,7 @@ import { useProfile } from '../../../state';
 import { IconEdit } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AvatarModal from './AvatarModal';
+import locales from '../../../locales';
 
 const useStyles = createStyles({
   container: {
@@ -33,7 +34,7 @@ const AvatarWrapper: React.FC = () => {
           className={classes.iconButton}
           onClick={() =>
             modals.open({
-              title: 'Change picture',
+              title: locales.change_picture,
               centered: true,
               size: 'sm',
               children: <AvatarModal image={profile?.image} />,

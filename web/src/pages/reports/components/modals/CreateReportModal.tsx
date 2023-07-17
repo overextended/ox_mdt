@@ -5,6 +5,7 @@ import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
 import { queryClient } from '../../../../main';
+import locales from '../../../../locales';
 
 type FormValues = {
   title: string;
@@ -21,7 +22,7 @@ const CreateReportModal: React.FC = () => {
     },
 
     validate: {
-      title: (value) => (value.length === 0 ? 'Report title is required' : null),
+      title: (value) => (value.length === 0 ? locales.report_title_required : null),
     },
   });
 
@@ -43,7 +44,7 @@ const CreateReportModal: React.FC = () => {
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack>
-        <TextInput label="Report title" data-autofocus withAsterisk {...form.getInputProps('title')} />
+        <TextInput label={locales.report_title} data-autofocus withAsterisk {...form.getInputProps('title')} />
         <Button type="submit" fullWidth variant="light" loading={isLoading}>
           Confirm
         </Button>

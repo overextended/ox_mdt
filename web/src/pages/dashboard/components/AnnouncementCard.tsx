@@ -15,6 +15,7 @@ import { useConfig } from '../../../state/config';
 import { Announcement, Character } from '../../../typings';
 import { fetchNui } from '../../../utils/fetchNui';
 import { queryClient } from '../../../main';
+import locales from '../../../locales';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -42,7 +43,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
       Underline,
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: 'Announcement contents...' }),
+      Placeholder.configure({ placeholder: locales.announcement_placeholder }),
     ],
   });
 
@@ -77,22 +78,22 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
               icon={<IconEdit size={18} />}
               onClick={() => {
                 modals.open({
-                  title: 'Edit announcement',
+                  title: locales.edit_announcement,
                   centered: true,
                   children: <AnnouncementModal announcement={announcement} />,
                 });
               }}
             >
-              Edit
+              {locales.edit}
             </Menu.Item>
             <Menu.Item
               color="red"
               icon={<IconTrash size={18} />}
               onClick={() => {
                 modals.openConfirmModal({
-                  title: 'Delete announcement',
-                  children: <Text>Are you sure you want to delete this announcement?</Text>,
-                  labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                  title: locales.delete_announcement,
+                  children: <Text>{locales.delete_announcement_confirm}</Text>,
+                  labels: { confirm: locales.confirm, cancel: locales.cancel },
                   centered: true,
                   confirmProps: {
                     color: 'red',
@@ -105,7 +106,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
                 });
               }}
             >
-              Delete
+              {locales.delete}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

@@ -8,6 +8,7 @@ import { IconUserOff } from '@tabler/icons-react';
 import { Profile } from '../../../typings';
 import { modals } from '@mantine/modals';
 import { useSetLoader } from '../../../state/loader';
+import locales from '../../../locales';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -61,7 +62,7 @@ const ProfilesList: React.FC = () => {
           </Box>
         ))
       ) : (
-        <NotFound icon={IconUserOff} label="No profiles found" />
+        <NotFound icon={IconUserOff} label={locales.no_profiles_found}/>
       )}
     </Stack>
   );

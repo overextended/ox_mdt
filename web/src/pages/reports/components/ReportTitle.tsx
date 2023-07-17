@@ -6,6 +6,7 @@ import { modals } from '@mantine/modals';
 import EditTitleModal from './modals/EditTitleModal';
 import { fetchNui } from '../../../utils/fetchNui';
 import { queryClient } from '../../../main';
+import locales from '../../../locales';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();
@@ -18,20 +19,19 @@ const ReportTitle: React.FC = () => {
         {title}
       </Text>
       <Group spacing="xs" noWrap>
-        <Tooltip label="Delete report">
+        <Tooltip label={locales.delete_report}>
           <ActionIcon
             color="red"
             variant="light"
             onClick={() =>
               modals.openConfirmModal({
-                title: 'Delete report?',
+                title: locales.delete_report,
                 children: (
                   <Text size="sm">
-                    Deleting the report will permanently remove all the data associated with it, along with the criminal
-                    charges.
+                    {locales.delete_report_confirm}
                   </Text>
                 ),
-                labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                labels: { confirm: locales.confirm, cancel: locales.cancel },
                 onConfirm: async () => {
                   await fetchNui('deleteReport', id, { data: 1 });
                   await queryClient.invalidateQueries(['reports']);
@@ -46,12 +46,12 @@ const ReportTitle: React.FC = () => {
             <IconTrash size={20} />
           </ActionIcon>
         </Tooltip>
-        <Tooltip label="Edit title">
+        <Tooltip label={locales.edit_title}>
           <ActionIcon
             color="blue"
             variant="light"
             onClick={() =>
-              modals.open({ title: 'Edit report title', size: 'sm', children: <EditTitleModal title={title} /> })
+              modals.open({ title: locales.edit_report_title, size: 'sm', children: <EditTitleModal title={title} /> })
             }
           >
             <IconEdit size={20} />

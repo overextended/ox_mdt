@@ -5,6 +5,7 @@ import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { Evidence } from '../../../../typings';
 import { useForm } from '@mantine/form';
+import locales from '../../../../locales';
 
 const AddEvidenceModal: React.FC = () => {
   const [type, setType] = React.useState<'image' | 'item'>('image');
@@ -19,9 +20,9 @@ const AddEvidenceModal: React.FC = () => {
 
     validate: {
       firstInput: (value) =>
-        value.length === 0 ? (type === 'image' ? 'Image label is required' : 'Item name is required') : null,
+        value.length === 0 ? (type === 'image' ? locales.image_label_required : locales.item_name_required) : null,
       secondInput: (value) =>
-        value.length === 0 ? (type === 'image' ? 'Image URL is required' : 'Item count is required') : null,
+        value.length === 0 ? (type === 'image' ? locales.image_url_required : locales.item_count_required) : null,
     },
   });
 
@@ -44,18 +45,18 @@ const AddEvidenceModal: React.FC = () => {
       <Stack>
         <Select
           data={[
-            { label: 'Image', value: 'image' },
-            { label: 'Item', value: 'item' },
+            { label: locales.image, value: 'image' },
+            { label: locales.item, value: 'item' },
           ]}
           defaultValue="image"
-          label="Evidence type"
+          label={locales.evidence_type}
           onChange={(value: 'image' | 'item') => value && setType(value)}
         />
         {type === 'image' ? (
           <>
-            <TextInput label="Image label" withAsterisk {...form.getInputProps('firstInput')} />
+            <TextInput label={locales.image_label} withAsterisk {...form.getInputProps('firstInput')} />
             <TextInput
-              label="Image URL"
+              label={locales.image_url}
               withAsterisk
               placeholder="https://i.imgur.com/dqopYB9b.jpg"
               {...form.getInputProps('secondInput')}
@@ -63,12 +64,12 @@ const AddEvidenceModal: React.FC = () => {
           </>
         ) : (
           <>
-            <TextInput label="Item name" withAsterisk {...form.getInputProps('firstInput')} />
-            <NumberInput label="Item count" withAsterisk hideControls {...form.getInputProps('secondInput')} />
+            <TextInput label={locales.item_name} withAsterisk {...form.getInputProps('firstInput')} />
+            <NumberInput label={locales.item_count} withAsterisk hideControls {...form.getInputProps('secondInput')} />
           </>
         )}
         <Button color="blue" variant="light" type="submit">
-          Add evidence
+          {locales.add_evidence}
         </Button>
       </Stack>
     </form>

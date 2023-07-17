@@ -5,6 +5,7 @@ import { IconUserX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import NotFound from '../../../../../components/NotFound';
+import locales from '../../../../../locales';
 
 const useStyles = createStyles((theme) => ({
   officerContainer: {
@@ -54,7 +55,7 @@ const OfficerResults: React.FC = () => {
           </Group>
         ))
       ) : (
-        <NotFound icon={IconUserX} label="No officers found" />
+        <NotFound icon={IconUserX} label={locales.no_officers_found} />
       )}
     </Stack>
   );

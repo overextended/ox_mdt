@@ -6,6 +6,7 @@ import { useProfileState } from '../../../state';
 import AvatarWrapper from './AvatarWrapper';
 import Editor from '../../../components/Editor';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useProfileState();
@@ -15,15 +16,15 @@ const Profile: React.FC = () => {
   return (
     <>
       <AvatarWrapper />
-      <ProfileField icon={IconUser} label="Name" value={`${profile.firstName} ${profile.lastName}`} />
-      <ProfileField icon={IconId} label="State ID" value={profile.stateId} />
-      <ProfileField icon={IconCalendar} label="DOB" value={new Date(profile.dob).toLocaleDateString()} />
+      <ProfileField icon={IconUser} label={locales.name} value={`${profile.firstName} ${profile.lastName}`} />
+      <ProfileField icon={IconId} label={locales.state_id} value={profile.stateId} />
+      <ProfileField icon={IconCalendar} label={locales.date_of_birth} value={new Date(profile.dob).toLocaleDateString()} />
       <Stack spacing={6} h="100%">
         <Text size="xs" c="dark.2">
-          Notes:
+          {locales.notes}:
         </Text>
         <Editor
-          placeholder="Profile notes contents..."
+          placeholder={locales.profile_notes_placeholder}
           content={profile.notes}
           onSave={(value) =>
             setProfile((prev) => {

@@ -6,6 +6,7 @@ import BadgeButton from '../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
 import AddOfficerModal from './modals/addOfficer/AddOfficerModal';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
 
 const OfficersInvolved: React.FC = () => {
   const id = useReportId();
@@ -20,10 +21,10 @@ const OfficersInvolved: React.FC = () => {
       </Group>
       <Group spacing="xs">
         <BadgeButton
-          label="Add officer"
+          label={locales.add_officer}
           onClick={() => {
             modals.open({
-              title: 'Add involved officer',
+              title: locales.add_officer,
               children: <AddOfficerModal />,
               styles: { body: { height: 400, overflow: 'auto' } },
             });
@@ -39,15 +40,16 @@ const OfficersInvolved: React.FC = () => {
                 variant="transparent"
                 onClick={() => {
                   modals.openConfirmModal({
-                    title: 'Remove officer',
+                    title: locales.remove_officer,
                     children: (
                       <Text size="sm">
+                        {/* todo: locale placeholders */}
                         Are you sure you want to remove {officer.firstName} {officer.lastName} ({officer.callSign}) from
                         involved officers?
                       </Text>
                     ),
                     confirmProps: { color: 'red' },
-                    labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                    labels: { confirm: locales.confirm, cancel: locales.cancel },
                     onConfirm: async () => {
                       await fetchNui('removeOfficer', { id, stateId: officer.stateId }, { data: 1 });
                       setOfficersInvolved((prev) =>

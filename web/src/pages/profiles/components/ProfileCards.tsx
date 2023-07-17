@@ -4,6 +4,7 @@ import { IconCar, IconCertificate, IconGavel, IconReceipt } from '@tabler/icons-
 import { Badge, Group, Stack } from '@mantine/core';
 import ProfileReport from './ProfileReport';
 import { useProfile } from '../../../state';
+import locales from '../../../locales';
 
 const ProfileCards: React.FC = () => {
   const profile = useProfile();
@@ -28,7 +29,7 @@ const ProfileCards: React.FC = () => {
         </ProfileCard>
       )}
       {profile.vehicles && (
-        <ProfileCard title="Vehicles" icon={IconCar}>
+        <ProfileCard title={locales.vehicles} icon={IconCar}>
           <Group spacing={8}>
             {profile.vehicles.map((vehicle) => (
               <Badge key={vehicle.label}>
@@ -39,7 +40,7 @@ const ProfileCards: React.FC = () => {
         </ProfileCard>
       )}
       {profile.pastCharges && (
-        <ProfileCard title="Past charges" icon={IconGavel}>
+        <ProfileCard title={locales.past_charges} icon={IconGavel}>
           <Group spacing={8}>
             {profile.pastCharges.map((charge) => (
               <Badge key={charge.label}>
@@ -50,7 +51,7 @@ const ProfileCards: React.FC = () => {
         </ProfileCard>
       )}
       {profile.relatedReports && (
-        <ProfileCard title="Related reports" icon={IconReceipt}>
+        <ProfileCard title={locales.related_reports} icon={IconReceipt}>
           {/*Might become an issue when there is too many reports?*/}
           <Stack spacing="sm">
             {profile.relatedReports.map((report) => (

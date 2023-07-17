@@ -7,6 +7,7 @@ import NotFound from '../../../components/NotFound';
 import { Report } from '../../../typings';
 import { useSetLoader } from '../../../state/loader';
 import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';
+import locales from '../../../locales';
 
 const useStyles = createStyles((theme) => ({
   reportContainer: {
@@ -68,7 +69,7 @@ const ReportsList: React.FC = () => {
           </Stack>
         ))
       ) : (
-        <NotFound label="No reports found" icon={IconReceiptOff} />
+        <NotFound label={locales.no_reports_found} icon={IconReceiptOff} />
       )}
       {/*Cursor element used for infinite scroll*/}
       {reports.pages.length > 0 && <span ref={ref} />}

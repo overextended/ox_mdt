@@ -14,6 +14,7 @@ import ProfileCards from './components/ProfileCards';
 import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';
+import locales from '../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -36,7 +37,7 @@ const Profiles: React.FC = () => {
       Underline,
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: 'Profile notes...' }),
+      Placeholder.configure({ placeholder: locales.profile_notes }),
     ],
   });
 
@@ -44,7 +45,7 @@ const Profiles: React.FC = () => {
     <SimpleGrid cols={3} h="100%" sx={{ overflow: 'hidden' }}>
       <Stack className={classes.container} p="md">
         <Group position="apart">
-          <Text size="xl">Profiles</Text>
+          <Text size="xl">{locales.profiles}</Text>
           <IconUsers />
         </Group>
         <ListSearch setDebouncedValue={setProfilesDebounce} valueAtom={profilesListAtoms.currentValueAtom} />
@@ -60,7 +61,7 @@ const Profiles: React.FC = () => {
             <Profile />
           ) : (
             <Center h="100%">
-              <NotFound icon={IconUserOff} label="No profile selected" />
+              <NotFound icon={IconUserOff} label={locales.no_profile_selected} />
             </Center>
           )}
         </Stack>
@@ -69,7 +70,7 @@ const Profiles: React.FC = () => {
             <ProfileCards />
           ) : (
             <Center h="100%" className={classes.container}>
-              <NotFound icon={IconUserOff} label="No profile selected" />
+              <NotFound icon={IconUserOff} label={locales.no_profile_selected} />
             </Center>
           )}
         </Stack>

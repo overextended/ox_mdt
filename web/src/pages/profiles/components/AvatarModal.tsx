@@ -3,6 +3,7 @@ import { Button, Stack, TextInput } from '@mantine/core';
 import { useSetProfile } from '../../../state';
 import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
 
 interface Props {
   image?: string;
@@ -29,8 +30,8 @@ const AvatarModal: React.FC<Props> = (props) => {
       <TextInput
         defaultValue={props.image}
         ref={inputRef}
-        label="Image"
-        description="Image URL to use as the profile image (128x128)"
+        label={locales.image}
+        description={locales.avatar_description}
         placeholder="https://i.imgur.com/dqopYB9b.jpg"
       />
       <Button variant="light" onClick={handleConfirm}>

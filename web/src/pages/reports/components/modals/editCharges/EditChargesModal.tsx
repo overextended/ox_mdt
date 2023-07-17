@@ -6,13 +6,14 @@ import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
 
 import {Criminal} from "../../../../../typings";
+import locales from '../../../../../locales';
 
 const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   return (
     <Grid grow h="100%" sx={{ overflow: 'hidden' }}>
       <Grid.Col span={7}>
         <Stack h="100%">
-          <TextInput icon={<IconSearch size={20} />} placeholder="Search charges..." />
+          <TextInput icon={<IconSearch size={20} />} placeholder={locales.search_charges} />
           <ChargeCardsList />
         </Stack>
       </Grid.Col>

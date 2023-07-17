@@ -12,6 +12,7 @@ import { useAtomValue } from 'jotai';
 import { queryClientAtom } from 'jotai-tanstack-query';
 import { queryClient } from '../../main';
 import { ReportCard } from '../../typings';
+import locales from '../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -44,7 +45,7 @@ const Reports: React.FC = () => {
     <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
       <Stack className={classes.container} p="md">
         <Group position="apart">
-          <Text size="xl">Reports</Text>
+          <Text size="xl">{locales.reports}</Text>
           <IconReceipt />
         </Group>
         <ListSearch setDebouncedValue={setDebouncedSearch} valueAtom={reportsListAtoms.currentValueAtom} />

@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
     <Group h="100%" spacing="md">
       <Stack p="md" className={classes.container}>
         <Group position="apart">
-          <Text size="xl">Announcements</Text>
+          <Text size="xl">{locales.announcements}</Text>
           <IconMessageCircle2 />
         </Group>
         <Box>
@@ -75,10 +75,10 @@ const Dashboard: React.FC = () => {
       </Stack>
       <Stack p="md" className={classes.container}>
         <Group position="apart">
-          <Text size="xl">Active Warrants</Text>
+          <Text size="xl">{locales.active_warrants}</Text>
           <IconPrison />
         </Group>
-        <TextInput placeholder="Search warants..." icon={<IconSearch size={20} />} />
+        <TextInput placeholder={locales.search_warrants} icon={<IconSearch size={20} />} />
         <WarrantList />
       </Stack>
     </Group>

@@ -11,6 +11,7 @@ import { useSetSelectedCharges } from '../../../state';
 import { fetchNui } from '../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
 import type { Criminal } from '../../../typings';
+import locales from '../../../locales';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -56,9 +57,9 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             variant="light"
             onClick={() =>
               modals.openConfirmModal({
-                title: 'Remove criminal?',
+                title: locales.remove_criminal,
                 size: 'sm',
-                labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                labels: { confirm: locales.confirm, cancel: locales.cancel },
                 confirmProps: { color: 'red' },
                 onConfirm: async () => {
                   const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
@@ -67,6 +68,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 },
                 children: (
                   <Text size="sm">
+                    {/* todo: locale placeholders */}
                     Remove {criminal.firstName} {criminal.lastName}? Removing them will also remove the charges from
                     their profile.
                   </Text>
@@ -90,11 +92,11 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
       </Group>
       <Group spacing="xs">
         <BadgeButton
-          label="Edit Charges"
+          label={locales.edit_charges}
           onClick={() => {
             setSelectedCharges(criminal.charges);
             modals.open({
-              title: 'Edit charges',
+              title: locales.edit_charges,
               children: <EditChargesModal criminalAtom={criminalAtom} />,
               size: 1200,
               styles: { body: { height: 600, overflow: 'hidden' }, content: { width: 900 } },
@@ -108,8 +110,8 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
         ))}
       </Group>
       <Checkbox
-        label="Issue warrant"
-        description="Suspect hasn't been processed and charged"
+        label={locales.issue_warrant}
+        description={locales.issue_warrant_description}
         checked={criminal.issueWarrant}
         onChange={() => setCriminal((prev) => ({ ...prev, issueWarrant: !prev.issueWarrant }))}
       />
@@ -123,7 +125,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
       ) : (
         <>
           <Select
-            label="Reduction"
+            label={locales.reduction}
             value={criminal.penalty.reduction ? criminal.penalty.reduction.toString() : null}
             data={calculateReductions(criminal.penalty)}
             icon={<IconClockDown size={20} />}
@@ -136,7 +138,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
               }))
             }
             clearable
-            placeholder="No reduction"
+            placeholder={locales.no_reduction}
           />
           <Group position="apart">
             <Text size="xs">Time: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} months</Text>
@@ -144,8 +146,8 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
           </Group>
           <Group>
-            <Checkbox label="Pleaded guilty" defaultChecked={criminal.pleadedGuilty} />
-            <Checkbox label="Processed" defaultChecked={criminal.processed} />
+            <Checkbox label={locales.pleaded_guilty} checked={criminal.pleadedGuilty} />
+            <Checkbox label={locales.processed} checked={criminal.processed} />
           </Group>
         </>
       )}

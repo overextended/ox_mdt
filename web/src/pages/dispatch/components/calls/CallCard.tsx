@@ -19,6 +19,7 @@ import { useDispatchMap, useSetActiveReport, useSetCalls, useSetIsReportActive }
 import { modals } from '@mantine/modals';
 import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../utils/fetchNui';
+import locales from '../../../../locales';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -52,27 +53,28 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                 </Menu.Target>
 
                 <Menu.Dropdown>
-                  <Menu.Item icon={<IconLink size={20} />}>Attach to call</Menu.Item>
-                  <Menu.Item icon={<IconMapPin size={20} />}>Set waypoint</Menu.Item>
+                  <Menu.Item icon={<IconLink size={20} />}>{locales.attach_to_call}</Menu.Item>
+                  <Menu.Item icon={<IconMapPin size={20} />}>{locales.set_waypoint}</Menu.Item>
                   <Menu.Item
                     icon={<IconMap2 size={20} />}
                     onClick={() => {
                       if (map) map.flyTo(call.coords, 4);
                     }}
                   >
-                    Find on map
+                    {locales.find_on_map}
                   </Menu.Item>
                   <Menu.Item
                     icon={<IconCheck size={20} />}
                     onClick={() => {
                       modals.openConfirmModal({
-                        title: 'Mark call as completed?',
+                        title: locales.mark_call_as_completed,
                         children: (
                           <Text size="sm">
+                            {/* todo: locale placeholders */}
                             Mark {call.offense.label} ({call.offense.code}) as completed?
                           </Text>
                         ),
-                        labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                        labels: { confirm: locales.confirm, cancel: locales.cancel },
                         confirmProps: { variant: 'light' },
                         onConfirm: () => {
                           setCalls((prev) => {
@@ -87,13 +89,13 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                       });
                     }}
                   >
-                    Mark as completed
+                    {locales.mark_as_completed}
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
           ) : (
-            <Tooltip label="Create report">
+            <Tooltip label={locales.create_report}>
               <ActionIcon
                 color="blue"
                 variant="light"
@@ -134,6 +136,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
       </Stack>
       {call.units.length > 0 && (
         <>
+        {/* todo: locale placeholders */}
           <Divider
             label={`${call.completed ? 'Involved' : 'Attached'} units (${call.units.length})`}
             labelPosition="center"

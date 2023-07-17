@@ -4,6 +4,7 @@ import { PrimitiveAtom, useSetAtom } from 'jotai';
 import { Button } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import {Criminal, SelectedCharge} from "../../../../../typings";
+import locales from '../../../../../locales';
 
 interface Props {
   criminalAtom: PrimitiveAtom<Criminal>;
@@ -44,7 +45,7 @@ const ConfirmSelectedCharges: React.FC<Props> = ({ criminalAtom }) => {
         }));
       }}
     >
-      Confirm
+      {locales.confirm}
     </Button>
   );
 };

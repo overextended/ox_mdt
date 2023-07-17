@@ -8,6 +8,7 @@ import ReportCriminals from './ReportCriminals';
 import { useIsReportActive } from '../../../state';
 import NotFound from '../../../components/NotFound';
 import { IconReceiptOff } from '@tabler/icons-react';
+import locales from '../../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -41,7 +42,7 @@ const ActiveReport: React.FC = () => {
             </Stack>
           ) : (
             <Stack className={classes.container} justify="center">
-              <NotFound icon={IconReceiptOff} label="No report selected" />
+              <NotFound icon={IconReceiptOff} label={locales.no_report_selected} />
             </Stack>
           )}
         </Box>
@@ -49,7 +50,7 @@ const ActiveReport: React.FC = () => {
           <ReportCriminals />
         ) : (
           <Stack className={classes.container} justify="center">
-            <NotFound icon={IconReceiptOff} label="No report selected" />
+            <NotFound icon={IconReceiptOff} label={locales.no_report_selected} />
           </Stack>
         )}
       </>

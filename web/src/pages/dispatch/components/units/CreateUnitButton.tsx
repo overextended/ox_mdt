@@ -4,6 +4,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import CreateUnitModal from '../modals/CreateUnitModal';
 import { useCharacter } from '../../../../state';
+import locales from '../../../../locales';
 
 const CreateUnitButton: React.FC = () => {
   const character = useCharacter();
@@ -14,7 +15,7 @@ const CreateUnitButton: React.FC = () => {
       disabled={!!character.unit}
       onClick={() =>
         modals.open({
-          title: 'Create unit',
+          title: locales.create_unit,
           children: <CreateUnitModal />,
           size: 'xs',
         })

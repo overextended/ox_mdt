@@ -7,6 +7,7 @@ import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai';
 import ConfirmSelectedCharges from './ConfirmSelectedCharges';
 import NotFound from '../../../../../components/NotFound';
 import {Criminal} from "../../../../../typings";
+import locales from '../../../../../locales';
 
 const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const selectedChargesAtoms = useSelectedChargesAtoms();
@@ -21,7 +22,7 @@ const SelectedChargesList: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> =
             ))}
           </Stack>
         ) : (
-          <NotFound icon={IconReceiptOff} label="No selected charges" />
+          <NotFound icon={IconReceiptOff} label={locales.no_charges_selected} />
         )}
       </Stack>
       <ConfirmSelectedCharges criminalAtom={criminalAtom} />

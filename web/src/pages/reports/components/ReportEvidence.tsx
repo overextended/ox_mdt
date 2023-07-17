@@ -6,6 +6,7 @@ import BadgeButton from '../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
 import AddEvidenceModal from './modals/AddEvidenceModal';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
 
 const ReportEvidence: React.FC = () => {
   const evidence = useEvidence();
@@ -15,13 +16,13 @@ const ReportEvidence: React.FC = () => {
   return (
     <>
       <Group position="apart" noWrap>
-        <Text size="xl">Evidence</Text>
+        <Text size="xl">{locales.evidence}</Text>
         <IconPaperBag />
       </Group>
       <Group spacing="xs">
         <BadgeButton
-          label="Add evidence"
-          onClick={() => modals.open({ title: 'Add evidence', children: <AddEvidenceModal />, size: 'sm' })}
+          label={locales.add_evidence}
+          onClick={() => modals.open({ title: locales.add_evidence, children: <AddEvidenceModal />, size: 'sm' })}
         />
         {evidence.map((evidence, index) => (
           <Tooltip
@@ -39,15 +40,16 @@ const ReportEvidence: React.FC = () => {
                   variant="transparent"
                   onClick={() =>
                     modals.openConfirmModal({
-                      title: 'Remove evidence',
+                      title: locales.remove_evidence,
                       children: (
                         <Text size="sm">
+                          {/* todo: locale placeholders */}
                           Are you sure you want to remove{' '}
                           {evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`} from
                           evidence?
                         </Text>
                       ),
-                      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+                      labels: { confirm: locales.confirm, cancel: locales.cancel },
                       confirmProps: { color: 'red' },
                       onConfirm: async () => {
                         await fetchNui(

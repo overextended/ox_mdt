@@ -7,6 +7,7 @@ import Editor from '../../../components/Editor';
 import { Announcement } from '../../../typings';
 import { queryClient } from '../../../main';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -34,7 +35,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
   return (
     <Stack h={400}>
       <Editor
-        placeholder="Announcement contents..."
+        placeholder={locales.announcement_placeholder}
         content={announcement?.contents}
         onChange={(value) => setValue(value || '')}
       />

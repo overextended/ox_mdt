@@ -5,6 +5,7 @@ import { modals } from '@mantine/modals';
 import { useCharacterState, useSetUnits } from '../../../../state';
 import { UnitType } from '../../../../typings';
 import { fetchNui } from '../../../../utils/fetchNui';
+import locales from '../../../../locales';
 
 const CreateUnitModal: React.FC = () => {
   const selectRef = useRef<HTMLInputElement>(null);
@@ -41,15 +42,15 @@ const CreateUnitModal: React.FC = () => {
       <Select
         value={value}
         onChange={(val: UnitType) => setValue(val)}
-        label="Unit vehicle type"
+        label={locales.unit_vehicle_type}
         withinPortal
         icon={<IconCar size={20} />}
         defaultValue="car"
         data={[
-          { label: 'Car', value: 'car' },
-          { label: 'Boat', value: 'boat' },
-          { label: 'Heli', value: 'heli' },
-          { label: 'Motor', value: 'motor' },
+          { label: locales.car, value: 'car' },
+          { label: locales.boat, value: 'boat' },
+          { label: locales.heli, value: 'heli' },
+          { label: locales.motor, value: 'motor' },
         ]}
       />
       <Button variant="light" onClick={handleConfirm}>

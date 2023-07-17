@@ -5,6 +5,7 @@ import { useReportId, useReportsList, useSetReportTitle } from '../../../../stat
 import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
 import { queryClient } from '../../../../main';
+import locales from '../../../../locales';
 
 interface Props {
   title: string;
@@ -21,7 +22,7 @@ const EditTitleModal: React.FC<Props> = (props) => {
     },
 
     validate: {
-      title: (value) => (value.length === 0 ? 'Report title is required' : null),
+      title: (value) => (value.length === 0 ? locales.report_title_required : null),
     },
   });
 
@@ -37,9 +38,9 @@ const EditTitleModal: React.FC<Props> = (props) => {
   return (
     <form onSubmit={form.onSubmit((values) => submitForm(values))}>
       <Stack>
-        <TextInput data-autofocus label="Title" withAsterisk {...form.getInputProps('title')} />
+        <TextInput data-autofocus label={locales.report_title} withAsterisk {...form.getInputProps('title')} />
         <Button type="submit" fullWidth variant="light" loading={isLoading}>
-          Confirm
+          {locales.confirm}
         </Button>
       </Stack>
     </form>

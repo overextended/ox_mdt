@@ -3,6 +3,7 @@ import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import NotFound from '../../../components/NotFound';
 import { IconFileOff } from '@tabler/icons-react';
+import locales from '../../../locales';
 
 interface Warrant {
   firstName: string;
@@ -51,13 +52,13 @@ const WarrantList: React.FC = () => {
                 </Text>
                 <Box>
                   <Text size="xs" c="dark.2">
-                    Wanted for:{' '}
+                    {locales.wanted_for}:{' '}
                     <Text component="span" c="dark.0">
                       {warrant.reason}
                     </Text>
                   </Text>
                   <Text size="xs" c="dark.2">
-                    Expires in:{' '}
+                    {locales.expires_in}:{' '}
                     <Text component="span" c="dark.0">
                       {dayjs().to(warrant.expiresIn, true)}
                     </Text>
@@ -68,7 +69,7 @@ const WarrantList: React.FC = () => {
           </Stack>
         ))
       ) : (
-        <NotFound icon={IconFileOff} label="No active warrants" />
+        <NotFound icon={IconFileOff} label={locales.no_active_warrants} />
       )}
     </Stack>
   );

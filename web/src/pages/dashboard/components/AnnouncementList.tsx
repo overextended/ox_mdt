@@ -6,6 +6,7 @@ import AnnouncementCard from './AnnouncementCard';
 import NotFound from '../../../components/NotFound';
 import { IconBellOff } from '@tabler/icons-react';
 import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';
+import locales from '../../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -37,7 +38,7 @@ const AnnouncementList: React.FC = () => {
           ))}
         </>
       ) : (
-        <NotFound icon={IconBellOff} label="No announcements" />
+        <NotFound icon={IconBellOff} label={locales.no_announcements} />
       )}
       {pages.length > 0 && <span ref={ref} />}
     </Box>
