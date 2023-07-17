@@ -1,6 +1,8 @@
-local hasLoadedUi = false
+if not lib then return end
 
 lib.locale()
+
+local hasLoadedUi = false
 
 local function openMDT()
     SetNuiFocus(true, true)
@@ -15,8 +17,6 @@ local function openMDT()
         action = 'setLocales',
         data = lib.getLocales()
     })
-
-    Wait(1000)
 
     SendNUIMessage({
         action = 'setVisible',
@@ -33,18 +33,20 @@ local function openMDT()
     hasLoadedUi = true
 end
 
-AddEventHandler('ox:playerLoaded', function(data)
-    hasLoadedUi = true
-end)
-
-
 exports('openMDT', openMDT)
 
-RegisterKeyMapping('openMDT', 'Open the MDT', 'keyboard', 'm')
+lib.addKeybind({
+    defaultKey = 'm',
+    description = 'Open the Police MDT',
+    name = 'openmdt',
+    onPressed = openMDT
+})
 
-RegisterCommand('openMDT', openMDT)
+AddEventHandler('ox:playerLoaded', function(data)
+    hasLoadedUi = false
+end)
 
-RegisterNUICallback('hideMDT', function(_, cb)
+RegisterNuiCallback('hideMDT', function(_, cb)
     cb(1)
     SetNuiFocus(false, false)
 end)
@@ -86,7 +88,7 @@ serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
 serverNuiCallback('getRecommendedWarrantExpiry')
 
-SendNUIMessage({
-    action = 'updateOfficerPositions',
-    data = {} -- {name: string; callSign: number; position: [number, number]}[]
-})
+-- SendNUIMessage({
+--     action = 'updateOfficerPositions',
+--     data = {} -- {name: string; callSign: number; position: [number, number]}[]
+-- })
