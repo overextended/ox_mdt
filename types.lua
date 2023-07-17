@@ -25,6 +25,7 @@
 ---@field charges SelectedCharge[]
 ---@field issueWarrant boolean
 ---@field pleadedGuilty? boolean
+---@field processed? boolean
 ---@field warrantExpiry? string
 ---@field penalty { time: number, fine: number, points: number, reduction?: number }
 

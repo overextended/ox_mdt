@@ -80,8 +80,8 @@ end
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
 
-    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number }[]
-    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName, a.reduction FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
+    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number, pleadedGuilty?: number }[]
+    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.charid as stateId, b.firstName, b.lastName, a.reduction, DATE_FORMAT(a.warrantExpiry, "%Y-%m-%d") AS warrantExpiry, a.processed, a.pleadedGuilty FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.charid = a.charid WHERE reportid = ?', parameters) or {}
 
     ---@type { stateId: number | string, label: string, time: number?, fine: number?, points: number?, count: number }[]
     local charges = MySQL.rawExecute.await('SELECT `charid` as stateId, `charge` as label, `time`, `fine`, `points`, `count` FROM `ox_mdt_reports_charges` WHERE reportid = ? GROUP BY `charge`, `charid`', parameters) or {}
@@ -115,6 +115,11 @@ function db.selectCriminalsInvolved(reportId)
             end
         end
 
+        if criminal.warrantExpiry then
+            criminal.issueWarrant = true
+        end
+
+        print(json.encode(criminal.processed), type(criminal.processed))
     end
 
     return criminals
@@ -127,20 +132,23 @@ end
 ---@param reportId number
 ---@param criminal Criminal
 function db.saveCriminal(reportId, criminal)
-    MySQL.prepare.await('DELETE FROM `ox_mdt_reports_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId })
+    local queries = {
+        { 'DELETE FROM `ox_mdt_reports_charges` WHERE `reportid` = ? AND `charid` = ?', { reportId, criminal.stateId } },
+        { 'UPDATE IGNORE `ox_mdt_reports_criminals` SET `warrantExpiry` = ?, `processed` = ?, `pleadedGuilty` = ? WHERE `reportid` = ? AND `charid` = ?', { criminal.issueWarrant and criminal.warrantExpiry or nil, criminal.processed, criminal.pleadedGuilty, reportId, criminal.stateId } },
+    }
+    local queryN = #queries
+
+    print(json.encode(criminal, {indent=true,sort_keys=true}))
 
     if next(criminal.charges) then
-        local queries = {}
-        local queryN = 0
-
         for _, v in pairs(criminal.charges) do
             queryN += 1
             ---@todo fetch and store all criminal offenses; use time, fine, and points
             queries[queryN] = { 'INSERT INTO `ox_mdt_reports_charges` (`reportid`, `charid`, `charge`, `count`, `time`, `fine`, `points`) VALUES (?, ?, ?, ?, ?, ?, ?)', { reportId, criminal.stateId, v.label, v.count } }
         end
-
-        return MySQL.transaction.await(queries)
     end
+
+    return MySQL.transaction.await(queries)
 end
 
 function db.removeCriminal(reportId, charId)
