@@ -9,6 +9,7 @@ import { useConfig } from '../../state/config';
 import { useCharacter } from '../../state';
 import { queryClient } from '../../main';
 import { Announcement, ReportCard } from '../../typings';
+import locales from '../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -53,13 +54,13 @@ const Dashboard: React.FC = () => {
             leftIcon={<IconBrandTelegram />}
             onClick={() =>
               modals.open({
-                title: 'Create announcement',
+                title: locales.create_announcement,
                 centered: true,
                 children: <AnnouncementModal />,
               })
             }
           >
-            Create announcement
+            {locales.create_announcement}
           </Button>
         </Box>
         <React.Suspense

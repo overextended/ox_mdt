@@ -11,6 +11,7 @@ import { useSetCharacter } from './state';
 import Reports from './pages/reports/Reports';
 import Dispatch from './pages/dispatch/Dispatch';
 import { Character } from './typings';
+import { setLocale, default as locales } from './locales';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -46,6 +47,11 @@ function App() {
   const { classes } = useStyles();
   const [visible, setVisible] = useVisibilityState();
   const setCharacter = useSetCharacter();
+
+
+  useNuiEvent('setLocales', (data: typeof locales) => {
+    setLocale(data);
+  });
 
   useNuiEvent('setVisible', (data?: Character) => {
     setVisible(true);

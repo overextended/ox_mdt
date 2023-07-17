@@ -1,10 +1,26 @@
-local firstOpen = true
+local hasLoadedUi = false
+
+lib.locale()
 
 local function openMDT()
     SetNuiFocus(true, true)
+
+    if hasLoadedUi then
+        return SendNUIMessage({
+            action = 'setVisible'
+        })
+    end
+
+    SendNUIMessage({
+        action = 'setLocales',
+        data = lib.getLocales()
+    })
+
+    Wait(1000)
+
     SendNUIMessage({
         action = 'setVisible',
-        data = firstOpen and {
+        data = {
             stateId = player.charid,
             firstName = player.firstname,
             lastName = player.lastname,
@@ -13,11 +29,12 @@ local function openMDT()
             callSign = 132
         }
     })
-    firstOpen = false
+
+    hasLoadedUi = true
 end
 
 AddEventHandler('ox:playerLoaded', function(data)
-    firstOpen = true
+    hasLoadedUi = true
 end)
 
 
@@ -35,9 +52,9 @@ end)
 ---@param event string
 local function serverNuiCallback(event)
     RegisterNuiCallback(event, function(data, cb)
-        print('triggered '..event)
-        local response = lib.callback.await('ox_mdt:'..event, false, data)
-        print('response '..event, json.encode(response, {indent=true,sort_keys=true}))
+        print('triggered ' .. event)
+        local response = lib.callback.await('ox_mdt:' .. event, false, data)
+        print('response ' .. event, json.encode(response, { indent = true, sort_keys = true }))
         cb(response)
     end)
 end
