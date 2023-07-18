@@ -21,6 +21,6 @@ export interface ProfileCard {
   firstName: string;
   lastName: string;
   dob: number;
-  stateId: number | string;
+  stateId: string;
   image?: string;
 }

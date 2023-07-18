@@ -6,11 +6,11 @@ import { CriminalProfile } from '../../typings';
 const { isDebouncingAtom, debouncedValueAtom, currentValueAtom } = atomWithDebounce('');
 
 const PROFILES: CriminalProfile[] = [
-  { firstName: 'John', lastName: 'Doe', dob: Date.now(), stateId: 12345 },
-  { firstName: 'Jane', lastName: 'Smith', dob: Date.now(), stateId: 67890 },
-  { firstName: 'David', lastName: 'Williams', dob: Date.now(), stateId: 13579 },
-  { firstName: 'Samantha', lastName: 'Jones', dob: Date.now(), stateId: 24680 },
-  { firstName: 'Robert', lastName: 'Garcia', dob: Date.now(), stateId: 97531 },
+  { firstName: 'John', lastName: 'Doe', dob: Date.now(), stateId: '12345' },
+  { firstName: 'Jane', lastName: 'Smith', dob: Date.now(), stateId: '67890' },
+  { firstName: 'David', lastName: 'Williams', dob: Date.now(), stateId: '13579' },
+  { firstName: 'Samantha', lastName: 'Jones', dob: Date.now(), stateId: '24680' },
+  { firstName: 'Robert', lastName: 'Garcia', dob: Date.now(), stateId: '97531' },
 ];
 
 const criminalProfilesAtom = atom<Promise<CriminalProfile[]>>(async (get) => {

@@ -4,7 +4,7 @@ import { Profile } from '../../typings';
 export const DEBUG_PROFILE: Profile = {
   firstName: 'John',
   lastName: 'Doe',
-  stateId: 139235,
+  stateId: '139235',
   dob: Date.now(),
   notes: '<p></p>',
   licenses: [

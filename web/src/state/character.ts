@@ -3,7 +3,7 @@ import { Character } from '../typings';
 import { isEnvBrowser } from '../utils/misc';
 
 const DEBUG_CHARACTER: Character = {
-  stateId: 1993201,
+  stateId: '1993201',
   firstName: 'Svetozar',
   lastName: 'Miletić',
   title: 'LSPD Officer',
@@ -15,7 +15,7 @@ const characterAtom = atom<Character>(
   isEnvBrowser()
     ? DEBUG_CHARACTER
     : {
-        stateId: 0,
+        stateId: '',
         firstName: '',
         lastName: '',
         title: '',
