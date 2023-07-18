@@ -5,6 +5,7 @@ import { useCriminals } from '../../../state';
 import Criminal from './Criminal';
 import { modals } from '@mantine/modals';
 import AddCriminalModal from './modals/addCriminal/AddCriminalModal';
+import locales from '../../../locales';
 
 const ReportCriminals: React.FC = () => {
   const criminals = useCriminals();
@@ -17,13 +18,13 @@ const ReportCriminals: React.FC = () => {
           leftIcon={<IconPlus size={20} />}
           onClick={() =>
             modals.open({
-              title: 'Add criminal',
+              title: locales.add_criminal,
               children: <AddCriminalModal />,
               styles: { body: { height: 400, overflow: 'hidden' } },
             })
           }
         >
-          Add criminal
+          {locales.add_criminal}
         </Button>
         {criminals.map((criminal, index) => (
           <Criminal key={criminal.toString()} criminalAtom={criminal} index={index} />

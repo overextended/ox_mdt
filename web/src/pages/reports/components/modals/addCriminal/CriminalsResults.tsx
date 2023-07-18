@@ -60,10 +60,10 @@ const CriminalsResults: React.FC = () => {
                   {profile.firstName} {profile.lastName}
                 </Text>
                 <Text size="xs" c="dark.2">
-                  DOB: {profile.dob}
+                {locales.date_of_birth}: {profile.dob}
                 </Text>
                 <Text size="xs" c="dark.2">
-                  ID: {profile.stateId}
+                {locales.state_id}: {profile.stateId}
                 </Text>
               </Stack>
             </Group>

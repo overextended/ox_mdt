@@ -16,7 +16,7 @@ const OfficersInvolved: React.FC = () => {
   return (
     <>
       <Group position="apart" noWrap>
-        <Text size="xl">Officers involved</Text>
+        <Text size="xl">{locales.officers_involved}</Text>
         <IconUsers />
       </Group>
       <Group spacing="xs">

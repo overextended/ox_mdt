@@ -21,7 +21,7 @@ const CreateUnitButton: React.FC = () => {
         })
       }
     >
-      Create unit
+      {locales.create_unit}
     </Button>
   );
 };

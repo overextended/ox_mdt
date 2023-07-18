@@ -14,7 +14,7 @@ const ProfileCards: React.FC = () => {
   return (
     <>
       {profile.licenses && (
-        <ProfileCard title="Licenses" icon={IconCertificate}>
+        <ProfileCard title={locales.licenses} icon={IconCertificate}>
           <Group spacing={8}>
             {profile.licenses.map((license) =>
               typeof license === 'string' ? (

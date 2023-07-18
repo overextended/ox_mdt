@@ -5,6 +5,7 @@ import NavCharacter from './NavCharacter';
 import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 import NavButton from './NavButton';
+import locales from '../locales';
 
 const useStyles = createStyles((theme) => ({
   navContainer: {
@@ -19,32 +20,32 @@ const useStyles = createStyles((theme) => ({
 
 const NAV_BUTTONS = [
   {
-    label: 'Dashboard',
+    label: locales.dashboard,
     icon: IconLayoutDashboard,
     path: '/',
   },
   {
-    label: 'Profiles',
+    label: locales.profiles,
     icon: IconUsers,
     path: '/profiles',
   },
   {
-    label: 'Reports',
+    label: locales.reports,
     icon: IconReceipt,
     path: '/reports',
   },
   {
-    label: 'Dispatch',
+    label: locales.dispatch,
     icon: IconMap2,
     path: '/dispatch',
   },
   {
-    label: 'Charges',
+    label: locales.charges,
     icon: IconGavel,
     path: '/charges',
   },
   {
-    label: 'Officers',
+    label: locales.officers,
     icon: IconUserShield,
     path: '/Officers',
   },

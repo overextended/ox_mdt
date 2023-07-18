@@ -141,9 +141,9 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             placeholder={locales.no_reduction}
           />
           <Group position="apart">
-            <Text size="xs">Time: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} months</Text>
-            <Text size="xs">Fine: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
-            <Text size="xs">Points: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
+            <Text size="xs">{locales.time}: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} {locales.months}</Text>
+            <Text size="xs">{locales.fine}: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
+            <Text size="xs">{locales.points}: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
           </Group>
           <Group>
             <Checkbox label={locales.pleaded_guilty} checked={criminal.pleadedGuilty} />

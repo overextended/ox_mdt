@@ -3,11 +3,12 @@ import CardTitle from '../../../../components/CardTitle';
 import { IconPhoneCall } from '@tabler/icons-react';
 import CallTypeSwitcher from './CallTypeSwitcher';
 import CallsList from './CallsList';
+import locales from '../../../../locales';
 
 const CallsContainer: React.FC = () => {
   return (
     <>
-      <CardTitle title="Calls" icon={<IconPhoneCall />} />
+      <CardTitle title={locales.calls} icon={<IconPhoneCall />} />
       <CallTypeSwitcher />
       <CallsList />
     </>

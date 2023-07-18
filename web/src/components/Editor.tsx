@@ -8,6 +8,7 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import { RichTextEditor } from '@mantine/tiptap';
 import { ActionIcon, createStyles, rem, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
+import locales from '../locales';
 
 interface Props {
   onSave?: (value: string) => void;
@@ -59,7 +60,7 @@ const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onC
 
   return (
     <RichTextEditor
-      placeholder="Report contents..."
+      placeholder={locales.report_placeholder}
       editor={editor}
       styles={{
         root: {

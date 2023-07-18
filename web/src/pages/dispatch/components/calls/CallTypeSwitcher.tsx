@@ -1,6 +1,7 @@
 import React from 'react';
 import { SegmentedControl } from '@mantine/core';
 import { useCallTypeState } from '../../../../state';
+import locales from '../../../../locales';
 
 const CallTypeSwitcher: React.FC = () => {
   const [callType, setCallType] = useCallTypeState();
@@ -15,8 +16,8 @@ const CallTypeSwitcher: React.FC = () => {
       value={callType}
       onChange={(value: 'active' | 'completed') => setCallType(value)}
       data={[
-        { label: 'Active', value: 'active' },
-        { label: 'Completed', value: 'completed' },
+        { label: locales.active, value: 'active' },
+        { label: locales.completed, value: 'completed' },
       ]}
     />
   );

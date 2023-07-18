@@ -3,6 +3,7 @@ import { DatePickerInput, DateValue } from '@mantine/dates';
 import { IconCalendar } from '@tabler/icons-react';
 import { fetchNui } from '../../../utils/fetchNui';
 import { Criminal } from '../../../typings';
+import locales from '../../../locales';
 
 interface Props {
   charges: Criminal['charges'];
@@ -24,8 +25,8 @@ const WarrantExpiry: React.FC<Props> = ({ charges, reportId, index, onChange }) 
   return (
     <DatePickerInput
       icon={<IconCalendar size={20} />}
-      label="Warrant expiration date"
-      placeholder="12/03/2023"
+      label={locales.warrant_expiration_date}
+      placeholder="2023-03-12"
       weekendDays={[]}
       value={expiry}
       onChange={(val) => {

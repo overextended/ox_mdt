@@ -54,9 +54,9 @@ const Reports: React.FC = () => {
             fullWidth
             variant="light"
             leftIcon={<IconFileImport size={20} />}
-            onClick={() => modals.open({ title: 'Create report', size: 'sm', children: <CreateReportModal /> })}
+            onClick={() => modals.open({ title: locales.create_report, size: 'sm', children: <CreateReportModal /> })}
           >
-            Create report
+            {locales.create_report}
           </Button>
         </Box>
         <ListContainer

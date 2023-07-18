@@ -3,6 +3,7 @@ import { ActionIcon, Badge, createStyles, Group, rem, Stack, Text, Tooltip } fro
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 import { useSelectedChargesAtoms, useSetSelectedCharges } from '../../../../../state';
 import { Charge } from '../../../../../typings';
+import locales from '../../../../../locales';
 
 interface Props {
   charge: Charge;
@@ -50,8 +51,8 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
                 <Text>{charge.description}</Text>
                 <Group spacing="xs" noWrap position="apart">
                   <Text size="xs"> ${charge.penalty.fine || 0}</Text>
-                  <Text size="xs"> {charge.penalty.time || 0} months</Text>
-                  <Text size="xs">{charge.penalty.points || 0} points</Text>
+                  <Text size="xs"> {charge.penalty.time || 0} {locales.months}</Text>
+                  <Text size="xs">{charge.penalty.points || 0} {locales.points.toLowerCase()}</Text>
                 </Group>
               </Stack>
             }
