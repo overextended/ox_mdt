@@ -277,4 +277,16 @@ function db.removeAnnouncement(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
 end
 
+function db.selectWarrants()
+    return MySQL.rawExecute.await('SELECT a.reportid, a.stateid, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid ')
+end
+
+function db.createWarrant(reportId, stateId, expiry)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_warrants` (`reportid`, `stateid`, `expiresAt`) VALUES (?, ?, ?)', { reportId, stateId, expiry })
+end
+
+function db.removeWarrant(reportId, stateId)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_warrants` WHERE `reportid` = ? AND `stateid` = ?', { reportId, stateId })
+end
+
 return db

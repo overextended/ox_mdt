@@ -62,6 +62,7 @@ local function serverNuiCallback(event)
 end
 
 serverNuiCallback('getAnnouncements')
+serverNuiCallback('getWarrants')
 serverNuiCallback('createAnnouncement')
 serverNuiCallback('editAnnouncement')
 serverNuiCallback('deleteAnnouncement')

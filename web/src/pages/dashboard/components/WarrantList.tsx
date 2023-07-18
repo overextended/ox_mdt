@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import NotFound from '../../../components/NotFound';
 import { IconFileOff } from '@tabler/icons-react';
 import locales from '../../../locales';
+import { useWarrants } from '../../../state/dashboard/warrants';
 
 interface Warrant {
   firstName: string;
@@ -36,8 +37,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const WarrantList: React.FC = () => {
-  const [warrants, setWarrants] = React.useState(WARRANTS);
   const { classes } = useStyles();
+  const warrants = useWarrants();
+
+  // TODO: Clickable and redirect to report
 
   return (
     <Stack sx={{ overflow: 'auto' }}>
@@ -50,20 +53,12 @@ const WarrantList: React.FC = () => {
                 <Text>
                   {warrant.firstName} {warrant.lastName}
                 </Text>
-                <Box>
-                  <Text size="xs" c="dark.2">
-                    {locales.wanted_for}:{' '}
-                    <Text component="span" c="dark.0">
-                      {warrant.reason}
-                    </Text>
+                <Text size="xs" c="dark.2">
+                  {locales.expires_in}:{' '}
+                  <Text component="span" c="dark.0">
+                    {dayjs().to(warrant.expiresAt, true)}
                   </Text>
-                  <Text size="xs" c="dark.2">
-                    {locales.expires_in}:{' '}
-                    <Text component="span" c="dark.0">
-                      {dayjs().to(warrant.expiresIn, true)}
-                    </Text>
-                  </Text>
-                </Box>
+                </Text>
               </Stack>
             </Group>
           </Stack>

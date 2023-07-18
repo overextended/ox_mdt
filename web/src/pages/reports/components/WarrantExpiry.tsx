@@ -22,6 +22,10 @@ const WarrantExpiry: React.FC<Props> = ({ charges, reportId, index, onChange }) 
     });
   }, [charges]);
 
+  React.useEffect(() => {
+    onChange(expiry);
+  }, [expiry]);
+
   return (
     <DatePickerInput
       icon={<IconCalendar size={20} />}
@@ -31,7 +35,6 @@ const WarrantExpiry: React.FC<Props> = ({ charges, reportId, index, onChange }) 
       value={expiry}
       onChange={(val) => {
         setExpiry(val);
-        onChange(val);
       }}
     />
   );

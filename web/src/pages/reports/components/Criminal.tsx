@@ -12,6 +12,7 @@ import { fetchNui } from '../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
 import type { Criminal } from '../../../typings';
 import locales from '../../../locales';
+import dayjs from 'dayjs';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -79,7 +80,19 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             variant="light"
             onClick={() => {
               console.log(criminal);
-              fetchNui('saveCriminal', { id, criminal }, { data: 1 });
+              fetchNui(
+                'saveCriminal',
+                {
+                  id,
+                  criminal: {
+                    ...criminal,
+                    warrantExpiry: criminal.warrantExpiry
+                      ? dayjs(criminal.warrantExpiry).format('YYYY-MM-DD HH:mm:ss')
+                      : null,
+                  },
+                },
+                { data: 1 }
+              );
             }}
           >
             <IconDeviceFloppy size={20} />

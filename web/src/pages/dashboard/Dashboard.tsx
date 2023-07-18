@@ -79,7 +79,15 @@ const Dashboard: React.FC = () => {
           <IconPrison />
         </Group>
         <TextInput placeholder={locales.search_warrants} icon={<IconSearch size={20} />} />
-        <WarrantList />
+        <React.Suspense
+          fallback={
+            <Center>
+              <Loader />
+            </Center>
+          }
+        >
+          <WarrantList />
+        </React.Suspense>
       </Stack>
     </Group>
   );

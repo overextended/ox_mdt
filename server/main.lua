@@ -113,6 +113,14 @@ end)
 ---@param source number
 ---@param data { id: number, criminal: Criminal }
 utils.registerCallback('ox_mdt:saveCriminal', function(source, data)
+    if data.criminal.issueWarrant then
+        db.createWarrant(data.id, data.criminal.stateId, data.criminal.warrantExpiry)
+    else
+        -- This would still run the delete query even if the criminal was saved without
+        -- there previously being a warrant issued, but should be fine?
+        db.removeWarrant(data.id, data.criminal.stateId)
+    end
+
     return db.saveCriminal(data.id, data.criminal)
 end)
 
@@ -185,4 +193,9 @@ utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, ch
     end
 
     return currentTime * 1000 + addonTime + baseWarrantDuration
+end)
+
+-- TODO: use cron daily to remove existing warrants?
+utils.registerCallback('ox_mdt:getWarrants', function(source)
+    return db.selectWarrants()
 end)
