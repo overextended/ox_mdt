@@ -70,8 +70,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                         title: locales.mark_call_as_completed,
                         children: (
                           <Text size="sm">
-                            {/* todo: locale placeholders */}
-                            Mark {call.offense.label} ({call.offense.code}) as completed?
+                            {locales.mark_call_as_completed_confirm.format(call.offense.label, call.offense.code)}
                           </Text>
                         ),
                         labels: { confirm: locales.confirm, cancel: locales.cancel },
@@ -136,9 +135,8 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
       </Stack>
       {call.units.length > 0 && (
         <>
-        {/* todo: locale placeholders */}
           <Divider
-            label={`${call.completed ? 'Involved' : 'Attached'} units (${call.units.length})`}
+            label={locales[call.completed ? 'involved_units' : 'attached_units'].format(call.units.length)}
             labelPosition="center"
           />
           <Group spacing="xs">

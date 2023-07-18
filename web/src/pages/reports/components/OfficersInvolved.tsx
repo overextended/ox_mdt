@@ -43,9 +43,7 @@ const OfficersInvolved: React.FC = () => {
                     title: locales.remove_officer,
                     children: (
                       <Text size="sm">
-                        {/* todo: locale placeholders */}
-                        Are you sure you want to remove {officer.firstName} {officer.lastName} ({officer.callSign}) from
-                        involved officers?
+                        {locales.remove_officer_confirm.format(officer.firstName, officer.lastName, officer.callSign)}
                       </Text>
                     ),
                     confirmProps: { color: 'red' },

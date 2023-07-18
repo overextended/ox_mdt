@@ -43,10 +43,9 @@ const ReportEvidence: React.FC = () => {
                       title: locales.remove_evidence,
                       children: (
                         <Text size="sm">
-                          {/* todo: locale placeholders */}
-                          Are you sure you want to remove{' '}
-                          {evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`} from
-                          evidence?
+                          {locales.remove_evidence_confirm.format(
+                            evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`
+                          )}
                         </Text>
                       ),
                       labels: { confirm: locales.confirm, cancel: locales.cancel },

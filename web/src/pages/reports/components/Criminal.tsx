@@ -67,11 +67,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                   if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
                 },
                 children: (
-                  <Text size="sm">
-                    {/* todo: locale placeholders */}
-                    Remove {criminal.firstName} {criminal.lastName}? Removing them will also remove the charges from
-                    their profile.
-                  </Text>
+                  <Text size="sm">{locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}</Text>
                 ),
               })
             }
@@ -141,9 +137,15 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             placeholder={locales.no_reduction}
           />
           <Group position="apart">
-            <Text size="xs">{locales.time}: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} {locales.months}</Text>
-            <Text size="xs">{locales.fine}: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}</Text>
-            <Text size="xs">{locales.points}: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}</Text>
+            <Text size="xs">
+              {locales.time}: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} {locales.months}
+            </Text>
+            <Text size="xs">
+              {locales.fine}: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}
+            </Text>
+            <Text size="xs">
+              {locales.points}: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}
+            </Text>
           </Group>
           <Group>
             <Checkbox label={locales.pleaded_guilty} checked={criminal.pleadedGuilty} />
