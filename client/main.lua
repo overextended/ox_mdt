@@ -21,7 +21,7 @@ local function openMDT()
     SendNUIMessage({
         action = 'setVisible',
         data = {
-            stateId = player.charid,
+            stateId = player.stateid,
             firstName = player.firstname,
             lastName = player.lastname,
             title = 'LSPD Officer',

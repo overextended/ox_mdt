@@ -16,7 +16,7 @@ end)
 utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local player = Ox.GetPlayer(source)
     -- todo: permission checks
-    return db.createAnnouncement(player.charid, contents)
+    return db.createAnnouncement(player.stateid, contents)
 end)
 
 ---@param source string
@@ -24,7 +24,7 @@ end)
 utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
     local player = Ox.GetPlayer(source)
 
-    if data.announcement.stateId ~= player.charid then return end
+    if data.announcement.stateId ~= player.stateid then return end
 
     return db.updateAnnouncementContents(data.announcement.id, data.value)
 end)

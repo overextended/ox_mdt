@@ -22,42 +22,42 @@ CREATE TABLE
 CREATE TABLE
     `ox_mdt_reports_criminals` (
         `reportid` INT (10) UNSIGNED NOT NULL,
-        `charid` INT (10) UNSIGNED NOT NULL,
+        `stateid` VARCHAR(7) NOT NULL,
         `reduction` TINYINT (3) UNSIGNED NULL DEFAULT NULL,
         `warrantExpiry` DATE NULL DEFAULT NULL,
         `processed` TINYINT (1) NULL DEFAULT NULL,
         `pleadedGuilty` TINYINT (1) NULL DEFAULT NULL,
         INDEX `reportid` (`reportid`) USING BTREE,
-        INDEX `FK_ox_mdt_reports_reports_characters` (`charid`) USING BTREE,
-        CONSTRAINT `ox_mdt_reports_criminals_ibfk_1` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON UPDATE CASCADE ON DELETE CASCADE,
+        INDEX `FK_ox_mdt_reports_reports_characters` (`stateid`) USING BTREE,
+        CONSTRAINT `ox_mdt_reports_criminals_ibfk_1` FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT `ox_mdt_reports_criminals_ibfk_2` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
     );
 
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_reports_officers` (
         `reportid` int (10) unsigned NOT NULL,
-        `charid` int (10) unsigned NOT NULL,
-        KEY `FK_ox_mdt_reports_officers_characters` (`charid`) USING BTREE,
+        `stateid` VARCHAR(7) NOT NULL,
+        KEY `FK_ox_mdt_reports_officers_characters` (`stateid`) USING BTREE,
         KEY `reportid` (`reportid`) USING BTREE,
-        CONSTRAINT `FK_ox_mdt_reports_officers_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `FK_ox_mdt_reports_officers_characters` FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT `FK_ox_mdt_reports_officers_ox_mdt_reports` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_reports_charges` (
         `reportid` int (10) unsigned NOT NULL,
-        `charid` int (10) unsigned NOT NULL,
+        `stateid` VARCHAR(7) NOT NULL,
         `charge` varchar(50) DEFAULT NULL,
         `count` int (10) unsigned NOT NULL DEFAULT 1,
         `time` int (10) unsigned DEFAULT NULL,
         `fine` int (10) unsigned DEFAULT NULL,
         `points` int (10) unsigned DEFAULT NULL,
         KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals` (`reportid`),
-        KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` (`charid`),
+        KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` (`stateid`),
         KEY `FK_ox_mdt_reports_charges_ox_mdt_offenses` (`charge`),
         CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_offenses` FOREIGN KEY (`charge`) REFERENCES `ox_mdt_offenses` (`label`) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals` FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports_criminals` (`reportid`) ON DELETE CASCADE ON UPDATE CASCADE,
-        CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`charid`) REFERENCES `ox_mdt_reports_criminals` (`charid`) ON DELETE CASCADE ON UPDATE CASCADE
+        CONSTRAINT `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` FOREIGN KEY (`stateid`) REFERENCES `ox_mdt_reports_criminals` (`stateid`) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -73,12 +73,12 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_announcements` (
         `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
-        `creator` INT (10) UNSIGNED NULL DEFAULT NULL,
+        `creator` VARCHAR(7) NOT NULL,
         `contents` LONGTEXT NOT NULL,
         `createdAt` DATETIME NOT NULL DEFAULT curtime(),
         PRIMARY KEY (`id`) USING BTREE,
         INDEX `FK_ox_mdt_announcements_characters` (`creator`) USING BTREE,
-        CONSTRAINT `FK_ox_mdt_announcements_characters` FOREIGN KEY (`creator`) REFERENCES `characters` (`charid`) ON UPDATE NO ACTION ON DELETE NO ACTION
+        CONSTRAINT `FK_ox_mdt_announcements_characters` FOREIGN KEY (`creator`) REFERENCES `characters` (`stateid`) ON UPDATE NO ACTION ON DELETE NO ACTION
     );
 
 INSERT INTO
