@@ -280,7 +280,7 @@ end
 ---@param string
 function db.selectWarrants(search)
     search = wildcard:format(search)
-    return MySQL.rawExecute.await('SELECT a.reportid, a.stateid, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid WHERE `firstName` LIKE ? OR `lastName` LIKE ?', { search, search })
+    return MySQL.rawExecute.await('SELECT a.reportId, a.stateId, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid WHERE `firstName` LIKE ? OR `lastName` LIKE ?', { search, search })
 end
 
 function db.createWarrant(reportId, stateId, expiry)
