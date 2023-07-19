@@ -18,43 +18,45 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const NAV_BUTTONS = [
-  {
-    label: locales.dashboard,
-    icon: IconLayoutDashboard,
-    path: '/',
-  },
-  {
-    label: locales.profiles,
-    icon: IconUsers,
-    path: '/profiles',
-  },
-  {
-    label: locales.reports,
-    icon: IconReceipt,
-    path: '/reports',
-  },
-  {
-    label: locales.dispatch,
-    icon: IconMap2,
-    path: '/dispatch',
-  },
-  {
-    label: locales.charges,
-    icon: IconGavel,
-    path: '/charges',
-  },
-  {
-    label: locales.officers,
-    icon: IconUserShield,
-    path: '/Officers',
-  },
-];
-
 const Navbar: React.FC = () => {
   const matches = useMediaQuery('(max-width: 1599px)');
   const { classes } = useStyles();
   const location = useLocation();
+  const NAV_BUTTONS = React.useMemo(
+    () => [
+      {
+        label: locales.dashboard,
+        icon: IconLayoutDashboard,
+        path: '/',
+      },
+      {
+        label: locales.profiles,
+        icon: IconUsers,
+        path: '/profiles',
+      },
+      {
+        label: locales.reports,
+        icon: IconReceipt,
+        path: '/reports',
+      },
+      {
+        label: locales.dispatch,
+        icon: IconMap2,
+        path: '/dispatch',
+      },
+      {
+        label: locales.charges,
+        icon: IconGavel,
+        path: '/charges',
+      },
+      {
+        label: locales.officers,
+        icon: IconUserShield,
+        path: '/Officers',
+      },
+    ],
+    []
+  );
 
   return (
     <>
