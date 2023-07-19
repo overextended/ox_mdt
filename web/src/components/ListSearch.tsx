@@ -7,15 +7,16 @@ import locales from '../locales';
 interface Props {
   valueAtom: Atom<string>;
   setDebouncedValue: (prev: string) => void;
+  placeholder?: string;
 }
 
-const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue }) => {
+const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue, placeholder }) => {
   const search = useAtomValue(valueAtom);
 
   return (
     <TextInput
       icon={<IconSearch size={20} />}
-      placeholder={locales.search}
+      placeholder={placeholder || locales.search}
       value={search}
       onChange={(e) => setDebouncedValue(e.target.value.toLowerCase())}
     />

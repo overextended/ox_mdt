@@ -196,6 +196,7 @@ utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, ch
 end)
 
 -- TODO: use cron daily to remove existing warrants?
-utils.registerCallback('ox_mdt:getWarrants', function(source)
-    return db.selectWarrants()
+---@param search string
+utils.registerCallback('ox_mdt:getWarrants', function(source, search)
+    return db.selectWarrants(search)
 end)

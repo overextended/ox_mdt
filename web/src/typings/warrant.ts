@@ -1,5 +1,5 @@
 export interface Warrant {
-  stateId: number;
+  stateId: string;
   firstName: string;
   lastName: string;
   reportId: number;

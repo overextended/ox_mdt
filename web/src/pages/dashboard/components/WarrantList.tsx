@@ -6,28 +6,6 @@ import { IconFileOff } from '@tabler/icons-react';
 import locales from '../../../locales';
 import { useWarrants } from '../../../state/dashboard/warrants';
 
-interface Warrant {
-  firstName: string;
-  lastName: string;
-  expiresIn: number;
-  reason: string;
-}
-
-const WARRANTS: Warrant[] = [
-  {
-    firstName: 'Spencer',
-    lastName: 'Carr',
-    expiresIn: 1682250523000,
-    reason: 'Did some crime',
-  },
-  {
-    firstName: 'Lennon',
-    lastName: 'Herman',
-    expiresIn: Date.now(),
-    reason: 'Stole a cat',
-  },
-];
-
 const useStyles = createStyles((theme) => ({
   warrantContainer: {
     backgroundColor: theme.colors.durple[4],
@@ -49,7 +27,7 @@ const WarrantList: React.FC = () => {
           <Stack key={`${warrant.firstName} ${warrant.lastName}`} className={classes.warrantContainer} p="md">
             <Group>
               <Avatar size="lg" color="blue" radius="md" />
-              <Stack spacing={2}>
+              <Stack spacing={0}>
                 <Text>
                   {warrant.firstName} {warrant.lastName}
                 </Text>

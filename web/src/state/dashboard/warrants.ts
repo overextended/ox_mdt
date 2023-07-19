@@ -1,18 +1,23 @@
 import { atomsWithQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';
 import { Warrant } from '../../typings/warrant';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { queryClient } from '../../main';
+import atomWithDebounce from '../../utils/atomWithDebounce';
 
-// TODO: Implement search
+export const warrantsSearchAtoms = atomWithDebounce('');
+
 const [warrantsAtom] = atomsWithQuery(
-  () => ({
-    queryKey: ['warrants'],
+  (get) => ({
+    queryKey: ['warrants', get(warrantsSearchAtoms.debouncedValueAtom)],
     queryFn: async () => {
-      return fetchNui<Warrant[]>('getWarrants', null, { data: [] });
+      return fetchNui<Warrant[]>('getWarrants', get(warrantsSearchAtoms.debouncedValueAtom), {
+        data: [{ stateId: 'AF30442', firstName: 'Billy', lastName: 'Bob', reportId: 3, expiresAt: Date.now() }],
+      });
     },
   }),
   () => queryClient
 );
 
 export const useWarrants = () => useAtomValue(warrantsAtom);
+export const useSetWarrantsDebounce = () => useSetAtom(warrantsSearchAtoms.debouncedValueAtom);

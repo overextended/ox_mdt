@@ -10,6 +10,7 @@ import { useCharacter } from '../../state';
 import { queryClient } from '../../main';
 import { Announcement, ReportCard } from '../../typings';
 import locales from '../../locales';
+import Warrants from './components/Warrants';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -78,16 +79,7 @@ const Dashboard: React.FC = () => {
           <Text size="xl">{locales.active_warrants}</Text>
           <IconPrison />
         </Group>
-        <TextInput placeholder={locales.search_warrants} icon={<IconSearch size={20} />} />
-        <React.Suspense
-          fallback={
-            <Center>
-              <Loader />
-            </Center>
-          }
-        >
-          <WarrantList />
-        </React.Suspense>
+        <Warrants />
       </Stack>
     </Group>
   );
