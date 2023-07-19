@@ -11,6 +11,7 @@ import { queryClient } from '../../main';
 import { Announcement, ReportCard } from '../../typings';
 import locales from '../../locales';
 import Warrants from './components/Warrants';
+import SuspenseLoader from '../../components/SuspenseLoader';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -64,13 +65,7 @@ const Dashboard: React.FC = () => {
             {locales.create_announcement}
           </Button>
         </Box>
-        <React.Suspense
-          fallback={
-            <Center>
-              <Loader />
-            </Center>
-          }
-        >
+        <React.Suspense fallback={<SuspenseLoader />}>
           <AnnouncementList />
         </React.Suspense>
       </Stack>

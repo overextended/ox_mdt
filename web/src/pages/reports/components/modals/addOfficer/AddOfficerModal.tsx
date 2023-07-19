@@ -3,6 +3,7 @@ import { Stack, Center, Loader } from '@mantine/core';
 import OfficerResults from './OfficerResults';
 import { useIsOfficersDebouncing, useSetOfficersDebounce } from '../../../../../state';
 import OfficerSearch from './OfficerSearch';
+import SuspenseLoader from '../../../../../components/SuspenseLoader';
 
 const AddOfficerModal: React.FC = () => {
   const setDebouncedSearch = useSetOfficersDebounce();
@@ -15,20 +16,8 @@ const AddOfficerModal: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'scroll' }}>
       <OfficerSearch />
-      <React.Suspense
-        fallback={
-          <Center>
-            <Loader />
-          </Center>
-        }
-      >
-        {isDebouncing ? (
-          <Center>
-            <Loader />
-          </Center>
-        ) : (
-          <OfficerResults />
-        )}
+      <React.Suspense fallback={<SuspenseLoader />}>
+        {isDebouncing ? <SuspenseLoader /> : <OfficerResults />}
       </React.Suspense>
     </Stack>
   );

@@ -3,6 +3,7 @@ import { Center, Loader, Stack } from '@mantine/core';
 import CriminalSearch from './CriminalSearch';
 import { useIsCriminalsDebouncing, useSetCriminalDebounce } from '../../../../../state';
 import CriminalsResults from './CriminalsResults';
+import SuspenseLoader from '../../../../../components/SuspenseLoader';
 
 const AddCriminalModal: React.FC = () => {
   const isDebouncing = useIsCriminalsDebouncing();
@@ -15,20 +16,8 @@ const AddCriminalModal: React.FC = () => {
   return (
     <Stack h="100%">
       <CriminalSearch />
-      <React.Suspense
-        fallback={
-          <Center>
-            <Loader />
-          </Center>
-        }
-      >
-        {isDebouncing ? (
-          <Center>
-            <Loader />
-          </Center>
-        ) : (
-          <CriminalsResults />
-        )}
+      <React.Suspense fallback={<SuspenseLoader />}>
+        {isDebouncing ? <SuspenseLoader /> : <CriminalsResults />}
       </React.Suspense>
     </Stack>
   );

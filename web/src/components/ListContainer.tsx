@@ -1,6 +1,7 @@
 import { Center, Loader } from '@mantine/core';
 import React from 'react';
 import { PrimitiveAtom, useAtomValue } from 'jotai';
+import SuspenseLoader from './SuspenseLoader';
 
 interface Props {
   debounceAtom: PrimitiveAtom<boolean>;
@@ -16,20 +17,8 @@ const ListContainer: React.FC<Props> = ({ debounceAtom, setDebouncedSearch, List
   }, []);
 
   return (
-    <React.Suspense
-      fallback={
-        <Center>
-          <Loader />
-        </Center>
-      }
-    >
-      {isDebouncing ? (
-        <Center>
-          <Loader />
-        </Center>
-      ) : (
-        <ListComponent />
-      )}
+    <React.Suspense fallback={<SuspenseLoader />}>
+      {isDebouncing ? <SuspenseLoader /> : <ListComponent />}
     </React.Suspense>
   );
 };
