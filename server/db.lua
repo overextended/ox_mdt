@@ -192,7 +192,7 @@ local selectOfficerInvolved = [[
     SELECT
         firstName,
         lastName,
-        characters.stateId AS stateId,
+        stateId,
         characters.stateId AS callSign,
         character_groups.grade AS grade
     FROM
@@ -200,7 +200,7 @@ local selectOfficerInvolved = [[
     LEFT JOIN
         characters
     ON
-        character_groups.stateId = characters.stateId
+        character_groups.charid = characters.charid
     WHERE
         character_groups.name = "police"
 ]]
