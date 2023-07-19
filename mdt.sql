@@ -81,6 +81,19 @@ CREATE TABLE
         CONSTRAINT `FK_ox_mdt_announcements_characters` FOREIGN KEY (`creator`) REFERENCES `characters` (`stateid`) ON UPDATE NO ACTION ON DELETE NO ACTION
     );
 
+CREATE TABLE IF NOT EXISTS `ox_mdt_warrants`
+(
+    `reportid`  INT UNSIGNED NOT NULL,
+    `stateid`   VARCHAR(7)   NOT NULL,
+    `expiresAt` DATETIME     NOT NULL,
+    CONSTRAINT `ox_mdt_warrants_characters_stateid_fk`
+        FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `ox_mdt_warrants_ox_mdt_reports_id_fk`
+        FOREIGN KEY (`reportid`) REFERENCES `ox_mdt_reports` (`id`)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 INSERT INTO
     `ox_mdt_offenses` (
         `label`,
