@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionIcon, Badge, Checkbox, Group, Select, Text } from '@mantine/core';
+import { ActionIcon, Badge, Checkbox, Group, Select, Stack, Text } from '@mantine/core';
 import { IconCalendar, IconClockDown, IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
@@ -48,57 +48,66 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
 
   return (
     <BaseCard key={criminal.stateId}>
-      <Group position="apart" noWrap>
-        <Text size="xl">
-          {criminal.firstName} {criminal.lastName}
-        </Text>
-        <Group spacing="xs">
-          <ActionIcon
-            color="red"
-            variant="light"
-            onClick={() =>
-              modals.openConfirmModal({
-                title: locales.remove_criminal,
-                size: 'sm',
-                labels: { confirm: locales.confirm, cancel: locales.cancel },
-                confirmProps: { color: 'red' },
-                onConfirm: async () => {
-                  const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
+      <Stack spacing={0}>
+        <Group position="apart" noWrap>
+          <Text size="xl">
+            {criminal.firstName} {criminal.lastName}
+          </Text>
 
-                  if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
-                },
-                children: (
-                  <Text size="sm">{locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}</Text>
-                ),
-              })
-            }
-          >
-            <IconTrash size={20} />
-          </ActionIcon>
-          <ActionIcon
-            color="blue"
-            variant="light"
-            onClick={() => {
-              console.log(criminal);
-              fetchNui(
-                'saveCriminal',
-                {
-                  id,
-                  criminal: {
-                    ...criminal,
-                    warrantExpiry: criminal.warrantExpiry
-                      ? dayjs(criminal.warrantExpiry).format('YYYY-MM-DD HH:mm:ss')
-                      : null,
+          <Group spacing="xs">
+            <ActionIcon
+              color="red"
+              variant="light"
+              onClick={() =>
+                modals.openConfirmModal({
+                  title: locales.remove_criminal,
+                  size: 'sm',
+                  labels: { confirm: locales.confirm, cancel: locales.cancel },
+                  confirmProps: { color: 'red' },
+                  onConfirm: async () => {
+                    const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
+
+                    if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
                   },
-                },
-                { data: 1 }
-              );
-            }}
-          >
-            <IconDeviceFloppy size={20} />
-          </ActionIcon>
+                  children: (
+                    <Text size="sm">
+                      {locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}
+                    </Text>
+                  ),
+                })
+              }
+            >
+              <IconTrash size={20} />
+            </ActionIcon>
+            <ActionIcon
+              color="blue"
+              variant="light"
+              onClick={() => {
+                console.log(criminal);
+                fetchNui(
+                  'saveCriminal',
+                  {
+                    id,
+                    criminal: {
+                      ...criminal,
+                      warrantExpiry: criminal.warrantExpiry
+                        ? dayjs(criminal.warrantExpiry).format('YYYY-MM-DD HH:mm:ss')
+                        : null,
+                    },
+                  },
+                  { data: 1 }
+                );
+              }}
+            >
+              <IconDeviceFloppy size={20} />
+            </ActionIcon>
+          </Group>
         </Group>
-      </Group>
+        <Text c="dark.2" size="xs">
+          {criminal.stateId}
+        </Text>
+      </Stack>
+
       <Group spacing="xs">
         <BadgeButton
           label={locales.edit_charges}
