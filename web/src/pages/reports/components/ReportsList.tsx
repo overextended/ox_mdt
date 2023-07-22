@@ -8,66 +8,18 @@ import { Report } from '../../../typings';
 import { useSetLoader } from '../../../state/loader';
 import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';
 import locales from '../../../locales';
-
-const useStyles = createStyles((theme) => ({
-  reportContainer: {
-    backgroundColor: theme.colors.durple[4],
-    borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.md,
-    '&:hover': {
-      backgroundColor: theme.colors.durple[2],
-      cursor: 'pointer',
-    },
-  },
-}));
+import ReportCard from './ReportCard';
 
 const ReportsList: React.FC = () => {
-  const { classes } = useStyles();
   const [reports, dispatch] = useReportsList();
-  const setIsReportActive = useSetIsReportActive();
-  const setActiveReport = useSetActiveReport();
-  const setLoaderModal = useSetLoader();
   const { ref } = useInfiniteScroll(() => dispatch({ type: 'fetchNextPage' }));
 
-  const pages = reports.pages.flatMap((page) => page.reports);
+  const pages = React.useMemo(() => reports.pages.flatMap((page) => page.reports), [reports]);
 
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
-        pages.map((report, i) => (
-          <Stack
-            className={classes.reportContainer}
-            p="md"
-            key={report.id}
-            spacing={0}
-            onClick={async () => {
-              setLoaderModal(true);
-              const resp = await fetchNui<Report>('getReport', report.id, {
-                data: {
-                  id: 1,
-                  officersInvolved: [],
-                  evidence: [],
-                  title: report.title,
-                  description: '<p></p>',
-                  criminals: [],
-                },
-              });
-              setActiveReport(resp);
-              setIsReportActive(true);
-              setLoaderModal(false);
-            }}
-          >
-            <Text>{report.title}</Text>
-            <Group position="apart">
-              <Text size="sm" c="dark.2">
-                {report.author} - {new Date(report.date).toLocaleDateString()}
-              </Text>
-              <Text size="sm" c="dark.2">
-                #{report.id}
-              </Text>
-            </Group>
-          </Stack>
-        ))
+        pages.map((report) => <ReportCard report={report} />)
       ) : (
         <NotFound label={locales.no_reports_found} icon={IconReceiptOff} />
       )}
