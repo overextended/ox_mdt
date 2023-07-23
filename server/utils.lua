@@ -2,14 +2,17 @@ local utils = {}
 
 ---@param playerId number
 ---@return boolean
-function utils.isAuthorised(playerId)
+function utils.isAuthorised(playerId, permission)
     ---@diagnostic disable-next-line: param-type-mismatch
-    return IsPlayerAceAllowed(playerId, 'command.openMDT')
+    return IsPlayerAceAllowed(playerId, permission)
 end
 
-function utils.registerCallback(event, cb)
+---@param event string
+---@param cb fun(playerId: number, ...: any): any
+---@param permission string | false | nil
+function utils.registerCallback(event, cb, permission)
     lib.callback.register(event, function(source, ...)
-        if not utils.isAuthorised(source) then return end
+        if permission ~= false and not utils.isAuthorised(source, permission or 'mdt.access') then return false end
 
         return cb(source, ...)
     end)

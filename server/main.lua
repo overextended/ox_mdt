@@ -1,6 +1,16 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
 
+---for testing
+AddEventHandler('playerJoining', function()
+    lib.addAce(source, 'mdt.access')
+end)
+
+---for testing
+AddEventHandler('playerDropped', function()
+    lib.removeAce(source, 'mdt.access')
+end)
+
 ---@param source string
 ---@param page number
 utils.registerCallback('ox_mdt:getAnnouncements', function(source, page)
@@ -17,7 +27,7 @@ utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local player = Ox.GetPlayer(source)
     -- todo: permission checks
     return db.createAnnouncement(player.stateid, contents)
-end)
+end, 'mdt.create_announcement')
 
 ---@param source string
 ---@param data {announcement: Announcement, value: string}
