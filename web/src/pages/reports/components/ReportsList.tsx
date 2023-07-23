@@ -19,7 +19,7 @@ const ReportsList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
-        pages.map((report) => <ReportCard report={report} />)
+        pages.map((report) => <ReportCard key={report.id} report={report} />)
       ) : (
         <NotFound label={locales.no_reports_found} icon={IconReceiptOff} />
       )}
