@@ -1,6 +1,5 @@
 local db = {}
-local selectCharacter =
-'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `stateId` FROM `characters`'
+local selectCharacter = 'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `stateId` FROM `characters`'
 local wildcard = '%s%%'
 
 local selectCharacterById = selectCharacter .. ' WHERE `stateId` LIKE ?'
@@ -10,7 +9,7 @@ function db.selectCharacterById(id)
     return MySQL.rawExecute.await(selectCharacterById, { wildcard:format(id) })
 end
 
-local selectCharacterByNameA = selectCharacter .. ' WHERE `firstName` LIKE ? OR `stateId` LIKE ?'
+local selectCharacterByNameA = selectCharacter .. ' WHERE `lastName` LIKE ? OR `stateId` LIKE ?'
 local selectCharacterByNameB = selectCharacter .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
 
 ---@param name string
@@ -205,7 +204,7 @@ local selectOfficerInvolved = [[
         character_groups.name = "police"
 ]]
 
-local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`firstName` LIKE ? OR `lastName` LIKE ?)'
+local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`lastName` LIKE ? OR `lastName` LIKE ?)'
 local selectOfficerInvolvedByNameB = selectOfficerInvolved .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
 
 ---@param search string | number
