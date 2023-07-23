@@ -276,10 +276,23 @@ function db.removeAnnouncement(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
 end
 
----@param string
+local selectWarrants = 'SELECT a.reportId, a.stateId, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid'
+local selectWarrantsA = selectWarrants .. ' WHERE `lastName` LIKE ? OR a.stateId LIKE ?'
+local selectWarrantsB = selectWarrants .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
+
+---@param search string
 function db.selectWarrants(search)
-    search = wildcard:format(search)
-    return MySQL.rawExecute.await('SELECT a.reportId, a.stateId, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid WHERE `firstName` LIKE ? OR `lastName` LIKE ?', { search, search })
+    if search == '' then return MySQL.rawExecute.await(selectWarrants) end
+
+    local nameA, nameB = search:match('^([%w]+) ?([%w]*)$')
+
+    if nameB == '' then
+        nameA = wildcard:format(nameA)
+
+        return MySQL.rawExecute.await(selectWarrantsA, { nameA, nameA })
+    end
+
+    return MySQL.rawExecute.await(selectWarrantsB, { nameA, wildcard:format(nameB) })
 end
 
 function db.createWarrant(reportId, stateId, expiry)
