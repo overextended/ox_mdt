@@ -159,9 +159,13 @@ utils.registerCallback('ox_mdt:removeEvidence', function(source, data)
 end)
 
 ---@param source number
----@param data string
+---@param data {page: number, search: string}
 utils.registerCallback('ox_mdt:getProfiles', function(source, data)
-    return db.selectProfiles()
+    local profiles = db.selectProfiles(data.page, data.search)
+    return {
+        hasMore = #profiles > 0,
+        profiles = profiles
+    }
 end)
 
 ---@param source number

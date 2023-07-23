@@ -15,6 +15,8 @@ import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';
 import locales from '../../locales';
+import { queryClient } from '../../main';
+import { ProfileCard, ReportCard } from '../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -31,15 +33,18 @@ const Profiles: React.FC = () => {
   const { classes } = useStyles();
   const isProfileActive = useIsProfileActive();
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Highlight,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: locales.profile_notes }),
-    ],
-  });
+  React.useEffect(() => {
+    return () => {
+      queryClient.setQueriesData<{ pages: ProfileCard[][]; pageParams: number[] }>(['profiles'], (data) => {
+        if (!data) return;
+
+        return {
+          pages: [data.pages[0]],
+          pageParams: [data.pageParams[0]],
+        };
+      });
+    };
+  }, []);
 
   return (
     <SimpleGrid cols={3} h="100%" sx={{ overflow: 'hidden' }}>

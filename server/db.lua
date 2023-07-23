@@ -64,10 +64,15 @@ function db.updateReportTitle(title, reportId)
     return MySQL.prepare.await('UPDATE `ox_mdt_reports` SET `title` = ? WHERE `id` = ?', { title, reportId }) --[[@as number?]]
 end
 
+---@param page number
+---@param search string
 ---@return ProfileCard[]
-function db.selectProfiles()
-    return MySQL.query.await(
-        'SELECT `stateId`, `firstName`, `lastName`, `dateofbirth` AS dob FROM `characters`')
+function db.selectProfiles(page, search)
+    local offset = (page - 1) * 10
+
+    -- todo: search based on name or stateid
+    return MySQL.rawExecute.await('SELECT `stateId`, `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") AS dob FROM `characters` LIMIT 10 OFFSET ?', { offset })
+
 end
 
 function db.selectOfficersInvolved(reportId)

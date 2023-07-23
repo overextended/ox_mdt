@@ -1,7 +1,10 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
+import { ProfileCard, ReportCard } from '../../typings';
+import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
+import { queryClient } from '../../main';
 import { fetchNui } from '../../utils/fetchNui';
-import { ProfileCard } from '../../typings';
+import { isEnvBrowser } from '../../utils/misc';
 
 const DEBUG_PROFILES: ProfileCard[] = [];
 
@@ -16,13 +19,35 @@ for (let i = 0; i < 25; i++) {
 
 export const profilesListAtoms = atomWithDebounce('');
 
-const profilesListAtom = atom<Promise<ProfileCard[]>>(async (get) => {
-  const searchValue = get(profilesListAtoms.debouncedValueAtom);
+const getProfiles = async (page: number, search?: string): Promise<{ hasMore: boolean; profiles: ProfileCard[] }> => {
+  if (isEnvBrowser()) {
+    return {
+      hasMore: true,
+      profiles: DEBUG_PROFILES.slice((page - 1) * 10, page * 10),
+    };
+  }
+  return await fetchNui<{ hasMore: boolean; profiles: ProfileCard[] }>(
+    'getProfiles',
+    { page, search },
+    { data: { hasMore: false, profiles: [] } }
+  );
+};
 
-  return await fetchNui('getProfiles', searchValue, { data: DEBUG_PROFILES, delay: 1000 });
-});
+const [profilesListAtom, profilesStatusAtom] = atomsWithInfiniteQuery(
+  (get) => ({
+    queryKey: ['profiles', get(profilesListAtoms.debouncedValueAtom)],
+    queryFn: async ({ queryKey, pageParam = 1 }) => {
+      return await getProfiles(pageParam, queryKey[1] as string);
+    },
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage.hasMore) return;
+      return pages.length + 1;
+    },
+  }),
+  () => queryClient
+);
 
 export const useProfilesSearch = () => useAtomValue(profilesListAtoms.currentValueAtom);
 export const useIsProfilesDebouncing = () => useAtomValue(profilesListAtoms.isDebouncingAtom);
 export const useSetProfilesDebounce = () => useSetAtom(profilesListAtoms.debouncedValueAtom);
-export const useProfilesList = () => useAtomValue(profilesListAtom);
+export const useProfilesList = () => useAtom(profilesListAtom);
