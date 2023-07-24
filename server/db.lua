@@ -53,6 +53,10 @@ function db.selectReports(page, search)
     return MySQL.rawExecute.await(selectReportsByString, { search, search, search, (page - 1) * 10 })
 end
 
+function db.updateProfileImage(stateId, image)
+    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `image` = ? ', { stateId, image, nil, image })
+end
+
 ---@param id number
 function db.deleteReport(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_reports` WHERE `id` = ?', { id }) --[[@as number?]]
@@ -71,7 +75,7 @@ function db.selectProfiles(page, search)
     local offset = (page - 1) * 10
 
     -- todo: search based on name or stateid
-    return MySQL.rawExecute.await('SELECT `stateId`, `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") AS dob FROM `characters` LIMIT 10 OFFSET ?', { offset })
+    return MySQL.rawExecute.await('SELECT a.stateId, a.firstName, a.lastName, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid LIMIT 10 OFFSET ?', { offset })
 
 end
 
@@ -169,7 +173,7 @@ end
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
-    local profile = MySQL.rawExecute.await('SELECT `firstName`, `lastName`, `stateId`, `charid`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") AS dob FROM `characters` WHERE `stateId` = ?', parameters)?[1]
+    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
 
     if not profile then return end
 

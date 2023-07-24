@@ -94,6 +94,17 @@ CREATE TABLE IF NOT EXISTS `ox_mdt_warrants`
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS `ox_mdt_profiles`
+(
+    `stateid` VARCHAR(7)  NOT NULL
+        PRIMARY KEY,
+    `image`   VARCHAR(90) NULL,
+    `notes`   LONGTEXT    NULL,
+    CONSTRAINT `ox_mdt_profiles_characters_stateid_fk`
+        FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 INSERT INTO
     `ox_mdt_offenses` (
         `label`,
