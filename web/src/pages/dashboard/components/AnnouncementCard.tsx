@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[4],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
-    height: 400, // Resolves an issue where the cursor fetches all pages due to initial load height not being set
+    minHeight: 115, // set height so the cursor doesn't fetch more data since the RTE takes a bit to render
   },
 }));
 
