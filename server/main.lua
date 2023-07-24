@@ -181,6 +181,12 @@ utils.registerCallback('ox_mdt:saveProfileImage', function(source, data)
 end)
 
 ---@param source number
+---@param data {stateId: string, notes: string}
+utils.registerCallback('ox_mdt:saveProfileNotes', function(source, data)
+    return db.updateProfileNotes(data.stateId, data.notes)
+end)
+
+---@param source number
 ---@param data string
 utils.registerCallback('ox_mdt:getSearchOfficers', function(source, data)
     return db.selectInvolvedOfficers(data)

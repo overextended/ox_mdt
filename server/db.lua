@@ -53,8 +53,16 @@ function db.selectReports(page, search)
     return MySQL.rawExecute.await(selectReportsByString, { search, search, search, (page - 1) * 10 })
 end
 
+---@param stateId string
+---@param image string | nil
 function db.updateProfileImage(stateId, image)
-    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `image` = ? ', { stateId, image, nil, image })
+    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `image` = ?', { stateId, image, nil, image })
+end
+
+---@param stateId string
+---@param notes string
+function db.updateProfileNotes(stateId, notes)
+    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `notes` = ?', { stateId, nil, notes, notes })
 end
 
 ---@param id number
@@ -173,7 +181,7 @@ end
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
-    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
+    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image, b.notes FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
 
     if not profile then return end
 

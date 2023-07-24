@@ -47,6 +47,10 @@ const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onC
   });
 
   React.useEffect(() => {
+    editor?.commands.setContent(content, true);
+  }, [content]);
+
+  React.useEffect(() => {
     onChange && onChange(editor?.getHTML());
 
     if (!onSave) return;

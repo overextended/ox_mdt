@@ -18,7 +18,11 @@ const Profile: React.FC = () => {
       <AvatarWrapper />
       <ProfileField icon={IconUser} label={locales.name} value={`${profile.firstName} ${profile.lastName}`} />
       <ProfileField icon={IconId} label={locales.state_id} value={profile.stateId} />
-      <ProfileField icon={IconCalendar} label={locales.date_of_birth} value={new Date(profile.dob).toLocaleDateString()} />
+      <ProfileField
+        icon={IconCalendar}
+        label={locales.date_of_birth}
+        value={new Date(profile.dob).toLocaleDateString()}
+      />
       <Stack spacing={6} h="100%">
         <Text size="xs" c="dark.2">
           {locales.notes}:
@@ -30,7 +34,7 @@ const Profile: React.FC = () => {
             setProfile((prev) => {
               if (!prev) return null;
 
-              fetchNui('saveProfileNotes', { id: prev.stateId, notes: value });
+              fetchNui('saveProfileNotes', { stateId: prev.stateId, notes: value });
 
               return { ...prev, notes: value };
             })
