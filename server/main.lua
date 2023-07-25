@@ -109,6 +109,13 @@ utils.registerCallback('ox_mdt:setReportTitle', function(source, data)
 end)
 
 ---@param source number
+---@param data { reportId: number, contents: string}
+---@return number
+utils.registerCallback('ox_mdt:saveReportContents', function(source, data)
+    return db.updateReportContents(data.reportId, data.contents)
+end)
+
+---@param source number
 ---@param data { id: number, criminalId: number }
 utils.registerCallback('ox_mdt:addCriminal', function(source, data)
     return db.addCriminal(data.id, data.criminalId)

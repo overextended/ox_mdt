@@ -273,6 +273,12 @@ function db.removeEvidence(id, label, value)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `value` = ?', { id, label, value })
 end
 
+---@param id number
+---@param value string
+function db.updateReportContents(id, value)
+    return MySQL.prepare.await('UPDATE `ox_mdt_reports` SET `description` = ? WHERE `id` =  ?', { value, id })
+end
+
 ---@param page number
 function db.selectAnnouncements(page)
      return MySQL.rawExecute.await('SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt FROM `ox_mdt_announcements` a LEFT JOIN `characters` b ON b.stateId = a.creator ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?', { (page - 1) * 5 })

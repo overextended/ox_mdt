@@ -1,12 +1,23 @@
 import React from 'react';
 import Editor from '../../../components/Editor';
-import { useReportDescriptionState } from '../../../state';
+import { useReportDescriptionState, useReportId } from '../../../state';
 import locales from '../../../locales';
+import { fetchNui } from '../../../utils/fetchNui';
 
 const ReportRTE: React.FC = () => {
   const [description, setDescription] = useReportDescriptionState();
+  const id = useReportId();
 
-  return <Editor placeholder={locales.report_placeholder} content={description} onSave={(value) => setDescription(value)} />;
+  return (
+    <Editor
+      placeholder={locales.report_placeholder}
+      content={description}
+      onSave={(value) => {
+        fetchNui('saveReportContents', { reportId: id, contents: value });
+        setDescription(value);
+      }}
+    />
+  );
 };
 
 export default ReportRTE;
