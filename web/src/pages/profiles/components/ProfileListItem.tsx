@@ -34,7 +34,12 @@ const ProfileListItem: React.FC<Props> = ({ profile }) => {
       onClick={async () => {
         setLoaderModal(true);
         const resp = await fetchNui<Profile>('getProfile', profile.stateId, {
-          data: { ...DEBUG_PROFILE, firstName: profile.firstName, lastName: profile.lastName },
+          data: {
+            ...DEBUG_PROFILE,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            stateId: profile.stateId,
+          },
         });
         setProfile(resp);
         setLoaderModal(false);
