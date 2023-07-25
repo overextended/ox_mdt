@@ -74,7 +74,7 @@ CREATE TABLE
     IF NOT EXISTS `ox_mdt_announcements` (
         `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT,
         `creator` VARCHAR(7) NOT NULL,
-        `contents` LONGTEXT NOT NULL,
+        `contents` TEXT NOT NULL,
         `createdAt` DATETIME NOT NULL DEFAULT curtime(),
         PRIMARY KEY (`id`) USING BTREE,
         INDEX `FK_ox_mdt_announcements_characters` (`creator`) USING BTREE,
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `ox_mdt_profiles`
     `stateid` VARCHAR(7)  NOT NULL
         PRIMARY KEY,
     `image`   VARCHAR(90) NULL,
-    `notes`   LONGTEXT    NULL,
+    `notes`   TEXT    NULL,
     CONSTRAINT `ox_mdt_profiles_characters_stateid_fk`
         FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`)
             ON UPDATE CASCADE ON DELETE CASCADE
