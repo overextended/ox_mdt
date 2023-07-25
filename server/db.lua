@@ -135,6 +135,8 @@ function db.selectCriminalsInvolved(reportId)
             criminal.issueWarrant = true
         end
 
+        criminal.processed = criminal.processed or false
+        criminal.pleadedGuilty = criminal.pleadedGuilty or false
         print(json.encode(criminal.processed), type(criminal.processed))
     end
 

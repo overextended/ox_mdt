@@ -49,6 +49,7 @@ const CriminalsResults: React.FC = () => {
                     charges: [],
                     issueWarrant: false,
                     pleadedGuilty: false,
+                    processed: false,
                     penalty: { time: 0, reduction: 0, points: 0, fine: 0 },
                   },
                 ]);
@@ -60,10 +61,10 @@ const CriminalsResults: React.FC = () => {
                   {profile.firstName} {profile.lastName}
                 </Text>
                 <Text size="xs" c="dark.2">
-                {locales.date_of_birth}: {profile.dob}
+                  {locales.date_of_birth}: {profile.dob}
                 </Text>
                 <Text size="xs" c="dark.2">
-                {locales.state_id}: {profile.stateId}
+                  {locales.state_id}: {profile.stateId}
                 </Text>
               </Stack>
             </Group>

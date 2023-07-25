@@ -6,8 +6,8 @@ import { Officer } from './officer';
 export interface Criminal extends CriminalProfile {
   charges: SelectedCharge[];
   issueWarrant: boolean;
-  pleadedGuilty?: boolean;
-  processed?: boolean;
+  pleadedGuilty: boolean;
+  processed: boolean;
   warrantExpiry?: DateValue;
   penalty: {
     time: number;

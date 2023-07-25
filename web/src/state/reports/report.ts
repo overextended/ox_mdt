@@ -34,6 +34,8 @@ export const reportAtom = atom<Report>({
       lastName: 'Moss',
       dob: Date.now(),
       issueWarrant: false,
+      processed: false,
+      pleadedGuilty: false,
       stateId: '0',
       charges: [],
       penalty: {

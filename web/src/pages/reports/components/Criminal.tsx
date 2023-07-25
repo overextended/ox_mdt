@@ -170,8 +170,16 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             </Text>
           </Group>
           <Group>
-            <Checkbox label={locales.pleaded_guilty} checked={criminal.pleadedGuilty} />
-            <Checkbox label={locales.processed} checked={criminal.processed} />
+            <Checkbox
+              label={locales.pleaded_guilty}
+              checked={criminal.pleadedGuilty}
+              onChange={() => setCriminal((prev) => ({ ...prev, pleadedGuilty: !prev.pleadedGuilty }))}
+            />
+            <Checkbox
+              label={locales.processed}
+              checked={criminal.processed}
+              onChange={() => setCriminal((prev) => ({ ...prev, processed: !prev.processed }))}
+            />
           </Group>
         </>
       )}
