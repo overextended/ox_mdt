@@ -6,6 +6,7 @@ import { fetchNui } from '../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
 import { queryClient } from '../../../../main';
 import locales from '../../../../locales';
+import { ProfileCard, ReportCard } from '../../../../typings';
 
 interface Props {
   title: string;
@@ -30,7 +31,19 @@ const EditTitleModal: React.FC<Props> = (props) => {
     setReportTitle(values.title);
     setIsLoading(true);
     await fetchNui('setReportTitle', { id, title: values.title }, { data: 1 });
-    await queryClient.invalidateQueries(['reports']);
+    queryClient.setQueriesData<{ pages: { reports: ReportCard[]; hasMore: boolean }[]; pageParams: number[] }>(
+      ['reports'],
+      (data) => {
+        if (!data) return undefined;
+        return {
+          ...data,
+          pages: data.pages.map((page) => ({
+            ...page,
+            reports: page.reports.map((report) => (report.id === id ? { ...report, title: values.title } : report)),
+          })),
+        };
+      }
+    );
     setIsLoading(false);
     modals.closeAll();
   };
