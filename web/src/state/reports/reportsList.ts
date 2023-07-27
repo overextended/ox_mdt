@@ -31,6 +31,7 @@ export const reportsListAtoms = atomWithDebounce('');
 const [reportsAtom, reportsStatusAtom] = atomsWithInfiniteQuery(
   (get) => ({
     queryKey: ['reports', get(reportsListAtoms.debouncedValueAtom)],
+    refetchOnMount: true,
     queryFn: async ({ queryKey, pageParam = 1 }) => {
       return await getReports(pageParam, queryKey[1] as string);
     },
