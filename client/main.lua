@@ -4,42 +4,45 @@ lib.locale()
 
 local hasLoadedUi = false
 
-local function openMDT()
-    SetNuiFocus(true, true)
+local function openMdt()
+    local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
-    if hasLoadedUi then
-        return SendNUIMessage({
-            action = 'setVisible'
+    if isAuthorised then
+        if not hasLoadedUi then
+            SendNUIMessage({
+                action = 'setLocales',
+                data = lib.getLocales()
+            })
+
+            hasLoadedUi = true
+        end
+
+        local group = GlobalState['group.police'] --[[@as OxGroupProperties]]
+        local grade = player.groups.police
+
+        SendNUIMessage({
+            action = 'setVisible',
+            data = {
+                stateId = player.stateid,
+                firstName = player.firstname,
+                lastName = player.lastname,
+                title = ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police]),
+                grade = grade,
+                callSign = callSign
+            }
         })
+
+        SetNuiFocus(true, true)
     end
-
-    SendNUIMessage({
-        action = 'setLocales',
-        data = lib.getLocales()
-    })
-
-    SendNUIMessage({
-        action = 'setVisible',
-        data = {
-            stateId = player.stateid,
-            firstName = player.firstname,
-            lastName = player.lastname,
-            title = 'LSPD Officer',
-            grade = 4,
-            callSign = 132
-        }
-    })
-
-    hasLoadedUi = true
 end
 
-exports('openMDT', openMDT)
+exports('openMdt', openMdt)
 
 lib.addKeybind({
     defaultKey = 'm',
     description = 'Open the Police MDT',
-    name = 'openmdt',
-    onPressed = openMDT
+    name = 'openMdt',
+    onPressed = openMdt
 })
 
 AddEventHandler('ox:playerLoaded', function(data)
