@@ -29,8 +29,9 @@ const AnnouncementList: React.FC = () => {
     <Box className={classes.container}>
       {pages.length > 0 ? (
         <>
-          {pages.map((announcement) => (
+          {pages.map((announcement, i) => (
             <AnnouncementCard
+              ref={i === pages.length - 1 ? ref : null}
               key={`${announcement.id}-${announcement.contents}`}
               announcement={announcement}
               character={character}
@@ -40,7 +41,6 @@ const AnnouncementList: React.FC = () => {
       ) : (
         <NotFound icon={IconBellOff} label={locales.no_announcements} />
       )}
-      {pages.length > 0 && <span ref={ref} />}
     </Box>
   );
 };

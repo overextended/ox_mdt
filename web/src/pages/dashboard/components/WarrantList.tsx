@@ -10,8 +10,6 @@ import WarrantCard from './WarrantCard';
 const WarrantList: React.FC = () => {
   const warrants = useWarrants();
 
-  // TODO: Clickable and redirect to report
-
   return (
     <Stack sx={{ overflow: 'auto' }}>
       {warrants.length > 0 ? (

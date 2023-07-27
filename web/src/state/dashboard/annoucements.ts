@@ -19,6 +19,7 @@ const getAnnouncements = async (page: number): Promise<{ hasMore: boolean; annou
 const [announcementsAtom, announcementsStatusAtom] = atomsWithInfiniteQuery(
   () => ({
     queryKey: ['announcements'],
+    refetchOnMount: true,
     queryFn: async ({ pageParam = 1 }) => {
       return await getAnnouncements(pageParam);
     },

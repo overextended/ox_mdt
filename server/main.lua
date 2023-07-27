@@ -16,7 +16,7 @@ end)
 utils.registerCallback('ox_mdt:getAnnouncements', function(source, page)
     local announcements = db.selectAnnouncements(page)
     return {
-        hasMore = #announcements > 0,
+        hasMore = #announcements == 5 or false,
         announcements = announcements
     }
 end)

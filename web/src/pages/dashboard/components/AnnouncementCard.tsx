@@ -22,7 +22,8 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[4],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
-    minHeight: 115, // set height so the cursor doesn't fetch more data since the RTE takes a bit to render
+    minHeight: 120,
+    flex: '1 0 auto',
   },
 }));
 
@@ -31,7 +32,10 @@ interface Props {
   character: Character;
 }
 
-const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
+const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = (
+  { announcement, character },
+  ref
+) => {
   const { classes } = useStyles();
   const config = useConfig();
 
@@ -48,7 +52,7 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
   });
 
   return (
-    <Stack className={classes.announcementContainer} p="md">
+    <Stack className={classes.announcementContainer} p="md" ref={ref}>
       <Group position="apart">
         <Group>
           <Avatar color="blue" />
@@ -125,4 +129,4 @@ const AnnouncementCard: React.FC<Props> = ({ announcement, character }) => {
   );
 };
 
-export default React.memo(AnnouncementCard);
+export default React.memo(React.forwardRef(AnnouncementCard));
