@@ -2,16 +2,15 @@ local utils = require 'server.utils'
 local db = require 'server.db'
 
 ---for testing
-AddEventHandler('playerJoining', function()
-    lib.addAce(source, 'mdt.access')
+if not IsPrincipalAceAllowed('mdt.access', 'builtin.everyone') then
+    lib.addAce('builtin.everyone', 'mdt.access')
+end
+
+utils.registerCallback('ox_mdt:openMdt', function()
+    return true
 end)
 
----for testing
-AddEventHandler('playerDropped', function()
-    lib.removeAce(source, 'mdt.access')
-end)
-
----@param source string
+---@param source number
 ---@param page number
 utils.registerCallback('ox_mdt:getAnnouncements', function(source, page)
     local announcements = db.selectAnnouncements(page)
@@ -21,7 +20,7 @@ utils.registerCallback('ox_mdt:getAnnouncements', function(source, page)
     }
 end)
 
----@param source string
+---@param source number
 ---@param contents string
 utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local player = Ox.GetPlayer(source)
@@ -29,7 +28,7 @@ utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     return db.createAnnouncement(player.stateid, contents)
 end, 'mdt.create_announcement')
 
----@param source string
+---@param source number
 ---@param data {announcement: Announcement, value: string}
 utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
     local player = Ox.GetPlayer(source)
@@ -39,7 +38,7 @@ utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
     return db.updateAnnouncementContents(data.announcement.id, data.value)
 end)
 
----@param source string
+---@param source number
 ---@param id number
 utils.registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
     -- todo: permission check or creator check
@@ -200,19 +199,19 @@ utils.registerCallback('ox_mdt:getSearchOfficers', function(source, data)
     return db.selectInvolvedOfficers(data)
 end)
 
----@param source string
+---@param source number
 ---@param data {id: number, stateId: number}
 utils.registerCallback('ox_mdt:addOfficer', function(source, data)
     return db.addOfficer(data.id, data.stateId)
 end)
 
----@param source string
+---@param source number
 ---@param data {id: number, stateId: number}
 utils.registerCallback('ox_mdt:removeOfficer', function(source, data)
     return db.removeOfficer(data.id, data.stateId)
 end)
 
----@param source string
+---@param source number
 ---@param charges Charge[]
 utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, charges)
     local currentTime = os.time(os.date("!*t"))
