@@ -169,8 +169,9 @@ end)
 ---@param data {page: number, search: string}
 utils.registerCallback('ox_mdt:getProfiles', function(source, data)
     local profiles = db.selectProfiles(data.page, data.search)
+
     return {
-        hasMore = #profiles > 0,
+        hasMore = #profiles == 10 or false,
         profiles = profiles
     }
 end)

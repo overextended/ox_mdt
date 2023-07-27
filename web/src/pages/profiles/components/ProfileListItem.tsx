@@ -22,7 +22,7 @@ interface Props {
   profile: ProfileCard;
 }
 
-const ProfileListItem: React.FC<Props> = ({ profile }) => {
+const ProfileListItem: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ profile }, ref) => {
   const { classes } = useStyles();
   const setProfile = useSetProfile();
   const setLoaderModal = useSetLoader();
@@ -30,6 +30,7 @@ const ProfileListItem: React.FC<Props> = ({ profile }) => {
   return (
     <Box
       className={classes.profileContainer}
+      ref={ref}
       p="md"
       onClick={async () => {
         setLoaderModal(true);
@@ -63,4 +64,4 @@ const ProfileListItem: React.FC<Props> = ({ profile }) => {
   );
 };
 
-export default React.memo(ProfileListItem);
+export default React.memo(React.forwardRef(ProfileListItem));

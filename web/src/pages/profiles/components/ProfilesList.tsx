@@ -16,12 +16,12 @@ const ProfilesList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
-        pages.map((profile) => <ProfileListItem key={profile.stateId} profile={profile} />)
+        pages.map((profile, i) => (
+          <ProfileListItem key={profile.stateId} profile={profile} ref={i === pages.length - 2 ? ref : null} />
+        ))
       ) : (
         <NotFound icon={IconUserOff} label={locales.no_profiles_found} />
       )}
-      {/*Cursor element used for infinite scroll*/}
-      {profiles.pages.length > 0 && <span ref={ref} />}
     </Stack>
   );
 };

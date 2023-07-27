@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { useReportsList, useSetActiveReport, useSetIsReportActive } from '../../../state';
+import { Stack } from '@mantine/core';
+import { useReportsList } from '../../../state';
 import { IconReceiptOff } from '@tabler/icons-react';
 import NotFound from '../../../components/NotFound';
 import { useInfiniteScroll } from '../../../hooks/useInfiniteScroll';

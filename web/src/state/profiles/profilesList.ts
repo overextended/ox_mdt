@@ -36,6 +36,7 @@ const getProfiles = async (page: number, search?: string): Promise<{ hasMore: bo
 const [profilesListAtom, profilesStatusAtom] = atomsWithInfiniteQuery(
   (get) => ({
     queryKey: ['profiles', get(profilesListAtoms.debouncedValueAtom)],
+    refetchOnMount: true,
     queryFn: async ({ queryKey, pageParam = 1 }) => {
       return await getProfiles(pageParam, queryKey[1] as string);
     },
