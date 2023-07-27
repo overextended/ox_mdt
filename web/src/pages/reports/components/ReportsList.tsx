@@ -16,12 +16,12 @@ const ReportsList: React.FC = () => {
   return (
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
-        pages.map((report) => <ReportCard key={report.id} report={report} />)
+        pages.map((report, i) => (
+          <ReportCard key={report.id} report={report} ref={i === pages.length - 2 ? ref : null} />
+        ))
       ) : (
         <NotFound label={locales.no_reports_found} icon={IconReceiptOff} />
       )}
-      {/*Cursor element used for infinite scroll*/}
-      {reports.pages.length > 0 && <span ref={ref} />}
     </Stack>
   );
 };

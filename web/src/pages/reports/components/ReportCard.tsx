@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef, ForwardRefRenderFunction } from 'react';
 import { fetchNui } from '../../../utils/fetchNui';
 import { Report, type ReportCard } from '../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
@@ -21,7 +21,7 @@ interface Props {
   report: ReportCard;
 }
 
-const ReportCard: React.FC<Props> = ({ report }) => {
+const ReportCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ report }, ref) => {
   const { classes } = useStyles();
   const setIsReportActive = useSetIsReportActive();
   const setActiveReport = useSetActiveReport();
@@ -31,6 +31,7 @@ const ReportCard: React.FC<Props> = ({ report }) => {
     <Stack
       className={classes.reportContainer}
       p="md"
+      ref={ref}
       key={report.id}
       spacing={0}
       onClick={async () => {
@@ -63,4 +64,4 @@ const ReportCard: React.FC<Props> = ({ report }) => {
   );
 };
 
-export default React.memo(ReportCard);
+export default React.memo(React.forwardRef(ReportCard));
