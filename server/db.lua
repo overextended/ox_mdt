@@ -210,20 +210,24 @@ local selectOfficerInvolved = [[
     SELECT
         firstName,
         lastName,
-        stateId,
-        characters.stateId AS callSign,
-        character_groups.grade AS grade
+        characters.stateId,
+        character_groups.grade AS grade,
+        ox_mdt_profiles.callSign
     FROM
         character_groups
     LEFT JOIN
         characters
     ON
         character_groups.charid = characters.charid
+    LEFT JOIN
+        ox_mdt_profiles
+    ON
+        characters.stateId = ox_mdt_profiles.stateId
     WHERE
         character_groups.name = "police"
 ]]
 
-local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`lastName` LIKE ? OR `lastName` LIKE ?)'
+local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`lastName` LIKE ? OR ox_mdt_profiles.callsign LIKE ?)'
 local selectOfficerInvolvedByNameB = selectOfficerInvolved .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
 
 ---@param search string | number
@@ -232,8 +236,6 @@ function db.selectInvolvedOfficers(search)
     if not search then
         return MySQL.rawExecute.await(selectOfficerInvolved)
     end
-
-    -- todo: search based on callSign (tonumber(search))
 
     local nameA, nameB = search:match('^([%w]+) ?([%w]*)$')
 

@@ -16,7 +16,7 @@
 ---@class Officer
 ---@field firstName string
 ---@field lastName string
----@field callSign number
+---@field callSign string
 ---@field stateId number
 
 ---@class CriminalProfile : ProfileCard
@@ -44,7 +44,7 @@
 ---@field title string
 ---@field id number
 ---@field description? string
----@field officersInvolved { name: string, callSign: number }
+---@field officersInvolved { name: string, callSign: string }
 ---@field evidence table<Evidence>
 ---@field criminals Criminal[]
 
@@ -65,5 +65,5 @@
 ---@field lastName string
 ---@field image? string
 ---@field stateId number
----@field callSign number
+---@field callSign string
 ---@field createdAt number
