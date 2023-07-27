@@ -73,7 +73,7 @@ utils.registerCallback('ox_mdt:getReports', function(source, data)
     local reports = tonumber(data.search) and db.selectReportById(data.search) or db.selectReports(data.page, data.search)
 
     return {
-        hasMore = #reports > 0,
+        hasMore = #reports == 10 or false,
         reports = reports
     }
 end)
