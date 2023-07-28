@@ -57,7 +57,9 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
         <Group>
           <Avatar color="blue" />
           <Stack spacing={0}>
-            <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} · ${announcement.callSign}`}</Text>
+            <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} ${
+              announcement.callSign ? `· ${announcement.callSign}` : ''
+            }`}</Text>
             <Text size="xs" c="dark.2">
               {dayjs(announcement.createdAt).fromNow()}
             </Text>

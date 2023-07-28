@@ -32,7 +32,7 @@ const OfficersInvolved: React.FC = () => {
         />
         {officers.map((officer) => (
           <Badge
-            key={officer.callSign}
+            key={officer.stateId}
             rightSection={
               <ActionIcon
                 size="xs"
@@ -61,7 +61,7 @@ const OfficersInvolved: React.FC = () => {
               </ActionIcon>
             }
           >
-            {officer.firstName} {officer.lastName} ({officer.callSign})
+            {officer.firstName} {officer.lastName} {officer.callSign ? `(${officer.callSign})` : ''}
           </Badge>
         ))}
       </Group>

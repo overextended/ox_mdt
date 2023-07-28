@@ -26,7 +26,7 @@ const OfficerMarkers: React.FC = () => {
   debugData<OfficerPosition[]>([
     {
       data: [
-        { firstName: 'John', lastName: 'Snow', position: [0, 0], callSign: 199, stateId: '391231' },
+        { firstName: 'John', lastName: 'Snow', position: [0, 0], stateId: '391231' },
         { firstName: 'Billy', lastName: 'Bob', position: [250, 250], callSign: 564, stateId: '312351' },
         { firstName: 'Merry', lastName: 'Jane', position: [1000, 300], callSign: 751, stateId: '103214' },
       ],
@@ -43,7 +43,7 @@ const OfficerMarkers: React.FC = () => {
       {officers.length > 0 &&
         officers.map((officer) => (
           <Marker
-            key={officer.callSign}
+            key={officer.stateId}
             position={officer.position}
             icon={L.divIcon({
               className: 'custom-icon',
@@ -53,7 +53,7 @@ const OfficerMarkers: React.FC = () => {
           >
             <MarkerPopup>
               <Text>
-                {officer.firstName} {officer.lastName} ({officer.callSign})
+                {officer.firstName} {officer.lastName} {officer.callSign ? `(${officer.callSign})` : ''}
               </Text>
             </MarkerPopup>
           </Marker>

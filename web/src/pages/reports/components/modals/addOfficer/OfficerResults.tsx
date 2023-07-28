@@ -31,7 +31,7 @@ const OfficerResults: React.FC = () => {
       {officers.length > 0 ? (
         officers.map((officer) => (
           <Group
-            key={officer.callSign}
+            key={officer.stateId}
             className={classes.officerContainer}
             position="apart"
             onClick={async () => {
@@ -51,7 +51,7 @@ const OfficerResults: React.FC = () => {
             <Text>
               {officer.firstName} {officer.lastName}
             </Text>
-            <Text c="dark.2">{officer.callSign}</Text>
+            <Text c="dark.2">{officer.callSign || ''}</Text>
           </Group>
         ))
       ) : (

@@ -55,8 +55,8 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
       {unit.members.length > 0 && (
         <Group spacing="xs">
           {unit.members.map((member) => (
-            <Badge key={member.callSign}>
-              {member.firstName} {member.lastName} ({member.callSign})
+            <Badge key={member.stateId}>
+              {member.firstName} {member.lastName} {member.callSign ? `${member.callSign}` : ''}
             </Badge>
           ))}
         </Group>

@@ -1,6 +1,6 @@
 export interface Officer {
   firstName: string;
   lastName: string;
-  callSign: number;
+  callSign?: number;
   stateId: string;
 }
