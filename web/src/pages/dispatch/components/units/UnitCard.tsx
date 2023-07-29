@@ -2,7 +2,7 @@ import React from 'react';
 import { ActionIcon, Badge, createStyles, Group, Stack, Text } from '@mantine/core';
 import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpeedboat } from '@tabler/icons-react';
 import { Unit } from '../../../../typings';
-import { useCharacterState } from '../../../../state';
+import { useSetCharacter } from '../../../../state';
 import { fetchNui } from '../../../../utils/fetchNui';
 import { queryClient } from '../../../../main';
 
@@ -15,9 +15,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
+const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean }> = ({ unit, isInThisUnit }) => {
   const { classes } = useStyles();
-  const [character, setCharacter] = useCharacterState();
+  const setCharacter = useSetCharacter();
 
   return (
     <Stack className={classes.unitContainer}>
@@ -36,22 +36,22 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
         </Group>
         <Group spacing={8}>
           <ActionIcon
-            color={character.unit === unit.id ? 'red' : 'blue'}
+            color={isInThisUnit ? 'red' : 'blue'}
             variant="light"
             onClick={async () => {
-              if (character.unit === unit.id) {
+              if (isInThisUnit) {
                 setCharacter((prev) => ({ ...prev, unit: undefined }));
-                const resp = await fetchNui('leaveUnit', { data: 1 });
+                await fetchNui('leaveUnit', { data: 1 });
                 queryClient.invalidateQueries(['units']);
 
                 return;
               }
-              const resp = await fetchNui('joinUnit', unit.id, { data: 1 });
+              await fetchNui('joinUnit', unit.id, { data: 1 });
               queryClient.invalidateQueries(['units']);
               setCharacter((prev) => ({ ...prev, unit: unit.id }));
             }}
           >
-            {character.unit === unit.id ? <IconLogout size={20} /> : <IconLogin size={20} />}
+            {isInThisUnit ? <IconLogout size={20} /> : <IconLogin size={20} />}
           </ActionIcon>
         </Group>
       </Group>

@@ -14,8 +14,8 @@ const DEBUG_UNITS: Unit[] = [
   },
 ];
 
-const getUnits = async () => {
-  if (isEnvBrowser()) return [];
+const getUnits = async (): Promise<Unit[]> => {
+  if (isEnvBrowser()) return DEBUG_UNITS;
   return await fetchNui<Unit[]>('getUnits');
 };
 
