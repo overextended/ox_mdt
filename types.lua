@@ -16,8 +16,8 @@
 ---@class Officer
 ---@field firstName string
 ---@field lastName string
----@field callSign string
----@field stateId number
+---@field callSign? number
+---@field stateId string
 
 ---@class CriminalProfile : ProfileCard
 
@@ -67,3 +67,9 @@
 ---@field stateId number
 ---@field callSign string
 ---@field createdAt number
+
+---@class Unit
+---@field id number
+---@field name string
+---@field members Officer[]
+---@field type 'car' | 'motor' | 'heli' | 'boat'

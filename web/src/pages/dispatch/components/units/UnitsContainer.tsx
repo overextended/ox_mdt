@@ -4,13 +4,16 @@ import { IconCar, IconPlus } from '@tabler/icons-react';
 import UnitsList from './UnitsList';
 import CreateUnitButton from './CreateUnitButton';
 import locales from '../../../../locales';
+import SuspenseLoader from '../../../../components/SuspenseLoader';
 
 const UnitsContainer: React.FC = () => {
   return (
     <>
       <CardTitle title={locales.units} icon={<IconCar />} />
       <CreateUnitButton />
-      <UnitsList />
+      <React.Suspense fallback={<SuspenseLoader />}>
+        <UnitsList />
+      </React.Suspense>
     </>
   );
 };

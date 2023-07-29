@@ -1,6 +1,9 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { Unit } from '../../typings';
 import { isEnvBrowser } from '../../utils/misc';
+import { atomsWithQuery } from 'jotai-tanstack-query';
+import { queryClient } from '../../main';
+import { fetchNui } from '../../utils/fetchNui';
 
 const DEBUG_UNITS: Unit[] = [
   {
@@ -11,7 +14,20 @@ const DEBUG_UNITS: Unit[] = [
   },
 ];
 
-const unitsAtom = atom<Unit[]>(isEnvBrowser() ? DEBUG_UNITS : []);
+const getUnits = async () => {
+  if (isEnvBrowser()) return [];
+  return await fetchNui<Unit[]>('getUnits');
+};
+
+const [unitsAtom] = atomsWithQuery(
+  () => ({
+    queryKey: ['units'],
+    refetchOnMount: true,
+    queryFn: async () => {
+      return await getUnits();
+    },
+  }),
+  () => queryClient
+);
 
 export const useUnits = () => useAtomValue(unitsAtom);
-export const useSetUnits = () => useSetAtom(unitsAtom);

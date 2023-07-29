@@ -4,6 +4,7 @@ import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpee
 import { Unit } from '../../../../typings';
 import { useCharacterState } from '../../../../state';
 import { fetchNui } from '../../../../utils/fetchNui';
+import { queryClient } from '../../../../main';
 
 const useStyles = createStyles((theme) => ({
   unitContainer: {
@@ -41,10 +42,12 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
               if (character.unit === unit.id) {
                 setCharacter((prev) => ({ ...prev, unit: undefined }));
                 const resp = await fetchNui('leaveUnit', { data: 1 });
+                queryClient.invalidateQueries(['units']);
 
                 return;
               }
               const resp = await fetchNui('joinUnit', unit.id, { data: 1 });
+              queryClient.invalidateQueries(['units']);
               setCharacter((prev) => ({ ...prev, unit: unit.id }));
             }}
           >
@@ -56,7 +59,7 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
         <Group spacing="xs">
           {unit.members.map((member) => (
             <Badge key={member.stateId}>
-              {member.firstName} {member.lastName} {member.callSign ? `${member.callSign}` : ''}
+              {member.firstName} {member.lastName} {member.callSign ? `(${member.callSign})` : ''}
             </Badge>
           ))}
         </Group>
@@ -65,4 +68,4 @@ const UnitCard: React.FC<{ unit: Unit }> = ({ unit }) => {
   );
 };
 
-export default UnitCard;
+export default React.memo(UnitCard);

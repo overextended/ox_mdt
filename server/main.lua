@@ -233,3 +233,92 @@ end)
 utils.registerCallback('ox_mdt:getWarrants', function(source, search)
     return db.selectWarrants(search)
 end)
+
+-- TODO: sync units to other clients on the disaptch page
+-- Every unit function should call an event on all people on the dispatch
+-- page and send the new units table to refresh the existing data
+-- memo should hopefully only rerender the unit cards that have chaged
+
+---@type Unit[]
+local units = {
+    {id = 15, members = {{firstName = 'John', lastName = 'Doe', stateId = 'BD30942', callSign = 312}}, name = 'Unit 15', type = 'car'}
+}
+local unitsCreated = 1
+
+utils.registerCallback('ox_mdt:getUnits', function()
+    return units
+end)
+
+---@param source number
+---@param unitType 'car' | 'motor' | 'heli' | 'boat' -- How do you do Units['type'] in Lua????
+utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
+    local player = Ox.GetPlayer(source)
+
+    -- TODO: Get player callSign, make sure player isn't already in a unit (maybe just run removePlayerFromUnit?)
+    units[#units + 1] = {
+        id = unitsCreated,
+        members = {
+            { firstName = player.firstname, lastName = player.lastname, callSign = 132, stateId = player.stateid }
+        },
+        name = ('Unit %d'):format(unitsCreated),
+        type = unitType
+    }
+
+    unitsCreated += 1
+
+    return {
+        id = unitsCreated - 1,
+        name = ('Unit %d'):format(unitsCreated - 1)
+    }
+end)
+
+local function removePlayerFromUnit(player)
+    for i = 1, #units do
+        local unit = units[i]
+        for j = 1, #unit.members do
+            local member = unit.members[j]
+            if member.stateId == player.stateid then
+                units[i].members[j] = nil
+                if #units[i].members == 0 then
+                    units[i] = nil
+                end
+                break
+            end
+        end
+    end
+end
+
+---@param source number
+---@param unitId number
+utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
+    local player = Ox.GetPlayer(source)
+
+    removePlayerFromUnit(player)
+
+    for i = 1, #units do
+        local unit = units[i]
+
+        if unit.id == unitId then
+            units[i].members[#units[i].members+1] = {
+                firstName = player.firstname,
+                lastName = player.lastname,
+                stateId = player.stateid,
+                callSign = 132
+            }
+            print(json.encode(units[i].members))
+            break;
+        end
+    end
+
+    return 1
+end)
+
+---@param source number
+---@param unitId number
+utils.registerCallback('ox_mdt:leaveUnit', function(source, unitId)
+    local player = Ox.GetPlayer(source)
+
+    removePlayerFromUnit(player)
+
+    return 1
+end)
