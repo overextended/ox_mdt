@@ -4,6 +4,7 @@ import { Stack } from '@mantine/core';
 import UnitCard from './UnitCard';
 import NotFound from '../../../../components/NotFound';
 import { IconCarOff } from '@tabler/icons-react';
+import locales from '../../../../locales';
 
 const UnitsList: React.FC = () => {
   const units = useUnits();
@@ -13,7 +14,7 @@ const UnitsList: React.FC = () => {
       {units.length > 0 ? (
         units.map((unit) => <UnitCard key={unit.name} unit={unit} />)
       ) : (
-        <NotFound label="No units active" icon={IconCarOff} />
+        <NotFound label={locales.units_not_active} icon={IconCarOff} />
       )}
     </Stack>
   );

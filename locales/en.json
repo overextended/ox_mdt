@@ -100,6 +100,7 @@
   "time": "Time",
   "unit_vehicle_type": "Unit vehicle type",
   "units": "Units",
+  "units_not_active": "No units active",
   "vehicles": "Vehicles",
   "warrant_expiration_date": "Warrant expiration date"
 }
