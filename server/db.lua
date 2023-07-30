@@ -193,7 +193,7 @@ function db.selectCharacterProfile(search)
         v.points = 0
     end
 
-    profile.vehicles = MySQL.rawExecute.await('SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?', parameters) or {}
+    profile.vehicles = MySQL.rawExecute.await('SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?', { profile.charid }) or {}
 
     for _, v in pairs(profile.vehicles) do
         v.label = Ox.GetVehicleData(v.model)?.name or v.model
