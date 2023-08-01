@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
   root: {
     width: 1650,
     height: 825,
-
+    zIndex: 1,
     ['@media (max-width: 1599px)']: {
       width: 1200,
       height: 700,
