@@ -36,7 +36,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <Provider>
               <ModalsProvider>
                 <App />
-                <LoaderModal />
               </ModalsProvider>
             </Provider>
           </QueryClientProvider>
