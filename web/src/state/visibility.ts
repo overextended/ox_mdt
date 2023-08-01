@@ -1,7 +1,6 @@
 import { atom, useAtomValue, useSetAtom, useAtom } from 'jotai';
-import { isEnvBrowser } from '../utils/misc';
 
-const visibilityAtom = atom<boolean>(isEnvBrowser());
+const visibilityAtom = atom<boolean>(false);
 
 export const useVisibility = () => useAtomValue(visibilityAtom);
 export const useSetVisibility = () => useSetAtom(visibilityAtom);
