@@ -12,10 +12,8 @@ const DEBUG_CALLS: Call[] = [
     coords: [350, 350],
     completed: false,
     linked: false,
-    offense: {
-      label: 'Bank robbery',
-      code: '10-29',
-    },
+    offense: 'Bank robbery',
+    code: '10-29',
     units: [
       {
         name: 'Unit 1',
@@ -40,10 +38,8 @@ const DEBUG_CALLS: Call[] = [
     coords: [255, 150],
     completed: true,
     linked: false,
-    offense: {
-      label: 'Officer Down',
-      code: '10-13',
-    },
+    offense: 'Officer Down',
+    code: '10-13',
     units: [
       {
         name: 'Unit 1',
@@ -83,10 +79,8 @@ const DEBUG_CALLS: Call[] = [
     coords: [500, 750],
     completed: false,
     linked: false,
-    offense: {
-      label: 'Officer Down',
-      code: '10-13',
-    },
+    offense: 'Officer Down',
+    code: '10-13',
     units: [
       {
         name: 'Unit 1',
