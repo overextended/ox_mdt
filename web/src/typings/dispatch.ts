@@ -4,10 +4,8 @@ export type UnitType = 'car' | 'motor' | 'heli' | 'boat';
 
 export interface Call {
   id: number;
-  offense: {
-    label: string;
-    code: string;
-  };
+  offense: string;
+  code: string;
   completed: boolean;
   linked: boolean;
   coords: [number, number];
@@ -15,7 +13,6 @@ export interface Call {
     time: number;
     location: string;
     plate?: string;
-    description?: string;
     vehicle?: string;
   };
   units: Unit[];
