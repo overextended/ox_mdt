@@ -28,44 +28,54 @@ const useStyles = createStyles((theme) => ({
 
 const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
   const { classes } = useStyles();
-  const timeout = useTimeout(() => setQueue((prev) => prev.filter((queueCall) => queueCall.id !== call.id)), 5000, {
+  const [mounted, setMounted] = React.useState(false);
+  const timeout = useTimeout(() => setMounted(false), 5000, {
     autoInvoke: true,
   });
 
   React.useEffect(() => {
+    setMounted(true);
     return () => timeout.clear();
   }, []);
 
   return (
-    <Stack className={classes.notification} spacing={6}>
-      <Stack spacing={0}>
-        <Group position="apart">
-          <Text size="lg">{call.offense}</Text>
-          <Group spacing={6}>
-            <Tooltip label="Attach" position="top">
-              <ActionIcon variant="light" color="blue">
-                <IconLink size={20} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Add waypoint" position="top">
-              <ActionIcon variant="light" color="blue">
-                <IconMapPin size={20} />
-              </ActionIcon>
-            </Tooltip>
+    <Transition
+      mounted={mounted}
+      transition="slide-left"
+      onExited={() => setQueue((prev) => prev.filter((prevCall) => prevCall.id !== call.id))}
+    >
+      {(style) => (
+        <Stack className={classes.notification} spacing={6} style={style}>
+          <Stack spacing={0}>
+            <Group position="apart">
+              <Text size="lg">{call.offense}</Text>
+              <Group spacing={6}>
+                <Tooltip label="Attach" position="top">
+                  <ActionIcon variant="light" color="blue">
+                    <IconLink size={20} />
+                  </ActionIcon>
+                </Tooltip>
+                <Tooltip label="Add waypoint" position="top">
+                  <ActionIcon variant="light" color="blue">
+                    <IconMapPin size={20} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </Group>
+            <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
+              {call.code}
+            </Badge>
+          </Stack>
+          <Divider />
+          <Group spacing="xs">
+            <NotificationInfo label={dayjs(call.info.time).fromNow()} icon={IconClock} />
+            {call.info.location && <NotificationInfo icon={IconMap2} label={call.info.location} />}
+            {call.info.plate && <NotificationInfo icon={IconSteeringWheel} label={call.info.plate} />}
+            {call.info.vehicle && <NotificationInfo icon={IconCar} label={call.info.vehicle} />}
           </Group>
-        </Group>
-        <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
-          {call.code}
-        </Badge>
-      </Stack>
-      <Divider />
-      <Group spacing="xs">
-        <NotificationInfo label={dayjs(call.info.time).fromNow()} icon={IconClock} />
-        {call.info.location && <NotificationInfo icon={IconMap2} label={call.info.location} />}
-        {call.info.plate && <NotificationInfo icon={IconSteeringWheel} label={call.info.plate} />}
-        {call.info.vehicle && <NotificationInfo icon={IconCar} label={call.info.vehicle} />}
-      </Group>
-    </Stack>
+        </Stack>
+      )}
+    </Transition>
   );
 };
 

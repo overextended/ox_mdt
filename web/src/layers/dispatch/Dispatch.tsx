@@ -84,29 +84,7 @@ debugData<Call>(
       data: DEBUG_CALLS[1],
     },
   ],
-  2500
-);
-
-debugData<Call>(
-  [
-    {
-      action: 'editCall',
-      data: {
-        id: 1,
-        info: {
-          time: Date.now(),
-          location: "Michael's",
-        },
-        units: [],
-        linked: false,
-        offense: 'New offense',
-        coords: [1, 1],
-        completed: false,
-        code: '10-13',
-      },
-    },
-  ],
-  3000
+  3500
 );
 
 const Dispatch: React.FC = () => {
