@@ -2,6 +2,8 @@ import React from 'react';
 import { createStyles, Stack } from '@mantine/core';
 import { Call } from '../../typings';
 import DispatchNotification from './components/DispatchNotification';
+import { useNuiEvent } from '../../hooks/useNuiEvent';
+import { debugData } from '../../utils/debugData';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {
@@ -33,16 +35,96 @@ const DEBUG_CALLS: Call[] = [
     offense: 'Robbery of a financial institution',
     units: [],
   },
+  {
+    code: '10-70',
+    id: 2,
+    info: {
+      plate: 'XYZ 123',
+      location: 'Strawberry Ave',
+      time: Date.now(),
+      vehicle: 'Sultan RS',
+    },
+    completed: false,
+    coords: [1, 1],
+    linked: false,
+    offense: 'Robbery of a financial institution',
+    units: [],
+  },
+  {
+    code: '10-71',
+    id: 3,
+    info: {
+      plate: 'XYZ 123',
+      location: 'Strawberry Ave',
+      time: Date.now(),
+      vehicle: 'Sultan RS',
+    },
+    completed: false,
+    coords: [1, 1],
+    linked: false,
+    offense: 'Robbery of a financial institution',
+    units: [],
+  },
 ];
+
+debugData<Call>(
+  [
+    {
+      action: 'addCall',
+      data: DEBUG_CALLS[0],
+    },
+  ],
+  2000
+);
+
+debugData<Call>(
+  [
+    {
+      action: 'addCall',
+      data: DEBUG_CALLS[1],
+    },
+  ],
+  2500
+);
+
+debugData<Call>(
+  [
+    {
+      action: 'editCall',
+      data: {
+        id: 1,
+        info: {
+          time: Date.now(),
+          location: "Michael's",
+        },
+        units: [],
+        linked: false,
+        offense: 'New offense',
+        coords: [1, 1],
+        completed: false,
+        code: '10-13',
+      },
+    },
+  ],
+  3000
+);
 
 const Dispatch: React.FC = () => {
   const { classes } = useStyles();
-  const [queue, setQueue] = React.useState<Call[]>(DEBUG_CALLS);
+  const [queue, setQueue] = React.useState<Call[]>([]);
+
+  useNuiEvent('addCall', (data: Call) => {
+    setQueue((prev) => [data, ...prev]);
+  });
+
+  useNuiEvent('editCall', (data: Call) => {
+    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? data : prevCall)));
+  });
 
   return (
     <Stack className={classes.notificationsContainer} spacing={6}>
       {queue.map((call) => (
-        <DispatchNotification call={call} key={call.id} />
+        <DispatchNotification call={call} key={call.id} setQueue={setQueue} />
       ))}
     </Stack>
   );

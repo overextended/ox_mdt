@@ -1,12 +1,15 @@
 import React from 'react';
 import { Call } from '../../../typings';
-import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip, Transition } from '@mantine/core';
 import { IconCar, IconClock, IconLink, IconMap2, IconMapPin, IconSteeringWheel } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import NotificationInfo from './NotificationInfo';
+import { useNuiEvent } from '../../../hooks/useNuiEvent';
+import { useTimeout } from '@mantine/hooks';
 
 interface Props {
   call: Call;
+  setQueue: React.Dispatch<React.SetStateAction<Call[]>>;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -23,8 +26,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const DispatchNotification: React.FC<Props> = ({ call }) => {
+const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
   const { classes } = useStyles();
+  const timeout = useTimeout(() => setQueue((prev) => prev.filter((queueCall) => queueCall.id !== call.id)), 5000, {
+    autoInvoke: true,
+  });
+
+  React.useEffect(() => {
+    return () => timeout.clear();
+  }, []);
 
   return (
     <Stack className={classes.notification} spacing={6}>
@@ -59,4 +69,4 @@ const DispatchNotification: React.FC<Props> = ({ call }) => {
   );
 };
 
-export default DispatchNotification;
+export default React.memo(DispatchNotification);
