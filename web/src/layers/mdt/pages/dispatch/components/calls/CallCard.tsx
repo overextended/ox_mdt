@@ -42,7 +42,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
     <Stack className={classes.callContainer}>
       <Stack spacing={2}>
         <Group spacing="xs" position="apart" noWrap>
-          <Text lineClamp={1}>{call.offense.label}</Text>
+          <Text lineClamp={1}>{call.offense}</Text>
           {!call.completed ? (
             <>
               <Menu withArrow position="right-start">
@@ -70,7 +70,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                         title: locales.mark_call_as_completed,
                         children: (
                           <Text size="sm">
-                            {locales.mark_call_as_completed_confirm.format(call.offense.label, call.offense.code)}
+                            {locales.mark_call_as_completed_confirm.format(call.offense, call.code)}
                           </Text>
                         ),
                         labels: { confirm: locales.confirm, cancel: locales.cancel },
@@ -104,7 +104,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                   const officers: Officer[] = [];
                   call.units.map((unit) => unit.members.map((officer) => officers.push(officer)));
                   setReport({
-                    title: `${call.offense.label} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
+                    title: `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
                     description: '<p></p>',
                     id: resp,
                     evidence: [],
@@ -120,7 +120,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           )}
         </Group>
         <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
-          {call.offense.code}
+          {call.code}
         </Badge>
       </Stack>
       <Stack spacing={2} c="dark.2">

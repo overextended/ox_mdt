@@ -31,7 +31,7 @@ const CallMarkers: React.FC = () => {
           >
             <MarkerPopup>
               <Text>
-                {call.offense.label} ({call.offense.code})
+                {call.offense} ({call.code})
               </Text>
             </MarkerPopup>
           </Marker>
