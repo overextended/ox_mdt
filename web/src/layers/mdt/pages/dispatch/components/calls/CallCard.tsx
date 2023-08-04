@@ -15,11 +15,12 @@ import {
 } from '@tabler/icons-react';
 import { Call, Officer } from '../../../../../../typings';
 import dayjs from 'dayjs';
-import { useDispatchMap, useSetActiveReport, useSetCalls, useSetIsReportActive } from '../../../../../../state';
+import { useDispatchMap, useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
 import { modals } from '@mantine/modals';
 import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
+import { queryClient } from '../../../../../../main';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -32,7 +33,6 @@ const useStyles = createStyles((theme) => ({
 
 const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
-  const setCalls = useSetCalls();
   const map = useDispatchMap();
   const navigate = useNavigate();
   const setReport = useSetActiveReport();
@@ -58,7 +58,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                   <Menu.Item
                     icon={<IconMap2 size={20} />}
                     onClick={() => {
-                      if (map) map.flyTo(call.coords, 4);
+                      if (map) map.flyTo([call.coords[1], call.coords[0]], 4);
                     }}
                   >
                     {locales.find_on_map}
@@ -76,14 +76,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                         labels: { confirm: locales.confirm, cancel: locales.cancel },
                         confirmProps: { variant: 'light' },
                         onConfirm: () => {
-                          setCalls((prev) => {
-                            const calls = [...prev];
-                            const callIndex = calls.findIndex((value) => value.id === call.id);
-
-                            calls[callIndex] = { ...prev[callIndex], completed: true };
-
-                            return calls;
-                          });
+                          queryClient.invalidateQueries(['calls']);
                         },
                       });
                     }}
@@ -129,7 +122,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           <Text size="sm">{dayjs(call.info.time).fromNow()}</Text>
         </Group>
         <Group spacing="xs" noWrap>
-          <IconMapPin size={16} />
+          <IconMap2 size={16} />
           <Text size="sm">{call.info.location}</Text>
         </Group>
       </Stack>

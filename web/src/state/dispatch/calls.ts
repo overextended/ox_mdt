@@ -1,6 +1,9 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Call } from '../../typings';
 import { isEnvBrowser } from '../../utils/misc';
+import { atomsWithQuery } from 'jotai-tanstack-query';
+import { fetchNui } from '../../utils/fetchNui';
+import { queryClient } from '../../main';
 
 const DEBUG_CALLS: Call[] = [
   {
@@ -98,15 +101,30 @@ const DEBUG_CALLS: Call[] = [
   },
 ];
 
+const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
+  if (isEnvBrowser()) return DEBUG_CALLS;
+  return await fetchNui<Call[]>('getCalls', callType);
+};
+
 const callTypeAtom = atom<'active' | 'completed'>('active');
 export const useCallTypeState = () => useAtom(callTypeAtom);
 
-const callsAtom = atom<Call[]>(isEnvBrowser() ? DEBUG_CALLS : []);
-const filteredCallsAtom = atom((get) => {
-  const callType = get(callTypeAtom);
+// const callsAtom = atom<Call[]>(isEnvBrowser() ? DEBUG_CALLS : []);
+// const filteredCallsAtom = atom((get) => {
+//   const callType = get(callTypeAtom);
 
-  return get(callsAtom).filter((call) => (callType === 'active' ? !call.completed : call.completed));
-});
+//   return get(callsAtom).filter((call) => (callType === 'active' ? !call.completed : call.completed));
+// });
 
-export const useFilteredCalls = () => useAtomValue(filteredCallsAtom);
-export const useSetCalls = () => useSetAtom(callsAtom);
+const [callsAtom] = atomsWithQuery(
+  (get) => ({
+    queryKey: ['calls', get(callTypeAtom)],
+    queryFn: async () => {
+      return await getCalls(get(callTypeAtom));
+    },
+    refetchOnMount: true,
+  }),
+  () => queryClient
+);
+
+export const useCalls = () => useAtomValue(callsAtom);

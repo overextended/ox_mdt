@@ -36,6 +36,7 @@ const MapWrapper: React.FC = () => {
     <MapContainer
       center={[0, -1024]}
       maxBoundsViscosity={1.0}
+      preferCanvas
       ref={setMap}
       zoom={6}
       maxZoom={6}
@@ -46,7 +47,9 @@ const MapWrapper: React.FC = () => {
     >
       <Map />
       <OfficerMarkers />
-      <CallMarkers />
+      <React.Suspense>
+        <CallMarkers />
+      </React.Suspense>
     </MapContainer>
   );
 };

@@ -88,11 +88,14 @@ serverNuiCallback('getProfiles')
 serverNuiCallback('getProfile')
 serverNuiCallback('saveProfileImage')
 serverNuiCallback('saveProfileNotes')
+serverNuiCallback('getCalls') -- TODO: iterate calls and add location
 serverNuiCallback('getUnits')
 serverNuiCallback('createUnit')
 serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
 serverNuiCallback('getRecommendedWarrantExpiry')
+
+
 
 ---@param data Call
 RegisterNetEvent('createCall', function(data)

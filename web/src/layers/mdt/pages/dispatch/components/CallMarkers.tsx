@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFilteredCalls } from '../../../../../state';
+import { useCalls } from '../../../../../state';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import * as ReactDOMServer from 'react-dom/server';
@@ -14,15 +14,16 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const CallMarkers: React.FC = () => {
-  const calls = useFilteredCalls();
+  const calls = useCalls();
   const { classes } = useStyles();
+
   return (
     <>
       {calls.length > 0 &&
         calls.map((call) => (
           <Marker
             key={call.id}
-            position={call.coords}
+            position={[call.coords[1], call.coords[0]]}
             icon={L.divIcon({
               className: 'custom-icon',
               iconSize: [20, 20],

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useCallTypeState, useFilteredCalls } from '../../../../../../state';
+import { useCalls } from '../../../../../../state';
 import CallCard from './CallCard';
 import { Stack } from '@mantine/core';
 
 const CallsList: React.FC = () => {
-  const calls = useFilteredCalls();
+  const calls = useCalls();
 
   return (
     <Stack sx={{ overflowY: 'scroll', flex: '1 1 0' }}>

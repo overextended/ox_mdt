@@ -352,4 +352,38 @@ function createCall(data)
     return callId - 1
 end
 
+Citizen.SetTimeout(3000, function()
+    local coords = GetEntityCoords(GetPlayerPed(1))
+
+    local callId = createCall({
+        offense = 'Speeding',
+        code = '10-69',
+        info = {
+            plate = 'XYZ 123',
+            vehicle = 'Dinka Blista'
+        },
+        coords = {coords.x, coords.y}
+    })
+
+    print(callId)
+end)
+
+---@param data 'active' | 'completed'
+utils.registerCallback('ox_mdt:getCalls', function(source, data)
+    local callsToSend = {}
+
+    for i = 1, #calls do
+        local call = calls[i]
+        if data == 'active' and not call.completed then
+            callsToSend[#callsToSend+1] = call
+        elseif data == 'completed' and call.completed then
+            callsToSend[#callsToSend+1] = call
+        end
+    end
+-- 523.6392, -183.8069, 53.7630, 209.2914
+    print(json.encode(callsToSend, {indent=true}))
+
+    return callsToSend
+end)
+
 exports('createCall', createCall)
