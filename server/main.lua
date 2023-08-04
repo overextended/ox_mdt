@@ -322,3 +322,34 @@ utils.registerCallback('ox_mdt:leaveUnit', function(source, unitId)
 
     return 1
 end)
+
+---@type Call[]
+local calls = {}
+local callId = 0
+
+---@param data CallData
+function createCall(data)
+    calls[#calls + 1] = {
+        id = callId,
+        code = data.code,
+        offense = data.offense,
+        completed = false,
+        units = {},
+        coords = data.coords,
+        info = {
+            time = os.time() * 1000,
+            location = '',
+            plate = data.info.plate,
+            vehicle = data.info.vehicle
+        }
+    }
+
+    callId += 1
+
+    -- TODO: iterate over in service officers and trigger events on them
+    TriggerClientEvent('createCall', -1, calls[#calls])
+
+    return callId - 1
+end
+
+exports('createCall', createCall)

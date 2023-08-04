@@ -3,7 +3,6 @@ import { createStyles, Stack } from '@mantine/core';
 import { Call } from '../../typings';
 import DispatchNotification from './components/DispatchNotification';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
-import { debugData } from '../../utils/debugData';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {
@@ -35,57 +34,7 @@ const DEBUG_CALLS: Call[] = [
     offense: 'Robbery of a financial institution',
     units: [],
   },
-  {
-    code: '10-70',
-    id: 2,
-    info: {
-      plate: 'XYZ 123',
-      location: 'Strawberry Ave',
-      time: Date.now(),
-      vehicle: 'Sultan RS',
-    },
-    completed: false,
-    coords: [1, 1],
-    linked: false,
-    offense: 'Robbery of a financial institution',
-    units: [],
-  },
-  {
-    code: '10-71',
-    id: 3,
-    info: {
-      plate: 'XYZ 123',
-      location: 'Strawberry Ave',
-      time: Date.now(),
-      vehicle: 'Sultan RS',
-    },
-    completed: false,
-    coords: [1, 1],
-    linked: false,
-    offense: 'Robbery of a financial institution',
-    units: [],
-  },
 ];
-
-debugData<Call>(
-  [
-    {
-      action: 'addCall',
-      data: DEBUG_CALLS[0],
-    },
-  ],
-  2000
-);
-
-debugData<Call>(
-  [
-    {
-      action: 'addCall',
-      data: DEBUG_CALLS[1],
-    },
-  ],
-  3500
-);
 
 const Dispatch: React.FC = () => {
   const { classes } = useStyles();

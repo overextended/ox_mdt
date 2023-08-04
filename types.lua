@@ -73,3 +73,28 @@
 ---@field name string
 ---@field members Officer[]
 ---@field type 'car' | 'motor' | 'heli' | 'boat'
+
+---@class CallInfo
+---@field time number
+---@field location string
+---@field plate? string
+---@field vehicle? string
+
+---@class Call
+---@field id number
+---@field offense string
+---@field code string
+---@field units Unit[]
+---@field coords table
+---@field completed boolean
+---@field info CallInfo
+
+---@class CallDataInfo
+---@field plate? string
+---@field vehicle? string
+
+---@class CallData
+---@field offense string
+---@field code string
+---@field coords table
+---@field info CallDataInfo

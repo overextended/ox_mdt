@@ -94,6 +94,18 @@ serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
 serverNuiCallback('getRecommendedWarrantExpiry')
 
+---@param data Call
+RegisterNetEvent('createCall', function(data)
+    data.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.coords[1], data.coords[2]))
+
+    -- TODO: play sound (maybe isEmergency later?)
+
+    SendNUIMessage({
+        action = 'addCall',
+        data = data
+    })
+end)
+
 -- SendNUIMessage({
 --     action = 'updateOfficerPositions',
 --     data = {} -- {name: string; callSign: number; position: [number, number]}[]
