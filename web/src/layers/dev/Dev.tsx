@@ -2,6 +2,8 @@ import React from 'react';
 import { ActionIcon, Button, Drawer, Select, Stack, Tooltip } from '@mantine/core';
 import { IconTools } from '@tabler/icons-react';
 import { useSetVisibility } from '../../state/visibility';
+import { debugData } from '../../utils/debugData';
+import { Call } from '../../typings';
 
 const setBackground = (bg: string) => {
   const root = document.getElementById('root');
@@ -54,6 +56,27 @@ const Dev: React.FC = () => {
             label="Background"
           />
           <Button onClick={() => setVisible((prev) => !prev)}>Toggle MDT</Button>
+          <Button
+            onClick={() =>
+              debugData<Call>([
+                {
+                  action: 'addCall',
+                  data: {
+                    id: 1,
+                    offense: 'Vehicle theft',
+                    code: '10-15',
+                    coords: [1, 1],
+                    linked: false,
+                    info: { vehicle: 'Sultan RS', plate: 'XYZ 123', time: Date.now(), location: 'Strawberry Ave' },
+                    completed: false,
+                    units: [],
+                  },
+                },
+              ])
+            }
+          >
+            Add call
+          </Button>
         </Stack>
       </Drawer>
     </>
