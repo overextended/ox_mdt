@@ -55,11 +55,13 @@ RegisterNuiCallback('hideMDT', function(_, cb)
 end)
 
 ---@param event string
-local function serverNuiCallback(event)
+---@param clientCb? fun(data: any, cb: fun)
+local function serverNuiCallback(event, clientCb)
     RegisterNuiCallback(event, function(data, cb)
         print('triggered ' .. event)
         local response = lib.callback.await('ox_mdt:' .. event, false, data)
         print('response ' .. event, json.encode(response, { indent = true, sort_keys = true }))
+        if clientCb then return clientCb(response, cb) end
         cb(response)
     end)
 end
@@ -88,7 +90,15 @@ serverNuiCallback('getProfiles')
 serverNuiCallback('getProfile')
 serverNuiCallback('saveProfileImage')
 serverNuiCallback('saveProfileNotes')
-serverNuiCallback('getCalls') -- TODO: iterate calls and add location
+serverNuiCallback('getCalls', function(data, cb)
+    -- Assign street names to data from the sever to be sent to UI
+
+    for i = 1, #data do
+        data[i].info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data[i].coords[1], data[i].coords[2]))
+    end
+
+    cb(data)
+end)
 serverNuiCallback('getUnits')
 serverNuiCallback('createUnit')
 serverNuiCallback('joinUnit')
