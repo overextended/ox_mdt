@@ -3,6 +3,7 @@ import { createStyles, Stack } from '@mantine/core';
 import { Call } from '../../typings';
 import DispatchNotification from './components/DispatchNotification';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
+import { queryClient } from '../../main';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {
@@ -40,8 +41,10 @@ const Dispatch: React.FC = () => {
   const { classes } = useStyles();
   const [queue, setQueue] = React.useState<Call[]>([]);
 
-  useNuiEvent('addCall', (data: Call) => {
+  useNuiEvent('addCall', async (data: Call) => {
     setQueue((prev) => [data, ...prev]);
+    // If the dispatch page isn't open on the MDT the queries won't be refetched
+    await queryClient.invalidateQueries(['calls']);
   });
 
   useNuiEvent('editCall', (data: Call) => {

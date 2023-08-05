@@ -347,15 +347,17 @@ function createCall(data)
     callId += 1
 
     -- TODO: iterate over in service officers and trigger events on them
-    TriggerClientEvent('createCall', -1, calls[#calls])
+    TriggerClientEvent('ox_mdt:createCall', -1, calls[#calls])
 
     return callId - 1
 end
 
-Citizen.SetTimeout(3000, function()
+exports('createCall', createCall)
+
+Citizen.SetTimeout(5000, function()
     local coords = GetEntityCoords(GetPlayerPed(1))
 
-    local callId = createCall({
+    local id = createCall({
         offense = 'Speeding',
         code = '10-69',
         info = {
@@ -364,8 +366,6 @@ Citizen.SetTimeout(3000, function()
         },
         coords = {coords.x, coords.y}
     })
-
-    print(callId)
 end)
 
 ---@param data 'active' | 'completed'
@@ -385,5 +385,3 @@ utils.registerCallback('ox_mdt:getCalls', function(source, data)
 
     return callsToSend
 end)
-
-exports('createCall', createCall)

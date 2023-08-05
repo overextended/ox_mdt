@@ -98,7 +98,7 @@ serverNuiCallback('getRecommendedWarrantExpiry')
 
 
 ---@param data Call
-RegisterNetEvent('createCall', function(data)
+RegisterNetEvent('ox_mdt:createCall', function(data)
     data.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.coords[1], data.coords[2]))
 
     -- TODO: play sound (maybe isEmergency later?)
