@@ -37,7 +37,7 @@ const DEBUG_CALLS: Call[] = [
   },
 ];
 
-const Dispatch: React.FC = () => {
+const DispatchNotifications: React.FC = () => {
   const { classes } = useStyles();
   const [queue, setQueue] = React.useState<Call[]>([]);
 
@@ -60,4 +60,4 @@ const Dispatch: React.FC = () => {
   );
 };
 
-export default Dispatch;
+export default DispatchNotifications;
