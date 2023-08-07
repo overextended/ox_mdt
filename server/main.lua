@@ -247,7 +247,7 @@ local units = {
         type = 'car'
     }
 }
-local unitsCreated = 1
+local unitsCreated = 0
 
 utils.registerCallback('ox_mdt:getUnits', function()
     return units
@@ -263,7 +263,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
         members = {
             { firstName = player.firstname, lastName = player.lastname, callSign = 132, stateId = player.stateid }
         },
-        name = ('Unit %d'):format(unitsCreated),
+        name = ('Unit %d'):format(unitsCreated + 1),
         type = unitType
     }
 
@@ -287,8 +287,8 @@ local function removePlayerFromUnit(player)
             Player(source).state:set('mdtUnitId', nil)
             if #units[playerUnitId].members == 0 then
                 units[playerUnitId] = nil
+                -- TODO: Remove unit from all calls it's attached to
             end
-            -- TODO: Remove unit from all calls it's attached to
             break
         end
     end
@@ -323,14 +323,17 @@ utils.registerCallback('ox_mdt:leaveUnit', function(source, unitId)
     return 1
 end)
 
----@type Call[]
-local calls = {}
+---@type Calls
+local activeCalls = {}
+
+---@type Calls
+local completedCalls = {}
+
 local callId = 0
 
 ---@param data CallData
 function createCall(data)
-    calls[#calls + 1] = {
-        id = callId,
+    activeCalls[callId] = {
         code = data.code,
         offense = data.offense,
         completed = false,
@@ -344,10 +347,10 @@ function createCall(data)
         }
     }
 
-    callId += 1
-
     -- TODO: iterate over in service officers and trigger events on them
-    TriggerClientEvent('ox_mdt:createCall', -1, calls[#calls])
+    TriggerClientEvent('ox_mdt:createCall', -1, activeCalls[callId])
+
+    callId += 1
 
     return callId - 1
 end
@@ -368,50 +371,22 @@ Citizen.SetTimeout(5000, function()
     })
 end)
 
+---@param source number
 ---@param data 'active' | 'completed'
 utils.registerCallback('ox_mdt:getCalls', function(source, data)
-    local callsToSend = {}
-
-    for i = 1, #calls do
-        local call = calls[i]
-        if data == 'active' and not call.completed then
-            callsToSend[#callsToSend+1] = call
-        elseif data == 'completed' and call.completed then
-            callsToSend[#callsToSend+1] = call
-        end
-    end
--- 523.6392, -183.8069, 53.7630, 209.2914
-    print(json.encode(callsToSend, {indent=true}))
-
-    return callsToSend
+    return data == 'active' and activeCalls or completedCalls
 end)
 
 ---@param source number
 ---@param id number
 utils.registerCallback('ox_mdt:attachToCall', function(source, id)
-    local playerUnit = Player(source).state.mdtUnitId --[[@as number]]
-    print('playerUnit', playerUnit)
-    local unitIndex = nil
+    local playerUnitId = Player(source).state.mdtUnitId --[[@as number]]
+    if not playerUnitId then return false end
 
-    for i = 1, #units do
-        local unit = units[i]
+    local playerUnit = units[playerUnitId]
 
-        if unit.id == playerUnit then
-            unitIndex = i
-            break
-        end
-    end
+    if activeCalls[id].units[playerUnitId] then return false end
+    activeCalls[id].units[playerUnitId] = playerUnit
 
-
-    for i = 1, #calls do
-        local call = calls[i]
-        if call.id == id then
-            for j = 1, #call.units do
-                local unit = call.units[j]
-                if unit.id == playerUnit then return false end
-            end
-            calls[i].units[#calls[i].units+1] = units[unitIndex]
-            return true
-        end
-    end
+    return true
 end)

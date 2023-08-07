@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Call } from '../../typings';
+import { Call, Unit } from '../../typings';
 import { isEnvBrowser } from '../../utils/misc';
 import { atomsWithQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';
@@ -101,9 +101,22 @@ const DEBUG_CALLS: Call[] = [
   },
 ];
 
+interface CallsResponse extends Omit<Call, 'id' | 'units'> {
+  units: { [key: string]: Omit<Unit, 'id'> };
+}
+
 const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
   if (isEnvBrowser()) return DEBUG_CALLS;
-  return await fetchNui<Call[]>('getCalls', callType);
+
+  const resp = await fetchNui<CallsResponse>('getCalls', callType);
+  const calls = Object.entries(resp).map((entry: [string, CallsResponse]) => {
+    const call: Call = { id: +entry[0], ...entry[1], units: [] };
+    call.units = Object.entries(entry[1].units).map((unitEntry) => ({ id: +unitEntry[0], ...unitEntry[1] }));
+
+    return call;
+  });
+
+  return calls;
 };
 
 const callTypeAtom = atom<'active' | 'completed'>('active');

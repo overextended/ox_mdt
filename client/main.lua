@@ -100,13 +100,13 @@ serverNuiCallback('saveProfileNotes')
 
 -- Dispatch
 serverNuiCallback('attachToCall')
----@param data Call[]
----@param cb fun(data: Call[])
+---@param data Calls
+---@param cb fun(data: Calls)
 serverNuiCallback('getCalls', function(data, cb)
     -- Assign street names to data from the sever to be sent to UI
 
-    for i = 1, #data do
-        data[i].info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data[i].coords[1], data[i].coords[2]))
+    for _, call in pairs(data) do
+        call.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(call.coords[1], call.coords[2]))
     end
 
     cb(data)

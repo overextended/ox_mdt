@@ -12,7 +12,7 @@ const CreateUnitButton: React.FC = () => {
     <Button
       variant="light"
       leftIcon={<IconPlus />}
-      disabled={!!character.unit}
+      disabled={character.unit !== undefined}
       onClick={() =>
         modals.open({
           title: locales.create_unit,
