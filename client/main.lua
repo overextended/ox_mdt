@@ -26,6 +26,7 @@ local function openMdt()
                 stateId = player.stateid,
                 firstName = player.firstname,
                 lastName = player.lastname,
+                unit = LocalPlayer.state.mdtUnitId, -- Might cause issues if previous character was in a unit when logging off?
                 title = ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police]),
                 grade = grade,
                 callSign = callSign

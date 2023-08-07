@@ -267,7 +267,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
         type = unitType
     }
 
-    Player(source).state:set('mdtUnitId', unitsCreated)
+    Player(source).state.mdtUnitId = unitsCreated
     unitsCreated += 1
 
     return {
@@ -277,14 +277,16 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
 end)
 
 local function removePlayerFromUnit(player)
-    local playerUnitId = Player(source).state.mdtUnitId
+    -- TODO: fix being in a unit then restarting the resource and still
+    -- being in the unit causing you not to be able to join a new one
+    local playerUnitId = Player(player.source).state.mdtUnitId
     if not playerUnitId then return end
     local playerUnit = units[playerUnitId]
     for i = 1, #playerUnit.members do
         local member = playerUnit.members[i]
         if member.stateId == player.stateid then
             units[playerUnitId].members[i] = nil
-            Player(source).state:set('mdtUnitId', nil)
+            Player(source).state.mdtUnitId = nil
             if #units[playerUnitId].members == 0 then
                 units[playerUnitId] = nil
                 -- TODO: Remove unit from all calls it's attached to
@@ -308,7 +310,7 @@ utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
         callSign = 132
     }
 
-    Player(source).state:set('mdtUnitId', unitId)
+    Player(source).state.mdtUnitId = unitId
 
     return 1
 end)
