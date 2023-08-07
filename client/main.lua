@@ -66,11 +66,15 @@ local function serverNuiCallback(event, clientCb)
     end)
 end
 
+
+-- Dashboard
 serverNuiCallback('getAnnouncements')
 serverNuiCallback('getWarrants')
 serverNuiCallback('createAnnouncement')
 serverNuiCallback('editAnnouncement')
 serverNuiCallback('deleteAnnouncement')
+
+-- Reports
 serverNuiCallback('getCriminalProfiles')
 serverNuiCallback('createReport')
 serverNuiCallback('getReports')
@@ -86,10 +90,18 @@ serverNuiCallback('removeOfficer')
 serverNuiCallback('addEvidence')
 serverNuiCallback('removeEvidence')
 serverNuiCallback('saveReportContents')
+serverNuiCallback('getRecommendedWarrantExpiry')
+
+-- Profiles
 serverNuiCallback('getProfiles')
 serverNuiCallback('getProfile')
 serverNuiCallback('saveProfileImage')
 serverNuiCallback('saveProfileNotes')
+
+-- Dispatch
+serverNuiCallback('attachToCall')
+---@param data Call[]
+---@param cb fun(data: Call[])
 serverNuiCallback('getCalls', function(data, cb)
     -- Assign street names to data from the sever to be sent to UI
 
@@ -103,7 +115,6 @@ serverNuiCallback('getUnits')
 serverNuiCallback('createUnit')
 serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
-serverNuiCallback('getRecommendedWarrantExpiry')
 
 
 

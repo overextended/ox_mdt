@@ -31,7 +31,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CallCard: React.FC<{ call: Call }> = ({ call }) => {
+const CallCard: React.FC<{ call: Call; inUnit?: boolean }> = ({ call, inUnit }) => {
   const { classes } = useStyles();
   const map = useDispatchMap();
   const navigate = useNavigate();
@@ -53,7 +53,16 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                 </Menu.Target>
 
                 <Menu.Dropdown>
-                  <Menu.Item icon={<IconLink size={20} />}>{locales.attach_to_call}</Menu.Item>
+                  <Menu.Item
+                    icon={<IconLink size={20} />}
+                    disabled={!inUnit}
+                    onClick={async () => {
+                      const resp = await fetchNui('attachToCall', call.id);
+                      if (resp) await queryClient.invalidateQueries(['calls']);
+                    }}
+                  >
+                    {locales.attach_to_call}
+                  </Menu.Item>
                   <Menu.Item icon={<IconMapPin size={20} />}>{locales.set_waypoint}</Menu.Item>
                   <Menu.Item
                     icon={<IconMap2 size={20} />}
@@ -160,4 +169,4 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   );
 };
 
-export default CallCard;
+export default React.memo(CallCard);

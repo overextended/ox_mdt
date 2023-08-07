@@ -264,6 +264,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
         type = unitType
     }
 
+    Player(source).state:set('mdtUnit', unitsCreated)
     unitsCreated += 1
 
     return {
@@ -279,8 +280,10 @@ local function removePlayerFromUnit(player)
             local member = unit.members[j]
             if member.stateId == player.stateid then
                 units[i].members[j] = nil
+                Player(source).state:set('mdtUnit', nil)
                 if #units[i].members == 0 then
                     units[i] = nil
+                    -- TODO: Remove unit from all calls it's attached to
                 end
                 break
             end
@@ -305,8 +308,8 @@ utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
                 stateId = player.stateid,
                 callSign = 132
             }
-            print(json.encode(units[i].members))
-            break;
+            Player(source).state:set('mdtUnit', unitId)
+            break
         end
     end
 
@@ -384,4 +387,34 @@ utils.registerCallback('ox_mdt:getCalls', function(source, data)
     print(json.encode(callsToSend, {indent=true}))
 
     return callsToSend
+end)
+
+---@param source number
+---@param id number
+utils.registerCallback('ox_mdt:attachToCall', function(source, id)
+    local playerUnit = Player(source).state.mdtUnit --[[@as number]]
+    print('playerUnit', playerUnit)
+    local unitIndex = nil
+
+    for i = 1, #units do
+        local unit = units[i]
+
+        if unit.id == playerUnit then
+            unitIndex = i
+            break
+        end
+    end
+
+
+    for i = 1, #calls do
+        local call = calls[i]
+        if call.id == id then
+            for j = 1, #call.units do
+                local unit = call.units[j]
+                if unit.id == playerUnit then return false end
+            end
+            calls[i].units[#calls[i].units+1] = units[unitIndex]
+            return true
+        end
+    end
 end)
