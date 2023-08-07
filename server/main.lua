@@ -239,9 +239,13 @@ end)
 -- page and send the new units table to refresh the existing data
 -- memo should hopefully only rerender the unit cards that have chaged
 
----@type Unit[]
+---@type Units
 local units = {
-    {id = 15, members = {{firstName = 'John', lastName = 'Doe', stateId = 'BD30942', callSign = 312}}, name = 'Unit 15', type = 'car'}
+    [15] = {
+        members = {{firstName = 'John', lastName = 'Doe', stateId = 'BD30942', callSign = 312}},
+        name = 'Unit 15',
+        type = 'car'
+    }
 }
 local unitsCreated = 1
 
@@ -255,8 +259,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
     local player = Ox.GetPlayer(source)
 
     -- TODO: Get player callSign, make sure player isn't already in a unit (maybe just run removePlayerFromUnit?)
-    units[#units + 1] = {
-        id = unitsCreated,
+    units[unitsCreated] = {
         members = {
             { firstName = player.firstname, lastName = player.lastname, callSign = 132, stateId = player.stateid }
         },
@@ -264,7 +267,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
         type = unitType
     }
 
-    Player(source).state:set('mdtUnit', unitsCreated)
+    Player(source).state:set('mdtUnitId', unitsCreated)
     unitsCreated += 1
 
     return {
@@ -274,19 +277,19 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
 end)
 
 local function removePlayerFromUnit(player)
-    for i = 1, #units do
-        local unit = units[i]
-        for j = 1, #unit.members do
-            local member = unit.members[j]
-            if member.stateId == player.stateid then
-                units[i].members[j] = nil
-                Player(source).state:set('mdtUnit', nil)
-                if #units[i].members == 0 then
-                    units[i] = nil
-                    -- TODO: Remove unit from all calls it's attached to
-                end
-                break
+    local playerUnitId = Player(source).state.mdtUnitId
+    if not playerUnitId then return end
+    local playerUnit = units[playerUnitId]
+    for i = 1, #playerUnit.members do
+        local member = playerUnit.members[i]
+        if member.stateId == player.stateid then
+            units[playerUnitId].members[i] = nil
+            Player(source).state:set('mdtUnitId', nil)
+            if #units[playerUnitId].members == 0 then
+                units[playerUnitId] = nil
             end
+            -- TODO: Remove unit from all calls it's attached to
+            break
         end
     end
 end
@@ -298,20 +301,14 @@ utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
 
     removePlayerFromUnit(player)
 
-    for i = 1, #units do
-        local unit = units[i]
+    units[unitId].members[#units[unitId].members+1] = {
+        firstName = player.firstname,
+        lastName = player.lastname,
+        stateId = player.stateid,
+        callSign = 132
+    }
 
-        if unit.id == unitId then
-            units[i].members[#units[i].members+1] = {
-                firstName = player.firstname,
-                lastName = player.lastname,
-                stateId = player.stateid,
-                callSign = 132
-            }
-            Player(source).state:set('mdtUnit', unitId)
-            break
-        end
-    end
+    Player(source).state:set('mdtUnitId', unitId)
 
     return 1
 end)
@@ -392,7 +389,7 @@ end)
 ---@param source number
 ---@param id number
 utils.registerCallback('ox_mdt:attachToCall', function(source, id)
-    local playerUnit = Player(source).state.mdtUnit --[[@as number]]
+    local playerUnit = Player(source).state.mdtUnitId --[[@as number]]
     print('playerUnit', playerUnit)
     local unitIndex = nil
 

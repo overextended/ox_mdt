@@ -16,7 +16,11 @@ const DEBUG_UNITS: Unit[] = [
 
 const getUnits = async (): Promise<Unit[]> => {
   if (isEnvBrowser()) return DEBUG_UNITS;
-  return await fetchNui<Unit[]>('getUnits');
+
+  const resp = await fetchNui<{ [key: string]: Omit<Unit, 'id'> }>('getUnits');
+  const units = Object.entries(resp).map((entry) => ({ id: +entry[0], ...entry[1] })) as Unit[];
+
+  return units;
 };
 
 const [unitsAtom] = atomsWithQuery(

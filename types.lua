@@ -68,11 +68,8 @@
 ---@field callSign string
 ---@field createdAt number
 
----@class Unit
----@field id number
----@field name string
----@field members Officer[]
----@field type 'car' | 'motor' | 'heli' | 'boat'
+---@class Units
+---@field [number] { name: string, members: Officer[], type: 'car' | 'motor' | 'heli' | 'boat'   }
 
 ---@class CallInfo
 ---@field time number
@@ -80,14 +77,8 @@
 ---@field plate? string
 ---@field vehicle? string
 
----@class Call
----@field id number
----@field offense string
----@field code string
----@field units Unit[]
----@field coords table
----@field completed boolean
----@field info CallInfo
+---@class Calls
+---@field [number] { offense: string, code: string, units: Units[], coords: table, completed: boolean, info: CallInfo }
 
 ---@class CallDataInfo
 ---@field plate? string
