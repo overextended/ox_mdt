@@ -4,6 +4,10 @@ lib.locale()
 
 local hasLoadedUi = false
 
+if LocalPlayer.state.mdtUnitId then
+    LocalPlayer.state.mdtUnitId = nil
+end
+
 local function openMdt()
     local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
@@ -26,7 +30,7 @@ local function openMdt()
                 stateId = player.stateid,
                 firstName = player.firstname,
                 lastName = player.lastname,
-                unit = LocalPlayer.state.mdtUnitId, -- Might cause issues if previous character was in a unit when logging off?
+                unit = LocalPlayer.state.mdtUnitId,
                 title = ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police]),
                 grade = grade,
                 callSign = callSign
@@ -47,6 +51,7 @@ lib.addKeybind({
 })
 
 AddEventHandler('ox:playerLoaded', function(data)
+    LocalPlayer.state.mdtUnitId = nil
     hasLoadedUi = false
 end)
 
@@ -56,7 +61,7 @@ RegisterNuiCallback('hideMDT', function(_, cb)
 end)
 
 ---@param event string
----@param clientCb? fun(data: any, cb: fun)
+---@param clientCb? fun(data: any, cb: function)
 local function serverNuiCallback(event, clientCb)
     RegisterNuiCallback(event, function(data, cb)
         print('triggered ' .. event)
