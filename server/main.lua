@@ -392,3 +392,16 @@ utils.registerCallback('ox_mdt:attachToCall', function(source, id)
 
     return true
 end)
+
+---@param source number
+---@param id number
+utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
+    local playerUnitId = Player(source).state.mdtUnitId --[[@as number]]
+    if not playerUnitId then return false end
+
+    if not activeCalls[id].units[playerUnitId] then return false end
+
+    activeCalls[id].units[playerUnitId] = nil
+
+    return true
+end)

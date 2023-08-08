@@ -15,12 +15,10 @@ import {
 } from '@tabler/icons-react';
 import { Call, Officer } from '../../../../../../typings';
 import dayjs from 'dayjs';
-import { useDispatchMap, useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
-import { modals } from '@mantine/modals';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
 import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
-import { queryClient } from '../../../../../../main';
 import CallActionMenu from './CallActionMenu';
 
 const useStyles = createStyles((theme) => ({

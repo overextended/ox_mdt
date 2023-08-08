@@ -101,6 +101,7 @@ serverNuiCallback('saveProfileNotes')
 
 -- Dispatch
 serverNuiCallback('attachToCall')
+serverNuiCallback('detachFromCall')
 ---@param data Calls
 ---@param cb fun(data: Calls)
 serverNuiCallback('getCalls', function(data, cb)

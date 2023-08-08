@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionIcon, Menu, Text } from '@mantine/core';
-import { IconCheck, IconDots, IconLink, IconMap2, IconMapPin } from '@tabler/icons-react';
+import { IconCheck, IconDots, IconLink, IconMap2, IconMapPin, IconUnlink } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
@@ -16,6 +16,8 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
   const map = useDispatchMap();
   const character = useCharacter();
 
+  const attached = React.useMemo(() => call.units.some((unit) => unit.id === character.unit), [call, character]);
+
   return (
     <>
       <Menu withArrow position="right-start">
@@ -27,14 +29,14 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
 
         <Menu.Dropdown>
           <Menu.Item
-            icon={<IconLink size={20} />}
-            disabled={character.unit !== undefined}
+            icon={attached ? <IconUnlink size={20} /> : <IconLink size={20} />}
+            disabled={character.unit === undefined}
             onClick={async () => {
-              const resp = await fetchNui('attachToCall', call.id);
+              const resp = await fetchNui(attached ? 'detachFromCall' : 'attachToCall', call.id);
               if (resp) await queryClient.invalidateQueries(['calls']);
             }}
           >
-            {locales.attach_to_call}
+            {attached ? locales.detach_from_call : locales.attach_to_call}
           </Menu.Item>
           <Menu.Item icon={<IconMapPin size={20} />}>{locales.set_waypoint}</Menu.Item>
           <Menu.Item
