@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
 import { queryClient } from '../../../../../../main';
+import CallActionMenu from './CallActionMenu';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -31,9 +32,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CallCard: React.FC<{ call: Call; inUnit?: boolean }> = ({ call, inUnit }) => {
+const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const { classes } = useStyles();
-  const map = useDispatchMap();
   const navigate = useNavigate();
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
@@ -44,57 +44,7 @@ const CallCard: React.FC<{ call: Call; inUnit?: boolean }> = ({ call, inUnit }) 
         <Group spacing="xs" position="apart" noWrap>
           <Text lineClamp={1}>{call.offense}</Text>
           {!call.completed ? (
-            <>
-              <Menu withArrow position="right-start">
-                <Menu.Target>
-                  <ActionIcon variant="light" color="blue">
-                    <IconDots size={20} />
-                  </ActionIcon>
-                </Menu.Target>
-
-                <Menu.Dropdown>
-                  <Menu.Item
-                    icon={<IconLink size={20} />}
-                    disabled={!inUnit}
-                    onClick={async () => {
-                      const resp = await fetchNui('attachToCall', call.id);
-                      if (resp) await queryClient.invalidateQueries(['calls']);
-                    }}
-                  >
-                    {locales.attach_to_call}
-                  </Menu.Item>
-                  <Menu.Item icon={<IconMapPin size={20} />}>{locales.set_waypoint}</Menu.Item>
-                  <Menu.Item
-                    icon={<IconMap2 size={20} />}
-                    onClick={() => {
-                      if (map) map.flyTo([call.coords[1], call.coords[0]], 4);
-                    }}
-                  >
-                    {locales.find_on_map}
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IconCheck size={20} />}
-                    onClick={() => {
-                      modals.openConfirmModal({
-                        title: locales.mark_call_as_completed,
-                        children: (
-                          <Text size="sm">
-                            {locales.mark_call_as_completed_confirm.format(call.offense, call.code)}
-                          </Text>
-                        ),
-                        labels: { confirm: locales.confirm, cancel: locales.cancel },
-                        confirmProps: { variant: 'light' },
-                        onConfirm: () => {
-                          queryClient.invalidateQueries(['calls']);
-                        },
-                      });
-                    }}
-                  >
-                    {locales.mark_as_completed}
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
+            <CallActionMenu call={call} />
           ) : (
             <Tooltip label={locales.create_report}>
               <ActionIcon
