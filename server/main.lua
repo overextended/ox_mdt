@@ -350,7 +350,7 @@ function createCall(data)
     }
 
     -- TODO: iterate over in service officers and trigger events on them
-    TriggerClientEvent('ox_mdt:createCall', -1, activeCalls[callId])
+    TriggerClientEvent('ox_mdt:createCall', -1, {id = callId, call = activeCalls[callId]})
 
     callId += 1
 

@@ -7,6 +7,10 @@ import NotificationInfo from './NotificationInfo';
 import { useNuiEvent } from '../../../hooks/useNuiEvent';
 import { useTimeout } from '@mantine/hooks';
 import { fetchNui } from '../../../utils/fetchNui';
+import locales from '../../../locales';
+import UnitBadge from '../../mdt/components/UnitBadge';
+import { useCharacter } from '../../../state';
+import NotificationControls from './NotificationControls';
 
 interface Props {
   call: Call;
@@ -30,9 +34,12 @@ const useStyles = createStyles((theme) => ({
 const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
   const { classes } = useStyles();
   const [mounted, setMounted] = React.useState(false);
+  const character = useCharacter();
   const timeout = useTimeout(() => setMounted(false), 5000, {
     autoInvoke: true,
   });
+
+  React.useEffect(() => console.log('rerender'), [character]);
 
   React.useEffect(() => {
     setMounted(true);
@@ -47,26 +54,15 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
     >
       {(style) => (
         <Stack className={classes.notification} spacing={6} style={style}>
-          <Stack spacing={0}>
-            <Group position="apart">
-              <Text size="lg">{call.offense}</Text>
-              <Group spacing={6}>
-                <Tooltip label="Attach" position="top">
-                  <ActionIcon variant="light" color="blue">
-                    <IconLink size={20} />
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label="Add waypoint" position="top">
-                  <ActionIcon variant="light" color="blue" onClick={() => fetchNui('setWaypoint', call.coords).then()}>
-                    <IconMapPin size={20} />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
+          <Group position="apart">
+            <Group spacing="xs">
+              <Badge variant="light" color="blue" radius="sm">
+                {call.code}
+              </Badge>
+              <Text>{call.offense}</Text>
             </Group>
-            <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
-              {call.code}
-            </Badge>
-          </Stack>
+            <NotificationControls call={call} />
+          </Group>
           <Divider />
           <Group spacing="xs">
             <NotificationInfo label={dayjs(call.info.time).fromNow()} icon={IconClock} />
@@ -74,6 +70,16 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
             {call.info.plate && <NotificationInfo icon={IconSteeringWheel} label={call.info.plate} />}
             {call.info.vehicle && <NotificationInfo icon={IconCar} label={call.info.vehicle} />}
           </Group>
+          {call.units.length > 0 && (
+            <>
+              <Divider label={`${locales.attached_units} (${call.units.length})`} labelPosition="center" />
+              <Group spacing="xs">
+                {call.units.map((unit) => (
+                  <UnitBadge unit={unit} key={unit.id} />
+                ))}
+              </Group>
+            </>
+          )}
         </Stack>
       )}
     </Transition>

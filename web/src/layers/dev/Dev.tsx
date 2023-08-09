@@ -62,7 +62,7 @@ const Dev: React.FC = () => {
                 {
                   action: 'addCall',
                   data: {
-                    id: 1,
+                    id: Math.random(),
                     offense: 'Vehicle theft',
                     code: '10-15',
                     coords: [1, 1],

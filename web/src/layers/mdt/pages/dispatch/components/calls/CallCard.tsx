@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
 import CallActionMenu from './CallActionMenu';
+import UnitBadge from '../../../../components/UnitBadge';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -91,24 +92,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           />
           <Group spacing="xs">
             {call.units.map((unit) => (
-              <Badge
-                key={unit.name}
-                leftSection={
-                  <Stack>
-                    {unit.type === 'car' ? (
-                      <IconCar size={18} />
-                    ) : unit.type === 'motor' ? (
-                      <IconMotorbike size={18} />
-                    ) : unit.type === 'boat' ? (
-                      <IconSpeedboat size={18} />
-                    ) : (
-                      <IconHelicopter size={18} />
-                    )}
-                  </Stack>
-                }
-              >
-                {unit.name}
-              </Badge>
+              <UnitBadge unit={unit} key={unit.id} />
             ))}
           </Group>
         </>

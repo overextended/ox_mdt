@@ -167,15 +167,16 @@ RegisterNuiCallback('setWaypoint', function(data, cb)
     cb(1)
 end)
 
----@param data Call
+---@param data {id: number, call: Call}
 RegisterNetEvent('ox_mdt:createCall', function(data)
-    data.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.coords[1], data.coords[2]))
+    data.call.id = data.id
+    data.call.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.call.coords[1], data.call.coords[2]))
 
     -- TODO: play sound (maybe isEmergency later?)
 
     SendNUIMessage({
         action = 'addCall',
-        data = data
+        data = data.call
     })
 end)
 
