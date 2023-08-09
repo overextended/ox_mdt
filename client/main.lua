@@ -123,7 +123,12 @@ serverNuiCallback('createUnit')
 serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
 
-
+---@param data table
+---@param cb function
+RegisterNuiCallback('setWaypoint', function(data, cb)
+    SetNewWaypoint(data[1], data[2])
+    cb(1)
+end)
 
 ---@param data Call
 RegisterNetEvent('ox_mdt:createCall', function(data)

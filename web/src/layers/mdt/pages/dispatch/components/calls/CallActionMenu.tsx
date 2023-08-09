@@ -38,7 +38,14 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
           >
             {attached ? locales.detach_from_call : locales.attach_to_call}
           </Menu.Item>
-          <Menu.Item icon={<IconMapPin size={20} />}>{locales.set_waypoint}</Menu.Item>
+          <Menu.Item
+            icon={<IconMapPin size={20} />}
+            onClick={() => {
+              fetchNui('setWaypoint', call.coords).then();
+            }}
+          >
+            {locales.set_waypoint}
+          </Menu.Item>
           <Menu.Item
             icon={<IconMap2 size={20} />}
             onClick={() => {
