@@ -359,7 +359,7 @@ end
 
 exports('createCall', createCall)
 
-Citizen.SetTimeout(5000, function()
+Citizen.SetTimeout(2500, function()
     local coords = GetEntityCoords(GetPlayerPed(1))
 
     local id = createCall({

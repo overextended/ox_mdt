@@ -50,6 +50,43 @@ lib.addKeybind({
     onPressed = openMdt
 })
 
+local callsAreFocused = false
+
+lib.addKeybind({
+    defaultKey = 'GRAVE',
+    description = 'Toggle MDT calls focus',
+    name = 'focusCalls',
+    onPressed = function()
+        if callsAreFocused then
+            callsAreFocused = false
+            SetNuiFocus(false, false)
+            SetNuiFocusKeepInput(false)
+            return
+        end
+
+        if IsNuiFocused() or IsPauseMenuActive() then return end
+
+        callsAreFocused = true
+
+        SetNuiFocus(true, true)
+        SetNuiFocusKeepInput(true)
+        SetCursorLocation(0.5, 0.5)
+
+        while callsAreFocused do
+            DisablePlayerFiring(cache.playerId, true)
+            DisableControlAction(0, 1, true)
+            DisableControlAction(0, 2, true)
+            DisableControlAction(2, 199, true)
+            DisableControlAction(2, 200, true)
+            Wait(0)
+        end
+    end
+})
+
+RegisterCommand('fix-focus', function()
+    SetNuiFocus(false, false)
+end)
+
 AddEventHandler('ox:playerLoaded', function(data)
     LocalPlayer.state.mdtUnitId = nil
     hasLoadedUi = false

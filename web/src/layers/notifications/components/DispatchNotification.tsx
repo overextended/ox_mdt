@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import NotificationInfo from './NotificationInfo';
 import { useNuiEvent } from '../../../hooks/useNuiEvent';
 import { useTimeout } from '@mantine/hooks';
+import { fetchNui } from '../../../utils/fetchNui';
 
 interface Props {
   call: Call;
@@ -56,7 +57,7 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="Add waypoint" position="top">
-                  <ActionIcon variant="light" color="blue">
+                  <ActionIcon variant="light" color="blue" onClick={() => fetchNui('setWaypoint', call.coords).then()}>
                     <IconMapPin size={20} />
                   </ActionIcon>
                 </Tooltip>
