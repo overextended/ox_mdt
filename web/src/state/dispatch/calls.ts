@@ -18,6 +18,7 @@ const DEBUG_CALLS: Call[] = [
     linked: false,
     offense: 'Bank robbery',
     code: '10-29',
+    blip: 162,
     units: [
       {
         name: 'Unit 1',
@@ -40,6 +41,7 @@ const DEBUG_CALLS: Call[] = [
       location: 'Somewhere',
     },
     coords: [255, 150],
+    blip: 51,
     completed: true,
     linked: false,
     offense: 'Officer Down',
@@ -83,6 +85,7 @@ const DEBUG_CALLS: Call[] = [
     coords: [500, 750],
     completed: false,
     linked: false,
+    blip: 310,
     offense: 'Officer Down',
     code: '10-13',
     units: [
@@ -110,9 +113,8 @@ const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
   if (isEnvBrowser()) return DEBUG_CALLS;
 
   const resp = await fetchNui<CallsResponse>('getCalls', callType);
-  const calls = convertCalls(resp);
 
-  return calls;
+  return convertCalls(resp);
 };
 
 const callTypeAtom = atom<'active' | 'completed'>('active');

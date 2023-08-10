@@ -31,6 +31,7 @@ const DEBUG_CALLS: Call[] = [
       vehicle: 'Sultan RS',
     },
     completed: false,
+    blip: 51,
     coords: [1, 1],
     linked: false,
     offense: 'Robbery of a financial institution',

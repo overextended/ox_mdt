@@ -2,8 +2,6 @@ import React from 'react';
 import { useCalls } from '../../../../../state';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
-import * as ReactDOMServer from 'react-dom/server';
-import { IconCircleFilled } from '@tabler/icons-react';
 import { createStyles, Text } from '@mantine/core';
 import MarkerPopup from './MarkerPopup';
 
@@ -24,10 +22,9 @@ const CallMarkers: React.FC = () => {
           <Marker
             key={call.id}
             position={[call.coords[1], call.coords[0]]}
-            icon={L.divIcon({
-              className: 'custom-icon',
-              iconSize: [20, 20],
-              html: ReactDOMServer.renderToString(<IconCircleFilled size={20} className={classes.icon} />),
+            icon={L.icon({
+              iconSize: [26, 26],
+              iconUrl: `./blips/${call.blip}.png`,
             })}
           >
             <MarkerPopup>

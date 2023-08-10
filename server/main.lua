@@ -341,6 +341,7 @@ function createCall(data)
         completed = false,
         units = {},
         coords = data.coords,
+        blip = data.blip,
         info = {
             time = os.time() * 1000,
             location = '',
@@ -365,6 +366,7 @@ Citizen.SetTimeout(7500, function()
     local id = createCall({
         offense = 'Speeding',
         code = '10-69',
+        blip = 51,
         info = {
             plate = 'XYZ 123',
             vehicle = 'Dinka Blista'

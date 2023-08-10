@@ -65,6 +65,7 @@ const Dev: React.FC = () => {
                     id: Math.random(),
                     offense: 'Vehicle theft',
                     code: '10-15',
+                    blip: 51,
                     coords: [1, 1],
                     linked: false,
                     info: { vehicle: 'Sultan RS', plate: 'XYZ 123', time: Date.now(), location: 'Strawberry Ave' },

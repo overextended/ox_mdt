@@ -78,7 +78,7 @@
 ---@field vehicle? string
 
 ---@class Calls
----@field [number] { offense: string, code: string, units: Units, coords: table, completed: boolean, info: CallInfo }
+---@field [number] { offense: string, code: string, units: Units, coords: table, completed: boolean, info: CallInfo, blip: number }
 
 ---@class CallDataInfo
 ---@field plate? string
@@ -89,3 +89,4 @@
 ---@field code string
 ---@field coords table
 ---@field info CallDataInfo
+---@field blip number

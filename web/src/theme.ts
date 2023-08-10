@@ -146,6 +146,9 @@ export const theme: MantineThemeOverride = {
           backgroundColor: theme.colors.durple[6],
           borderColor: theme.colors.durple[2],
         },
+        item: {
+          lineHeight: 'normal',
+        },
         arrow: {
           borderColor: theme.colors.durple[2],
         },

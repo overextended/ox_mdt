@@ -9,6 +9,7 @@ export interface Call {
   completed: boolean;
   linked: boolean;
   coords: [number, number];
+  blip: number;
   info: {
     time: number;
     location: string;
