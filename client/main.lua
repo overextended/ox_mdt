@@ -139,6 +139,7 @@ serverNuiCallback('saveProfileNotes')
 
 -- Dispatch
 serverNuiCallback('attachToCall')
+serverNuiCallback('completeCall')
 serverNuiCallback('detachFromCall')
 ---@param data Calls
 ---@param cb fun(data: Calls)

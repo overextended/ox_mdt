@@ -60,12 +60,23 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
               modals.openConfirmModal({
                 title: locales.mark_call_as_completed,
                 children: (
-                  <Text size="sm">{locales.mark_call_as_completed_confirm.format(call.offense, call.code)}</Text>
+                  <Text size="sm" c="dark.2">
+                    {locales.mark_call_as_completed_confirm.format(call.offense, call.code)}
+                  </Text>
                 ),
                 labels: { confirm: locales.confirm, cancel: locales.cancel },
+                groupProps: {
+                  spacing: 6,
+                },
                 confirmProps: { variant: 'light' },
                 onConfirm: async () => {
-                  await queryClient.invalidateQueries(['calls']);
+                  const resp = await fetchNui<boolean>('completeCall', call.id);
+                  if (!resp) return;
+                  queryClient.setQueriesData(['calls'], (oldData: Call[] | undefined) => {
+                    if (!oldData) return;
+
+                    return oldData.filter((prevCall) => prevCall.id !== call.id);
+                  });
                 },
               });
             }}

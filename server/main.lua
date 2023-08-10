@@ -411,3 +411,15 @@ utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
 
     return true
 end)
+
+---@param source number
+---@param id number
+utils.registerCallback('ox_mdt:completeCall', function(source, id)
+    if not activeCalls[id] then return end
+
+    activeCalls[id].completed = true
+    completedCalls[id] = activeCalls[id]
+    activeCalls[id] = nil
+
+    return true
+end)

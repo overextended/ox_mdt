@@ -12,6 +12,7 @@ const useStyles = createStyles((theme) => ({
     boxShadow: theme.shadows.md,
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
+    lineHeight: 'normal',
   },
 }));
 
