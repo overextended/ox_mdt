@@ -38,6 +38,10 @@ const DEBUG_CALLS: Call[] = [
   },
 ];
 
+interface EditCallResponseData extends Omit<Call, 'units'> {
+  units: { [key: string]: Omit<Unit, 'id'> };
+}
+
 const DispatchNotifications: React.FC = () => {
   const { classes } = useStyles();
   const [queue, setQueue] = React.useState<Call[]>([]);
