@@ -1,9 +1,10 @@
 import React from 'react';
 import { createStyles, Stack } from '@mantine/core';
-import { Call } from '../../typings';
+import { Call, Unit } from '../../typings';
 import DispatchNotification from './components/DispatchNotification';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
 import { queryClient } from '../../main';
+import { convertCall } from '../../utils/convertCalls';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {
@@ -47,8 +48,9 @@ const DispatchNotifications: React.FC = () => {
     await queryClient.invalidateQueries(['calls']);
   });
 
-  useNuiEvent('editCall', (data: Call) => {
-    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? data : prevCall)));
+  useNuiEvent('editCall', async (data: EditCallResponseData) => {
+    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? convertCall(data) : prevCall)));
+    await queryClient.invalidateQueries(['calls']);
   });
 
   return (

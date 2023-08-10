@@ -359,7 +359,7 @@ end
 
 exports('createCall', createCall)
 
-Citizen.SetTimeout(2500, function()
+Citizen.SetTimeout(7500, function()
     local coords = GetEntityCoords(GetPlayerPed(1))
 
     local id = createCall({
@@ -390,6 +390,9 @@ utils.registerCallback('ox_mdt:attachToCall', function(source, id)
     if activeCalls[id].units[playerUnitId] then return false end
     activeCalls[id].units[playerUnitId] = playerUnit
 
+    -- Used to update a call notification - does not refresh calls list in the MDT
+    TriggerClientEvent('ox_mdt:updateCall', -1, {id = id, call = activeCalls[id]})
+
     return true
 end)
 
@@ -402,6 +405,9 @@ utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
     if not activeCalls[id].units[playerUnitId] then return false end
 
     activeCalls[id].units[playerUnitId] = nil
+
+    -- Used to update a call notification - does not refresh calls list in the MDT
+    TriggerClientEvent('ox_mdt:updateCall', -1, {id = id, call = activeCalls[id]})
 
     return true
 end)

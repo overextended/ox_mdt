@@ -1,12 +1,13 @@
 import React from 'react';
 import { ActionIcon, Group, Tooltip } from '@mantine/core';
 import { fetchNui } from '../../../utils/fetchNui';
-import { IconLink, IconMapPin } from '@tabler/icons-react';
+import { IconLink, IconMapPin, IconUnlink } from '@tabler/icons-react';
 import { useCharacter } from '../../../state';
 import { Call } from '../../../typings';
 
 const NotificationControls: React.FC<{ call: Call }> = ({ call }) => {
   const character = useCharacter();
+  const attached = React.useMemo(() => call.units.some((unit) => unit.id === character.unit), [call, character]);
 
   return (
     <Group spacing={6}>
@@ -16,11 +17,10 @@ const NotificationControls: React.FC<{ call: Call }> = ({ call }) => {
           color="blue"
           disabled={character.unit === undefined}
           onClick={() => {
-            console.log(call.id);
-            fetchNui('attachToCall', call.id).then();
+            fetchNui(attached ? 'detachFromCall' : 'attachToCall', call.id);
           }}
         >
-          <IconLink size={20} />
+          {attached ? <IconUnlink size={20} /> : <IconLink size={20} />}
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Add waypoint" position="top">

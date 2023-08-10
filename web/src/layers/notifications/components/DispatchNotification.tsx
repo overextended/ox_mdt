@@ -34,12 +34,9 @@ const useStyles = createStyles((theme) => ({
 const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
   const { classes } = useStyles();
   const [mounted, setMounted] = React.useState(false);
-  const character = useCharacter();
-  const timeout = useTimeout(() => setMounted(false), 5000, {
+  const timeout = useTimeout(() => setMounted(false), 8000, {
     autoInvoke: true,
   });
-
-  React.useEffect(() => console.log('rerender'), [character]);
 
   React.useEffect(() => {
     setMounted(true);
@@ -72,7 +69,7 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
           </Group>
           {call.units.length > 0 && (
             <>
-              <Divider label={`${locales.attached_units} (${call.units.length})`} labelPosition="center" />
+              <Divider label={`${locales.attached_units}`.format(call.units.length)} labelPosition="center" />
               <Group spacing="xs">
                 {call.units.map((unit) => (
                   <UnitBadge unit={unit} key={unit.id} />

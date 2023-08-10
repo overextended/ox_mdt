@@ -83,10 +83,6 @@ lib.addKeybind({
     end
 })
 
-RegisterCommand('fix-focus', function()
-    SetNuiFocus(false, false)
-end)
-
 AddEventHandler('ox:playerLoaded', function(data)
     LocalPlayer.state.mdtUnitId = nil
     hasLoadedUi = false
@@ -176,6 +172,16 @@ RegisterNetEvent('ox_mdt:createCall', function(data)
 
     SendNUIMessage({
         action = 'addCall',
+        data = data.call
+    })
+end)
+
+---@param data {id: number, call: Call}
+RegisterNetEvent('ox_mdt:updateCall', function(data)
+    data.call.id = data.id
+
+    SendNUIMessage({
+        action = 'editCall',
         data = data.call
     })
 end)
