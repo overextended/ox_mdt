@@ -24,6 +24,8 @@ end)
 ---@param contents string
 utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local player = Ox.GetPlayer(source)
+
+    if not player then return end
     -- todo: permission checks
     return db.createAnnouncement(player.stateid, contents)
 end, 'mdt.create_announcement')
@@ -32,6 +34,8 @@ end, 'mdt.create_announcement')
 ---@param data {announcement: Announcement, value: string}
 utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
     local player = Ox.GetPlayer(source)
+
+    if not player then return end
 
     if data.announcement.stateId ~= player.stateid then return end
 
@@ -61,15 +65,17 @@ end)
 ---@return number?
 utils.registerCallback('ox_mdt:createReport', function(source, title)
     local player = Ox.GetPlayer(source)
+
+    if not player then return end
+
     return db.createReport(title, player.name)
 end)
 
 ---@param source number
----@param data {page: number, search: string;}
+---@param data { page: number, search: string }
 ---@return ReportCard[]
 utils.registerCallback('ox_mdt:getReports', function(source, data)
-
-    local reports = tonumber(data.search) and db.selectReportById(data.search) or db.selectReports(data.page, data.search)
+    local reports = tonumber(data.search) and db.selectReportById(data.search --[[@as number]]) or db.selectReports(data.page, data.search)
 
     return {
         hasMore = #reports == 10 or false,
@@ -214,12 +220,13 @@ end)
 ---@param source number
 ---@param charges Charge[]
 utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, charges)
+    ---@diagnostic disable-next-line: param-type-mismatch
     local currentTime = os.time(os.date("!*t"))
     local baseWarrantDuration = 259200000 -- 72 hours
     local addonTime = 0
 
     for i = 1, #charges do
-        local charge = charges[i] -- [[as Charge]]
+        local charge = charges[i]
         if charge.penalty.time ~= 0 then
             addonTime = addonTime + (charge.penalty.time * 60 * 60000) -- 1 month of penalty time = 1 hour of warrant time
         end
@@ -257,6 +264,8 @@ end)
 ---@param unitType 'car' | 'motor' | 'heli' | 'boat' -- How do you do Units['type'] in Lua????
 utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
     local player = Ox.GetPlayer(source)
+
+    if not player then return end
 
     -- TODO: Get player callSign, make sure player isn't already in a unit (maybe just run removePlayerFromUnit?)
     units[unitsCreated] = {
@@ -300,6 +309,8 @@ end
 ---@param unitId number
 utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
     local player = Ox.GetPlayer(source)
+
+    if not player then return end
 
     removePlayerFromUnit(player)
 

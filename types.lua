@@ -59,17 +59,22 @@
 ---@field label string
 ---@field value string
 
----@class Announcement
+---@class Announcement : Officer
+---@field id number
 ---@field contents string
----@field firstName string
----@field lastName string
----@field image? string
----@field stateId number
----@field callSign string
 ---@field createdAt number
+---@field image? string
+
+---@alias UnitType
+---| 'car'
+---| 'motor'
+---| 'heli'
+---| 'boat'
+
+---@alias Unit { id: number, name: string, members: Officer[], type: UnitType }
 
 ---@class Units
----@field [number] { name: string, members: Officer[], type: 'car' | 'motor' | 'heli' | 'boat'   }
+---@field [number] Unit
 
 ---@class CallInfo
 ---@field time number
@@ -77,8 +82,18 @@
 ---@field plate? string
 ---@field vehicle? string
 
+---@class Call
+---@field id number
+---@field offense string
+---@field code string
+---@field completed boolean
+---@field coords { [1]: number, [2]: number }
+---@field blip number
+---@field units Units
+---@field info { time: number, location: string, plate?: string, vehicle?: string }
+
 ---@class Calls
----@field [number] { offense: string, code: string, units: Units, coords: table, completed: boolean, info: CallInfo, blip: number }
+---@field [number] Call
 
 ---@class CallDataInfo
 ---@field plate? string

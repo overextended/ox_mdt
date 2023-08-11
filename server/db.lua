@@ -78,7 +78,7 @@ end
 
 ---@param page number
 ---@param search string
----@return ProfileCard[]
+---@return ProfileCard[]?
 function db.selectProfiles(page, search)
     local offset = (page - 1) * 10
 
@@ -96,7 +96,7 @@ end
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
 
-    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number, pleadedGuilty?: number }[]
+    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean }[]
     local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.stateId, b.firstName, b.lastName, a.reduction, DATE_FORMAT(a.warrantExpiry, "%Y-%m-%d") AS warrantExpiry, a.processed, a.pleadedGuilty FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.stateId = a.stateId WHERE reportid = ?', parameters) or {}
 
     ---@type { stateId: number | string, label: string, time: number?, fine: number?, points: number?, count: number }[]
@@ -286,7 +286,7 @@ function db.selectAnnouncements(page)
      return MySQL.rawExecute.await('SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt FROM `ox_mdt_announcements` a LEFT JOIN `characters` b ON b.stateId = a.creator ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?', { (page - 1) * 5 })
 end
 
----@param creator number
+---@param creator string
 ---@param contents string
 function db.createAnnouncement(creator, contents)
     return MySQL.prepare.await('INSERT INTO `ox_mdt_announcements` (`creator`, `contents`) VALUES (?, ?)', { creator, contents })
