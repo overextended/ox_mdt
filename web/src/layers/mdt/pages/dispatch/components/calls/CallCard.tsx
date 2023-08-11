@@ -50,7 +50,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                 color="blue"
                 variant="light"
                 onClick={async () => {
-                  const resp = await fetchNui<number>('createReport', null, { data: 199 });
+                  const resp = await fetchNui<number>('createReport', `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`, { data: 199 });
                   navigate('/reports');
                   const officers: Officer[] = [];
                   call.units.map((unit) => unit.members.map((officer) => officers.push(officer)));
