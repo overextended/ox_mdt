@@ -1,5 +1,25 @@
 ---@type table<number, Officer>
 local activeOfficers = {}
+local officersArray = {}
+
+SetInterval(function()
+    local n = 0
+
+    for _, officer in pairs(activeOfficers) do
+        local coords = GetEntityCoords(officer.ped)
+        officer.position[1] = coords.y
+        officer.position[2] = coords.x
+        officer.position[3] = coords.z
+        n += 1
+        officersArray[n] = officer
+    end
+
+    for playerId in pairs(activeOfficers) do
+        TriggerClientEvent('ox_mdt:updateOfficerPositions', playerId, officersArray)
+    end
+
+    table.wipe(officersArray)
+end, 500)
 
 local function addOfficer(playerId, firstName, lastName, stateId, callSign)
     activeOfficers[playerId] = {
@@ -7,6 +27,8 @@ local function addOfficer(playerId, firstName, lastName, stateId, callSign)
         lastName = lastName,
         stateId = stateId,
         callSign = callSign,
+        ped = GetPlayerPed(playerId),
+        position = {},
     }
 end
 

@@ -17,6 +17,10 @@ dependencies {
 	'/onesync',
 }
 
+ox_libs {
+    'locale',
+}
+
 shared_scripts {
 	'@ox_lib/init.lua',
 }

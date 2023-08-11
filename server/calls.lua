@@ -49,7 +49,7 @@ exports('updateCallCoords', updateCallCoords)
 
 Citizen.SetTimeout(7500, function()
     local coords = GetEntityCoords(GetPlayerPed(1))
-    
+
     local id = createCall({
         offense = 'Speeding',
         code = '10-69',

@@ -1,5 +1,9 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
+local officers = require 'server.officers'
+
+require 'server.units'
+require 'server.calls'
 
 ---for testing
 if not IsPrincipalAceAllowed('mdt.access', 'builtin.everyone') then
@@ -7,7 +11,7 @@ if not IsPrincipalAceAllowed('mdt.access', 'builtin.everyone') then
 end
 
 utils.registerCallback('ox_mdt:openMdt', function()
-    return true
+    return officers.get(source) and true
 end)
 
 ---@param source number
@@ -240,7 +244,3 @@ end)
 utils.registerCallback('ox_mdt:getWarrants', function(source, search)
     return db.selectWarrants(search)
 end)
-
-require 'server.officers'
-require 'server.units'
-require 'server.calls'

@@ -51,6 +51,7 @@ local function addPlayerToUnit(playerId, unitId)
     end
 
     unit.members[#unit.members + 1] = officer
+    officer.unitId = unitId
     state.mdtUnitId = unitId
 
     return true

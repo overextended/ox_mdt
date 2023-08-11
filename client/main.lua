@@ -1,7 +1,5 @@
 if not lib then return end
 
-lib.locale()
-
 local hasLoadedUi = false
 
 if LocalPlayer.state.mdtUnitId then
@@ -195,7 +193,37 @@ RegisterNetEvent('ox_mdt:updateCallCoords', function(data)
     })
 end)
 
--- SendNUIMessage({
---     action = 'updateOfficerPositions',
---     data = {} -- {name: string; callSign: number; position: [number, number]}[]
--- })
+local blips = {}
+
+---@param data Officer[]
+RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
+    for i = 1, #data do
+        local officer = data[i]
+
+        if officer.stateId ~= player.stateid then
+            local blip = blips[officer.stateId]
+
+            if not blip then
+                local name = ('police:%s'):format(officer.stateId)
+                blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
+                blips[officer.stateId] = blip
+
+                SetBlipSprite(blip, 1)
+                SetBlipDisplay(blip, 3)
+                SetBlipColour(blip, 42)
+                ShowFriendIndicatorOnBlip(blip, true)
+                AddTextEntry(name, ('%s %s (%s)'):format(officer.firstName, officer.lastName, officer.callSign))
+                BeginTextCommandSetBlipName(name)
+                EndTextCommandSetBlipName(blip)
+                SetBlipCategory(blip, 7)
+            else
+                SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
+            end
+        end
+    end
+
+    SendNUIMessage({
+        action = 'updateOfficerPositions',
+        data = data
+    })
+end)

@@ -16,8 +16,11 @@
 ---@class Officer
 ---@field firstName string
 ---@field lastName string
----@field callSign? number
 ---@field stateId string
+---@field callSign? string
+---@field unitId? number
+---@field position? { [1]: number, [2]: number }
+---@field ped number
 
 ---@class CriminalProfile : ProfileCard
 
