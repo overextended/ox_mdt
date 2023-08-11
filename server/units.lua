@@ -18,6 +18,8 @@ local function removePlayerFromUnit(stateId, state)
 
     local unit = units[unitId]
 
+    if not unit then return end
+
     for i = 1, #unit.members do
         local member = unit.members[i]
 
