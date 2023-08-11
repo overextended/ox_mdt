@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Provider } from 'jotai';
 import { DatesProvider } from '@mantine/dates';
-import LoaderModal from './layers/mdt/components/LoaderModal';
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientProvider } from '@tanstack/react-query';
 

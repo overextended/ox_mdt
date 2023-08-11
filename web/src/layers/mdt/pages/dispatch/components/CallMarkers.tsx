@@ -4,16 +4,21 @@ import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { createStyles, Text } from '@mantine/core';
 import MarkerPopup from './MarkerPopup';
-
-const useStyles = createStyles((theme) => ({
-  icon: {
-    color: theme.colors.red[8],
-  },
-}));
+import { useNuiEvent } from '../../../../../hooks/useNuiEvent';
+import { queryClient } from '../../../../../main';
+import { Call } from '../../../../../typings';
 
 const CallMarkers: React.FC = () => {
   const calls = useCalls();
-  const { classes } = useStyles();
+
+  useNuiEvent('updateCallCoords', (data: { id: number; coords: [number, number] }) => {
+    queryClient.setQueriesData(['calls'], (oldData: Call[] | undefined) => {
+      if (!oldData) return;
+
+      console.log('Update position');
+      return oldData.map((prevCall) => (prevCall.id === data.id ? { ...prevCall, coords: data.coords } : prevCall));
+    });
+  });
 
   return (
     <>

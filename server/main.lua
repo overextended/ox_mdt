@@ -371,9 +371,21 @@ end
 
 exports('createCall', createCall)
 
+---@param callId number
+---@param coords table
+function updateCallCoords(callId, coords)
+    if not activeCalls[callId] then return end
+
+    activeCalls[callId].coords = coords
+
+    TriggerClientEvent('ox_mdt:updateCallCoords', -1, {id = callId, coords = coords})
+end
+
+exports('updateCallCoords', updateCallCoords)
+
 Citizen.SetTimeout(7500, function()
     local coords = GetEntityCoords(GetPlayerPed(1))
-
+    
     local id = createCall({
         offense = 'Speeding',
         code = '10-69',
@@ -384,6 +396,12 @@ Citizen.SetTimeout(7500, function()
         },
         coords = {coords.x, coords.y}
     })
+
+    -- local multiplier = 1
+    -- SetInterval(function()
+    --     updateCallCoords(id, {coords.x * multiplier, coords.y * multiplier})
+    --     multiplier += 1
+    -- end, 1500)
 end)
 
 ---@param source number

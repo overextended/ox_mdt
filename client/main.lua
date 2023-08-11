@@ -187,6 +187,14 @@ RegisterNetEvent('ox_mdt:updateCall', function(data)
     })
 end)
 
+---@param data {id: number, coords: table}
+RegisterNetEvent('ox_mdt:updateCallCoords', function(data)
+    SendNUIMessage({
+        action = 'updateCallCoords',
+        data = data
+    })
+end)
+
 -- SendNUIMessage({
 --     action = 'updateOfficerPositions',
 --     data = {} -- {name: string; callSign: number; position: [number, number]}[]
