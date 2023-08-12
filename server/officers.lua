@@ -19,7 +19,7 @@ SetInterval(function()
     end
 
     table.wipe(officersArray)
-end, 500)
+end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 5000)))
 
 local function addOfficer(playerId, firstName, lastName, stateId, callSign)
     activeOfficers[playerId] = {
