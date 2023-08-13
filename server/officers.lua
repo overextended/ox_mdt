@@ -27,6 +27,7 @@ local function addOfficer(playerId, firstName, lastName, stateId, callSign)
         lastName = lastName,
         stateId = stateId,
         callSign = callSign,
+        playerId = playerId,
         ped = GetPlayerPed(playerId),
         position = {},
     }

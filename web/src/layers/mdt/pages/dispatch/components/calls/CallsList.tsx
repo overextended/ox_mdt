@@ -1,11 +1,10 @@
 import React from 'react';
-import { useCalls, useCharacter } from '../../../../../../state';
+import { useCalls } from '../../../../../../state';
 import CallCard from './CallCard';
 import { Stack } from '@mantine/core';
 
 const CallsList: React.FC = () => {
   const calls = useCalls();
-  const character = useCharacter();
 
   return (
     <Stack sx={{ overflowY: 'scroll', flex: '1 1 0' }}>

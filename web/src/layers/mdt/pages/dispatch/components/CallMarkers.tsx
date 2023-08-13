@@ -15,7 +15,6 @@ const CallMarkers: React.FC = () => {
     queryClient.setQueriesData(['calls'], (oldData: Call[] | undefined) => {
       if (!oldData) return;
 
-      console.log('Update position');
       return oldData.map((prevCall) => (prevCall.id === data.id ? { ...prevCall, coords: data.coords } : prevCall));
     });
   });

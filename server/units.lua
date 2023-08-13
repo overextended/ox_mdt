@@ -5,13 +5,12 @@
 
 ---@type Units
 local units = {}
-local unitsCreated = 0
 local officers = require 'server.officers'
 local utils = require 'server.utils'
 
----@param stateId string
+---@param officer Officer
 ---@param state StateBag
-local function removePlayerFromUnit(stateId, state)
+local function removePlayerFromUnit(officer, state)
     local unitId = state.mdtUnitId
 
     if not unitId then return end
@@ -20,10 +19,26 @@ local function removePlayerFromUnit(stateId, state)
 
     if not unit then return end
 
+    -- If unit owner leaves, remove everyone from the unit and delete it
+    if unit.id == officer.callSign then
+        for i = 1, #unit.members do
+            local member = unit.members[i]
+            -- ???
+            --local officer = officer.get(member.playerId)
+            --local officer.unitId = nil
+            Player(member.playerId).state.mdtUnitId = nil
+        end
+
+        units[unitId] = nil
+
+        return
+    end
+
+
     for i = 1, #unit.members do
         local member = unit.members[i]
 
-        if stateId == member.stateId then
+        if officer.stateId == member.stateId then
             state.mdtUnitId = nil
             table.remove(unit.members, i)
 
@@ -60,18 +75,24 @@ end
 ---@param source number
 ---@param unitType UnitType
 utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
-    unitsCreated += 1
-    local unitName = ('Unit %d'):format(unitsCreated)
+    local officer = officers.get(source)
 
-    units[unitsCreated] = {
-        id = unitsCreated,
+    if not officer and not officer.calLSign then return end
+
+    local unitId = officer.callSign
+    local unitName = ('Unit %d'):format(unitId)
+
+
+    units[unitId] = {
+        id = unitId,
         members = {},
         name = unitName,
         type = unitType
     }
 
-    return addPlayerToUnit(source, unitsCreated) and {
-        id = unitsCreated,
+    print("Add to unit")
+    return addPlayerToUnit(source, unitId) and {
+        id = unitId,
         name = unitName
     }
 end)
@@ -86,9 +107,9 @@ end)
 utils.registerCallback('ox_mdt:leaveUnit', function(source)
     local officer = officers.get(source)
 
-    if officer then
-        return removePlayerFromUnit(officer.stateId, Player(source).state)
-    end
+    if not officer then return end
+
+    return removePlayerFromUnit(officer, Player(source).state)
 end)
 
 utils.registerCallback('ox_mdt:getUnits', function()
