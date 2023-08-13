@@ -14,7 +14,7 @@ const CriminalSearch: React.FC = () => {
       placeholder={locales.search_profiles}
       data-autofocus
       value={search}
-      onChange={(e) => setDebouncedSearch(e.target.value.toLowerCase())}
+      onChange={(e) => setDebouncedSearch(e.target.value)}
     />
   );
 };

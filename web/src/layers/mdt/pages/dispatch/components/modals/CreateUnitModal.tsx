@@ -1,15 +1,14 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Button, Loader, Select, Stack } from '@mantine/core';
 import { IconCar } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import { useCharacterState, useSetCharacter } from '../../../../../../state';
-import { UnitType } from '../../../../../../typings';
+import { useSetCharacter } from '../../../../../../state';
+import { Unit, UnitType } from '../../../../../../typings';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
 import { queryClient } from '../../../../../../main';
 
 const CreateUnitModal: React.FC = () => {
-  const selectRef = useRef<HTMLInputElement>(null);
   const setCharacter = useSetCharacter();
   const [value, setValue] = React.useState<UnitType>('car');
 
@@ -18,7 +17,7 @@ const CreateUnitModal: React.FC = () => {
     const resp = await fetchNui<{ id: number; name: string }>('createUnit', value, {
       data: { id: 1, name: `Unit 1` },
     });
-    queryClient.invalidateQueries(['units']);
+    await queryClient.invalidateQueries(['units']);
     setCharacter((prev) => ({ ...prev, unit: resp.id }));
   };
 

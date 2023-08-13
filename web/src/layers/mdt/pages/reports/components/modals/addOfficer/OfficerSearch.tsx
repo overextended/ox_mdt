@@ -14,7 +14,7 @@ const OfficerSearch: React.FC = () => {
       placeholder={locales.search_officers}
       data-autofocus
       value={search}
-      onChange={(e) => setDebouncedSearch(e.target.value.toLowerCase())}
+      onChange={(e) => setDebouncedSearch(e.target.value)}
     />
   );
 };

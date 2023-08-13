@@ -18,7 +18,7 @@ const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue, placeholder
       icon={<IconSearch size={20} />}
       placeholder={placeholder || locales.search}
       value={search}
-      onChange={(e) => setDebouncedValue(e.target.value.toLowerCase())}
+      onChange={(e) => setDebouncedValue(e.target.value)}
     />
   );
 };
