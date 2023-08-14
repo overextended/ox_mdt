@@ -9,6 +9,7 @@ const DEBUG_CHARACTER: Character = {
   title: 'LSPD Officer',
   grade: 4,
   callSign: 103,
+  isDispatch: true,
 };
 
 const characterAtom = atom<Character>(
@@ -21,6 +22,7 @@ const characterAtom = atom<Character>(
         title: '',
         grade: 0,
         callSign: 0,
+        isDispatch: false,
       }
 );
 

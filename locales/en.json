@@ -9,6 +9,7 @@
   "attach_to_call": "Attach to call",
   "detach_from_call": "Detach from call",
   "attached_units": "Attached units (%s)",
+  "manage_units": "Manage units",
   "avatar_description": "Image URL to use as the profile image (128x128)",
   "boat": "Boat",
   "calls": "Calls",

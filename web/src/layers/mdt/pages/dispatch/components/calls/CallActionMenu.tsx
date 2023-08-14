@@ -1,12 +1,13 @@
 import React from 'react';
-import { ActionIcon, Menu, Text } from '@mantine/core';
-import { IconCheck, IconDots, IconLink, IconMap2, IconMapPin, IconUnlink } from '@tabler/icons-react';
+import { ActionIcon, Button, Menu, MultiSelect, Stack, Text } from '@mantine/core';
+import { IconCar, IconCheck, IconDots, IconLink, IconMap2, IconMapPin, IconUnlink } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
 import { modals } from '@mantine/modals';
 import { Call } from '../../../../../../typings';
 import { useCharacter, useDispatchMap } from '../../../../../../state';
+import ManageUnitsModal from '../modals/ManageUnitsModal';
 
 interface Props {
   call: Call;
@@ -37,6 +38,19 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
             }}
           >
             {attached ? locales.detach_from_call : locales.attach_to_call}
+          </Menu.Item>
+          <Menu.Item
+            icon={<IconCar size={20} />}
+            disabled={!character.isDispatch}
+            onClick={() =>
+              modals.open({
+                title: locales.manage_units,
+                size: 'xs',
+                children: <ManageUnitsModal call={call} />,
+              })
+            }
+          >
+            {locales.manage_units}
           </Menu.Item>
           <Menu.Item
             icon={<IconMapPin size={20} />}

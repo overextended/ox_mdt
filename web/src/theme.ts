@@ -82,6 +82,22 @@ export const theme: MantineThemeOverride = {
         },
       }),
     },
+    MultiSelect: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colors.durple[4],
+          borderColor: 'transparent',
+        },
+        item: {
+          '&:hover': {
+            backgroundColor: theme.colors.durple[2],
+          },
+        },
+        value: {
+          backgroundColor: theme.colors.durple[2],
+        },
+      }),
+    },
     Badge: {
       defaultProps: { variant: 'default' },
       variants: {

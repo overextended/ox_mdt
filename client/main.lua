@@ -31,7 +31,8 @@ local function openMdt()
                 unit = LocalPlayer.state.mdtUnitId,
                 title = ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police]),
                 grade = grade,
-                callSign = callSign
+                callSign = callSign,
+                isDispatch = true
             }
         })
 
@@ -154,6 +155,7 @@ serverNuiCallback('getUnits')
 serverNuiCallback('createUnit')
 serverNuiCallback('joinUnit')
 serverNuiCallback('leaveUnit')
+serverNuiCallback('setCallUnits')
 
 ---@param data table
 ---@param cb function

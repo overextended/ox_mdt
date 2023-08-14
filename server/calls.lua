@@ -116,3 +116,21 @@ utils.registerCallback('ox_mdt:completeCall', function(source, id)
 
     return true
 end)
+
+---@param source number
+---@param data {id: number, units: string[]}
+utils.registerCallback('ox_mdt:setCallUnits', function(source, data)
+    local officer = officers.get(source)
+
+    --if not officer.isDispatch then return end
+
+    calls[data.id].units = {}
+    for i = 1, #data.units do
+        local unitId = data.units[i]
+        calls[data.id].units[unitId] = units.getUnit(unitId)
+    end
+
+    TriggerClientEvent('ox_mdt:setCallUnits', -1, {id = data.id, units = calls[data.id].units})
+
+    return true
+end)

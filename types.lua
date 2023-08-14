@@ -20,6 +20,7 @@
 ---@field callSign? string
 ---@field unitId? number
 ---@field position? { [1]: number, [2]: number }
+---@field isDispatch boolean
 ---@field ped number
 
 ---@class CriminalProfile : ProfileCard

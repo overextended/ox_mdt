@@ -7,4 +7,5 @@ export interface Character {
   image?: string;
   callSign: number;
   unit?: number;
+  isDispatch: boolean;
 }
