@@ -7,6 +7,7 @@ local completedCalls = {}
 local callId = 0
 local utils = require 'server.utils'
 local units = require 'server.units'
+local officers = require 'server.officers'
 
 ---@param data CallData
 function createCall(data)
@@ -124,13 +125,13 @@ utils.registerCallback('ox_mdt:setCallUnits', function(source, data)
 
     --if not officer.isDispatch then return end
 
-    calls[data.id].units = {}
+    activeCalls[data.id].units = {}
     for i = 1, #data.units do
         local unitId = data.units[i]
-        calls[data.id].units[unitId] = units.getUnit(unitId)
+        activeCalls[data.id].units[unitId] = units.getUnit(unitId)
     end
 
-    TriggerClientEvent('ox_mdt:setCallUnits', -1, {id = data.id, units = calls[data.id].units})
+    TriggerClientEvent('ox_mdt:setCallUnits', -1, {id = data.id, units = activeCalls[data.id].units})
 
     return true
 end)

@@ -5,7 +5,6 @@ import { Stack } from '@mantine/core';
 import { useNuiEvent } from '../../../../../../hooks/useNuiEvent';
 import { Call, Unit } from '../../../../../../typings';
 import { queryClient } from '../../../../../../main';
-import { convertCalls } from '../../../../../../utils/convertCalls';
 
 const CallsList: React.FC = () => {
   const calls = useCalls();
@@ -16,16 +15,18 @@ const CallsList: React.FC = () => {
 
       const callIndex = oldData.findIndex((call) => call.id === data.id);
 
-      if (!callIndex) return;
+      if (callIndex === -1) return;
 
       const units = Object.entries(data.units).map((unit) => ({ id: +unit[0], ...unit[1] }));
-      const call = oldData[callIndex];
 
-      call.units = units;
+      const newData = [...oldData];
 
-      oldData[callIndex] = call;
+      newData[callIndex] = {
+        ...newData[callIndex],
+        units,
+      };
 
-      return oldData;
+      return newData;
     });
   });
 

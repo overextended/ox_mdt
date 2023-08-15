@@ -195,6 +195,14 @@ RegisterNetEvent('ox_mdt:updateCallCoords', function(data)
     })
 end)
 
+---@param data {id: number, units}
+RegisterNetEvent('ox_mdt:setCallUnits', function(data)
+    SendNUIMessage({
+        action = 'setCallUnits',
+        data = data
+    })
+end)
+
 local blips = {}
 
 ---@param data Officer[]
