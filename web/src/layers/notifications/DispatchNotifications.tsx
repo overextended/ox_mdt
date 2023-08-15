@@ -54,8 +54,24 @@ const DispatchNotifications: React.FC = () => {
   });
 
   useNuiEvent('editCall', async (data: EditCallResponseData) => {
-    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? convertCall(data) : prevCall)));
-    await queryClient.invalidateQueries(['calls']);
+    const call = convertCall(data);
+    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? call : prevCall)));
+    queryClient.setQueriesData<Call[]>(['calls'], (oldData) => {
+      if (!oldData) return;
+
+      const callIndex = oldData.findIndex((oldCall) => oldCall.id === data.id);
+
+      if (callIndex === -1) return;
+
+      const newData = [...oldData];
+
+      newData[callIndex] = {
+        ...newData[callIndex],
+        units: call.units,
+      };
+
+      return newData;
+    });
   });
 
   return (

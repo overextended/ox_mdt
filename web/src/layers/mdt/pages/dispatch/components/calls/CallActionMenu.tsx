@@ -34,7 +34,6 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
             disabled={character.unit === undefined}
             onClick={async () => {
               const resp = await fetchNui(attached ? 'detachFromCall' : 'attachToCall', call.id);
-              if (resp) await queryClient.invalidateQueries(['calls']);
             }}
           >
             {attached ? locales.detach_from_call : locales.attach_to_call}
