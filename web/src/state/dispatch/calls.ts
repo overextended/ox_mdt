@@ -113,7 +113,7 @@ interface CallsResponse extends Omit<Call, 'id' | 'units'> {
 const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
   if (isEnvBrowser()) return DEBUG_CALLS;
 
-  const resp = await fetchNui<CallsResponse>('getCalls', callType);
+  const resp = await fetchNui<{ [key: string]: CallsResponse }>('getCalls', callType);
 
   return convertCalls(resp);
 };
