@@ -2,10 +2,6 @@ if not lib then return end
 
 local hasLoadedUi = false
 
-if LocalPlayer.state.mdtUnitId then
-    LocalPlayer.state.mdtUnitId = nil
-end
-
 local function openMdt()
     local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
@@ -83,7 +79,6 @@ lib.addKeybind({
 })
 
 AddEventHandler('ox:playerLoaded', function(data)
-    LocalPlayer.state.mdtUnitId = nil
     hasLoadedUi = false
 end)
 
@@ -195,7 +190,7 @@ RegisterNetEvent('ox_mdt:updateCallCoords', function(data)
     })
 end)
 
----@param data {id: number, units}
+---@param data {id: number, units: Units}
 RegisterNetEvent('ox_mdt:setCallUnits', function(data)
     SendNUIMessage({
         action = 'setCallUnits',
@@ -207,6 +202,8 @@ local blips = {}
 
 ---@param data Officer[]
 RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
+    if not hasLoadedUi then return end
+
     for i = 1, #data do
         local officer = data[i]
 
