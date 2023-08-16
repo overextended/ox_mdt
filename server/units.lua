@@ -88,7 +88,6 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
         type = unitType
     }
 
-    print("Add to unit")
     return addPlayerToUnit(source, unitId) and {
         id = unitId,
         name = unitName
@@ -120,4 +119,5 @@ end
 
 return {
     getUnit = getUnit,
+    removePlayerFromUnit = removePlayerFromUnit
 }
