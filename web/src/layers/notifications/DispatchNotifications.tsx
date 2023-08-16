@@ -4,8 +4,7 @@ import { Call, Unit } from '../../typings';
 import DispatchNotification from './components/DispatchNotification';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
 import { queryClient } from '../../main';
-import { convertCall } from '../../utils/convertCalls';
-import { convertUnitsToArray } from '../../utils/convertUnitsToArray';
+import { convertUnitsToArray } from '../../helpers';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {

@@ -4,7 +4,8 @@ import { isEnvBrowser } from '../../utils/misc';
 import { atomsWithQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';
 import { queryClient } from '../../main';
-import { convertCalls } from '../../utils/convertCalls';
+
+import { convertCalls } from '../../helpers';
 
 const DEBUG_CALLS: Call[] = [
   {
