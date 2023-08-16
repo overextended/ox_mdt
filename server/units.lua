@@ -23,9 +23,7 @@ local function removePlayerFromUnit(officer, state)
     if unit.id == officer.callSign then
         for i = 1, #unit.members do
             local member = unit.members[i]
-            -- ???
-            --local officer = officer.get(member.playerId)
-            --local officer.unitId = nil
+            member.unitId = nil
             Player(member.playerId).state.mdtUnitId = nil
         end
 
@@ -33,7 +31,6 @@ local function removePlayerFromUnit(officer, state)
 
         return
     end
-
 
     for i = 1, #unit.members do
         local member = unit.members[i]
@@ -53,7 +50,7 @@ local function removePlayerFromUnit(officer, state)
 end
 
 ---@param playerId number
----@param unitId number
+---@param unitId string
 local function addPlayerToUnit(playerId, unitId)
     local officer = officers.get(playerId)
     local unit = units[unitId]
@@ -62,7 +59,7 @@ local function addPlayerToUnit(playerId, unitId)
     if not officer or not unit then return end
 
     if state.mdtUnitId then
-        removePlayerFromUnit(officer.stateId, state)
+        removePlayerFromUnit(officer, state)
     end
 
     unit.members[#unit.members + 1] = officer
@@ -77,8 +74,9 @@ end
 utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
     local officer = officers.get(source)
 
-    if not officer and not officer.calLSign then return end
+    if not officer or not officer.callSign then return end
 
+    ---@type string
     local unitId = officer.callSign
     local unitName = ('Unit %d'):format(unitId)
 
@@ -98,7 +96,7 @@ utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
 end)
 
 ---@param source number
----@param unitId number
+---@param unitId string
 utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
     return addPlayerToUnit(source, unitId)
 end)
