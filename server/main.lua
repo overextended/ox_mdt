@@ -1,8 +1,8 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
 local officers = require 'server.officers'
+local units = require 'server.units'
 
-require 'server.units'
 require 'server.calls'
 
 ---for testing
@@ -243,4 +243,24 @@ end)
 ---@param search string
 utils.registerCallback('ox_mdt:getWarrants', function(source, search)
     return db.selectWarrants(search)
+end)
+
+AddEventHandler('onResourceStop', function(resource)
+    if resource ~= cache.resource then return end
+
+    for playerId, officer in pairs(officers.getAll()) do
+        if officer.unitId then
+            Player(playerId).state.mdtUnitId = nil
+        end
+    end
+end)
+
+AddEventHandler('ox:playerLogout', function(playerId)
+    local officer = officers.get(playerId)
+
+    if officer then
+        local state = Player(playerId).state
+        units.removePlayerFromUnit(officer, state)
+        officers.remove(playerId)
+    end
 end)
