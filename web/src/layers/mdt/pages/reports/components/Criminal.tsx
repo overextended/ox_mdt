@@ -63,6 +63,9 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                   title: locales.remove_criminal,
                   size: 'sm',
                   labels: { confirm: locales.confirm, cancel: locales.cancel },
+                  groupProps: {
+                    spacing: 6,
+                  },
                   confirmProps: { color: 'red' },
                   onConfirm: async () => {
                     const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
@@ -70,7 +73,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                     if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
                   },
                   children: (
-                    <Text size="sm">
+                    <Text size="sm" c="dark.2">
                       {locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}
                     </Text>
                   ),

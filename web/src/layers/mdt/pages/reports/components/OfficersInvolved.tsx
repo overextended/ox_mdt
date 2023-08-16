@@ -42,11 +42,14 @@ const OfficersInvolved: React.FC = () => {
                   modals.openConfirmModal({
                     title: locales.remove_officer,
                     children: (
-                      <Text size="sm">
+                      <Text size="sm" c="dark.2">
                         {locales.remove_officer_confirm.format(officer.firstName, officer.lastName, officer.callSign)}
                       </Text>
                     ),
                     confirmProps: { color: 'red' },
+                    groupProps: {
+                      spacing: 6,
+                    },
                     labels: { confirm: locales.confirm, cancel: locales.cancel },
                     onConfirm: async () => {
                       await fetchNui('removeOfficer', { id, stateId: officer.stateId }, { data: 1 });

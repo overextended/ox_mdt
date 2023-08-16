@@ -26,12 +26,19 @@ const ReportTitle: React.FC = () => {
             onClick={() =>
               modals.openConfirmModal({
                 title: locales.delete_report,
-                children: <Text size="sm">{locales.delete_report_confirm}</Text>,
+                children: (
+                  <Text size="sm" c="dark.2">
+                    {locales.delete_report_confirm}
+                  </Text>
+                ),
                 labels: { confirm: locales.confirm, cancel: locales.cancel },
                 onConfirm: async () => {
                   await fetchNui('deleteReport', id, { data: 1 });
                   await queryClient.invalidateQueries(['reports']);
                   setIsReportActive(false);
+                },
+                groupProps: {
+                  spacing: 6,
                 },
                 confirmProps: {
                   color: 'red',

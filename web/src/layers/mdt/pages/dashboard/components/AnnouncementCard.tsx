@@ -98,9 +98,16 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
               onClick={() => {
                 modals.openConfirmModal({
                   title: locales.delete_announcement,
-                  children: <Text>{locales.delete_announcement_confirm}</Text>,
+                  children: (
+                    <Text size="sm" c="dark.2">
+                      {locales.delete_announcement_confirm}
+                    </Text>
+                  ),
                   labels: { confirm: locales.confirm, cancel: locales.cancel },
                   centered: true,
+                  groupProps: {
+                    spacing: 6,
+                  },
                   confirmProps: {
                     color: 'red',
                   },

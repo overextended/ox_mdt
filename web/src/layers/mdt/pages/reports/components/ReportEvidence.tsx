@@ -42,13 +42,16 @@ const ReportEvidence: React.FC = () => {
                     modals.openConfirmModal({
                       title: locales.remove_evidence,
                       children: (
-                        <Text size="sm">
+                        <Text size="sm" c="dark.2">
                           {locales.remove_evidence_confirm.format(
                             evidence.type === 'image' ? evidence.label : `${evidence.value}x ${evidence.label}`
                           )}
                         </Text>
                       ),
                       labels: { confirm: locales.confirm, cancel: locales.cancel },
+                      groupProps: {
+                        spacing: 6,
+                      },
                       confirmProps: { color: 'red' },
                       onConfirm: async () => {
                         await fetchNui(
