@@ -48,7 +48,11 @@ const DispatchNotifications: React.FC = () => {
   useNuiEvent('addCall', async (data: Call) => {
     setQueue((prev) => [data, ...prev]);
     // If the dispatch page isn't open on the MDT the queries won't be refetched
-    await queryClient.invalidateQueries(['calls']);
+    queryClient.setQueriesData<Call[]>(['calls'], (oldData) => {
+      if (!oldData) return;
+
+      return [data, ...oldData];
+    });
   });
 
   useNuiEvent('editCallUnits', async (data: EditCallResponseData) => {

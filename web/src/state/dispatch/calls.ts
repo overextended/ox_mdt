@@ -121,13 +121,6 @@ const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
 const callTypeAtom = atom<'active' | 'completed'>('active');
 export const useCallTypeState = () => useAtom(callTypeAtom);
 
-// const callsAtom = atom<Call[]>(isEnvBrowser() ? DEBUG_CALLS : []);
-// const filteredCallsAtom = atom((get) => {
-//   const callType = get(callTypeAtom);
-
-//   return get(callsAtom).filter((call) => (callType === 'active' ? !call.completed : call.completed));
-// });
-
 const [callsAtom] = atomsWithQuery(
   (get) => ({
     queryKey: ['calls', get(callTypeAtom)],
