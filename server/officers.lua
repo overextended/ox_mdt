@@ -53,8 +53,11 @@ local function getOfficer(playerId)
     return activeOfficers[playerId]
 end
 
+local function getAll() return activeOfficers end
+
 return {
     add = addOfficer,
     remove = removeOfficer,
     get = getOfficer,
+    getAll = getAll,
 }
