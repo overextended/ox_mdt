@@ -21,6 +21,7 @@ import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
 import CallActionMenu from './CallActionMenu';
 import UnitBadge from '../../../../components/UnitBadge';
+import { useSetLoader } from '../../../../../../state/loader';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -36,6 +37,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const navigate = useNavigate();
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
+  const setLoaderModal = useSetLoader();
 
   return (
     <Stack className={classes.callContainer}>
@@ -50,7 +52,12 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                 color="blue"
                 variant="light"
                 onClick={async () => {
-                  const resp = await fetchNui<number>('createReport', `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`, { data: 199 });
+                  setLoaderModal(true);
+                  const resp = await fetchNui<number>(
+                    'createReport',
+                    `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
+                    { data: 199 }
+                  );
                   navigate('/reports');
                   const officers: Officer[] = [];
                   call.units.map((unit) => unit.members.map((officer) => officers.push(officer)));
@@ -63,6 +70,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                     criminals: [],
                   });
                   setIsReportActive(true);
+                  setLoaderModal(false);
                 }}
               >
                 <IconFileImport size={20} />
