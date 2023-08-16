@@ -85,7 +85,7 @@ utils.registerCallback('ox_mdt:attachToCall', function(source, id)
     activeCalls[id].units[playerUnitId] = units.getUnit(playerUnitId)
 
     -- Used to update a call notification - does not refresh calls list in the MDT
-    TriggerClientEvent('ox_mdt:updateCall', -1, { id = id, call = activeCalls[id] })
+    TriggerClientEvent('ox_mdt:editCallUnits', -1, { id = id, units = activeCalls[id].units })
 
     return true
 end)
@@ -101,7 +101,7 @@ utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
     activeCalls[id].units[playerUnitId] = nil
 
     -- Used to update a call notification - does not refresh calls list in the MDT
-    TriggerClientEvent('ox_mdt:updateCall', -1, {id = id, call = activeCalls[id]})
+    TriggerClientEvent('ox_mdt:editCallUnits', -1, {id = id, units = activeCalls[id].units})
 
     return true
 end)

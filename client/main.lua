@@ -173,12 +173,10 @@ RegisterNetEvent('ox_mdt:createCall', function(data)
 end)
 
 ---@param data {id: number, call: Call}
-RegisterNetEvent('ox_mdt:updateCall', function(data)
-    data.call.id = data.id
-
+RegisterNetEvent('ox_mdt:editCallUnits', function(data)
     SendNUIMessage({
-        action = 'editCall',
-        data = data.call
+        action = 'editCallUnits',
+        data = data
     })
 end)
 

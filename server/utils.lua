@@ -4,7 +4,7 @@ local utils = {}
 ---@return boolean
 function utils.isAuthorised(playerId, permission)
     ---@diagnostic disable-next-line: param-type-mismatch
-    return true
+    return IsPlayerAceAllowed(playerId, permission)
 end
 
 ---@param event string

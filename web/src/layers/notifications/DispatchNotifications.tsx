@@ -5,6 +5,7 @@ import DispatchNotification from './components/DispatchNotification';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
 import { queryClient } from '../../main';
 import { convertCall } from '../../utils/convertCalls';
+import { convertUnitsToArray } from '../../utils/convertUnitsToArray';
 
 const useStyles = createStyles((theme) => ({
   notificationsContainer: {
@@ -39,9 +40,7 @@ const DEBUG_CALLS: Call[] = [
   },
 ];
 
-interface EditCallResponseData extends Omit<Call, 'units'> {
-  units: { [key: string]: Omit<Unit, 'id'> };
-}
+type EditCallResponseData = { units: { [key: string]: Omit<Unit, 'id'> }; id: number };
 
 const DispatchNotifications: React.FC = () => {
   const { classes } = useStyles();
@@ -53,9 +52,9 @@ const DispatchNotifications: React.FC = () => {
     await queryClient.invalidateQueries(['calls']);
   });
 
-  useNuiEvent('editCall', async (data: EditCallResponseData) => {
-    const call = convertCall(data);
-    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? call : prevCall)));
+  useNuiEvent('editCallUnits', async (data: EditCallResponseData) => {
+    const units = convertUnitsToArray(data.units);
+    setQueue((prev) => prev.map((prevCall) => (prevCall.id === data.id ? { ...prevCall, units } : prevCall)));
     queryClient.setQueriesData<Call[]>(['calls'], (oldData) => {
       if (!oldData) return;
 
@@ -67,7 +66,7 @@ const DispatchNotifications: React.FC = () => {
 
       newData[callIndex] = {
         ...newData[callIndex],
-        units: call.units,
+        units,
       };
 
       return newData;
