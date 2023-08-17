@@ -32,7 +32,7 @@ local function addOfficer(playerId, firstName, lastName, stateId, callSign)
         firstName = firstName,
         lastName = lastName,
         stateId = stateId,
-        callSign = tostring(math.random(100, 999)),
+        callSign = math.random(100, 999),
         playerId = playerId,
         ped = GetPlayerPed(playerId),
         position = {},
