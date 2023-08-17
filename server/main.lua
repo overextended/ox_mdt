@@ -4,6 +4,7 @@ local officers = require 'server.officers'
 local units = require 'server.units'
 
 require 'server.calls'
+require 'server.framework.ox_core'
 
 ---for testing
 if not IsPrincipalAceAllowed('mdt.access', 'builtin.everyone') then
@@ -27,21 +28,17 @@ end)
 ---@param source number
 ---@param contents string
 utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
-    local player = Ox.GetPlayer(source)
+    local officer = officers.get(source)
 
-    if not player then return end
-    -- todo: permission checks
-    return db.createAnnouncement(player.stateid, contents)
+    return officer and db.createAnnouncement(officer.stateId, contents)
 end, 'mdt.create_announcement')
 
 ---@param source number
 ---@param data {announcement: Announcement, value: string}
 utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
-    local player = Ox.GetPlayer(source)
+    local officer = officers.get(source)
 
-    if not player then return end
-
-    if data.announcement.stateId ~= player.stateid then return end
+    if not officer or data.announcement.stateId ~= officer.stateId then return end
 
     return db.updateAnnouncementContents(data.announcement.id, data.value)
 end)
@@ -68,11 +65,9 @@ end)
 ---@param title string
 ---@return number?
 utils.registerCallback('ox_mdt:createReport', function(source, title)
-    local player = Ox.GetPlayer(source)
+    local officer = officers.get(source)
 
-    if not player then return end
-
-    return db.createReport(title, player.name)
+    return officer and db.createReport(title, ('%s %s'):format(officer.firstName, officer.lastName))
 end)
 
 ---@param source number

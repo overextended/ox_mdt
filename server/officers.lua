@@ -43,19 +43,7 @@ local function removeOfficer(playerId)
     activeOfficers[playerId] = nil
 end
 
-local policeGroups = { 'police' }
-
 local function getOfficer(playerId)
-    if not activeOfficers[playerId] then
-        local player = Ox.GetPlayer(source)
-
-        if player then
-            if player.hasGroup(policeGroups) then
-                addOfficer(playerId, player.firstname, player.lastname, player.stateid, 132)
-            end
-        end
-    end
-
     return activeOfficers[playerId]
 end
 
