@@ -11,7 +11,6 @@ local officers = require 'server.officers'
 
 ---@param data CallData
 function createCall(data)
-    callId += 1
     activeCalls[callId] = {
         code = data.code,
         offense = data.offense,
@@ -28,6 +27,7 @@ function createCall(data)
     }
 
     officers.triggerEvent('ox_mdt:createCall', { id = callId, call = activeCalls[callId] })
+    callId += 1
 
     return callId - 1
 end
