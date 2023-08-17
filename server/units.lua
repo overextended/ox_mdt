@@ -71,7 +71,7 @@ local function addPlayerToUnit(playerId, unitId)
     state.mdtUnitId = unitId
 
     TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
-    
+
     return true
 end
 
@@ -117,6 +117,45 @@ end)
 
 utils.registerCallback('ox_mdt:getUnits', function()
     return units
+end)
+
+--TODO: statebags sync and make work properly
+
+---@param source number
+---@param data {id: number, officers: string[]}
+utils.registerCallback('ox_mdt:setUnitOfficers', function(source, data)
+    local unit = units[data.id]
+    local includesCreator = false
+    local newOfficers = {}
+
+    for i = 1, #data.officers do
+        newOfficers[#newOfficers +1] = officers.get(tonumber(data.officers[i]))
+    end
+
+    for i = 1, #unit.members do
+        local officer = unit.members[i]
+
+        if officer.callSign == data.id then
+            includesCreator = true
+        end
+    end
+
+    if #data.officers == 0 or not includesCreator then
+        units[data.id] = nil
+        TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+
+        return
+    end
+
+    units[data.id].members = newOfficers
+
+    for i = 1, #newOfficers do
+        newOfficers[i].unitId = data.id
+        Player(newOfficers[i].playerId).state.mdtUnitId = data.id
+    end
+
+    TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+
 end)
 
 local function getUnit(unitId)

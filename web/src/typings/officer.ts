@@ -3,4 +3,7 @@ export interface Officer {
   lastName: string;
   callSign?: number;
   stateId: string;
+  playerId: number;
+  position: [number, number, number];
+  unitId?: number;
 }

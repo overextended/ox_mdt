@@ -7,9 +7,9 @@ import { Officer, Report } from '../../typings';
 const { isDebouncingAtom, debouncedValueAtom, currentValueAtom } = atomWithDebounce('');
 
 const OFFICERS: Officer[] = [
-  { firstName: 'John', lastName: 'Doe', callSign: 132, stateId: '913311' },
-  { firstName: 'Billy', lastName: 'Bob', callSign: 288, stateId: '421052' },
-  { firstName: 'Michael', lastName: 'Jackson', callSign: 311, stateId: '310235' },
+  { firstName: 'John', lastName: 'Doe', callSign: 132, stateId: '913311', playerId: 1, position: [0, 0, 0] },
+  { firstName: 'Billy', lastName: 'Bob', callSign: 288, stateId: '421052', playerId: 1, position: [0, 0, 0] },
+  { firstName: 'Michael', lastName: 'Jackson', callSign: 311, stateId: '310235', playerId: 1, position: [0, 0, 0] },
 ];
 
 const officersAtom = atom<Promise<Officer[]>>(async (get) => {

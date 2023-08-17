@@ -44,6 +44,8 @@ const OfficerResults: React.FC = () => {
                   lastName: officer.lastName,
                   callSign: officer.callSign,
                   stateId: officer.stateId,
+                  playerId: officer.playerId,
+                  position: [1, 1, 1],
                 },
               ]);
             }}

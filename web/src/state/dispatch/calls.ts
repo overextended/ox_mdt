@@ -24,13 +24,24 @@ const DEBUG_CALLS: Call[] = [
       {
         name: 'Unit 132',
         type: 'car',
-        members: [{ firstName: 'Billy', lastName: 'Bob', callSign: 132, stateId: '321553' }],
+        members: [
+          { firstName: 'Billy', lastName: 'Bob', callSign: 132, stateId: '321553', playerId: 1, position: [0, 0, 0] },
+        ],
         id: 132,
       },
       {
         name: 'Unit 322',
         type: 'heli',
-        members: [{ firstName: 'Marc', lastName: 'Marshall', callSign: 322, stateId: '451503' }],
+        members: [
+          {
+            firstName: 'Marc',
+            lastName: 'Marshall',
+            callSign: 322,
+            stateId: '451503',
+            playerId: 1,
+            position: [0, 0, 0],
+          },
+        ],
         id: 322,
       },
     ],
@@ -52,27 +63,54 @@ const DEBUG_CALLS: Call[] = [
         name: 'Unit 132',
         type: 'car',
         members: [
-          { firstName: 'Billy', lastName: 'Bob', callSign: 132, stateId: '311342' },
-          { firstName: 'Martin', lastName: 'Contreras', callSign: 521, stateId: '912132' },
+          { firstName: 'Billy', lastName: 'Bob', callSign: 132, stateId: '311342', playerId: 1, position: [0, 0, 0] },
+          {
+            firstName: 'Martin',
+            lastName: 'Contreras',
+            callSign: 521,
+            stateId: '912132',
+            playerId: 1,
+            position: [0, 0, 0],
+          },
         ],
         id: 132,
       },
       {
         name: 'Unit 823',
         type: 'heli',
-        members: [{ firstName: 'Bobby', lastName: 'Hopkins', callSign: 823, stateId: '100341' }],
+        members: [
+          {
+            firstName: 'Bobby',
+            lastName: 'Hopkins',
+            callSign: 823,
+            stateId: '100341',
+            playerId: 1,
+            position: [0, 0, 0],
+          },
+        ],
         id: 823,
       },
       {
         name: 'Unit 531',
         type: 'motor',
-        members: [{ firstName: 'Connor', lastName: 'Collins', callSign: 531, stateId: '913213' }],
+        members: [
+          {
+            firstName: 'Connor',
+            lastName: 'Collins',
+            callSign: 531,
+            stateId: '913213',
+            playerId: 1,
+            position: [0, 0, 0],
+          },
+        ],
         id: 531,
       },
       {
         name: 'Unit 274',
         type: 'boat',
-        members: [{ firstName: 'Corey', lastName: 'Hayes', callSign: 274, stateId: '920132' }],
+        members: [
+          { firstName: 'Corey', lastName: 'Hayes', callSign: 274, stateId: '920132', playerId: 1, position: [0, 0, 0] },
+        ],
         id: 274,
       },
     ],
@@ -93,13 +131,24 @@ const DEBUG_CALLS: Call[] = [
       {
         name: 'Unit 1',
         type: 'car',
-        members: [{ firstName: 'Billy', lastName: 'bob', callSign: 132, stateId: '913213' }],
+        members: [
+          { firstName: 'Billy', lastName: 'bob', callSign: 132, stateId: '913213', playerId: 1, position: [0, 0, 0] },
+        ],
         id: 132,
       },
       {
         name: 'Unit 6',
         type: 'heli',
-        members: [{ firstName: 'Freddie', lastName: 'Reid', callSign: 823, stateId: '920132' }],
+        members: [
+          {
+            firstName: 'Freddie',
+            lastName: 'Reid',
+            callSign: 823,
+            stateId: '920132',
+            playerId: 2,
+            position: [0, 0, 0],
+          },
+        ],
         id: 823,
       },
     ],

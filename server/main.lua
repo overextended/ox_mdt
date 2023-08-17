@@ -245,6 +245,11 @@ utils.registerCallback('ox_mdt:getWarrants', function(source, search)
     return db.selectWarrants(search)
 end)
 
+utils.registerCallback('ox_mdt:getActiveOfficers', function()
+    return officers.getAll()
+end)
+
+
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= cache.resource then return end
 

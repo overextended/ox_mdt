@@ -27,7 +27,12 @@ const UnitsList: React.FC = () => {
     <Stack sx={{ overflowY: 'scroll', flex: '1 1 0' }}>
       {units.length > 0 ? (
         units.map((unit) => (
-          <UnitCard key={`${unit.id}-${unit.members}`} unit={unit} isInThisUnit={character.unit === unit.id} />
+          <UnitCard
+            key={`${unit.id}-${unit.members}`}
+            unit={unit}
+            isInThisUnit={character.unit === unit.id}
+            isDispatch={character.isDispatch}
+          />
         ))
       ) : (
         <NotFound label={locales.units_not_active} icon={IconCarOff} />

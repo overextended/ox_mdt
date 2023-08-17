@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, createStyles } from '@mantine/core';
+import { Button, ButtonProps, createStyles } from '@mantine/core';
 
-interface Props {
+interface Props extends ButtonProps {
   label: string;
   onClick?: () => void;
 }
@@ -13,12 +13,21 @@ const useStyles = createStyles({
   },
 });
 
-const BadgeButton: React.FC<Props> = ({ label, onClick }) => {
+const BadgeButton: React.FC<Props> = (props) => {
   const { classes } = useStyles();
 
   return (
-    <Button size="xs" variant="light" radius="xl" h="20px" uppercase className={classes.button} onClick={onClick}>
-      {label}
+    <Button
+      size="xs"
+      variant="light"
+      radius="xl"
+      h="20px"
+      uppercase
+      className={classes.button}
+      {...props}
+      onClick={props.onClick}
+    >
+      {props.label}
     </Button>
   );
 };
