@@ -1,39 +1,44 @@
 if not lib then return end
 
 local hasLoadedUi = false
+local framework = require 'client.framework.ox_core'
+local player = framework.getOfficerData()
+
+AddEventHandler(framework.loadedEvent, function()
+    player = framework.getOfficerData()
+end)
+
+AddEventHandler(framework.logoutEvent, function()
+    hasLoadedUi = false
+end)
+
+AddEventHandler(framework.setGroupEvent, framework.getOfficerData)
 
 local function openMdt()
+    ---@type boolean?, string?
     local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
-    if isAuthorised then
-        if not hasLoadedUi then
-            SendNUIMessage({
-                action = 'setLocales',
-                data = lib.getLocales()
-            })
+    if not isAuthorised then return end
 
-            hasLoadedUi = true
-        end
-
-        local group = GlobalState['group.police'] --[[@as OxGroupProperties]]
-        local grade = player.groups.police
-
+    if not hasLoadedUi then
         SendNUIMessage({
-            action = 'setVisible',
-            data = {
-                stateId = player.stateid,
-                firstName = player.firstname,
-                lastName = player.lastname,
-                unit = LocalPlayer.state.mdtUnitId,
-                title = ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police]),
-                grade = grade,
-                callSign = callSign,
-                isDispatch = true
-            }
+            action = 'setLocales',
+            data = lib.getLocales()
         })
 
-        SetNuiFocus(true, true)
+        hasLoadedUi = true
     end
+
+    player.unit = LocalPlayer.state.mdtUnitId
+    player.callSign = callSign
+    player.isDispatch = true
+
+    SendNUIMessage({
+        action = 'setVisible',
+        data = player
+    })
+
+    SetNuiFocus(true, true)
 end
 
 exports('openMdt', openMdt)
@@ -77,10 +82,6 @@ lib.addKeybind({
         end
     end
 })
-
-AddEventHandler('ox:playerLoaded', function(data)
-    hasLoadedUi = false
-end)
 
 RegisterNuiCallback('hideMDT', function(_, cb)
     cb(1)

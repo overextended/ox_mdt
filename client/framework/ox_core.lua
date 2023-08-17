@@ -1,0 +1,32 @@
+local ox = {}
+local officer = {}
+
+ox.loadedEvent = 'ox:playerLoaded'
+ox.logoutEvent = 'ox:playerLogout'
+ox.setGroupEvent = 'ox:setGroup'
+
+function ox.getGroupTitle()
+    if not ox.getGroupGrade() then return end
+
+    local group = GlobalState['group.police'] --[[@as OxGroupProperties]]
+
+    return ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police])
+end
+
+function ox.getGroupGrade()
+    return player.groups.police
+end
+
+function ox.getOfficerData()
+    if player then
+        officer.stateId = player.stateid
+        officer.firstName = player.firstname
+        officer.lastName = player.lastname
+        officer.title = ox.getGroupTitle()
+        officer.grade = ox.getGroupGrade()
+    end
+
+    return officer
+end
+
+return ox
