@@ -183,7 +183,7 @@ end
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
-    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image, b.notes FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
+    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, a.phone_number AS phoneNumber, b.image, b.notes FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
 
     if not profile then return end
 

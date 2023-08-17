@@ -6,6 +6,7 @@ export const DEBUG_PROFILE: Profile = {
   lastName: 'Doe',
   stateId: '139235',
   dob: Date.now(),
+  phoneNumber: '813-242-0101',
   notes: '<p></p>',
   licenses: [
     {

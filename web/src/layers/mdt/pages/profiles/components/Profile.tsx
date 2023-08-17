@@ -1,7 +1,7 @@
 import React from 'react';
-import { Stack, Text } from '@mantine/core';
+import { Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import ProfileField from './ProfileField';
-import { IconCalendar, IconId, IconUser } from '@tabler/icons-react';
+import { IconCalendar, IconId, IconPhone, IconUser } from '@tabler/icons-react';
 import { useProfileState } from '../../../../../state';
 import AvatarWrapper from './AvatarWrapper';
 import Editor from '../../../components/Editor';
@@ -16,13 +16,16 @@ const Profile: React.FC = () => {
   return (
     <>
       <AvatarWrapper />
-      <ProfileField icon={IconUser} label={locales.name} value={`${profile.firstName} ${profile.lastName}`} />
-      <ProfileField icon={IconId} label={locales.state_id} value={profile.stateId} />
-      <ProfileField
-        icon={IconCalendar}
-        label={locales.date_of_birth}
-        value={new Date(profile.dob).toLocaleDateString()}
-      />
+      <SimpleGrid cols={2} spacing={6}>
+        <ProfileField icon={IconUser} label={locales.name} value={`${profile.firstName} ${profile.lastName}`} />
+        <ProfileField icon={IconId} label={locales.state_id} value={profile.stateId} />
+        <ProfileField icon={IconPhone} label={locales.phone_number} value={profile.phoneNumber} />
+        <ProfileField
+          icon={IconCalendar}
+          label={locales.date_of_birth}
+          value={new Date(profile.dob).toLocaleDateString()}
+        />
+      </SimpleGrid>
       <Stack spacing={6} h="100%">
         <Text size="xs" c="dark.2">
           {locales.notes}:
