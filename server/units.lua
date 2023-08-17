@@ -29,7 +29,7 @@ local function removePlayerFromUnit(officer, state)
 
         units[unitId] = nil
 
-        TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+        officers.triggerEvent('ox_mdt:refreshUnits', units)
 
         return true
     end
@@ -46,7 +46,7 @@ local function removePlayerFromUnit(officer, state)
                 -- TODO: Remove unit from all calls it's attached to
             end
 
-            TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+            officers.triggerEvent('ox_mdt:refreshUnits', units)
 
             return true
         end
@@ -70,7 +70,7 @@ local function addPlayerToUnit(playerId, unitId)
     officer.unitId = unitId
     state.mdtUnitId = unitId
 
-    TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+    officers.triggerEvent('ox_mdt:refreshUnits', units)
 
     return true
 end
@@ -142,7 +142,7 @@ utils.registerCallback('ox_mdt:setUnitOfficers', function(source, data)
 
     if #data.officers == 0 or not includesCreator then
         units[data.id] = nil
-        TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+        officers.triggerEvent('ox_mdt:refreshUnits', units)
 
         return
     end
@@ -154,7 +154,7 @@ utils.registerCallback('ox_mdt:setUnitOfficers', function(source, data)
         Player(newOfficers[i].playerId).state.mdtUnitId = data.id
     end
 
-    TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+    officers.triggerEvent('ox_mdt:refreshUnits', units)
 
 end)
 

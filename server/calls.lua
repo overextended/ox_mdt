@@ -11,6 +11,7 @@ local officers = require 'server.officers'
 
 ---@param data CallData
 function createCall(data)
+    callId += 1
     activeCalls[callId] = {
         code = data.code,
         offense = data.offense,
@@ -26,10 +27,7 @@ function createCall(data)
         }
     }
 
-    -- TODO: iterate over in service officers and trigger events on them
-    TriggerClientEvent('ox_mdt:createCall', -1, {id = callId, call = activeCalls[callId]})
-
-    callId += 1
+    officers.triggerEvent('ox_mdt:createCall', { id = callId, call = activeCalls[callId] })
 
     return callId - 1
 end
@@ -43,7 +41,7 @@ function updateCallCoords(callId, coords)
 
     activeCalls[callId].coords = coords
 
-    TriggerClientEvent('ox_mdt:updateCallCoords', -1, {id = callId, coords = coords})
+    officers.triggerEvent('ox_mdt:updateCallCoords', { id = callId, coords = coords })
 end
 
 exports('updateCallCoords', updateCallCoords)
@@ -85,7 +83,7 @@ utils.registerCallback('ox_mdt:attachToCall', function(source, id)
     activeCalls[id].units[playerUnitId] = units.getUnit(playerUnitId)
 
     -- Used to update a call notification - does not refresh calls list in the MDT
-    TriggerClientEvent('ox_mdt:editCallUnits', -1, { id = id, units = activeCalls[id].units })
+    officers.triggerEvent('ox_mdt:editCallUnits', { id = id, units = activeCalls[id].units })
 
     return true
 end)
@@ -101,7 +99,7 @@ utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
     activeCalls[id].units[playerUnitId] = nil
 
     -- Used to update a call notification - does not refresh calls list in the MDT
-    TriggerClientEvent('ox_mdt:editCallUnits', -1, {id = id, units = activeCalls[id].units})
+    officers.triggerEvent('ox_mdt:editCallUnits', { id = id, units = activeCalls[id].units })
 
     return true
 end)
@@ -131,7 +129,7 @@ utils.registerCallback('ox_mdt:setCallUnits', function(source, data)
         activeCalls[data.id].units[unitId] = units.getUnit(unitId)
     end
 
-    TriggerClientEvent('ox_mdt:setCallUnits', -1, {id = data.id, units = activeCalls[data.id].units})
+    officers.triggerEvent('ox_mdt:setCallUnits', { id = data.id, units = activeCalls[data.id].units })
 
     return true
 end)

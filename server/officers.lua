@@ -2,6 +2,15 @@
 local activeOfficers = {}
 local officersArray = {}
 
+---Triggers a client event for all active officers.
+---@param eventName string
+---@param eventData any
+local function triggerOfficerEvent(eventName, eventData)
+    for playerId in pairs(activeOfficers) do
+        TriggerClientEvent(eventName, playerId, eventData)
+    end
+end
+
 SetInterval(function()
     local n = 0
 
@@ -14,10 +23,7 @@ SetInterval(function()
         officersArray[n] = officer
     end
 
-    for playerId in pairs(activeOfficers) do
-        TriggerClientEvent('ox_mdt:updateOfficerPositions', playerId, officersArray)
-    end
-
+    triggerOfficerEvent('ox_mdt:updateOfficerPositions', officersArray)
     table.wipe(officersArray)
 end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 5000)))
 
@@ -26,7 +32,7 @@ local function addOfficer(playerId, firstName, lastName, stateId, callSign)
         firstName = firstName,
         lastName = lastName,
         stateId = stateId,
-        callSign = math.random(100, 999),
+        callSign = tostring(math.random(100, 999)),
         playerId = playerId,
         ped = GetPlayerPed(playerId),
         position = {},
@@ -60,4 +66,5 @@ return {
     remove = removeOfficer,
     get = getOfficer,
     getAll = getAll,
+    triggerEvent = triggerOfficerEvent
 }
