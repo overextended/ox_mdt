@@ -1,8 +1,8 @@
 local db = {}
 local selectCharacter = 'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `stateId` FROM `characters`'
 local wildcard = '%s%%'
-
 local selectCharacterById = selectCharacter .. ' WHERE `stateId` LIKE ?'
+local framework = require 'server.framework.ox_core'
 
 ---@param id number | string
 function db.selectCharacterById(id)
@@ -187,21 +187,12 @@ function db.selectCharacterProfile(search)
 
     if not profile then return end
 
-    profile.licenses = MySQL.rawExecute.await('SELECT ox_licenses.label, `issued` FROM character_licenses LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name WHERE `charid` = ?', { profile.charid }) or {}
-
-    for _, v in pairs(profile.licenses) do
-        v.points = 0
-    end
-
-    profile.vehicles = MySQL.rawExecute.await('SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?', { profile.charid }) or {}
-
-    for _, v in pairs(profile.vehicles) do
-        v.label = Ox.GetVehicleData(v.model)?.name or v.model
-        v.model = nil
-    end
-
     profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_charges` b ON b.reportid = a.id WHERE `stateId` = ?', parameters) or {}
     profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `stateId` = ? GROUP BY `charge`', parameters) or {}
+
+    parameters[1] = profile.charid
+    profile.vehicles = framework.getVehicles(parameters)
+    profile.licenses = framework.getLicenses(parameters)
 
     return profile
 end
