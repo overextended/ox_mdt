@@ -6,7 +6,6 @@ import { useSetCharacter } from '../../../../../../state';
 import { Unit, UnitType } from '../../../../../../typings';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
-import { queryClient } from '../../../../../../main';
 
 const CreateUnitModal: React.FC = () => {
   const setCharacter = useSetCharacter();
@@ -17,7 +16,6 @@ const CreateUnitModal: React.FC = () => {
     const resp = await fetchNui<{ id: number; name: string }>('createUnit', value, {
       data: { id: 1, name: `Unit 1` },
     });
-    await queryClient.invalidateQueries(['units']);
     setCharacter((prev) => ({ ...prev, unit: resp.id }));
   };
 

@@ -196,6 +196,14 @@ RegisterNetEvent('ox_mdt:setCallUnits', function(data)
     })
 end)
 
+---@param data Units
+RegisterNetEvent('ox_mdt:refreshUnits', function(data)
+    SendNUIMessage({
+        action = 'refreshUnits',
+        data = data
+    })
+end)
+
 local blips = {}
 
 ---@param data Officer[]

@@ -29,7 +29,9 @@ local function removePlayerFromUnit(officer, state)
 
         units[unitId] = nil
 
-        return
+        TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+
+        return true
     end
 
     for i = 1, #unit.members do
@@ -43,6 +45,8 @@ local function removePlayerFromUnit(officer, state)
                 units[unitId] = nil
                 -- TODO: Remove unit from all calls it's attached to
             end
+
+            TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
 
             return true
         end
@@ -66,6 +70,8 @@ local function addPlayerToUnit(playerId, unitId)
     officer.unitId = unitId
     state.mdtUnitId = unitId
 
+    TriggerClientEvent('ox_mdt:refreshUnits', -1, units)
+    
     return true
 end
 

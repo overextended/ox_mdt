@@ -4,8 +4,6 @@ import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpee
 import { Unit } from '../../../../../../typings';
 import { useSetCharacter } from '../../../../../../state';
 import { fetchNui } from '../../../../../../utils/fetchNui';
-import { queryClient } from '../../../../../../main';
-
 const useStyles = createStyles((theme) => ({
   unitContainer: {
     background: theme.colors.durple[5],
@@ -41,14 +39,12 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean }> = ({ unit, isInT
             variant="light"
             onClick={async () => {
               if (isInThisUnit) {
-                setCharacter((prev) => ({ ...prev, unit: undefined }));
                 await fetchNui('leaveUnit', { data: 1 });
-                queryClient.invalidateQueries(['units']);
+                setCharacter((prev) => ({ ...prev, unit: undefined }));
 
                 return;
               }
               await fetchNui('joinUnit', unit.id, { data: 1 });
-              queryClient.invalidateQueries(['units']);
               setCharacter((prev) => ({ ...prev, unit: unit.id }));
             }}
           >
