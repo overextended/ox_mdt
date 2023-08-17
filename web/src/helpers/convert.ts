@@ -1,10 +1,10 @@
-import { Call, Unit } from '../typings';
+import { Call, Unit, UnitsObject } from '../typings';
 
 export interface CallsResponse extends Omit<Call, 'id' | 'units'> {
-  units: { [key: string]: Omit<Unit, 'id'> };
+  units: UnitsObject;
 }
 
-export const convertUnitsToArray = (units: { [key: string]: Omit<Unit, 'id'> }): Unit[] => {
+export const convertUnitsToArray = (units: UnitsObject): Unit[] => {
   if (!units) return [];
   return Object.entries(units).map((unit) => ({ id: +unit[0], ...unit[1] }));
 };
@@ -19,7 +19,7 @@ export const convertCalls = (resp: { [key: string]: CallsResponse }): Call[] => 
 };
 
 interface CallResponse extends Omit<Call, 'units'> {
-  units: { [key: string]: Omit<Unit, 'id'> };
+  units: UnitsObject;
 }
 
 export const convertCall = (resp: CallResponse): Call => {

@@ -25,3 +25,5 @@ export interface Unit {
   members: Officer[];
   type: UnitType;
 }
+
+export type UnitsObject = { [key: string]: Omit<Unit, 'id'> };
