@@ -3,13 +3,14 @@ import { useCalls } from '../../../../../../state';
 import CallCard from './CallCard';
 import { Stack } from '@mantine/core';
 import { useNuiEvent } from '../../../../../../hooks/useNuiEvent';
-import { Call, Unit } from '../../../../../../typings';
+import { Call, Unit, UnitsObject } from '../../../../../../typings';
 import { queryClient } from '../../../../../../main';
+import { convertUnitsToArray } from '../../../../../../helpers';
 
 const CallsList: React.FC = () => {
   const calls = useCalls();
 
-  useNuiEvent('setCallUnits', (data: { id: number; units: { [key: string]: Omit<Unit, 'id'> } }) => {
+  useNuiEvent('setCallUnits', (data: { id: number; units: UnitsObject }) => {
     queryClient.setQueriesData<Call[]>(['calls'], (oldData) => {
       if (!oldData) return;
 
@@ -17,7 +18,7 @@ const CallsList: React.FC = () => {
 
       if (callIndex === -1) return;
 
-      const units = Object.entries(data.units).map((unit) => ({ id: +unit[0], ...unit[1] }));
+      const units = convertUnitsToArray(data.units);
 
       const newData = [...oldData];
 

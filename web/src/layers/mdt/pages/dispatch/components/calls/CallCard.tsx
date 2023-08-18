@@ -1,18 +1,6 @@
 import React from 'react';
-import { ActionIcon, Badge, createStyles, Divider, Group, Menu, Stack, Text, Tooltip } from '@mantine/core';
-import {
-  IconCar,
-  IconCheck,
-  IconClock,
-  IconDots,
-  IconFileImport,
-  IconHelicopter,
-  IconLink,
-  IconMap2,
-  IconMapPin,
-  IconMotorbike,
-  IconSpeedboat,
-} from '@tabler/icons-react';
+import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { IconClock, IconFileImport, IconMap2 } from '@tabler/icons-react';
 import { Call, Officer } from '../../../../../../typings';
 import dayjs from 'dayjs';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';

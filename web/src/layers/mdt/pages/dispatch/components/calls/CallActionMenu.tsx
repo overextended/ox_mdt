@@ -44,7 +44,6 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
             onClick={() =>
               modals.open({
                 title: locales.manage_units,
-                size: 'xs',
                 children: <ManageUnitsModal call={call} />,
               })
             }
