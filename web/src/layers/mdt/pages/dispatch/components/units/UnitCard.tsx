@@ -4,10 +4,8 @@ import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpee
 import { Unit } from '../../../../../../typings';
 import { useSetCharacter } from '../../../../../../state';
 import { fetchNui } from '../../../../../../utils/fetchNui';
-import BadgeButton from '../../../../components/BadgeButton';
-import locales from '../../../../../../locales';
-import { modals } from '@mantine/modals';
-import ManageOfficersModal from '../modals/ManageOfficersModal';
+import UnitSettings from './UnitSettings';
+
 const useStyles = createStyles((theme) => ({
   unitContainer: {
     background: theme.colors.durple[5],
@@ -42,6 +40,7 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
           ·<Text>{unit.name}</Text>
         </Group>
         <Group spacing={8}>
+          <UnitSettings id={unit.id} members={unit.members} isDispatch={isDispatch} />
           <ActionIcon
             color={isInThisUnit ? 'red' : 'blue'}
             variant="light"
@@ -60,23 +59,15 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
           </ActionIcon>
         </Group>
       </Group>
-      <Group spacing="xs">
-        <BadgeButton
-          label={locales.manage_officers}
-          disabled={!isDispatch}
-          onClick={() =>
-            modals.open({
-              title: locales.manage_officers,
-              children: <ManageOfficersModal id={unit.id} members={unit.members} />,
-            })
-          }
-        />
-        {unit.members.map((member) => (
-          <Badge key={member.stateId}>
-            {member.firstName} {member.lastName} {member.callSign ? `(${member.callSign})` : ''}
-          </Badge>
-        ))}
-      </Group>
+      {unit.members.length > 0 && (
+        <Group spacing="xs">
+          {unit.members.map((member) => (
+            <Badge key={member.stateId}>
+              {member.firstName} {member.lastName} {member.callSign ? `(${member.callSign})` : ''}
+            </Badge>
+          ))}
+        </Group>
+      )}
     </Stack>
   );
 };

@@ -106,7 +106,7 @@
   "vehicles": "Vehicles",
   "warrant_expiration_date": "Warrant expiration date",
   "phone_number": "Phone number",
-  "manage_officers": "Manage officers",
+  "manage_members": "Manage members",
   "unit_officers": "Unit officers",
   "unit_officers_description": "Set officers assigned to this unit"
 }
