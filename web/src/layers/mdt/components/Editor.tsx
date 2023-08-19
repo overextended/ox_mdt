@@ -6,7 +6,7 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { RichTextEditor } from '@mantine/tiptap';
-import { ActionIcon, createStyles, rem, Transition } from '@mantine/core';
+import { ActionIcon, createStyles, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import locales from '../../../locales';
 

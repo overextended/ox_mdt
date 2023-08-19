@@ -2,7 +2,7 @@ import React from 'react';
 import { useCalls } from '../../../../../state';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
-import { createStyles, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import MarkerPopup from './MarkerPopup';
 import { useNuiEvent } from '../../../../../hooks/useNuiEvent';
 import { queryClient } from '../../../../../main';

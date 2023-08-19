@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionIcon, Badge, createStyles, Group, rem, Stack, Text, Tooltip } from '@mantine/core';
 import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
-import { useSelectedChargesAtoms, useSetSelectedCharges } from '../../../../../../../state';
+import { useSetSelectedCharges } from '../../../../../../../state';
 import { Charge } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
 

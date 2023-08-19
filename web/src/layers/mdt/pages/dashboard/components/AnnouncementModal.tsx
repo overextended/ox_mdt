@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Stack } from '@mantine/core';
-import { useSetAnnouncements } from '../../../../../state';
 import { modals } from '@mantine/modals';
-import { useCharacter } from '../../../../../state';
 import Editor from '../../../components/Editor';
 import { Announcement } from '../../../../../typings';
 import { queryClient } from '../../../../../main';

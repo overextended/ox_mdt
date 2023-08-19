@@ -1,6 +1,5 @@
 import React from 'react';
 import { Stack } from '@mantine/core';
-import dayjs from 'dayjs';
 import NotFound from '../../../components/NotFound';
 import { IconFileOff } from '@tabler/icons-react';
 import locales from '../../../../../locales';

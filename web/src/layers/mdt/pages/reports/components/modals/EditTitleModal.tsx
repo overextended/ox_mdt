@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useReportId, useReportsList, useSetReportTitle } from '../../../../../../state';
+import { useReportId, useSetReportTitle } from '../../../../../../state';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
-import { ProfileCard, ReportCard } from '../../../../../../typings';
+import { ReportCard } from '../../../../../../typings';
 
 interface Props {
   title: string;

@@ -1,5 +1,5 @@
-import { Stack, createStyles } from '@mantine/core';
-import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUserShield, IconUsers } from '@tabler/icons-react';
+import { createStyles, Stack } from '@mantine/core';
+import { IconGavel, IconLayoutDashboard, IconMap2, IconReceipt, IconUsers, IconUserShield } from '@tabler/icons-react';
 import { useLocation } from 'react-router-dom';
 import NavCharacter from './NavCharacter';
 import { useMediaQuery } from '@mantine/hooks';

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Button, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { useReportId, useSetEvidence } from '../../../../../../state';
 import { modals } from '@mantine/modals';

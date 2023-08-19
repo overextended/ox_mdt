@@ -1,6 +1,6 @@
 import React from 'react';
 import { Group, Text } from '@mantine/core';
-import { IconMap2, TablerIconsProps } from '@tabler/icons-react';
+import { TablerIconsProps } from '@tabler/icons-react';
 
 interface Props {
   icon: (props: TablerIconsProps) => JSX.Element;

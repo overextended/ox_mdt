@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import SelectedChargeItem from './SelectedChargeItem';
-import { useSelectedCharges, useSelectedChargesAtoms } from '../../../../../../../state';
+import { useSelectedChargesAtoms } from '../../../../../../../state';
 import { IconReceiptOff } from '@tabler/icons-react';
-import { PrimitiveAtom, useAtomValue, useSetAtom } from 'jotai';
+import { PrimitiveAtom } from 'jotai';
 import ConfirmSelectedCharges from './ConfirmSelectedCharges';
 import NotFound from '../../../../../components/NotFound';
 import { Criminal } from '../../../../../../../typings';

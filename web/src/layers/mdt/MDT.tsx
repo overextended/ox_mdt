@@ -2,7 +2,7 @@ import React from 'react';
 import { useVisibilityState } from '../../state/visibility';
 import { useSetCharacter } from '../../state';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
-import { setLocale, default as locales } from '../../locales';
+import { default as locales, setLocale } from '../../locales';
 import { Character } from '../../typings';
 import { fetchNui } from '../../utils/fetchNui';
 import { AppShell, Box, createStyles, Transition } from '@mantine/core';

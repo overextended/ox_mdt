@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, Group, Text, Stack } from '@mantine/core';
+import { createStyles, Group, Stack, Text } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   infoContainer: {

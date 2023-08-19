@@ -1,14 +1,13 @@
 import React from 'react';
-import { Box, Button, Center, createStyles, Group, Loader, Stack, Text, TextInput } from '@mantine/core';
-import { IconBrandTelegram, IconMessageCircle2, IconPrison, IconSearch } from '@tabler/icons-react';
+import { Box, Button, createStyles, Group, Stack, Text } from '@mantine/core';
+import { IconBrandTelegram, IconMessageCircle2, IconPrison } from '@tabler/icons-react';
 import AnnouncementList from './components/AnnouncementList';
-import WarrantList from './components/WarrantList';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './components/AnnouncementModal';
 import { useConfig } from '../../../../state/config';
 import { useCharacter } from '../../../../state';
 import { queryClient } from '../../../../main';
-import { Announcement, ReportCard } from '../../../../typings';
+import { Announcement } from '../../../../typings';
 import locales from '../../../../locales';
 import Warrants from './components/Warrants';
 import SuspenseLoader from '../../components/SuspenseLoader';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionIcon, Badge, Group, rem, Text, Image, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Group, Image, rem, Text, Tooltip } from '@mantine/core';
 import { IconPaperBag, IconX } from '@tabler/icons-react';
 import { useEvidence, useReportId, useSetEvidence } from '../../../../../state';
 import BadgeButton from '../../../components/BadgeButton';

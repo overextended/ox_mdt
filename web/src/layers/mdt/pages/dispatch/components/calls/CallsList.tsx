@@ -3,7 +3,7 @@ import { useCalls } from '../../../../../../state';
 import CallCard from './CallCard';
 import { Stack } from '@mantine/core';
 import { useNuiEvent } from '../../../../../../hooks/useNuiEvent';
-import { Call, Unit, UnitsObject } from '../../../../../../typings';
+import { Call, UnitsObject } from '../../../../../../typings';
 import { queryClient } from '../../../../../../main';
 import { convertUnitsToArray } from '../../../../../../helpers';
 

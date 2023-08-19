@@ -1,4 +1,3 @@
-import { Center, Loader } from '@mantine/core';
 import React from 'react';
 import { PrimitiveAtom, useAtomValue } from 'jotai';
 import SuspenseLoader from './SuspenseLoader';

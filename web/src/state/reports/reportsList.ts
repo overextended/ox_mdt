@@ -1,10 +1,11 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { fetchNui } from '../../utils/fetchNui';
 import { ReportCard } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { isEnvBrowser } from '../../utils/misc';
 import { queryClient } from '../../main';
+
 const DEBUG_REPORTS: ReportCard[] = [];
 
 for (let i = 0; i < 25; i++) {

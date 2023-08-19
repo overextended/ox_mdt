@@ -1,4 +1,4 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { Call, Unit } from '../../typings';
 import { isEnvBrowser } from '../../utils/misc';
 import { atomsWithQuery } from 'jotai-tanstack-query';

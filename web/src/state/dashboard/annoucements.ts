@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from 'jotai';
-import { Announcement, ReportCard } from '../../typings';
+import { Announcement } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';
 import { queryClient } from '../../main';

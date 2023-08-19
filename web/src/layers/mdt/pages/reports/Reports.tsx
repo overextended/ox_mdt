@@ -1,15 +1,13 @@
 import React from 'react';
 import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
-import { IconFileImport, IconReceipt, IconSearch } from '@tabler/icons-react';
+import { IconFileImport, IconReceipt } from '@tabler/icons-react';
 import ReportsList from './components/ReportsList';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
 import ActiveReport from './components/ActiveReport';
 import ListContainer from '../../components/ListContainer';
-import { useSetReportsDebounce, reportsListAtoms } from '../../../../state';
+import { reportsListAtoms, useSetReportsDebounce } from '../../../../state';
 import ListSearch from '../../components/ListSearch';
-import { useAtomValue } from 'jotai';
-import { queryClientAtom } from 'jotai-tanstack-query';
 import { queryClient } from '../../../../main';
 import { ReportCard } from '../../../../typings';
 import locales from '../../../../locales';

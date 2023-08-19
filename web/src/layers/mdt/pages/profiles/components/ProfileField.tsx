@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, Group, rem, Stack, Text, TextInput } from '@mantine/core';
+import { createStyles, rem, TextInput } from '@mantine/core';
 import { TablerIconsProps } from '@tabler/icons-react';
 
 interface Props {

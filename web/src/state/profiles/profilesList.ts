@@ -1,6 +1,6 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
-import { ProfileCard, ReportCard } from '../../typings';
+import { ProfileCard } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { queryClient } from '../../main';
 import { fetchNui } from '../../utils/fetchNui';

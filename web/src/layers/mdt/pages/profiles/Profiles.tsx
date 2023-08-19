@@ -1,22 +1,16 @@
 import React from 'react';
-import { createStyles, Group, SimpleGrid, Center, Stack, Text } from '@mantine/core';
+import { Center, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconUserOff, IconUsers } from '@tabler/icons-react';
 import ProfilesList from './components/ProfilesList';
-import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Highlight from '@tiptap/extension-highlight';
-import TextAlign from '@tiptap/extension-text-align';
-import { Placeholder } from '@tiptap/extension-placeholder';
 import Profile from './components/Profile';
-import { profilesListAtoms, useIsProfileActive, useProfile, useSetProfilesDebounce } from '../../../../state';
+import { profilesListAtoms, useIsProfileActive, useSetProfilesDebounce } from '../../../../state';
 import ProfileCards from './components/ProfileCards';
 import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';
 import locales from '../../../../locales';
 import { queryClient } from '../../../../main';
-import { ProfileCard, ReportCard } from '../../../../typings';
+import { ProfileCard } from '../../../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {

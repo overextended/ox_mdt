@@ -1,4 +1,4 @@
-import { atom, useAtomValue, useSetAtom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { isEnvBrowser } from '../utils/misc';
 
 const visibilityAtom = atom<boolean>(isEnvBrowser());

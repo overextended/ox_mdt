@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, createStyles } from '@mantine/core';
-import { useAnnouncements } from '../../../../../state';
-import { useCharacter } from '../../../../../state';
+import { useAnnouncements, useCharacter } from '../../../../../state';
 import AnnouncementCard from './AnnouncementCard';
 import NotFound from '../../../components/NotFound';
 import { IconBellOff } from '@tabler/icons-react';

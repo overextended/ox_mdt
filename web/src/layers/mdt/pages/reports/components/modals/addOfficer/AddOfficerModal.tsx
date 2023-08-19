@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Center, Loader } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import OfficerResults from './OfficerResults';
 import { useIsOfficersDebouncing, useSetOfficersDebounce } from '../../../../../../../state';
 import OfficerSearch from './OfficerSearch';

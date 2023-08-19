@@ -1,4 +1,4 @@
-import React, { ForwardedRef, ForwardRefRenderFunction } from 'react';
+import React from 'react';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import { Report, type ReportCard } from '../../../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';

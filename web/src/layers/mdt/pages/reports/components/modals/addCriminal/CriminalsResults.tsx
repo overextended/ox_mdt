@@ -1,8 +1,7 @@
 import React from 'react';
-import { useCriminalProfiles, useReportId } from '../../../../../../../state';
+import { useCriminalProfiles, useReportId, useSetCriminals } from '../../../../../../../state';
 import { Avatar, createStyles, Group, Stack, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useSetCriminals } from '../../../../../../../state';
 import { IconUserX } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../../../utils/fetchNui';
 import NotFound from '../../../../../components/NotFound';

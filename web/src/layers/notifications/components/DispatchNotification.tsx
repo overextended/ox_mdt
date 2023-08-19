@@ -1,15 +1,12 @@
 import React from 'react';
 import { Call } from '../../../typings';
-import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip, Transition } from '@mantine/core';
-import { IconCar, IconClock, IconLink, IconMap2, IconMapPin, IconSteeringWheel } from '@tabler/icons-react';
+import { Badge, createStyles, Divider, Group, Stack, Text, Transition } from '@mantine/core';
+import { IconCar, IconClock, IconMap2, IconSteeringWheel } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import NotificationInfo from './NotificationInfo';
-import { useNuiEvent } from '../../../hooks/useNuiEvent';
 import { useTimeout } from '@mantine/hooks';
-import { fetchNui } from '../../../utils/fetchNui';
 import locales from '../../../locales';
 import UnitBadge from '../../mdt/components/UnitBadge';
-import { useCharacter } from '../../../state';
 import NotificationControls from './NotificationControls';
 
 interface Props {

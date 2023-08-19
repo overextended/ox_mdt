@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconSearch } from '@tabler/icons-react';
-import { Atom, PrimitiveAtom, useAtomValue } from 'jotai';
+import { Atom, useAtomValue } from 'jotai';
 import { TextInput } from '@mantine/core';
 import locales from '../../../locales';
 
