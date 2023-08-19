@@ -2,14 +2,15 @@
 ---@field firstName string
 ---@field lastName string
 ---@field dob number
----@field stateId number | string
+---@field stateId string
 ---@field image? string
 
 ---@class Profile : ProfileCard
----@field stateId number | string
+---@field stateId string
+---@field charid number | string
 ---@field notes? string
----@field licenses? table<{ label: string, points: number } | string>
----@field vehicles? { label: string, plate: string }
+---@field licenses? table<string, { label: string, points: number } | string>[]
+---@field vehicles? { label: string, plate: string }[]
 ---@field pastCharges? { label: string, count: number }[]
 ---@field relatedReports? { title: string, author: string, date: string, id: number }[]
 
@@ -64,11 +65,13 @@
 ---@field label string
 ---@field value string
 
----@class Announcement : Officer
+---@class Announcement
 ---@field id number
 ---@field contents string
----@field createdAt number
----@field image? string
+---@field createdAt string
+---@field firstName string
+---@field lastName string
+---@field stateId string
 
 ---@alias UnitType
 ---| 'car'
@@ -110,3 +113,7 @@
 ---@field coords table
 ---@field info CallDataInfo
 ---@field blip number
+
+---@alias FetchOfficers { firstName: string, lastName: string, stateId: string }[]
+---@alias FetchCriminals { stateId: string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean }[]
+---@alias FetchCharges { stateId: string, label: string, time: number?, fine: number?, points: number?, count: number }[]

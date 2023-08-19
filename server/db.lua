@@ -1,28 +1,30 @@
 local db = {}
-local selectCharacter = 'SELECT `firstName`, `lastName`, DATE_FORMAT(`dateofbirth`, "%Y-%m-%d") as dob, `stateId` FROM `characters`'
 local wildcard = '%s%%'
-local selectCharacterById = selectCharacter .. ' WHERE `stateId` LIKE ?'
 local framework = require 'server.framework.ox_core'
 
----@param id number | string
-function db.selectCharacterById(id)
-    return MySQL.rawExecute.await(selectCharacterById, { wildcard:format(id) })
-end
-
-local selectCharacterByNameA = selectCharacter .. ' WHERE `lastName` LIKE ? OR `stateId` LIKE ?'
-local selectCharacterByNameB = selectCharacter .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
-
----@param name string
-function db.selectCharacterByName(name)
-    local nameA, nameB = name:match('^([%w]+) ?([%w]*)$')
-
-    if nameB == '' then
-        nameA = wildcard:format(nameA)
-
-        return MySQL.rawExecute.await(selectCharacterByNameA, { nameA, nameA })
+---@generic T
+---@param fn async fun(parameters?: string[], match?: boolean): T
+---@param search string?
+---@return T
+local function performSearch(fn, search)
+    if not search or search == '' then
+        return fn()
     end
 
-    return MySQL.rawExecute.await(selectCharacterByNameB, { nameA, wildcard:format(nameB) })
+    local a, b = search:match('^([%w]+) ?([%w]*)$')
+
+    if b == '' then
+        a = wildcard:format(a)
+
+        return fn({ a, a })
+    end
+
+    return fn({ a, wildcard:format(b) }, true)
+end
+
+---@param search string
+function db.searchCharacters(search)
+    return performSearch(framework.getCharacters, search)
 end
 
 ---@param title string
@@ -81,26 +83,19 @@ end
 ---@return ProfileCard[]?
 function db.selectProfiles(page, search)
     local offset = (page - 1) * 10
-
     -- todo: search based on name or stateid
-    return MySQL.rawExecute.await('SELECT a.stateId, a.firstName, a.lastName, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, b.image FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid LIMIT 10 OFFSET ?', { offset })
-
+    return framework.getProfiles({ offset })
 end
 
+---@param reportId number
 function db.selectOfficersInvolved(reportId)
-    local officers = MySQL.rawExecute.await('SELECT b.firstName, b.lastName, b.stateId FROM `ox_mdt_reports_officers` a LEFT JOIN `characters` b ON b.stateId = a.stateId WHERE `reportid` = ?', { reportId }) or {}
-    print(json.encode(officers, {sort_keys=true,indent=true}))
-    return officers
+    return framework.getOfficersInvolved({ reportId })
 end
 
 function db.selectCriminalsInvolved(reportId)
     local parameters = { reportId }
-
-    ---@type { stateId: number | string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean }[]
-    local criminals = MySQL.rawExecute.await('SELECT DISTINCT a.stateId, b.firstName, b.lastName, a.reduction, DATE_FORMAT(a.warrantExpiry, "%Y-%m-%d") AS warrantExpiry, a.processed, a.pleadedGuilty FROM `ox_mdt_reports_criminals` a LEFT JOIN `characters` b on b.stateId = a.stateId WHERE reportid = ?', parameters) or {}
-
-    ---@type { stateId: number | string, label: string, time: number?, fine: number?, points: number?, count: number }[]
-    local charges = MySQL.rawExecute.await('SELECT `stateId`, `charge` as label, `time`, `fine`, `points`, `count` FROM `ox_mdt_reports_charges` WHERE reportid = ? GROUP BY `charge`, `stateId`', parameters) or {}
+    local criminals = framework.getCriminalsInvolved(parameters) or {}
+    local charges = framework.getCriminalCharges(parameters) or {}
 
     for _, criminal in pairs(criminals) do
         ---@type SelectedCharge[]
@@ -137,7 +132,6 @@ function db.selectCriminalsInvolved(reportId)
 
         criminal.processed = criminal.processed or false
         criminal.pleadedGuilty = criminal.pleadedGuilty or false
-        print(json.encode(criminal.processed), type(criminal.processed))
     end
 
     return criminals
@@ -156,8 +150,6 @@ function db.saveCriminal(reportId, criminal)
     }
     local queryN = #queries
 
-    print(json.encode(criminal, {indent=true,sort_keys=true}))
-
     if next(criminal.charges) then
         for _, v in pairs(criminal.charges) do
             queryN += 1
@@ -174,7 +166,7 @@ function db.removeCriminal(reportId, stateId)
 end
 
 ---@param reportId number
----@param stateId string | number
+---@param stateId string
 function db.addCriminal(reportId, stateId)
     return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_criminals` (`reportid`, `stateId`) VALUES (?, ?)', { reportId, stateId }) --[[@as number?]]
 end
@@ -183,60 +175,21 @@ end
 ---@return Profile?
 function db.selectCharacterProfile(search)
     local parameters = { search }
-    local profile = MySQL.rawExecute.await('SELECT a.firstName, a.lastName, a.stateId, a.charid, DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, a.phone_number AS phoneNumber, b.image, b.notes FROM `characters` a LEFT JOIN `ox_mdt_profiles` b ON b.stateid = a.stateid WHERE a.stateId = ?', parameters)?[1]
+    local profile = framework.getCharacterProfile(parameters)
 
     if not profile then return end
 
     profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_charges` b ON b.reportid = a.id WHERE `stateId` = ?', parameters) or {}
     profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `stateId` = ? GROUP BY `charge`', parameters) or {}
 
-    parameters[1] = profile.charid
-    profile.vehicles = framework.getVehicles(parameters)
-    profile.licenses = framework.getLicenses(parameters)
-
     return profile
 end
 
-local selectOfficerInvolved = [[
-    SELECT
-        firstName,
-        lastName,
-        characters.stateId,
-        character_groups.grade AS grade,
-        ox_mdt_profiles.callSign
-    FROM
-        character_groups
-    LEFT JOIN
-        characters
-    ON
-        character_groups.charid = characters.charid
-    LEFT JOIN
-        ox_mdt_profiles
-    ON
-        characters.stateId = ox_mdt_profiles.stateId
-    WHERE
-        character_groups.name = "police"
-]]
-
-local selectOfficerInvolvedByNameA = selectOfficerInvolved .. ' AND (`lastName` LIKE ? OR ox_mdt_profiles.callsign LIKE ?)'
-local selectOfficerInvolvedByNameB = selectOfficerInvolved .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
-
----@param search string | number
+---@param search string?
 ---@return Officer | Officer[] | nil
-function db.selectInvolvedOfficers(search)
-    if not search then
-        return MySQL.rawExecute.await(selectOfficerInvolved)
-    end
-
-    local nameA, nameB = search:match('^([%w]+) ?([%w]*)$')
-
-    if nameB == '' then
-        nameA = wildcard:format(nameA)
-
-        return MySQL.rawExecute.await(selectOfficerInvolvedByNameA, { nameA, nameA })
-    end
-
-    return MySQL.rawExecute.await(selectOfficerInvolvedByNameB, { nameA, wildcard:format(nameB) })
+function db.searchOfficers(search)
+    print('searchOfficers', type(search), search)
+    return performSearch(framework.getOfficers, search)
 end
 
 ---@param reportId number
@@ -274,7 +227,7 @@ end
 
 ---@param page number
 function db.selectAnnouncements(page)
-     return MySQL.rawExecute.await('SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt FROM `ox_mdt_announcements` a LEFT JOIN `characters` b ON b.stateId = a.creator ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?', { (page - 1) * 5 })
+    return framework.getAnnouncements({ (page - 1) * 5 })
 end
 
 ---@param creator string
@@ -294,23 +247,10 @@ function db.removeAnnouncement(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
 end
 
-local selectWarrants = 'SELECT a.reportId, a.stateId, b.firstName, b.lastName, DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt FROM `ox_mdt_warrants` a LEFT JOIN `characters` b ON a.stateid = b.stateid'
-local selectWarrantsA = selectWarrants .. ' WHERE `lastName` LIKE ? OR a.stateId LIKE ?'
-local selectWarrantsB = selectWarrants .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
-
 ---@param search string
 function db.selectWarrants(search)
-    if search == '' then return MySQL.rawExecute.await(selectWarrants) end
-
-    local nameA, nameB = search:match('^([%w]+) ?([%w]*)$')
-
-    if nameB == '' then
-        nameA = wildcard:format(nameA)
-
-        return MySQL.rawExecute.await(selectWarrantsA, { nameA, nameA })
-    end
-
-    return MySQL.rawExecute.await(selectWarrantsB, { nameA, wildcard:format(nameB) })
+    print('selectWarrants', type(search), search)
+    return performSearch(framework.getWarrants, search)
 end
 
 function db.createWarrant(reportId, stateId, expiry)

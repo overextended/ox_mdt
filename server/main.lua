@@ -34,7 +34,7 @@ utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
 end, 'mdt.create_announcement')
 
 ---@param source number
----@param data {announcement: Announcement, value: string}
+---@param data { announcement: Announcement, value: string }
 utils.registerCallback('ox_mdt:editAnnouncement', function(source, data)
     local officer = officers.get(source)
 
@@ -55,11 +55,7 @@ end)
 ---@param search string
 ---@return CriminalProfile[]?
 utils.registerCallback('ox_mdt:getCriminalProfiles', function(source, search)
-    if tonumber(search) then
-        return db.selectCharacterById(search)
-    end
-
-    return db.selectCharacterByName(search)
+    return db.searchCharacters(search)
 end)
 
 ---@param title string
@@ -120,13 +116,13 @@ utils.registerCallback('ox_mdt:saveReportContents', function(source, data)
 end)
 
 ---@param source number
----@param data { id: number, criminalId: number }
+---@param data { id: number, criminalId: string }
 utils.registerCallback('ox_mdt:addCriminal', function(source, data)
     return db.addCriminal(data.id, data.criminalId)
 end)
 
 ---@param source number
----@param data { id: number, criminalId: number }
+---@param data { id: number, criminalId: string }
 utils.registerCallback('ox_mdt:removeCriminal', function(source, data)
     return db.removeCriminal(data.id, data.criminalId)
 end)
@@ -201,7 +197,7 @@ end)
 ---@param source number
 ---@param data string
 utils.registerCallback('ox_mdt:getSearchOfficers', function(source, data)
-    return db.selectInvolvedOfficers(data)
+    return db.searchOfficers(data)
 end)
 
 ---@param source number
