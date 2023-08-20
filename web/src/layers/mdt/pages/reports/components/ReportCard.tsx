@@ -53,10 +53,10 @@ const ReportCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> =
     >
       <Text>{report.title}</Text>
       <Group position="apart">
-        <Text size="sm" c="dark.2">
+        <Text size="xs" c="dark.2">
           {report.author} - {new Date(report.date).toLocaleDateString()}
         </Text>
-        <Text size="sm" c="dark.2">
+        <Text size="xs" c="dark.2">
           #{report.id}
         </Text>
       </Group>
