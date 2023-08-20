@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Stack } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import Editor from '../../../components/Editor';
-import { Announcement } from '../../../../../typings';
-import { queryClient } from '../../../../../main';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import locales from '../../../../../locales';
+import Editor from '../../../../components/Editor';
+import { Announcement } from '../../../../../../typings';
+import { queryClient } from '../../../../../../main';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
 
 const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announcement }) => {
   const [isLoading, setIsLoading] = React.useState(false);

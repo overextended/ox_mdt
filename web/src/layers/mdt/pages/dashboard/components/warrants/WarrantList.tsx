@@ -1,9 +1,9 @@
 import React from 'react';
 import { Stack } from '@mantine/core';
-import NotFound from '../../../components/NotFound';
+import NotFound from '../../../../components/NotFound';
 import { IconFileOff } from '@tabler/icons-react';
-import locales from '../../../../../locales';
-import { useWarrants } from '../../../../../state/dashboard/warrants';
+import locales from '../../../../../../locales';
+import { useWarrants } from '../../../../../../state/dashboard/warrants';
 import WarrantCard from './WarrantCard';
 
 const WarrantList: React.FC = () => {

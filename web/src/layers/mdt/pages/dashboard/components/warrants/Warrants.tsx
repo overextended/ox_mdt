@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack } from '@mantine/core';
-import ListSearch from '../../../components/ListSearch';
-import ListContainer from '../../../components/ListContainer';
-import { useSetWarrantsDebounce, warrantsSearchAtoms } from '../../../../../state/dashboard/warrants';
+import ListSearch from '../../../../components/ListSearch';
+import ListContainer from '../../../../components/ListContainer';
+import { useSetWarrantsDebounce, warrantsSearchAtoms } from '../../../../../../state/dashboard/warrants';
 import WarrantList from './WarrantList';
-import locales from '../../../../../locales';
+import locales from '../../../../../../locales';
 
 const Warrants: React.FC = () => {
   const setWarrantsSearchDebounce = useSetWarrantsDebounce();

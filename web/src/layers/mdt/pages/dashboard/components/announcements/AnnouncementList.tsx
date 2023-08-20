@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, createStyles } from '@mantine/core';
-import { useAnnouncements, useCharacter } from '../../../../../state';
+import { useAnnouncements, useCharacter } from '../../../../../../state';
 import AnnouncementCard from './AnnouncementCard';
-import NotFound from '../../../components/NotFound';
+import NotFound from '../../../../components/NotFound';
 import { IconBellOff } from '@tabler/icons-react';
-import { useInfiniteScroll } from '../../../../../hooks/useInfiniteScroll';
-import locales from '../../../../../locales';
+import { useInfiniteScroll } from '../../../../../../hooks/useInfiniteScroll';
+import locales from '../../../../../../locales';
 
 const useStyles = createStyles((theme) => ({
   container: {

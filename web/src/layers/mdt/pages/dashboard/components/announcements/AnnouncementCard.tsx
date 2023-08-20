@@ -11,11 +11,11 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { useConfig } from '../../../../../state/config';
-import { Announcement, Character } from '../../../../../typings';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import { queryClient } from '../../../../../main';
-import locales from '../../../../../locales';
+import { useConfig } from '../../../../../../state/config';
+import { Announcement, Character } from '../../../../../../typings';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import { queryClient } from '../../../../../../main';
+import locales from '../../../../../../locales';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {

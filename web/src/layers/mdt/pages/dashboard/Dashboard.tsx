@@ -1,16 +1,9 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, Stack, Text } from '@mantine/core';
-import { IconBrandTelegram, IconMessageCircle2, IconPrison } from '@tabler/icons-react';
-import AnnouncementList from './components/AnnouncementList';
-import { modals } from '@mantine/modals';
-import AnnouncementModal from './components/AnnouncementModal';
-import { useConfig } from '../../../../state/config';
-import { useCharacter } from '../../../../state';
+import { createStyles, Group, Stack } from '@mantine/core';
 import { queryClient } from '../../../../main';
 import { Announcement } from '../../../../typings';
-import locales from '../../../../locales';
-import Warrants from './components/Warrants';
-import SuspenseLoader from '../../components/SuspenseLoader';
+import AnnouncementsContainer from './components/announcements/AnnouncementsContainer';
+import WarrantsContainer from './components/warrants/WarrantsContainer';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -24,8 +17,6 @@ const useStyles = createStyles((theme) => ({
 
 const Dashboard: React.FC = () => {
   const { classes } = useStyles();
-  const config = useConfig();
-  const character = useCharacter();
 
   React.useEffect(() => {
     return () => {
@@ -43,37 +34,10 @@ const Dashboard: React.FC = () => {
   return (
     <Group h="100%" spacing="md">
       <Stack p="md" className={classes.container}>
-        <Group position="apart">
-          <Text size="xl">{locales.announcements}</Text>
-          <IconMessageCircle2 />
-        </Group>
-        <Box>
-          <Button
-            disabled={character.grade < config.permissions.announcements.create}
-            fullWidth
-            variant="light"
-            leftIcon={<IconBrandTelegram />}
-            onClick={() =>
-              modals.open({
-                title: locales.create_announcement,
-                centered: true,
-                children: <AnnouncementModal />,
-              })
-            }
-          >
-            {locales.create_announcement}
-          </Button>
-        </Box>
-        <React.Suspense fallback={<SuspenseLoader />}>
-          <AnnouncementList />
-        </React.Suspense>
+        <AnnouncementsContainer />
       </Stack>
       <Stack p="md" className={classes.container}>
-        <Group position="apart">
-          <Text size="xl">{locales.active_warrants}</Text>
-          <IconPrison />
-        </Group>
-        <Warrants />
+        <WarrantsContainer />
       </Stack>
     </Group>
   );

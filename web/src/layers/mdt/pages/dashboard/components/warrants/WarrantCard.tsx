@@ -1,14 +1,14 @@
 import React from 'react';
-import { Warrant } from '../../../../../typings/warrant';
+import { Warrant } from '../../../../../../typings/warrant';
 import { Avatar, createStyles, Group, Stack, Text } from '@mantine/core';
-import locales from '../../../../../locales';
+import locales from '../../../../../../locales';
 import dayjs from 'dayjs';
-import { useSetLoader } from '../../../../../state/loader';
-import { fetchNui } from '../../../../../utils/fetchNui';
+import { useSetLoader } from '../../../../../../state/loader';
+import { fetchNui } from '../../../../../../utils/fetchNui';
 import { useNavigate } from 'react-router-dom';
-import { useSetActiveReport, useSetIsReportActive } from '../../../../../state';
-import { Report } from '../../../../../typings';
-import { isEnvBrowser } from '../../../../../utils/misc';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
+import { Report } from '../../../../../../typings';
+import { isEnvBrowser } from '../../../../../../utils/misc';
 
 interface Props {
   warrant: Warrant;
