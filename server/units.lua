@@ -158,6 +158,18 @@ utils.registerCallback('ox_mdt:setUnitOfficers', function(source, data)
 
 end)
 
+---@param source number
+---@param data {id: number, value: string}
+utils.registerCallback('ox_mdt:setUnitType', function(source, data)
+    --TODO authorisation checks - isDispatch and belongs to the unit
+
+    units[data.id].type = data.value
+
+    officers.triggerEvent('ox_mdt:refreshUnits', units)
+
+    return true
+end)
+
 local function getUnit(unitId)
     return units[unitId]
 end

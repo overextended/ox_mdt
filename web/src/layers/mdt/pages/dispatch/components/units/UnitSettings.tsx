@@ -6,25 +6,35 @@ import locales from '../../../../../../locales';
 import ManageOfficersModal from '../modals/ManageOfficersModal';
 import { Unit } from '../../../../../../typings';
 import { useCharacter } from '../../../../../../state';
+import ChangeUnitTypeModal from './ChangeUnitTypeModal';
 
 interface Props {
-  id: number;
-  members: Unit['members'];
+  unit: Unit;
   isDispatch: boolean;
 }
 
-const UnitSettings: React.FC<Props> = ({ id, members, isDispatch }) => {
+const UnitSettings: React.FC<Props> = ({ unit, isDispatch }) => {
   const character = useCharacter();
 
   return (
     <Menu withArrow>
       <Menu.Target>
-        <ActionIcon variant="light" color="blue" disabled={!isDispatch && character.unit !== id}>
+        <ActionIcon variant="light" color="blue" disabled={!isDispatch && character.unit !== unit.id}>
           <IconSettings size={20} />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item icon={<IconCar size={20} />} disabled={!isDispatch && character.unit !== id}>
+        <Menu.Item
+          icon={<IconCar size={20} />}
+          disabled={!isDispatch && character.unit !== unit.id}
+          onClick={() => {
+            modals.open({
+              title: locales.change_unit_type,
+              size: 'xs',
+              children: <ChangeUnitTypeModal id={unit.id} initialValue={unit.type} />,
+            });
+          }}
+        >
           {locales.change_unit_type}
         </Menu.Item>
         <Menu.Item
@@ -33,7 +43,7 @@ const UnitSettings: React.FC<Props> = ({ id, members, isDispatch }) => {
           onClick={() => {
             modals.open({
               title: locales.manage_members,
-              children: <ManageOfficersModal id={id} members={members} />,
+              children: <ManageOfficersModal id={unit.id} members={unit.members} />,
             });
           }}
         >

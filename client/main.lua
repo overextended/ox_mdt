@@ -154,6 +154,7 @@ serverNuiCallback('leaveUnit')
 serverNuiCallback('setCallUnits')
 serverNuiCallback('getActiveOfficers')
 serverNuiCallback('setUnitOfficers')
+serverNuiCallback('setUnitType')
 
 ---@param data table
 ---@param cb function

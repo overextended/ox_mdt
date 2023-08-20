@@ -40,7 +40,7 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
           ·<Text>{unit.name}</Text>
         </Group>
         <Group spacing={8}>
-          <UnitSettings id={unit.id} members={unit.members} isDispatch={isDispatch} />
+          <UnitSettings unit={unit} isDispatch={isDispatch} />
           <ActionIcon
             color={isInThisUnit ? 'red' : 'blue'}
             variant="light"
