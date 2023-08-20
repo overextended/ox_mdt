@@ -108,5 +108,6 @@
   "phone_number": "Phone number",
   "manage_members": "Manage members",
   "unit_officers": "Unit officers",
-  "unit_officers_description": "Set officers assigned to this unit"
+  "unit_officers_description": "Set officers assigned to this unit",
+  "change_unit_type": "Change type"
 }
