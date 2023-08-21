@@ -34,15 +34,11 @@ function ox.getVehicles(parameters)
     return vehicles
 end
 
----@return table<string, { label: string, points: number } | string>[]
+---@return table<string, { label: string } | string>[]
 function ox.getLicenses(parameters)
     local licenses = MySQL.rawExecute.await(
         'SELECT ox_licenses.label, `issued` FROM character_licenses LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name WHERE `charid` = ?',
         parameters) or {}
-
-    for _, v in pairs(licenses) do
-        v.points = 0
-    end
 
     return licenses
 end
@@ -196,7 +192,6 @@ function ox.getCriminalCharges(parameters)
             charge as label,
             time,
             fine,
-            points,
             count
         FROM
             ox_mdt_reports_charges

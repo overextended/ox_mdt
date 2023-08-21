@@ -5,7 +5,6 @@ CREATE TABLE
         `description` varchar(250) NOT NULL,
         `time` int (10) unsigned NOT NULL DEFAULT 0,
         `fine` int (10) unsigned NOT NULL DEFAULT 0,
-        `points` int (10) unsigned NOT NULL DEFAULT 0,
         PRIMARY KEY (`label`) USING BTREE
     );
 
@@ -51,7 +50,6 @@ CREATE TABLE
         `count` int (10) unsigned NOT NULL DEFAULT 1,
         `time` int (10) unsigned DEFAULT NULL,
         `fine` int (10) unsigned DEFAULT NULL,
-        `points` int (10) unsigned DEFAULT NULL,
         KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals` (`reportid`),
         KEY `FK_ox_mdt_reports_charges_ox_mdt_reports_criminals_2` (`stateid`),
         KEY `FK_ox_mdt_reports_charges_ox_mdt_offenses` (`charge`),
@@ -105,8 +103,7 @@ INSERT INTO
         `type`,
         `description`,
         `time`,
-        `fine`,
-        `points`
+        `fine`
     )
 VALUES
     (
@@ -114,22 +111,19 @@ VALUES
         'misdemeanour',
         'Standing go brrr',
         90,
-        25000,
-        0
+        25000
     ),
     (
         'Robbery of a finanical institution',
         'felony',
         'Bank robbery go brrr',
         30,
-        3000,
-        0
+        3000
     ),
     (
         'Speeding',
         'infraction',
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, doloribus eveniet facere ipsam, ipsum minus modi molestiae nesciunt odio saepe sapiente sed sint voluptatibus voluptatum!',
         0,
-        2500,
-        3
+        2500
     );

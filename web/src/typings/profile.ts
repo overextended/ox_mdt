@@ -1,7 +1,7 @@
 export interface Profile extends ProfileCard {
   notes?: string;
   phoneNumber: string;
-  licenses?: Array<{ label: string; points: number } | string>;
+  licenses?: Array<{ label: string }>;
   vehicles?: {
     label: string;
     plate: string;

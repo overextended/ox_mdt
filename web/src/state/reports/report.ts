@@ -47,7 +47,6 @@ export const reportAtom = atom<Report>({
       penalty: {
         time: 0,
         fine: 0,
-        points: 0,
         reduction: null,
       },
     },

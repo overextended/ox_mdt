@@ -9,7 +9,7 @@
 ---@field stateId string
 ---@field charid number | string
 ---@field notes? string
----@field licenses? table<string, { label: string, points: number } | string>[]
+---@field licenses? table<string, { label: string } | string>[]
 ---@field vehicles? { label: string, plate: string }[]
 ---@field pastCharges? { label: string, count: number }[]
 ---@field relatedReports? { title: string, author: string, date: string, id: number }[]
@@ -33,18 +33,18 @@
 ---@field pleadedGuilty? boolean
 ---@field processed? boolean
 ---@field warrantExpiry? string
----@field penalty { time: number, fine: number, points: number, reduction?: number }
+---@field penalty { time: number, fine: number, reduction?: number }
 
 ---@class Charge
 ---@field label string
 ---@field type 'misdemeanour' | 'felony' | 'infraction'
 ---@field description string
----@field penalty { time: number, fine: number, points: number }
+---@field penalty { time: number, fine: number }
 
 ---@class SelectedCharge
 ---@field label string
 ---@field count number
----@field penalty { time: number, fine: number, points: number }
+---@field penalty { time: number, fine: number }
 
 ---@class Report
 ---@field title string
@@ -116,4 +116,4 @@
 
 ---@alias FetchOfficers { firstName: string, lastName: string, stateId: string }[]
 ---@alias FetchCriminals { stateId: string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean }[]
----@alias FetchCharges { stateId: string, label: string, time: number?, fine: number?, points: number?, count: number }[]
+---@alias FetchCharges { stateId: string, label: string, time: number?, fine: number?, count: number }[]

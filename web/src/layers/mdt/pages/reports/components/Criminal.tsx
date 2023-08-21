@@ -28,10 +28,9 @@ const calculateReductions = (penalties: Criminal['penalty']) => {
     const percent = percentages[i];
     const time = calculatePenalty(penalties.time, percent);
     const fine = calculatePenalty(penalties.fine, percent);
-    const points = calculatePenalty(penalties.points, percent);
 
     reductions[i] = {
-      label: `${percent}% (${time} months / $${fine} / ${points} points)`,
+      label: `${percent}% (${time} months / $${fine})`,
       value: percent.toString(),
     };
   }
@@ -160,15 +159,15 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             clearable
             placeholder={locales.no_reduction}
           />
-          <Group position="apart">
+          <Group>
             <Text size="xs">
               {locales.time}: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} {locales.months}
             </Text>
             <Text size="xs">
-              {locales.fine}: ${calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)}
-            </Text>
-            <Text size="xs">
-              {locales.points}: {calculatePenalty(criminal.penalty.points, criminal.penalty.reduction)}
+              {locales.fine}:{' '}
+              {Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(
+                calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)
+              )}
             </Text>
           </Group>
           <Group>

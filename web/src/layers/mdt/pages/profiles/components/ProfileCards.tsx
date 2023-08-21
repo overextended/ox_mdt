@@ -16,15 +16,9 @@ const ProfileCards: React.FC = () => {
       {profile.licenses && (
         <ProfileCard title={locales.licenses} icon={IconCertificate}>
           <Group spacing={8}>
-            {profile.licenses.map((license) =>
-              typeof license === 'string' ? (
-                <Badge key={license}>{license}</Badge>
-              ) : (
-                <Badge key={license.label}>
-                  {license.label} ({license.points} points)
-                </Badge>
-              )
-            )}
+            {profile.licenses.map((license) => (
+              <Badge key={license.label}>{license.label}</Badge>
+            ))}
           </Group>
         </ProfileCard>
       )}

@@ -12,7 +12,6 @@ export interface Criminal extends CriminalProfile {
   penalty: {
     time: number;
     fine: number;
-    points: number;
     reduction: number | null;
   };
 }

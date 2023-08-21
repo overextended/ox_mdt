@@ -5,16 +5,9 @@ export interface Charge {
   penalty: {
     time: number;
     fine: number;
-    points: number;
   };
 }
 
-export interface SelectedCharge {
-  label: string;
+export interface SelectedCharge extends Omit<Charge, 'type' | 'description'> {
   count: number;
-  penalty: {
-    time: number;
-    fine: number;
-    points: number;
-  };
 }

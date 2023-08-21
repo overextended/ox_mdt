@@ -9,7 +9,6 @@ const CHARGES: Charge[] = [
     penalty: {
       time: 30,
       fine: 3000,
-      points: 0,
     },
   },
   {
@@ -20,7 +19,6 @@ const CHARGES: Charge[] = [
     penalty: {
       time: 0,
       fine: 2500,
-      points: 3,
     },
   },
   {
@@ -30,7 +28,6 @@ const CHARGES: Charge[] = [
     penalty: {
       time: 90,
       fine: 25000,
-      points: 0,
     },
   },
 ];

@@ -13,7 +13,6 @@ interface Props {
 const calculateCharges = (charges: SelectedCharge[]) => {
   const penalty: Criminal['penalty'] = {
     reduction: null,
-    points: 0,
     fine: 0,
     time: 0,
   };
@@ -22,7 +21,6 @@ const calculateCharges = (charges: SelectedCharge[]) => {
     const charge = charges[i];
     penalty.time += charge.penalty.time * charge.count;
     penalty.fine += charge.penalty.fine * charge.count;
-    penalty.points += charge.penalty.points * charge.count;
   }
 
   return penalty;

@@ -49,14 +49,12 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
             label={
               <Stack>
                 <Text>{charge.description}</Text>
-                <Group spacing="xs" noWrap position="apart">
-                  <Text size="xs"> ${charge.penalty.fine || 0}</Text>
+                <Group spacing="xs" noWrap>
                   <Text size="xs">
-                    {' '}
-                    {charge.penalty.time || 0} {locales.months}
+                    {locales.fine}: ${charge.penalty.fine || 0}
                   </Text>
                   <Text size="xs">
-                    {charge.penalty.points || 0} {locales.points.toLowerCase()}
+                    {locales.time}: {charge.penalty.time || 0} {locales.months}
                   </Text>
                 </Group>
               </Stack>
