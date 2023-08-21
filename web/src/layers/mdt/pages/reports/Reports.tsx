@@ -40,7 +40,7 @@ const Reports: React.FC = () => {
   }, []);
 
   return (
-    <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }}>
+    <SimpleGrid h="100%" cols={3} sx={{ overflow: 'hidden' }} spacing="xs">
       <Stack className={classes.container} p="md">
         <Group position="apart">
           <Text size="xl">{locales.reports}</Text>

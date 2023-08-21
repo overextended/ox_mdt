@@ -1,9 +1,11 @@
 import React from 'react';
-import { createStyles, Group, Stack } from '@mantine/core';
+import { createStyles, Group, SimpleGrid, Stack } from '@mantine/core';
 import { queryClient } from '../../../../main';
 import { Announcement } from '../../../../typings';
 import AnnouncementsContainer from './components/announcements/AnnouncementsContainer';
 import WarrantsContainer from './components/warrants/WarrantsContainer';
+import CardTitle from '../../components/CardTitle';
+import { IconEye } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -32,14 +34,17 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <Group h="100%" spacing="md">
+    <SimpleGrid cols={3} h="100%" spacing="xs">
       <Stack p="md" className={classes.container}>
         <AnnouncementsContainer />
       </Stack>
       <Stack p="md" className={classes.container}>
         <WarrantsContainer />
       </Stack>
-    </Group>
+      <Stack p="md" className={classes.container}>
+        <CardTitle title="BOLOs" icon={<IconEye />} />
+      </Stack>
+    </SimpleGrid>
   );
 };
 

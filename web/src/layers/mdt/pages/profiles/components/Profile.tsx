@@ -26,10 +26,7 @@ const Profile: React.FC = () => {
           value={new Date(profile.dob).toLocaleDateString()}
         />
       </SimpleGrid>
-      <Stack spacing={6} h="100%">
-        <Text size="xs" c="dark.2">
-          {locales.notes}:
-        </Text>
+      <Stack spacing="xs" h="100%">
         <Editor
           placeholder={locales.profile_notes_placeholder}
           content={profile.notes}

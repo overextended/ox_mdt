@@ -12,7 +12,7 @@ const ReportCriminals: React.FC = () => {
 
   return (
     <Box sx={{ overflowY: 'scroll' }}>
-      <Stack>
+      <Stack spacing="xs">
         <Button
           variant="light"
           leftIcon={<IconPlus size={20} />}

@@ -37,7 +37,7 @@ const WarrantCard: React.FC<Props> = ({ warrant }) => {
     <Stack
       key={`${warrant.firstName} ${warrant.lastName}`}
       className={classes.warrantContainer}
-      p="md"
+      p="xs"
       onClick={async () => {
         if (isEnvBrowser()) return;
         setLoaderModal(true);
@@ -49,8 +49,8 @@ const WarrantCard: React.FC<Props> = ({ warrant }) => {
       }}
     >
       <Group>
-        <Avatar size="lg" color="blue" radius="md" />
-        <Stack spacing={0}>
+        <Avatar size="xl" color="blue" radius="md" src={warrant.image} />
+        <Stack justify="space-between" h="100%">
           <Text>
             {warrant.firstName} {warrant.lastName}
           </Text>

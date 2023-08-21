@@ -14,7 +14,9 @@ const useStyles = createStyles((theme) => ({
     borderBottomLeftRadius: theme.radius.md,
     width: 300,
     height: '100%',
-    padding: theme.spacing.md,
+    padding: theme.spacing.xs,
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
   },
 }));
 

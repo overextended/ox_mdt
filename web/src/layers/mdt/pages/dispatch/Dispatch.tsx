@@ -12,12 +12,6 @@ const useStyles = createStyles((theme) => ({
     boxShadow: theme.shadows.md,
     padding: theme.spacing.md,
   },
-  unitContainer: {
-    background: theme.colors.durple[4],
-    boxShadow: theme.shadows.md,
-    padding: theme.spacing.md,
-    borderRadius: theme.radius.md,
-  },
 }));
 
 const Dispatch: React.FC = () => {
@@ -25,17 +19,17 @@ const Dispatch: React.FC = () => {
 
   return (
     <Grid grow h="100%" mt={0} mb={0}>
-      <Grid.Col span={4} pb={0} pt={0}>
+      <Grid.Col span={4} pb={0} pt={0} px="xs">
         <Box className={classes.container} p={0}>
           <MapWrapper />
         </Box>
       </Grid.Col>
-      <Grid.Col span={2} pb={0} pt={0}>
+      <Grid.Col span={2} p={0} pr="xs">
         <Stack className={classes.container}>
           <CallsContainer />
         </Stack>
       </Grid.Col>
-      <Grid.Col span={2} pb={0} pt={0}>
+      <Grid.Col span={2} p={0} pr="xs">
         <Stack className={classes.container}>
           <UnitsContainer />
         </Stack>

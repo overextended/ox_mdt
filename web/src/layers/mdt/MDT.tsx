@@ -42,6 +42,9 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[7],
     borderRadius: theme.radius.md,
   },
+  main: {
+    padding: theme.spacing.xs,
+  },
 }));
 
 const MDT: React.FC = () => {
@@ -80,7 +83,7 @@ const MDT: React.FC = () => {
               style={style}
               navbar={<Navbar />}
               fixed={false}
-              classNames={{ root: classes.root, body: classes.body }}
+              classNames={{ root: classes.root, body: classes.body, main: classes.main }}
             >
               <Routes>
                 <Route path="/" element={<Dashboard />} />

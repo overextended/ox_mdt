@@ -41,7 +41,7 @@ const Profiles: React.FC = () => {
   }, []);
 
   return (
-    <SimpleGrid cols={3} h="100%" sx={{ overflow: 'hidden' }}>
+    <SimpleGrid cols={3} h="100%" sx={{ overflow: 'hidden' }} spacing="xs">
       <Stack className={classes.container} p="md">
         <Group position="apart">
           <Text size="xl">{locales.profiles}</Text>
@@ -64,7 +64,7 @@ const Profiles: React.FC = () => {
             </Center>
           )}
         </Stack>
-        <Stack sx={{ overflow: 'auto' }}>
+        <Stack sx={{ overflow: 'auto' }} spacing="xs">
           {isProfileActive ? (
             <ProfileCards />
           ) : (

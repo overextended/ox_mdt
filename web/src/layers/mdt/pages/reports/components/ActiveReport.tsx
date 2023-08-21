@@ -29,7 +29,7 @@ const ActiveReport: React.FC = () => {
       <>
         <Box sx={{ overflowY: 'scroll' }}>
           {isReportActive ? (
-            <Stack>
+            <Stack spacing="xs">
               <BaseCard h={500}>
                 <ReportContent />
               </BaseCard>

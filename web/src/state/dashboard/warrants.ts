@@ -13,7 +13,16 @@ const [warrantsAtom] = atomsWithQuery(
     refetchOnMount: true,
     queryFn: async () => {
       return fetchNui<Warrant[]>('getWarrants', get(warrantsSearchAtoms.debouncedValueAtom), {
-        data: [{ stateId: 'AF30442', firstName: 'Billy', lastName: 'Bob', reportId: 3, expiresAt: Date.now() }],
+        data: [
+          {
+            stateId: 'AF30442',
+            firstName: 'Billy',
+            lastName: 'Bob',
+            reportId: 3,
+            expiresAt: Date.now(),
+            image: 'https://i.imgur.com/dqopYB9b.jpg',
+          },
+        ],
       });
     },
   }),
