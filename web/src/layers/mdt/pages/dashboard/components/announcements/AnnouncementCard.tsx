@@ -72,7 +72,8 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
                 announcement.stateId !== character.stateId && character.grade < config.permissions.announcements.delete
               }
               size="lg"
-              color="dark.2"
+              variant="light"
+              color="blue"
             >
               <IconDots />
             </ActionIcon>

@@ -5,7 +5,19 @@ import { fetchNui } from '../../utils/fetchNui';
 import { queryClient } from '../../main';
 import { isEnvBrowser } from '../../utils/misc';
 
-const DEBUG_ANNOUNCEMENTS: Announcement[] = [];
+const DEBUG_ANNOUNCEMENTS: Announcement[] = [
+  {
+    contents: 'Dsadaasd',
+    id: 1,
+    playerId: 1,
+    position: [0, 0, 0],
+    callSign: 132,
+    firstName: 'Fdsadas',
+    lastName: 'DSasd',
+    stateId: 'dsadas',
+    createdAt: Date.now(),
+  },
+];
 const getAnnouncements = async (page: number): Promise<{ hasMore: boolean; announcements: Announcement[] }> => {
   if (isEnvBrowser()) {
     return {
