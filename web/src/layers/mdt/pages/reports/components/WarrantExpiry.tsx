@@ -32,6 +32,7 @@ const WarrantExpiry: React.FC<Props> = ({ charges, reportId, index, onChange }) 
       label={locales.warrant_expiration_date}
       placeholder="2023-03-12"
       weekendDays={[]}
+      minDate={new Date()}
       value={expiry}
       onChange={(val) => {
         setExpiry(val);
