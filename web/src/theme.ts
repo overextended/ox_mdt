@@ -178,6 +178,9 @@ export const theme: MantineThemeOverride = {
         },
       },
       styles: (theme) => ({
+        overlay: {
+          borderRadius: theme.radius.md,
+        },
         header: {
           backgroundColor: theme.colors.durple[6],
         },

@@ -13,6 +13,7 @@ const LoaderModal: React.FC = () => {
       closeOnClickOutside={false}
       closeOnEscape={true}
       size="fit-content"
+      target=".modal-container"
     >
       <Center p="md">
         <Loader />

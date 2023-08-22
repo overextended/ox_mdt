@@ -13,6 +13,7 @@ import Profiles from './pages/profiles/Profiles';
 import Reports from './pages/reports/Reports';
 import Dispatch from './pages/dispatch/Dispatch';
 import LoaderModal from './components/LoaderModal';
+import { ModalsProvider } from '@mantine/modals';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -83,19 +84,22 @@ const MDT: React.FC = () => {
               style={style}
               navbar={<Navbar />}
               fixed={false}
+              className="modal-container"
               classNames={{ root: classes.root, body: classes.body, main: classes.main }}
             >
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/profiles" element={<Profiles />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/dispatch" element={<Dispatch />} />
-              </Routes>
+              <ModalsProvider modalProps={{ target: '.modal-container' }}>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/profiles" element={<Profiles />} />
+                  <Route path="/reports" element={<Reports />} />
+                  <Route path="/dispatch" element={<Dispatch />} />
+                </Routes>
+                <LoaderModal />
+              </ModalsProvider>
             </AppShell>
           )}
         </Transition>
       </Box>
-      <LoaderModal />
     </>
   );
 };
