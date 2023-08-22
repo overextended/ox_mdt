@@ -6,7 +6,7 @@ export interface Call {
   id: number;
   offense: string;
   code: string;
-  completed: boolean;
+  completed: false | number;
   linked: boolean;
   coords: [number, number];
   blip: number;

@@ -54,7 +54,7 @@ const DEBUG_CALLS: Call[] = [
     },
     coords: [255, 150],
     blip: 51,
-    completed: true,
+    completed: Date.now(),
     linked: false,
     offense: 'Officer Down',
     code: '10-13',

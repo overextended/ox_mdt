@@ -109,7 +109,7 @@ end)
 utils.registerCallback('ox_mdt:completeCall', function(source, id)
     if not activeCalls[id] then return end
 
-    activeCalls[id].completed = true
+    activeCalls[id].completed = os.time()
     completedCalls[id] = activeCalls[id]
     activeCalls[id] = nil
 
@@ -132,4 +132,13 @@ utils.registerCallback('ox_mdt:setCallUnits', function(source, data)
     officers.triggerEvent('ox_mdt:setCallUnits', { id = data.id, units = activeCalls[data.id].units })
 
     return true
+end)
+
+-- Remove completed calls older than 1 hour every hour
+lib.cron.new('0 */1 * * *', function()
+    for id, call in pairs(completedCalls) do
+        if os.time() - call.completed > 3600 then
+            completedCalls[id] = nil
+        end
+    end
 end)
