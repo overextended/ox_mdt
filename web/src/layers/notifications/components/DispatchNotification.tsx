@@ -1,6 +1,6 @@
 import React from 'react';
 import { Call } from '../../../typings';
-import { Badge, createStyles, Divider, Group, Stack, Text, Transition } from '@mantine/core';
+import { Badge, createStyles, Divider, Group, SimpleGrid, Stack, Text, Transition } from '@mantine/core';
 import { IconCar, IconClock, IconMap2, IconSteeringWheel } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import NotificationInfo from './NotificationInfo';
@@ -58,12 +58,12 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
             <NotificationControls call={call} />
           </Group>
           <Divider />
-          <Group spacing="xs">
+          <SimpleGrid cols={2} spacing="xs">
             <NotificationInfo label={dayjs(call.info.time).fromNow()} icon={IconClock} />
-            {call.info.location && <NotificationInfo icon={IconMap2} label={call.info.location} />}
-            {call.info.plate && <NotificationInfo icon={IconSteeringWheel} label={call.info.plate} />}
+            <NotificationInfo icon={IconMap2} label={call.info.location} />
             {call.info.vehicle && <NotificationInfo icon={IconCar} label={call.info.vehicle} />}
-          </Group>
+            {call.info.plate && <NotificationInfo icon={IconSteeringWheel} label={call.info.plate} />}
+          </SimpleGrid>
           {call.units.length > 0 && (
             <>
               <Divider label={`${locales.attached_units}`.format(call.units.length)} labelPosition="center" />

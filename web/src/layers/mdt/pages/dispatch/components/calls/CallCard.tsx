@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
-import { IconClock, IconFileImport, IconMap2 } from '@tabler/icons-react';
+import { ActionIcon, Badge, Box, createStyles, Divider, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { IconCar, IconClock, IconFileImport, IconMap2, IconSteeringWheel } from '@tabler/icons-react';
 import { Call, Officer } from '../../../../../../typings';
 import dayjs from 'dayjs';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
@@ -79,6 +79,18 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
           <IconMap2 size={16} />
           <Text size="sm">{call.info.location}</Text>
         </Group>
+        {call.info.vehicle && (
+          <Group spacing="xs" noWrap>
+            <IconCar size={16} />
+            <Text size="sm">{call.info.vehicle}</Text>
+          </Group>
+        )}
+        {call.info.plate && (
+          <Group spacing="xs" noWrap>
+            <IconSteeringWheel size={16} />
+            <Text size="sm">{call.info.plate}</Text>
+          </Group>
+        )}
       </Stack>
       {call.units.length > 0 && (
         <>

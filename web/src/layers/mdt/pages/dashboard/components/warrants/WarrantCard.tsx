@@ -50,7 +50,7 @@ const WarrantCard: React.FC<Props> = ({ warrant }) => {
     >
       <Group>
         <Avatar size="xl" color="blue" radius="md" src={warrant.image} />
-        <Stack justify="space-between" h="100%">
+        <Stack spacing={0} h="100%">
           <Text>
             {warrant.firstName} {warrant.lastName}
           </Text>
