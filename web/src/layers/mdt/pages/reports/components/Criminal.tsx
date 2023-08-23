@@ -1,17 +1,19 @@
 import React from 'react';
-import { ActionIcon, Badge, Checkbox, Group, Select, Stack, Text } from '@mantine/core';
-import { IconClockDown, IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
+import { ActionIcon, Badge, Checkbox, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
+import { IconClockDown, IconDeviceFloppy, IconTrash, IconUserShare } from '@tabler/icons-react';
 import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
 import { PrimitiveAtom, useAtom } from 'jotai';
-import { useReportId, useSetCriminals, useSetSelectedCharges } from '../../../../../state';
+import { useReportId, useSetCriminals, useSetProfile, useSetSelectedCharges } from '../../../../../state';
 import { modals } from '@mantine/modals';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
-import type { Criminal } from '../../../../../typings';
+import type { Criminal, Profile } from '../../../../../typings';
 import locales from '../../../../../locales';
 import dayjs from 'dayjs';
+import { useSetLoader } from '../../../../../state/loader';
+import { useNavigate } from 'react-router-dom';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -43,6 +45,9 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
   const id = useReportId();
   const setSelectedCharges = useSetSelectedCharges();
   const setCriminals = useSetCriminals();
+  const setLoaderModal = useSetLoader();
+  const navigate = useNavigate();
+  const setProfile = useSetProfile();
 
   return (
     <BaseCard key={criminal.stateId}>
@@ -52,56 +57,79 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             {criminal.firstName} {criminal.lastName}
           </Text>
 
-          <Group spacing="xs">
-            <ActionIcon
-              color="red"
-              variant="light"
-              onClick={() =>
-                modals.openConfirmModal({
-                  title: locales.remove_criminal,
-                  size: 'sm',
-                  labels: { confirm: locales.confirm, cancel: locales.cancel },
-                  groupProps: {
-                    spacing: 6,
-                  },
-                  confirmProps: { color: 'red' },
-                  onConfirm: async () => {
-                    const success = await fetchNui('removeCriminal', { id, criminalId: criminal.stateId }, { data: 1 });
-
-                    if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
-                  },
-                  children: (
-                    <Text size="sm" c="dark.2">
-                      {locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}
-                    </Text>
-                  ),
-                })
-              }
-            >
-              <IconTrash size={20} />
-            </ActionIcon>
-            <ActionIcon
-              color="blue"
-              variant="light"
-              onClick={() => {
-                console.log(criminal);
-                fetchNui(
-                  'saveCriminal',
-                  {
-                    id,
-                    criminal: {
-                      ...criminal,
-                      warrantExpiry: criminal.warrantExpiry
-                        ? dayjs(criminal.warrantExpiry).format('YYYY-MM-DD HH:mm:ss')
-                        : null,
+          <Group spacing={6}>
+            <Tooltip label={locales.remove_criminal}>
+              <ActionIcon
+                color="red"
+                variant="light"
+                onClick={() =>
+                  modals.openConfirmModal({
+                    title: locales.remove_criminal,
+                    size: 'sm',
+                    labels: { confirm: locales.confirm, cancel: locales.cancel },
+                    groupProps: {
+                      spacing: 6,
                     },
-                  },
-                  { data: 1 }
-                );
-              }}
-            >
-              <IconDeviceFloppy size={20} />
-            </ActionIcon>
+                    confirmProps: { color: 'red' },
+                    onConfirm: async () => {
+                      const success = await fetchNui(
+                        'removeCriminal',
+                        { id, criminalId: criminal.stateId },
+                        { data: 1 }
+                      );
+
+                      if (success) setCriminals((prev) => prev.filter((crim) => crim.stateId !== criminal.stateId));
+                    },
+                    children: (
+                      <Text size="sm" c="dark.2">
+                        {locales.remove_criminal_confirm.format(criminal.firstName, criminal.lastName)}
+                      </Text>
+                    ),
+                  })
+                }
+              >
+                <IconTrash size={20} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={locales.go_to_profile}>
+              <ActionIcon
+                variant="light"
+                color="blue"
+                onClick={async () => {
+                  setLoaderModal(true);
+                  const resp = await fetchNui<Profile>('getProfile', criminal.stateId);
+                  setProfile(resp);
+                  navigate('/profiles');
+                  setLoaderModal(false);
+                }}
+              >
+                <IconUserShare size={20} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={locales.save_criminal}>
+              <ActionIcon
+                color="blue"
+                variant="light"
+                onClick={() => {
+                  console.log(criminal);
+                  fetchNui(
+                    'saveCriminal',
+                    {
+                      id,
+                      criminal: {
+                        ...criminal,
+                        warrantExpiry: criminal.warrantExpiry
+                          ? dayjs(criminal.warrantExpiry).format('YYYY-MM-DD HH:mm:ss')
+                          : null,
+                      },
+                    },
+                    { data: 1 }
+                  );
+                }}
+              >
+                <IconDeviceFloppy size={20} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
         </Group>
         <Text c="dark.2" size="xs">

@@ -70,7 +70,6 @@
   "no_reduction": "No reduction",
   "no_report_selected": "No report selected",
   "no_reports_found": "No reports found",
-  "notes": "Notes",
   "officers": "Officers",
   "officers_involved": "Officers involved",
   "past_charges": "Past charges",
@@ -109,5 +108,7 @@
   "manage_members": "Manage members",
   "unit_officers": "Unit officers",
   "unit_officers_description": "Set officers assigned to this unit",
-  "change_unit_type": "Change type"
+  "change_unit_type": "Change type",
+  "go_to_profile": "Go to profile",
+  "save_criminal": "Save criminal"
 }
