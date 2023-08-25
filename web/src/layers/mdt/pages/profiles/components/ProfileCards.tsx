@@ -1,52 +1,31 @@
 import React from 'react';
 import ProfileCard from './ProfileCard';
-import { IconCar, IconCertificate, IconGavel, IconReceipt } from '@tabler/icons-react';
+import { IconCar, IconCertificate, IconGavel, IconQuestionMark, IconReceipt } from '@tabler/icons-react';
 import { Badge, Group, Stack } from '@mantine/core';
 import ProfileReport from './ProfileReport';
 import { useProfile } from '../../../../../state';
 import locales from '../../../../../locales';
+import { useProfileCards } from '../../../../../state/profiles/profileCards';
 
 const ProfileCards: React.FC = () => {
   const profile = useProfile();
+  const profileCards = useProfileCards();
 
   if (!profile) return <></>;
 
   return (
     <>
-      {profile.licenses && (
-        <ProfileCard title={locales.licenses} icon={IconCertificate}>
+      {Object.entries(profileCards).map((entry) => (
+        <ProfileCard title={entry[1].title} icon={IconQuestionMark}>
           <Group spacing={8}>
-            {profile.licenses.map((license) => (
-              <Badge key={license.label}>{license.label}</Badge>
+            {profile[entry[0]].map((label: string) => (
+              <Badge key={label}>{label}</Badge>
             ))}
           </Group>
         </ProfileCard>
-      )}
-      {profile.vehicles && (
-        <ProfileCard title={locales.vehicles} icon={IconCar}>
-          <Group spacing={8}>
-            {profile.vehicles.map((vehicle) => (
-              <Badge key={vehicle.label}>
-                {vehicle.label} ({vehicle.plate})
-              </Badge>
-            ))}
-          </Group>
-        </ProfileCard>
-      )}
-      {profile.pastCharges && (
-        <ProfileCard title={locales.past_charges} icon={IconGavel}>
-          <Group spacing={8}>
-            {profile.pastCharges.map((charge) => (
-              <Badge key={charge.label}>
-                {charge.count}x {charge.label}
-              </Badge>
-            ))}
-          </Group>
-        </ProfileCard>
-      )}
+      ))}
       {profile.relatedReports && (
         <ProfileCard title={locales.related_reports} icon={IconReceipt}>
-          {/*Might become an issue when there is too many reports?*/}
           <Stack spacing="sm">
             {profile.relatedReports.map((report) => (
               <ProfileReport

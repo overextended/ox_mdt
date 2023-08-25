@@ -1,15 +1,7 @@
 export interface Profile extends ProfileCard {
   notes?: string;
   phoneNumber: string;
-  licenses?: Array<{ label: string }>;
-  vehicles?: {
-    label: string;
-    plate: string;
-  }[];
-  pastCharges?: {
-    label: string;
-    count: number;
-  }[];
+  [key: string]: any;
   relatedReports?: {
     title: string;
     author: string;
@@ -24,4 +16,10 @@ export interface ProfileCard {
   dob: number;
   stateId: string;
   image?: string;
+}
+
+export interface CustomProfileData {
+  title: string;
+  icon: string;
+  data: string[];
 }

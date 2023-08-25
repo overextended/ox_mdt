@@ -1,6 +1,7 @@
 local db = {}
 local wildcard = '%s%%'
 local framework = require 'server.framework.ox_core'
+local profileCards = require 'server.profileCards'
 
 ---@generic T
 ---@param fn async fun(parameters?: string[], match?: boolean): T
@@ -176,8 +177,13 @@ function db.selectCharacterProfile(search)
 
     if not profile then return end
 
+    local cards = profileCards.getAll()
+
+    for key, card in pairs(cards) do
+        profile[key] = card.getData(profile)
+    end
+
     profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_charges` b ON b.reportid = a.id WHERE `stateId` = ?', parameters) or {}
-    profile.pastCharges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `stateId` = ? GROUP BY `charge`', parameters) or {}
 
     return profile
 end

@@ -40,6 +40,8 @@ function ox.getLicenses(parameters)
         'SELECT ox_licenses.label, `issued` FROM character_licenses LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name WHERE `charid` = ?',
         parameters) or {}
 
+    print('FRAMEWORK', json.encode(parameters))
+
     return licenses
 end
 
@@ -225,13 +227,6 @@ function ox.getCharacterProfile(parameters)
         WHERE
             a.stateId = ?
     ]], parameters)?[1]
-
-    if not profile then return end
-
-    local parameters2 = { profile.charid }
-
-    profile.vehicles = ox.getVehicles(parameters2)
-    profile.licenses = ox.getLicenses(parameters2)
 
     return profile
 end

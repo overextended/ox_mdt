@@ -21,9 +21,14 @@ local function openMdt()
     if not isAuthorised then return end
 
     if not hasLoadedUi then
+        local profileCards = lib.callback.await('ox_mdt:getCustomProfileCards')
+
         SendNUIMessage({
-            action = 'setLocales',
-            data = lib.getLocales()
+            action = 'setInitData',
+            data = {
+                profileCards = profileCards,
+                locales = lib.getLocales(),
+            }
         })
 
         hasLoadedUi = true

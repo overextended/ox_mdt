@@ -8,27 +8,6 @@ export const DEBUG_PROFILE: Profile = {
   dob: Date.now(),
   phoneNumber: '813-242-0101',
   notes: '<p></p>',
-  licenses: [{ label: 'Drivers license' }, { label: 'Hunting license' }, { label: 'Fishing license' }],
-  vehicles: [
-    {
-      label: 'Dinka Blista',
-      plate: '123XYZ321',
-    },
-  ],
-  pastCharges: [
-    {
-      label: 'Assault with a deadly weapon',
-      count: 3,
-    },
-    {
-      label: 'Fleeing and eluding',
-      count: 5,
-    },
-    {
-      label: 'Bank robbery',
-      count: 1,
-    },
-  ],
   relatedReports: [
     {
       title: 'Report title',
