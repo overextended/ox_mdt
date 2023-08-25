@@ -28,7 +28,7 @@ end
 createProfileCard({
     licenses = {
         title = 'Licenses',
-        icon = '',
+        icon = 'certificate',
         getData = function(profile)
             local licenses = framework.getLicenses({profile.charid})
             local licenseLabels = {}
@@ -42,6 +42,7 @@ createProfileCard({
     },
     vehicles = {
         title = 'Vehicles',
+        icon = 'car',
         getData = function(profile)
             local vehicles = framework.getVehicles({profile.charid})
             local vehicleLabels = {}
@@ -52,10 +53,10 @@ createProfileCard({
 
             return vehicleLabels
         end,
-        icon = ''
     },
     pastCharges = {
         title = 'Past charges',
+        icon = 'gavel',
         getData = function(profile)
             local charges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `stateId` = ? GROUP BY `charge`', {profile.stateId}) or {}
             local chargeLabels = {}
@@ -66,11 +67,10 @@ createProfileCard({
 
             return chargeLabels
         end,
-        icon = ''
     },
     property = {
         title = 'Property',
-        icon = '',
+        icon = 'home',
         getData = function()
             return {'Strawberry Ave 40', 'Pogchamp Street 13'}
         end

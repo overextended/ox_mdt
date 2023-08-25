@@ -16,7 +16,7 @@ const ProfileCards: React.FC = () => {
   return (
     <>
       {Object.entries(profileCards).map((entry) => (
-        <ProfileCard title={entry[1].title} icon={IconQuestionMark}>
+        <ProfileCard title={entry[1].title} icon={entry[1].icon}>
           <Group spacing={8}>
             {profile[entry[0]].map((label: string) => (
               <Badge key={label}>{label}</Badge>

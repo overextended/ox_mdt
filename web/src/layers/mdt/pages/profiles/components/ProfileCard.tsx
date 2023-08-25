@@ -12,7 +12,7 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   title: string;
-  icon: React.ComponentType;
+  icon: React.ComponentType | string;
   children: React.ReactNode;
 }
 
@@ -23,9 +23,12 @@ const ProfileCard: React.FC<Props> = (props) => {
     <Stack className={classes.infoContainer}>
       <Group position="apart">
         <Text size="lg">{props.title}</Text>
-        <props.icon />
+        {typeof props.icon === 'string' ? (
+          <i className={`ti ti-${props.icon}`} style={{ fontSize: 24 }} />
+        ) : (
+          <props.icon />
+        )}
       </Group>
-      {props.children}
     </Stack>
   );
 };
