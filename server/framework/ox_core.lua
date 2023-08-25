@@ -7,7 +7,7 @@ local function addOfficer(playerId)
     local player = Ox.GetPlayer(playerId)
 
     if player and player.hasGroup(policeGroups) then
-        officers.add(playerId, player.firstname, player.lastname, player.stateid, 132)
+        officers.add(playerId, player.firstName, player.lastName, player.stateId, 132)
     end
 end
 
