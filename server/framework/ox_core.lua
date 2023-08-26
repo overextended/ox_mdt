@@ -213,7 +213,7 @@ function ox.getCharacterProfile(parameters)
             a.stateId,
             a.charid,
             DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob,
-            a.phone_number AS phoneNumber,
+            a.phoneNumber,
             b.image,
             b.notes
         FROM
