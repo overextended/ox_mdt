@@ -52,7 +52,7 @@ end
 createProfileCard({
     {
         id = 'licenses',
-        title = 'Licenses',
+        title = locale('licenses'),
         icon = 'certificate',
         getData = function(profile)
             local licenses = framework.getLicenses({profile.charid})
@@ -67,7 +67,7 @@ createProfileCard({
     },
     {
         id = 'vehicles',
-        title = 'Vehicles',
+        title = locale('vehicles'),
         icon = 'car',
         getData = function(profile)
             local vehicles = framework.getVehicles({profile.charid})
@@ -82,7 +82,7 @@ createProfileCard({
     },
     {
         id = 'pastCharges',
-        title = 'Past charges',
+        title = locale("past_charges"),
         icon = 'gavel',
         getData = function(profile)
             local charges = MySQL.rawExecute.await('SELECT `charge` AS label, SUM(`count`) AS count FROM `ox_mdt_reports_charges` WHERE `charge` IS NOT NULL AND `stateId` = ? GROUP BY `charge`', {profile.stateId}) or {}
@@ -95,14 +95,6 @@ createProfileCard({
             return chargeLabels
         end,
     },
-    {
-        id = 'property',
-        title = 'Property',
-        icon = 'home',
-        getData = function()
-            return {'Strawberry Ave 40', 'Pogchamp Street 13'}
-        end
-    }
 })
 
 utils.registerCallback('ox_mdt:getCustomProfileCards', function()

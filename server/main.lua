@@ -1,3 +1,5 @@
+lib.locale()
+
 local utils = require 'server.utils'
 local db = require 'server.db'
 local officers = require 'server.officers'
