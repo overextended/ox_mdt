@@ -179,8 +179,9 @@ function db.selectCharacterProfile(search)
 
     local cards = profileCards.getAll()
 
-    for key, card in pairs(cards) do
-        profile[key] = card.getData(profile)
+    for i = 1, #cards do
+        local card = cards[i]
+        profile[card.id] = card.getData(profile)
     end
 
     profile.relatedReports = MySQL.rawExecute.await('SELECT DISTINCT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d") as date FROM `ox_mdt_reports` a LEFT JOIN `ox_mdt_reports_charges` b ON b.reportid = a.id WHERE `stateId` = ?', parameters) or {}

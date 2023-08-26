@@ -55,13 +55,10 @@ const MDT: React.FC = () => {
   const setCharacter = useSetCharacter();
   const setProfileCards = useSetProfileCards();
 
-  useNuiEvent(
-    'setInitData',
-    async (data: { locales: typeof locales; profileCards: { [key: string]: CustomProfileData } }) => {
-      setLocale(data.locales);
-      setProfileCards(data.profileCards);
-    }
-  );
+  useNuiEvent('setInitData', async (data: { locales: typeof locales; profileCards: CustomProfileData[] }) => {
+    setLocale(data.locales);
+    setProfileCards(data.profileCards);
+  });
 
   useNuiEvent('setVisible', (data?: Character) => {
     setVisible(true);

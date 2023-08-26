@@ -2,21 +2,45 @@ local utils = require 'server.utils'
 local framework = require 'server.framework.ox_core'
 
 ---@class CustomProfileCard
----@field [string] CustomProfileCardValue
-
----@class CustomProfileCardValue
+---@field id string
 ---@field title string
 ---@field icon string
 ---@field getData fun(parameters: {search: string}): string[]
 
----@type CustomProfileCard
+---@type CustomProfileCard[]
 local customProfileCards = {}
 
----@param data CustomProfileCard
-local function createProfileCard(data)
-    for k, v in pairs(data) do
-        customProfileCards[k] = v
+---@param newCard CustomProfileCard
+local function checkCardExists(newCard)
+    for i = 1, #customProfileCards do
+        local card = customProfileCards[i]
+
+        if card.id == newCard.id then
+            assert(false, ("Custom card with id `%s` already exists!"):format(card.id))
+            return true
+         end
     end
+
+    return false
+end
+
+---@param data CustomProfileCard | CustomProfileCard[]
+local function createProfileCard(data)
+    local arrLength = #data
+    if arrLength > 0 then
+        for i = 1, arrLength do
+            local newCard = data[i]
+            if not checkCardExists(newCard) then
+                customProfileCards[#customProfileCards+1] = newCard
+            end
+        end
+        return
+    end
+
+    ---@diagnostic disable-next-line: param-type-mismatch
+    if not checkCardExists(data.id) then
+        customProfileCards[#customProfileCards+1] = data
+     end
 end
 
 exports('createProfileCard', createProfileCard)
@@ -26,7 +50,8 @@ local function getAll()
 end
 
 createProfileCard({
-    licenses = {
+    {
+        id = 'licenses',
         title = 'Licenses',
         icon = 'certificate',
         getData = function(profile)
@@ -40,7 +65,8 @@ createProfileCard({
             return licenseLabels
         end
     },
-    vehicles = {
+    {
+        id = 'vehicles',
         title = 'Vehicles',
         icon = 'car',
         getData = function(profile)
@@ -54,7 +80,8 @@ createProfileCard({
             return vehicleLabels
         end,
     },
-    pastCharges = {
+    {
+        id = 'pastCharges',
         title = 'Past charges',
         icon = 'gavel',
         getData = function(profile)
@@ -68,7 +95,8 @@ createProfileCard({
             return chargeLabels
         end,
     },
-    property = {
+    {
+        id = 'property',
         title = 'Property',
         icon = 'home',
         getData = function()

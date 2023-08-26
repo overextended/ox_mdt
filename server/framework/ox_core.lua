@@ -40,8 +40,6 @@ function ox.getLicenses(parameters)
         'SELECT ox_licenses.label, `issued` FROM character_licenses LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name WHERE `charid` = ?',
         parameters) or {}
 
-    print('FRAMEWORK', json.encode(parameters))
-
     return licenses
 end
 

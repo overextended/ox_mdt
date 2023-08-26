@@ -19,7 +19,7 @@ export interface PartialProfileData {
 }
 
 export interface CustomProfileData {
+  id: string;
   title: string;
   icon: string;
-  data: string[];
 }

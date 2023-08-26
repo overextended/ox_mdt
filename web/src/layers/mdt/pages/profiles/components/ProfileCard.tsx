@@ -29,6 +29,7 @@ const ProfileCard: React.FC<Props> = (props) => {
           <props.icon />
         )}
       </Group>
+      {props.children}
     </Stack>
   );
 };
