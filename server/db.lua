@@ -81,7 +81,7 @@ end
 
 ---@param page number
 ---@param search string
----@return ProfileCard[]?
+---@return PartialProfileData[]?
 function db.selectProfiles(page, search)
     local offset = (page - 1) * 10
     -- todo: search based on name or stateid

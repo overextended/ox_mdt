@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchNui } from '../../../../../utils/fetchNui';
-import { Report, type ReportCard } from '../../../../../typings';
+import { Report, type PartialReportData } from '../../../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../../state';
 import { useSetLoader } from '../../../../../state/loader';
@@ -18,10 +18,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface Props {
-  report: ReportCard;
+  report: PartialReportData;
 }
 
-const ReportCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ report }, ref) => {
+const PartialReport: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ report }, ref) => {
   const { classes } = useStyles();
   const setIsReportActive = useSetIsReportActive();
   const setActiveReport = useSetActiveReport();
@@ -64,4 +64,4 @@ const ReportCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> =
   );
 };
 
-export default React.memo(React.forwardRef(ReportCard));
+export default React.memo(React.forwardRef(PartialReport));

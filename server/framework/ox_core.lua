@@ -59,7 +59,7 @@ local searchCharacters = selectCharacters .. ' WHERE `firstName` = ? AND `lastNa
 local selectCharacterPartial = selectCharacters .. ' WHERE `lastName` LIKE ? OR `stateId` LIKE ?'
 
 ---@param parameters string[]
----@return ProfileCard[]?
+---@return PartialProfileData[]?
 function ox.getCharacters(parameters, match)
     return MySQL.rawExecute.await(match and searchCharacters or selectCharacterPartial, parameters)
 end

@@ -5,7 +5,7 @@ import { IconReceiptOff } from '@tabler/icons-react';
 import NotFound from '../../../components/NotFound';
 import { useInfiniteScroll } from '../../../../../hooks/useInfiniteScroll';
 import locales from '../../../../../locales';
-import ReportCard from './ReportCard';
+import PartialReport from './PartialReport';
 
 const ReportsList: React.FC = () => {
   const [reports, dispatch] = useReportsList();
@@ -17,7 +17,7 @@ const ReportsList: React.FC = () => {
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
         pages.map((report, i) => (
-          <ReportCard key={report.id} report={report} ref={i === pages.length - 2 ? ref : null} />
+          <PartialReport key={report.id} report={report} ref={i === pages.length - 2 ? ref : null} />
         ))
       ) : (
         <NotFound label={locales.no_reports_found} icon={IconReceiptOff} />

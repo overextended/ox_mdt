@@ -5,7 +5,7 @@ import { modals } from '@mantine/modals';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import locales from '../../../../../locales';
 import { queryClient } from '../../../../../main';
-import { ProfileCard } from '../../../../../typings';
+import { PartialProfileData } from '../../../../../typings';
 
 interface Props {
   image?: string;
@@ -25,21 +25,21 @@ const AvatarModal: React.FC<Props> = (props) => {
 
       fetchNui('saveProfileImage', { stateId: prev.stateId, image }, { data: 1 }).then((res) => {
         setIsLoading(false);
-        queryClient.setQueriesData<{ pages: { profiles: ProfileCard[]; hasMore: boolean }[]; pageParams: number[] }>(
-          ['profiles'],
-          (data) => {
-            if (!data) return undefined;
-            return {
-              ...data,
-              pages: data.pages.map((page) => ({
-                ...page,
-                profiles: page.profiles.map((profile) =>
-                  profile.stateId === prev.stateId ? { ...profile, image } : profile
-                ),
-              })),
-            };
-          }
-        );
+        queryClient.setQueriesData<{
+          pages: { profiles: PartialProfileData[]; hasMore: boolean }[];
+          pageParams: number[];
+        }>(['profiles'], (data) => {
+          if (!data) return undefined;
+          return {
+            ...data,
+            pages: data.pages.map((page) => ({
+              ...page,
+              profiles: page.profiles.map((profile) =>
+                profile.stateId === prev.stateId ? { ...profile, image } : profile
+              ),
+            })),
+          };
+        });
         modals.closeAll();
       });
       return { ...prev, image };

@@ -5,7 +5,7 @@ import NotFound from '../../../components/NotFound';
 import { IconUserOff } from '@tabler/icons-react';
 import locales from '../../../../../locales';
 import { useInfiniteScroll } from '../../../../../hooks/useInfiniteScroll';
-import ProfileListItem from './ProfileListItem';
+import PartialProfile from './PartialProfile';
 
 const ProfilesList: React.FC = () => {
   const [profiles, dispatch] = useProfilesList();
@@ -17,7 +17,7 @@ const ProfilesList: React.FC = () => {
     <Stack sx={{ overflowY: 'auto' }} spacing="sm">
       {pages.length > 0 ? (
         pages.map((profile, i) => (
-          <ProfileListItem key={profile.stateId} profile={profile} ref={i === pages.length - 2 ? ref : null} />
+          <PartialProfile key={profile.stateId} profile={profile} ref={i === pages.length - 2 ? ref : null} />
         ))
       ) : (
         <NotFound icon={IconUserOff} label={locales.no_profiles_found} />

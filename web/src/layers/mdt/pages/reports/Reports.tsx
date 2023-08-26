@@ -9,7 +9,7 @@ import ListContainer from '../../components/ListContainer';
 import { reportsListAtoms, useSetReportsDebounce } from '../../../../state';
 import ListSearch from '../../components/ListSearch';
 import { queryClient } from '../../../../main';
-import { ReportCard } from '../../../../typings';
+import { PartialReportData } from '../../../../typings';
 import locales from '../../../../locales';
 
 const useStyles = createStyles((theme) => ({
@@ -28,7 +28,7 @@ const Reports: React.FC = () => {
 
   React.useEffect(() => {
     return () => {
-      queryClient.setQueriesData<{ pages: ReportCard[][]; pageParams: number[] }>(['reports'], (data) => {
+      queryClient.setQueriesData<{ pages: PartialReportData[][]; pageParams: number[] }>(['reports'], (data) => {
         if (!data) return;
 
         return {

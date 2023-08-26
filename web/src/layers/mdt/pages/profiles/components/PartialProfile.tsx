@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchNui } from '../../../../../utils/fetchNui';
-import { Profile, ProfileCard } from '../../../../../typings';
+import { Profile, PartialProfileData } from '../../../../../typings';
 import { DEBUG_PROFILE, useSetProfile } from '../../../../../state';
 import locales from '../../../../../locales';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
@@ -19,10 +19,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface Props {
-  profile: ProfileCard;
+  profile: PartialProfileData;
 }
 
-const ProfileListItem: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ profile }, ref) => {
+const PartialProfile: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ profile }, ref) => {
   const { classes } = useStyles();
   const setProfile = useSetProfile();
   const setLoaderModal = useSetLoader();
@@ -64,4 +64,4 @@ const ProfileListItem: React.ForwardRefRenderFunction<HTMLDivElement | null, Pro
   );
 };
 
-export default React.memo(React.forwardRef(ProfileListItem));
+export default React.memo(React.forwardRef(PartialProfile));

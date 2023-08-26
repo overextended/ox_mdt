@@ -68,7 +68,7 @@ end)
 
 ---@param source number
 ---@param data { page: number, search: string }
----@return ReportCard[]
+---@return PartialReportData[]
 utils.registerCallback('ox_mdt:getReports', function(source, data)
     local reports = tonumber(data.search) and db.selectReportById(data.search --[[@as number]]) or db.selectReports(data.page, data.search)
 

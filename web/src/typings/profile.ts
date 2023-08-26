@@ -1,4 +1,4 @@
-export interface Profile extends ProfileCard {
+export interface Profile extends PartialProfileData {
   notes?: string;
   phoneNumber: string;
   [key: string]: any;
@@ -10,7 +10,7 @@ export interface Profile extends ProfileCard {
   }[];
 }
 
-export interface ProfileCard {
+export interface PartialProfileData {
   firstName: string;
   lastName: string;
   dob: number;

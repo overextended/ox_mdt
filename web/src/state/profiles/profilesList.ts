@@ -1,12 +1,12 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
-import { ProfileCard } from '../../typings';
+import { PartialProfileData } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { queryClient } from '../../main';
 import { fetchNui } from '../../utils/fetchNui';
 import { isEnvBrowser } from '../../utils/misc';
 
-const DEBUG_PROFILES: ProfileCard[] = [];
+const DEBUG_PROFILES: PartialProfileData[] = [];
 
 for (let i = 0; i < 25; i++) {
   DEBUG_PROFILES[i] = {
@@ -19,14 +19,17 @@ for (let i = 0; i < 25; i++) {
 
 export const profilesListAtoms = atomWithDebounce('');
 
-const getProfiles = async (page: number, search?: string): Promise<{ hasMore: boolean; profiles: ProfileCard[] }> => {
+const getProfiles = async (
+  page: number,
+  search?: string
+): Promise<{ hasMore: boolean; profiles: PartialProfileData[] }> => {
   if (isEnvBrowser()) {
     return {
       hasMore: true,
       profiles: DEBUG_PROFILES.slice((page - 1) * 10, page * 10),
     };
   }
-  return await fetchNui<{ hasMore: boolean; profiles: ProfileCard[] }>(
+  return await fetchNui<{ hasMore: boolean; profiles: PartialProfileData[] }>(
     'getProfiles',
     { page, search },
     { data: { hasMore: false, profiles: [] } }

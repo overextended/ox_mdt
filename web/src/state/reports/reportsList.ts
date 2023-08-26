@@ -1,12 +1,12 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import atomWithDebounce from '../../utils/atomWithDebounce';
 import { fetchNui } from '../../utils/fetchNui';
-import { ReportCard } from '../../typings';
+import { PartialReportData } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { isEnvBrowser } from '../../utils/misc';
 import { queryClient } from '../../main';
 
-const DEBUG_REPORTS: ReportCard[] = [];
+const DEBUG_REPORTS: PartialReportData[] = [];
 
 for (let i = 0; i < 25; i++) {
   DEBUG_REPORTS[i] = {
@@ -17,14 +17,17 @@ for (let i = 0; i < 25; i++) {
   };
 }
 
-const getReports = async (page: number, search?: string): Promise<{ hasMore: boolean; reports: ReportCard[] }> => {
+const getReports = async (
+  page: number,
+  search?: string
+): Promise<{ hasMore: boolean; reports: PartialReportData[] }> => {
   if (isEnvBrowser()) {
     return {
       hasMore: true,
       reports: DEBUG_REPORTS.slice((page - 1) * 10, page * 10),
     };
   }
-  return await fetchNui<{ hasMore: boolean; reports: ReportCard[] }>('getReports', { page, search });
+  return await fetchNui<{ hasMore: boolean; reports: PartialReportData[] }>('getReports', { page, search });
 };
 
 export const reportsListAtoms = atomWithDebounce('');

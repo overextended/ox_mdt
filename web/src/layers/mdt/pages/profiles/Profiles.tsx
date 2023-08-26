@@ -10,7 +10,7 @@ import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';
 import locales from '../../../../locales';
 import { queryClient } from '../../../../main';
-import { ProfileCard } from '../../../../typings';
+import { PartialProfileData } from '../../../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -29,7 +29,7 @@ const Profiles: React.FC = () => {
 
   React.useEffect(() => {
     return () => {
-      queryClient.setQueriesData<{ pages: ProfileCard[][]; pageParams: number[] }>(['profiles'], (data) => {
+      queryClient.setQueriesData<{ pages: PartialProfileData[][]; pageParams: number[] }>(['profiles'], (data) => {
         if (!data) return;
 
         return {

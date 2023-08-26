@@ -1,11 +1,11 @@
----@class ProfileCard
+---@class PartialProfileData
 ---@field firstName string
 ---@field lastName string
 ---@field dob number
 ---@field stateId string
 ---@field image? string
 
----@class Profile : ProfileCard
+---@class Profile : PartialProfileData
 ---@field stateId string
 ---@field charid number | string
 ---@field notes? string
@@ -25,7 +25,7 @@
 ---@field ped number
 ---@field playerId number
 
----@class CriminalProfile : ProfileCard
+---@class CriminalProfile : PartialProfileData
 
 ---@class Criminal : CriminalProfile
 ---@field charges SelectedCharge[]
@@ -54,7 +54,7 @@
 ---@field evidence table<Evidence>
 ---@field criminals Criminal[]
 
----@class ReportCard
+---@class PartialReportData
 ---@field title string
 ---@field author string
 ---@field date string

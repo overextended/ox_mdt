@@ -1,6 +1,6 @@
 import { DateValue } from '@mantine/dates';
 import { SelectedCharge } from './charges';
-import { ProfileCard } from './profile';
+import { PartialProfileData } from './profile';
 import { Officer } from './officer';
 
 export interface Criminal extends CriminalProfile {
@@ -31,11 +31,11 @@ export interface Report {
   criminals: Criminal[];
 }
 
-export interface ReportCard {
+export interface PartialReportData {
   title: string;
   author: string;
   date: number;
   id: number;
 }
 
-export interface CriminalProfile extends ProfileCard {}
+export interface CriminalProfile extends PartialProfileData {}
