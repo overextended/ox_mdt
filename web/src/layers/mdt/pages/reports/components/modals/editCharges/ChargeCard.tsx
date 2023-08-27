@@ -4,6 +4,7 @@ import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 import { useSetSelectedCharges } from '../../../../../../../state';
 import { Charge } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
+import { formatNumber } from '../../../../../../../helpers/formatNumber';
 
 interface Props {
   charge: Charge;
@@ -51,7 +52,7 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
                 <Text>{charge.description}</Text>
                 <Group spacing="xs" noWrap>
                   <Text size="xs">
-                    {locales.fine}: ${charge.penalty.fine || 0}
+                    {locales.fine}: {formatNumber(charge.penalty.fine || 0)}
                   </Text>
                   <Text size="xs">
                     {locales.time}: {charge.penalty.time || 0} {locales.months}

@@ -14,6 +14,7 @@ import locales from '../../../../../locales';
 import dayjs from 'dayjs';
 import { useSetLoader } from '../../../../../state/loader';
 import { useNavigate } from 'react-router-dom';
+import { formatNumber } from '../../../../../helpers/formatNumber';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -32,7 +33,7 @@ const calculateReductions = (penalties: Criminal['penalty']) => {
     const fine = calculatePenalty(penalties.fine, percent);
 
     reductions[i] = {
-      label: `${percent}% (${time} months / $${fine})`,
+      label: `${percent}% (${time} months / ${formatNumber(fine)})`,
       value: percent.toString(),
     };
   }
@@ -192,10 +193,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
               {locales.time}: {calculatePenalty(criminal.penalty.time, criminal.penalty.reduction)} {locales.months}
             </Text>
             <Text size="xs">
-              {locales.fine}:{' '}
-              {Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(
-                calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction)
-              )}
+              {locales.fine}: {formatNumber(calculatePenalty(criminal.penalty.fine, criminal.penalty.reduction))}
             </Text>
           </Group>
           <Group>
