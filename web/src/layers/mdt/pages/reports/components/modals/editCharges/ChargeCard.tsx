@@ -37,25 +37,27 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
       justify="space-between"
       spacing="xs"
     >
-      <Text>{charge.label}</Text>
+      <Text lineClamp={1}>{charge.label}</Text>
       <Group position="apart">
         <Badge
           variant="light"
-          color={charge.type === 'felony' ? 'red' : charge.type === 'misdemeanour' ? 'yellow' : 'green'}
+          color={charge.type === 'felony' ? 'red' : charge.type === 'misdemeanor' ? 'yellow' : 'green'}
         >
           {charge.type}
         </Badge>
         <Group spacing="xs">
           <Tooltip
+            position="bottom"
             label={
               <Stack>
-                <Text>{charge.description}</Text>
+                <Text weight={500}>{charge.label}</Text>
+                <Text size="xs">{charge.description}</Text>
                 <Group spacing="xs" noWrap>
                   <Text size="xs">
-                    {locales.fine}: {formatNumber(charge.penalty.fine || 0)}
+                    {locales.fine}: {formatNumber(charge.fine || 0)}
                   </Text>
                   <Text size="xs">
-                    {locales.time}: {charge.penalty.time || 0} {locales.months}
+                    {locales.time}: {charge.time || 0} {locales.months}
                   </Text>
                 </Group>
               </Stack>
@@ -76,7 +78,7 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
                 const prevChargeIndex = prev.findIndex((el) => el.label === charge.label);
 
                 if (prevChargeIndex === -1) {
-                  return [...prev, { label: charge.label, count: 1, penalty: charge.penalty }];
+                  return [...prev, { label: charge.label, count: 1, time: charge.time, fine: charge.fine }];
                 }
 
                 return prev.map((el, index) => {

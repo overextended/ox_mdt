@@ -57,7 +57,7 @@ CREATE TABLE
     IF NOT EXISTS `ox_mdt_reports_charges` (
         `reportid` int (10) unsigned NOT NULL,
         `stateid` VARCHAR(7) NOT NULL,
-        `charge` varchar(50) DEFAULT NULL,
+        `charge` VARCHAR(100) DEFAULT NULL,
         `count` int (10) unsigned NOT NULL DEFAULT 1,
         `time` int (10) unsigned DEFAULT NULL,
         `fine` int (10) unsigned DEFAULT NULL,
@@ -146,7 +146,7 @@ INSERT INTO `ox_mdt_offenses` (`label`, `type`, `category`, `description`, `time
     ('Grand Theft Auto A', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle valued at least $2500 but less than $5000', 15, 900),
     ('Grand Theft Auto B', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle valued at least $5000', 35, 3500),
     ('Carjacking', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle by force or violence', 30, 2000),
-    ('Burglary', 'misdemeanor', 'OFFENSE    S INVOLVING THEFT', 'Theft of property from a building', 10, 500),
+    ('Burglary', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Theft of property from a building', 10, 500),
     ('Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of property from a person by force or threat of force', 25, 2000),
     ('Accessory to Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Person who is present at the scene of a robbery and aids or abets the robbery', 12, 1000),
     ('Attempted Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Attempted robbery', 20, 1000),

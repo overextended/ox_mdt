@@ -1,11 +1,9 @@
 export interface Charge {
   label: string;
-  type: 'misdemeanour' | 'felony' | 'infraction';
+  type: 'misdemeanor' | 'felony' | 'infraction';
   description: string;
-  penalty: {
-    time: number;
-    fine: number;
-  };
+  time: number;
+  fine: number;
 }
 
 export interface SelectedCharge extends Omit<Charge, 'type' | 'description'> {

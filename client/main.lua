@@ -21,13 +21,16 @@ local function openMdt()
     if not isAuthorised then return end
 
     if not hasLoadedUi then
+        -- Maybe combine into a single callback?
         local profileCards = lib.callback.await('ox_mdt:getCustomProfileCards')
+        local charges = lib.callback.await('ox_mdt:getAllCharges')
 
         SendNUIMessage({
             action = 'setInitData',
             data = {
                 profileCards = profileCards,
                 locales = lib.getLocales(),
+                charges = charges
             }
         })
 

@@ -34,5 +34,10 @@ const CHARGES: Charge[] = [
 
 const chargesAtom = atom<Charge[]>(CHARGES);
 
+const categoryCharges = atom<{ [category: string]: Charge[] }>({});
+
 export const useCharges = () => useAtomValue(chargesAtom);
 export const useSetCharges = () => useSetAtom(chargesAtom);
+
+export const useCategoryCharges = () => useAtomValue(categoryCharges);
+export const useSetCategoryCharges = () => useSetAtom(categoryCharges);

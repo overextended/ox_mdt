@@ -19,8 +19,8 @@ const calculateCharges = (charges: SelectedCharge[]) => {
 
   for (let i = 0; i < charges.length; i++) {
     const charge = charges[i];
-    penalty.time += charge.penalty.time * charge.count;
-    penalty.fine += charge.penalty.fine * charge.count;
+    penalty.time += charge.time * charge.count;
+    penalty.fine += charge.fine * charge.count;
   }
 
   return penalty;

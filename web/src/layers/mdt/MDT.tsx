@@ -3,7 +3,7 @@ import { useVisibilityState } from '../../state/visibility';
 import { useSetCharacter } from '../../state';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
 import { default as locales, setLocale } from '../../locales';
-import { Character, CustomProfileData } from '../../typings';
+import { Character, Charge, CustomProfileData } from '../../typings';
 import { fetchNui } from '../../utils/fetchNui';
 import { AppShell, Box, createStyles, Transition } from '@mantine/core';
 import Navbar from './components/Navbar';
@@ -15,6 +15,7 @@ import Dispatch from './pages/dispatch/Dispatch';
 import LoaderModal from './components/LoaderModal';
 import { ModalsProvider } from '@mantine/modals';
 import { useSetProfileCards } from '../../state/profiles/profileCards';
+import { useSetCategoryCharges } from '../../state/charges';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -54,11 +55,20 @@ const MDT: React.FC = () => {
   const [visible, setVisible] = useVisibilityState();
   const setCharacter = useSetCharacter();
   const setProfileCards = useSetProfileCards();
+  const setCategoryCharges = useSetCategoryCharges();
 
-  useNuiEvent('setInitData', async (data: { locales: typeof locales; profileCards: CustomProfileData[] }) => {
-    setLocale(data.locales);
-    setProfileCards(data.profileCards);
-  });
+  useNuiEvent(
+    'setInitData',
+    async (data: {
+      locales: typeof locales;
+      profileCards: CustomProfileData[];
+      charges: { [category: string]: Charge[] };
+    }) => {
+      setLocale(data.locales);
+      setProfileCards(data.profileCards);
+      setCategoryCharges(data.charges);
+    }
+  );
 
   useNuiEvent('setVisible', (data?: Character) => {
     setVisible(true);

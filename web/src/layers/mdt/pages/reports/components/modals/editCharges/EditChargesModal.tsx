@@ -4,7 +4,6 @@ import { IconSearch } from '@tabler/icons-react';
 import ChargeCardsList from './ChargeCardsList';
 import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
-
 import { Criminal } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
 
