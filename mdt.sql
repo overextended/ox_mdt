@@ -110,6 +110,7 @@ CREATE TABLE
 
 # Offenses mostly taken from https://github.com/FlawwsX/erp_mdt/blob/main/sv_main.lua#L1723-L1938 and altered
 
+-- OFFENSES AGAINST PERSONS
 INSERT INTO `ox_mdt_offenses` (`label`, `type`, `category`, `description`, `time`, `fine`) VALUES
     ('Simple Assault', 'misdemeanor', 'OFFENSES AGAINST PERSONS', 'The unlawful intentional application of force to the person of another, without his or her consent, and without causing significant injury.', 7, 500),
     ('Assault', 'misdemeanor', 'OFFENSES AGAINST PERSONS', 'The unlawful intentional application of force to the person of another, without his or her consent, that causes significant injury.', 15, 850),
@@ -137,3 +138,25 @@ INSERT INTO `ox_mdt_offenses` (`label`, `type`, `category`, `description`, `time
     ('Gang Related Shooting', 'felony', 'OFFENSES AGAINST PERSONS', 'The discharge of a firearm in a public place, or at another person, with the intent to cause death or serious bodily harm, and the act is committed in association with a criminal street gang.', 30, 2500),
     ('Cannibalism', 'felony', 'OFFENSES AGAINST PERSONS', 'The intentional killing and consumption of the flesh of another human being.', 180, 30000),
     ('Torture', 'felony', 'OFFENSES AGAINST PERSONS', 'The intentional infliction of severe pain or suffering on another person, for the purpose of obtaining information or a confession, or for the purpose of punishment, revenge, or sadism.', 40, 4500);
+
+-- OFFENSES INVOLVING THEFT
+INSERT INTO ox_mdt_offenses (label, type, category, description, time, fine) VALUES
+    ('Petty Theft', 'infraction', 'OFFENSES INVOLVING THEFT', 'Theft of property valued less than $950', 0, 250),
+    ('Grand Theft', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Theft of property valued at least $950 but less than $2500', 10, 600),
+    ('Grand Theft Auto A', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle valued at least $2500 but less than $5000', 15, 900),
+    ('Grand Theft Auto B', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle valued at least $5000', 35, 3500),
+    ('Carjacking', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of a motor vehicle by force or violence', 30, 2000),
+    ('Burglary', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Theft of property from a building', 10, 500),
+    ('Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of property from a person by force or threat of force', 25, 2000),
+    ('Accessory to Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Person who is present at the scene of a robbery and aids or abets the robbery', 12, 1000),
+    ('Attempted Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Attempted robbery', 20, 1000),
+    ('Armed Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Robbery with a dangerous weapon', 30, 3000),
+    ('Accessory to Armed Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Person who is present at the scene of an armed robbery and aids or abets the robbery', 15, 1500),
+    ('Attempted Armed Robbery', 'felony', 'OFFENSES INVOLVING THEFT', 'Attempted robbery with a dangerous weapon', 25, 1500),
+    ('Grand Larceny', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of property valued at least $7500', 45, 7500),
+    ('Leaving Without Paying', 'infraction', 'OFFENSES INVOLVING THEFT', 'Leaving a restaurant or retail establishment without paying for food or merchandise', 0, 500),
+    ('Possession of Nonlegal Currency', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Possession of counterfeit currency', 10, 750),
+    ('Possession of Government-Issued Items', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Possession of government-issued identification cards or other items without authorization', 15, 1000),
+    ('Possession of Items Used in the Commission of a Crime', 'misdemeanor', 'OFFENSES INVOLVING THEFT', 'Possession of tools or other items used in the commission of a crime', 10, 500),
+    ('Sale of Items Used in the Commission of a Crime', 'felony', 'OFFENSES INVOLVING THEFT', 'Sale of tools or other items used in the commission of a crime', 15, 1000),
+    ('Theft of an Aircraft', 'felony', 'OFFENSES INVOLVING THEFT', 'Theft of an aircraft', 20, 1000);
