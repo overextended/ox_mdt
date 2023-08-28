@@ -11,7 +11,7 @@ INSERT INTO `ox_mdt_offenses` (`label`, `type`, `category`, `description`, `time
     ('Attempted Murder of a Civilian', 'felony', 'OFFENSES AGAINST PERSONS', 'An intentional, but unsuccessful, act to kill another person.', 50, 7500),
     ('Second Degree Murder', 'felony', 'OFFENSES AGAINST PERSONS', 'The unlawful killing of another human being with malice aforethought, but not premeditated.', 100, 15000),
     ('Accessory to Second Degree Murder', 'felony', 'OFFENSES AGAINST PERSONS', 'One who, after a murder has been committed, assists the murderer in avoiding or escaping punishment.', 50, 5000),
-    ('first Degree Murder', 'felony', 'OFFENSES AGAINST PERSONS', 'The unlawful killing of another human being with malice aforethought, and with premeditation.', 150, 20000),
+    ('First Degree Murder', 'felony', 'OFFENSES AGAINST PERSONS', 'The unlawful killing of another human being with malice aforethought, and with premeditation.', 150, 20000),
     ('Accessory to First Degree Murder', 'felony', 'OFFENSES AGAINST PERSONS', 'One who, before or during the commission of a murder, aids or abets the murderer in the planning or commission of the crime.', 75, 10000),
     ('Murder of a Public Servant or Peace Officer', 'felony', 'OFFENSES AGAINST PERSONS', 'The unlawful killing of a public servant or peace officer, while such person is engaged in the performance of his or her official duties.', 150, 20000),
     ('Attempted Murder of a Public Servant or Peace Officer', 'felony', 'OFFENSES AGAINST PERSONS', 'An intentional, but unsuccessful, act to kill a public servant or peace officer, while such person is engaged in the performance of his or her official duties.', 65, 10000),

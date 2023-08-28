@@ -26,12 +26,13 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ChargeCard: React.FC<Props> = ({ charge }) => {
+const ChargeCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ charge }, ref) => {
   const { classes } = useStyles();
   const setSelectedCharges = useSetSelectedCharges();
 
   return (
     <Stack
+      ref={ref}
       className={classes.chargeContainer}
       key={`${charge.label}-${charge.description}`}
       justify="space-between"
@@ -99,4 +100,4 @@ const ChargeCard: React.FC<Props> = ({ charge }) => {
   );
 };
 
-export default ChargeCard;
+export default React.memo(React.forwardRef(ChargeCard));

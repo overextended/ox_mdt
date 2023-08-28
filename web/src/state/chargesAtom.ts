@@ -1,6 +1,8 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Charge } from '../typings';
 import { isEnvBrowser } from '../utils/misc';
+import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
+import { queryClient } from '../main';
 
 const DEBUG_CHARGES: { [category: string]: Charge[] } = {
   'OFFENSES AGAINST PERSONS': [
@@ -28,8 +30,9 @@ const DEBUG_CHARGES: { [category: string]: Charge[] } = {
     },
   ],
 };
+type ChargesObject = { [category: string]: Charge[] };
 
-const charges = atom<{ [category: string]: Charge[] }>(isEnvBrowser() ? DEBUG_CHARGES : {});
+const chargesAtom = atom<ChargesObject>(isEnvBrowser() ? DEBUG_CHARGES : {});
 
-export const useCharges = () => useAtomValue(charges);
-export const useSetCharges = () => useSetAtom(charges);
+export const useCharges = () => useAtomValue(chargesAtom);
+export const useSetCharges = () => useSetAtom(chargesAtom);

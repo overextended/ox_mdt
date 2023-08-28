@@ -15,7 +15,7 @@ import Dispatch from './pages/dispatch/Dispatch';
 import LoaderModal from './components/LoaderModal';
 import { ModalsProvider } from '@mantine/modals';
 import { useSetProfileCards } from '../../state/profiles/profileCards';
-import { useSetCharges } from '../../state/charges';
+import { useSetCharges } from '../../state/chargesAtom';
 
 const useStyles = createStyles((theme) => ({
   container: {

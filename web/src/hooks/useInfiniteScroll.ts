@@ -1,11 +1,11 @@
 import React from 'react';
 import { useIntersection } from '@mantine/hooks';
 
-export const useInfiniteScroll = (onIntersect: () => void) => {
+export const useInfiniteScroll = (onIntersect: () => void, threshold?: number) => {
   const lastElementRef = React.useRef(null);
   const { ref, entry } = useIntersection({
     root: lastElementRef.current,
-    threshold: 1,
+    threshold: threshold || 1.0,
   });
 
   React.useEffect(() => {
