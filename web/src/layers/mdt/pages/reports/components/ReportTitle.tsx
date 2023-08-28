@@ -18,7 +18,7 @@ const ReportTitle: React.FC = () => {
       <Text size="xl" truncate>
         {title}
       </Text>
-      <Group spacing="xs" noWrap>
+      <Group spacing={6} noWrap>
         <Tooltip label={locales.delete_report}>
           <ActionIcon
             color="red"
@@ -54,7 +54,11 @@ const ReportTitle: React.FC = () => {
             color="blue"
             variant="light"
             onClick={() =>
-              modals.open({ title: locales.edit_report_title, size: 'sm', children: <EditTitleModal title={title} /> })
+              modals.open({
+                title: locales.edit_report_title,
+                size: 'sm',
+                children: <EditTitleModal title={title} />,
+              })
             }
           >
             <IconEdit size={20} />

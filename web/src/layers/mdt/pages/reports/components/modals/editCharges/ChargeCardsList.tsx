@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, SimpleGrid, Stack, Text } from '@mantine/core';
 import ChargeCard from './ChargeCard';
-import { useCategoryCharges, useCharges } from '../../../../../../../state/charges';
+import { useCharges } from '../../../../../../../state/charges';
 import locales from '../../../../../../../locales';
 
 const ChargeCardsList: React.FC = () => {
-  const charges = useCategoryCharges();
+  const charges = useCharges();
 
   return (
     <Box sx={{ flex: '1 1 0', overflowY: 'scroll' }}>

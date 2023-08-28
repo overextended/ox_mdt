@@ -15,7 +15,7 @@ import Dispatch from './pages/dispatch/Dispatch';
 import LoaderModal from './components/LoaderModal';
 import { ModalsProvider } from '@mantine/modals';
 import { useSetProfileCards } from '../../state/profiles/profileCards';
-import { useSetCategoryCharges } from '../../state/charges';
+import { useSetCharges } from '../../state/charges';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -55,7 +55,7 @@ const MDT: React.FC = () => {
   const [visible, setVisible] = useVisibilityState();
   const setCharacter = useSetCharacter();
   const setProfileCards = useSetProfileCards();
-  const setCategoryCharges = useSetCategoryCharges();
+  const setCategoryCharges = useSetCharges();
 
   useNuiEvent(
     'setInitData',

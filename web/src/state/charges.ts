@@ -1,37 +1,35 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { Charge } from '../typings';
+import { isEnvBrowser } from '../utils/misc';
 
-const CHARGES: Charge[] = [
-  {
-    label: 'Robbery of a finanical institution',
-    description: 'Bank robbery go brrr',
-    type: 'felony',
-    time: 30,
-    fine: 3000,
-  },
-  {
-    label: 'Speeding',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, doloribus eveniet facere ipsam, ipsum minus modi molestiae nesciunt odio saepe sapiente sed sint voluptatibus voluptatum!',
-    type: 'infraction',
-    time: 0,
-    fine: 2500,
-  },
-  {
-    label: 'Loitering',
-    description: 'Standing go brrr',
-    type: 'misdemeanor',
-    time: 90,
-    fine: 25000,
-  },
-];
+const DEBUG_CHARGES: { [category: string]: Charge[] } = {
+  'OFFENSES AGAINST PERSONS': [
+    {
+      label: 'Robbery of a financial institution',
+      description: 'Bank robbery go brrr',
+      type: 'felony',
+      time: 30,
+      fine: 3000,
+    },
+    {
+      label: 'Speeding',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, doloribus eveniet facere ipsam, ipsum minus modi molestiae nesciunt odio saepe sapiente sed sint voluptatibus voluptatum!',
+      type: 'infraction',
+      time: 0,
+      fine: 2500,
+    },
+    {
+      label: 'Loitering',
+      description: 'Standing go brrr',
+      type: 'misdemeanor',
+      time: 90,
+      fine: 25000,
+    },
+  ],
+};
 
-const chargesAtom = atom<Charge[]>(CHARGES);
+const charges = atom<{ [category: string]: Charge[] }>(isEnvBrowser() ? DEBUG_CHARGES : {});
 
-const categoryCharges = atom<{ [category: string]: Charge[] }>({});
-
-export const useCharges = () => useAtomValue(chargesAtom);
-export const useSetCharges = () => useSetAtom(chargesAtom);
-
-export const useCategoryCharges = () => useAtomValue(categoryCharges);
-export const useSetCategoryCharges = () => useSetAtom(categoryCharges);
+export const useCharges = () => useAtomValue(charges);
+export const useSetCharges = () => useSetAtom(charges);
