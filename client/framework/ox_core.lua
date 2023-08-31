@@ -19,9 +19,9 @@ end
 
 function ox.getOfficerData()
     if player then
-        officer.stateId = player.stateid
-        officer.firstName = player.firstname
-        officer.lastName = player.lastname
+        officer.stateId = player.stateId
+        officer.firstName = player.firstName
+        officer.lastName = player.lastName
         officer.title = ox.getGroupTitle()
         officer.grade = ox.getGroupGrade()
     end
