@@ -4,10 +4,27 @@ import { IconSearch } from '@tabler/icons-react';
 import ChargeCardsList from './ChargeCardsList';
 import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
-import { Criminal } from '../../../../../../../typings';
+import { Charge, Criminal } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
+import { useInfiniteCharges } from '../../../../../../../state/charges';
+import { queryClient } from '../../../../../../../main';
 
 const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
+  const [data] = useInfiniteCharges();
+
+  React.useEffect(() => {
+    return () => {
+      queryClient.setQueriesData<{ pageParams: number[]; pages: [string, Charge[]][] }>(
+        ['charges'],
+        (data) =>
+          data && {
+            pages: data.pages.slice(0, 1),
+            pageParams: data.pageParams.slice(0, 1),
+          }
+      );
+    };
+  }, []);
+
   return (
     <Grid grow h="100%" sx={{ overflow: 'hidden' }}>
       <Grid.Col span={7}>
