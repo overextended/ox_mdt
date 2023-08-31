@@ -16,7 +16,7 @@ const ChargeCardsList: React.FC = () => {
       <Stack>
         {data.pages.map((page) => (
           <>
-            {page[1].length > 0 && (
+            {page && page[1].length > 0 && (
               <Stack key={page[0]}>
                 <Text weight={500} size="lg">
                   {/* @ts-ignore */}

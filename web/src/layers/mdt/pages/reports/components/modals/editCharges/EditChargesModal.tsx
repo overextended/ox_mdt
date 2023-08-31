@@ -6,11 +6,18 @@ import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
 import { Charge, Criminal } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
-import { useInfiniteCharges } from '../../../../../../../state/charges';
+import {
+  chargeSearchAtoms,
+  useInfiniteCharges,
+  useSetChargeSearchDebounceValue,
+} from '../../../../../../../state/charges';
 import { queryClient } from '../../../../../../../main';
+import ListSearch from '../../../../../components/ListSearch';
+import ListContainer from '../../../../../components/ListContainer';
 
 const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [data] = useInfiniteCharges();
+  const setChargeSearchDebounceValue = useSetChargeSearchDebounceValue();
 
   React.useEffect(() => {
     return () => {
@@ -29,8 +36,12 @@ const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({
     <Grid grow h="100%" sx={{ overflow: 'hidden' }}>
       <Grid.Col span={7}>
         <Stack h="100%">
-          <TextInput icon={<IconSearch size={20} />} placeholder={locales.search_charges} />
-          <ChargeCardsList />
+          <ListSearch valueAtom={chargeSearchAtoms.currentValueAtom} setDebouncedValue={setChargeSearchDebounceValue} />
+          <ListContainer
+            debounceAtom={chargeSearchAtoms.isDebouncingAtom}
+            ListComponent={ChargeCardsList}
+            setDebouncedSearch={setChargeSearchDebounceValue}
+          />
         </Stack>
       </Grid.Col>
       <Divider orientation="vertical" sx={{ marginBottom: '8px' }} />

@@ -3,6 +3,7 @@ import { Charge } from '../typings';
 import { isEnvBrowser } from '../utils/misc';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { queryClient } from '../main';
+import atomWithDebounce from '../utils/atomWithDebounce';
 
 const DEBUG_CHARGES: { [category: string]: Charge[] } = {
   'OFFENSES AGAINST PERSONS': [
@@ -32,20 +33,37 @@ const DEBUG_CHARGES: { [category: string]: Charge[] } = {
 };
 type ChargesObject = { [category: string]: Charge[] };
 
-const getChargesPage = (page: number, charges: ChargesObject): [string, Charge[]] => {
-  const categories = Object.keys(charges).sort();
-  const category = categories[page - 1];
-  const categoryCharges = charges[category];
+const getChargesPage = (page: number, search: string, charges: ChargesObject): [string, Charge[]] => {
+  if (search === '') {
+    const categories = Object.keys(charges).sort();
+    const category = categories[page - 1];
+    const categoryCharges = charges[category];
 
-  return [category, categoryCharges];
+    return [category, categoryCharges];
+  }
+
+  const regExp = new RegExp(search, 'gi');
+
+  const searchedCharges = Object.entries(charges).reduce((acc: ChargesObject, [category, charges]) => {
+    const matchedCharges = charges.filter((charge) => charge.label.match(regExp));
+    if (matchedCharges.length > 0) {
+      acc[category] = matchedCharges;
+    }
+    return acc;
+  }, {});
+
+  return Object.entries(searchedCharges).sort()[page - 1];
 };
 
 const chargesAtom = atom<ChargesObject>(isEnvBrowser() ? DEBUG_CHARGES : {});
+
+export const chargeSearchAtoms = atomWithDebounce('', undefined, true);
+
 const [infiniteChargesAtom] = atomsWithInfiniteQuery(
   (get) => ({
-    queryKey: ['charges'],
-    queryFn: ({ pageParam = 1 }) => {
-      return getChargesPage(pageParam, get(chargesAtom));
+    queryKey: ['charges', get(chargeSearchAtoms.debouncedValueAtom)],
+    queryFn: ({ pageParam = 1, queryKey }) => {
+      return getChargesPage(pageParam, queryKey[1] as string, get(chargesAtom));
     },
     getNextPageParam: (lastPage, allPages) => {
       if (allPages.length >= Object.keys(get(chargesAtom)).length) return;
@@ -58,3 +76,4 @@ const [infiniteChargesAtom] = atomsWithInfiniteQuery(
 export const useCharges = () => useAtomValue(chargesAtom);
 export const useSetCharges = () => useSetAtom(chargesAtom);
 export const useInfiniteCharges = () => useAtom(infiniteChargesAtom);
+export const useSetChargeSearchDebounceValue = () => useSetAtom(chargeSearchAtoms.debouncedValueAtom);
