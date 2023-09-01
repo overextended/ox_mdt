@@ -111,14 +111,10 @@ function db.selectCriminalsInvolved(reportId)
 
         for _, charge in pairs(charges) do
             if charge.label and charge.stateId == criminal.stateId then
-                charge.penalty = {
-                    time = charge.time or 0,
-                    fine = charge.fine or 0,
-                }
 
-                charge.stateId, charge.time, charge.fine = nil
-                criminal.penalty.time += charge.penalty.time
-                criminal.penalty.fine += charge.penalty.fine
+                charge.stateId = nil
+                criminal.penalty.time += charge.time or 0
+                criminal.penalty.fine += charge.fine or 0
                 chargesN += 1
                 criminal.charges[chargesN] = charge
             end
@@ -151,8 +147,7 @@ function db.saveCriminal(reportId, criminal)
     if next(criminal.charges) then
         for _, v in pairs(criminal.charges) do
             queryN += 1
-            ---@todo fetch and store all criminal offenses; use time and fine
-            queries[queryN] = { 'INSERT INTO `ox_mdt_reports_charges` (`reportid`, `stateId`, `charge`, `count`, `time`, `fine`) VALUES (?, ?, ?, ?, ?, ?)', { reportId, criminal.stateId, v.label, v.count } }
+            queries[queryN] = { 'INSERT INTO `ox_mdt_reports_charges` (`reportid`, `stateId`, `charge`, `count`, `time`, `fine`) VALUES (?, ?, ?, ?, ?, ?)', { reportId, criminal.stateId, v.label, v.count, v.time, v.fine } }
         end
     end
 

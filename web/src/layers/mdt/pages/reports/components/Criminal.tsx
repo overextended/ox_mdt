@@ -112,7 +112,6 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
                 color="blue"
                 variant="light"
                 onClick={() => {
-                  console.log(criminal);
                   fetchNui(
                     'saveCriminal',
                     {
