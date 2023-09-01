@@ -225,8 +225,8 @@ utils.registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, ch
 
     for i = 1, #charges do
         local charge = charges[i]
-        if charge.penalty.time ~= 0 then
-            addonTime = addonTime + (charge.penalty.time * 60 * 60000) -- 1 month of penalty time = 1 hour of warrant time
+        if charge.time ~= 0 then
+            addonTime = addonTime + (charge.time * 60 * 60000) -- 1 month of penalty time = 1 hour of warrant time
         end
     end
 
