@@ -6,4 +6,6 @@ export interface Officer {
   playerId: number;
   position: [number, number, number];
   unitId?: number;
+  title?: string;
+  image?: string;
 }

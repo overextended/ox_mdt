@@ -36,6 +36,7 @@
     "jotai-optics": "^0.3.1",
     "jotai-tanstack-query": "^0.7.1",
     "leaflet": "^1.9.4",
+    "mantine-datatable": "^2.9.12",
     "optics-ts": "^2.4.1",
     "prettier": "^2.8.8",
     "react": "^18.2.0",

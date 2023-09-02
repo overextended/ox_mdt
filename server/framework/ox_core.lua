@@ -68,6 +68,7 @@ local selectOfficers = [[
         lastName,
         characters.stateId,
         character_groups.grade AS grade,
+        ox_mdt_profiles.image,
         ox_mdt_profiles.callSign
     FROM
         character_groups

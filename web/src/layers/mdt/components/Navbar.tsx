@@ -52,9 +52,9 @@ const Navbar: React.FC = () => {
         path: '/charges',
       },
       {
-        label: locales.officers,
+        label: locales.roster,
         icon: IconUserShield,
-        path: '/Officers',
+        path: '/roster',
       },
     ],
     []

@@ -164,6 +164,10 @@ serverNuiCallback('getActiveOfficers')
 serverNuiCallback('setUnitOfficers')
 serverNuiCallback('setUnitType')
 
+-- Roster
+serverNuiCallback('getInitialRosterPage')
+serverNuiCallback('getRosterPage')
+
 ---@param data table
 ---@param cb function
 RegisterNuiCallback('setWaypoint', function(data, cb)

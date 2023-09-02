@@ -5,6 +5,7 @@ local db = require 'server.db'
 local officers = require 'server.officers'
 local units = require 'server.units'
 require 'server.charges'
+require 'server.roster'
 
 require 'server.calls'
 require 'server.framework.ox_core'

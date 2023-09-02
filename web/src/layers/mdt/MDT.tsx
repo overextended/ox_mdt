@@ -16,6 +16,7 @@ import LoaderModal from './components/LoaderModal';
 import { ModalsProvider } from '@mantine/modals';
 import { useSetProfileCards } from '../../state/profiles/profileCards';
 import { useSetCharges } from '../../state/charges';
+import Roster from './pages/roster/Roster';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -106,6 +107,7 @@ const MDT: React.FC = () => {
                   <Route path="/profiles" element={<Profiles />} />
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/dispatch" element={<Dispatch />} />
+                  <Route path="/roster" element={<Roster />} />
                 </Routes>
                 <LoaderModal />
               </ModalsProvider>
