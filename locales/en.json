@@ -120,5 +120,7 @@
   "OFFENSES AGAINST HEALTH AND MORALS": "Offenses Against Health And Morals",
   "OFFENSES AGAINST PUBLIC SAFETY": "Offenses Against Public Safety",
   "OFFENSES INVOLVING THE OPERATION OF A VEHICLE": "Offenses Involving The Operation Of A Vehicle",
-  "OFFENSES INVOLVING THE WELL-BEING OF WILDLIFE": "Offenses Involving The Well-Being Of Wildlife"
+  "OFFENSES INVOLVING THE WELL-BEING OF WILDLIFE": "Offenses Involving The Well-Being Of Wildlife",
+  "call_sign": "Call sign",
+  "officer_title": "Title"
 }

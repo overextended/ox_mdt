@@ -4,6 +4,7 @@ import { fetchNui } from '../../../../../utils/fetchNui';
 import { ActionIcon, Avatar, createStyles, Group } from '@mantine/core';
 import { RosterOfficer } from '../../../../../typings';
 import { IconSettings } from '@tabler/icons-react';
+import locales from '../../../../../locales';
 
 const DEBUG_DATA: RosterOfficer[] = [
   {
@@ -48,17 +49,21 @@ const COLUMNS: DataTableColumn<RosterOfficer>[] = [
   },
   {
     accessor: 'name',
+    title: locales.name,
     render: (record) => `${record.firstName} ${record.lastName}`,
   },
   {
     accessor: 'callSign',
+    title: locales.call_sign,
+    render: (record) => record.callSign || `-`,
   },
   {
     accessor: 'stateId',
-    title: 'State ID',
+    title: locales.state_id,
   },
   {
     accessor: 'title',
+    title: locales.officer_title,
   },
   {
     accessor: 'actions',
@@ -137,7 +142,7 @@ const RosterTable: React.FC = () => {
       onPageChange={async (newPage) => {
         setIsLoading(true);
         setPage(newPage);
-        const resp = await fetchNui('getRosterPage', newPage, { data: DEBUG_DATA, delay: 2000 });
+        const resp = await fetchNui<RosterOfficer[]>('getRosterPage', newPage, { data: DEBUG_DATA, delay: 2000 });
         setRecords(resp);
         setIsLoading(false);
       }}
