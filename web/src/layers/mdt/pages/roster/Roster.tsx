@@ -1,13 +1,12 @@
 import React from 'react';
 import { DataTable, DataTableColumn } from 'mantine-datatable';
-import { Officer } from '../../../../typings';
+import { RosterOfficer } from '../../../../typings';
 import { ActionIcon, Avatar, Box, createStyles, Group, Stack, TextInput } from '@mantine/core';
 import { IconSearch, IconSettings } from '@tabler/icons-react';
 import locales from '../../../../locales';
 import { fetchNui } from '../../../../utils/fetchNui';
-import { useQuery } from '@tanstack/react-query';
 
-const COLUMNS: DataTableColumn<Officer>[] = [
+const COLUMNS: DataTableColumn<RosterOfficer>[] = [
   {
     accessor: 'image',
     title: '',
@@ -44,7 +43,7 @@ const COLUMNS: DataTableColumn<Officer>[] = [
   },
 ];
 
-const DEBUG_DATA: Officer[] = [
+const DEBUG_DATA: RosterOfficer[] = [
   {
     stateId: 'AF32142',
     lastName: 'Doe',
@@ -82,7 +81,7 @@ const DEBUG_DATA: Officer[] = [
     callSign: 132,
     position: [0, 0, 0],
     playerId: 1,
-    title: 'LSPD Seargent',
+    title: 'LSPD Sergeant',
     unitId: 3,
   },
   {
@@ -165,13 +164,13 @@ const Roster: React.FC = () => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [records, setRecords] = React.useState<Officer[]>([]);
+  const [records, setRecords] = React.useState<RosterOfficer[]>([]);
   const [totalRecords, setTotalRecords] = React.useState(0);
 
   React.useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
-      return await fetchNui<{ totalRecords: number; data: Officer[] }>('getInitialRosterPage', null, {
+      return await fetchNui<{ totalRecords: number; data: RosterOfficer[] }>('getInitialRosterPage', null, {
         data: { totalRecords: 9, data: DEBUG_DATA },
         delay: 2000,
       });
