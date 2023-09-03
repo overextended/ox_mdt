@@ -1,7 +1,7 @@
 export interface Officer {
   firstName: string;
   lastName: string;
-  callSign?: number;
+  callSign?: string | number;
   stateId: string;
   playerId: number;
   position: [number, number, number];

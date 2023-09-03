@@ -33,3 +33,12 @@ utils.registerCallback('ox_mdt:getRosterPage', function(source, page)
 
     return cbOfficers
 end)
+
+
+---@param source number
+---@param callSign number
+utils.registerCallback('ox_mdt:setOfficerCallSign', function(source, callSign)
+    --todo
+
+    return true
+end)

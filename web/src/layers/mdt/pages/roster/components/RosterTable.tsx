@@ -5,6 +5,7 @@ import { ActionIcon, Avatar, createStyles, Group } from '@mantine/core';
 import { RosterOfficer } from '../../../../../typings';
 import { IconSettings } from '@tabler/icons-react';
 import locales from '../../../../../locales';
+import RosterOfficerMenu from './RosterOfficerMenu';
 
 const DEBUG_DATA: RosterOfficer[] = [
   {
@@ -68,15 +69,7 @@ const COLUMNS: DataTableColumn<RosterOfficer>[] = [
   {
     accessor: 'actions',
     title: '',
-    render: (record) => {
-      return (
-        <Group position="center">
-          <ActionIcon variant="light" size="lg" color="blue">
-            <IconSettings />
-          </ActionIcon>
-        </Group>
-      );
-    },
+    render: (record) => <RosterOfficerMenu officer={record} />,
   },
 ];
 

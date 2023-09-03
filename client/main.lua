@@ -183,6 +183,8 @@ serverNuiCallback('getRosterPage', function(data, cb)
 
     cb(data)
 end)
+serverNuiCallback('setOfficerCallSign')
+
 
 ---@param data table
 ---@param cb function
