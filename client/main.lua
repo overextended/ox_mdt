@@ -4,6 +4,14 @@ local hasLoadedUi = false
 local framework = require 'client.framework.ox_core'
 local player = framework.getOfficerData()
 
+local function getOfficersWithTitle(officers)
+    for i = 1, #officers do
+        officers[i].title = framework.getGroupTitle()
+    end
+
+    return officers
+end
+
 AddEventHandler(framework.loadedEvent, function()
     player = framework.getOfficerData()
 end)
@@ -165,8 +173,16 @@ serverNuiCallback('setUnitOfficers')
 serverNuiCallback('setUnitType')
 
 -- Roster
-serverNuiCallback('getInitialRosterPage')
-serverNuiCallback('getRosterPage')
+serverNuiCallback('getInitialRosterPage', function(data, cb)
+    data.officers = getOfficersWithTitle(data.officers)
+
+    cb(data)
+end)
+serverNuiCallback('getRosterPage', function(data, cb)
+    data = getOfficersWithTitle(data)
+
+    cb(data)
+end)
 
 ---@param data table
 ---@param cb function

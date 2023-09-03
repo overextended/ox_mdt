@@ -13,7 +13,7 @@ utils.registerCallback('ox_mdt:getInitialRosterPage', function(source)
 
     return {
         totalRecords = #officers,
-        data = cbOfficers
+        officers = cbOfficers
     }
 end)
 

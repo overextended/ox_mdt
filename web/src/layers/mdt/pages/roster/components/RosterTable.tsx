@@ -114,14 +114,14 @@ const RosterTable: React.FC = () => {
   React.useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
-      return await fetchNui<{ totalRecords: number; data: RosterOfficer[] }>('getInitialRosterPage', null, {
-        data: { totalRecords: 9, data: DEBUG_DATA },
+      return await fetchNui<{ totalRecords: number; officers: RosterOfficer[] }>('getInitialRosterPage', null, {
+        data: { totalRecords: 9, officers: DEBUG_DATA },
         delay: 2000,
       });
     };
 
     fetchData().then((resp) => {
-      setRecords(resp.data);
+      setRecords(resp.officers);
       setTotalRecords(resp.totalRecords);
       setIsLoading(false);
     });
