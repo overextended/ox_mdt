@@ -1,5 +1,6 @@
 local utils = require 'server.utils'
 local framework = require 'server.framework.ox_core'
+local db = require 'server.db'
 
 ---@param source number
 utils.registerCallback('ox_mdt:getInitialRosterPage', function(source)
@@ -36,9 +37,12 @@ end)
 
 
 ---@param source number
----@param callSign number
-utils.registerCallback('ox_mdt:setOfficerCallSign', function(source, callSign)
-    --todo
+---@param data {stateId: string, callSign: string}
+utils.registerCallback('ox_mdt:setOfficerCallSign', function(source, data)
+    --todo permission checks
+    if db.selectOfficerCallSign(data.callSign) then return false end
+
+    db.updateOfficerCallSign(data.stateId, data.callSign)
 
     return true
 end)

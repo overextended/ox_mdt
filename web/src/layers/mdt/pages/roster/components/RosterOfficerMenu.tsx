@@ -4,7 +4,7 @@ import { Icon123, IconArrowBadgeUp, IconArrowsUpDown, IconBadge, IconSettings, I
 import { RosterOfficer } from '../../../../../typings';
 import locales from '../../../../../locales';
 import { modals } from '@mantine/modals';
-import SetCallSignModal from './SetCallSignModal';
+import SetCallSignModal from './modals/SetCallSignModal';
 
 const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) => {
   return (

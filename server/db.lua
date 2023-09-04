@@ -59,13 +59,24 @@ end
 ---@param stateId string
 ---@param image string | nil
 function db.updateProfileImage(stateId, image)
-    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `image` = ?', { stateId, image, nil, image })
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `image` = ?', { stateId, image, nil, image })
 end
 
 ---@param stateId string
 ---@param notes string
 function db.updateProfileNotes(stateId, notes)
-    return MySQL.rawExecute.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `notes` = ?', { stateId, nil, notes, notes })
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_profiles` (`stateid`, `image`, `notes`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `notes` = ?', { stateId, nil, notes, notes })
+end
+
+---@param callSign string
+function db.selectOfficerCallSign(callSign)
+    return MySQL.prepare.await('SELECT `callSign` FROM `ox_mdt_profiles` WHERE callSign = ?', { callSign })
+end
+
+---@param stateId string
+---@param callSign string
+function db.updateOfficerCallSign(stateId, callSign)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_profiles` (`stateId`, `image`, `notes`, `callSign`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `callSign` = ?', { stateId, nil, nil, callSign, callSign })
 end
 
 ---@param id number

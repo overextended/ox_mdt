@@ -1,10 +1,11 @@
 import React from 'react';
-import { RosterOfficer } from '../../../../../typings';
+import { RosterOfficer } from '../../../../../../typings';
 import { Button, Stack, TextInput } from '@mantine/core';
-import locales from '../../../../../locales';
-import { fetchNui } from '../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
+import { fetchNui } from '../../../../../../utils/fetchNui';
 import { useForm } from '@mantine/form';
 import { modals } from '@mantine/modals';
+import { useSetRosterRecords } from '../../../../../../state/roster';
 
 interface Props {
   officer: RosterOfficer;
@@ -12,6 +13,7 @@ interface Props {
 
 const SetCallSignModal: React.FC<Props> = ({ officer }) => {
   const [isLoading, setIsLoading] = React.useState(false);
+  const setRecords = useSetRosterRecords();
 
   const form = useForm({
     initialValues: {
@@ -22,11 +24,19 @@ const SetCallSignModal: React.FC<Props> = ({ officer }) => {
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
-        console.log('pog');
         setIsLoading(true);
-        const resp = await fetchNui<boolean>('setOfficerCallSign', values.callSign, { data: true, delay: 500 });
+        const resp = await fetchNui<boolean>(
+          'setOfficerCallSign',
+          { stateId: officer.stateId, callSign: values.callSign },
+          { data: true, delay: 500 }
+        );
         setIsLoading(false);
         if (!resp) return form.setFieldError('callSign', 'Call sign already in use');
+        setRecords((prev) =>
+          prev.map((record) =>
+            record.stateId === officer.stateId ? { ...officer, callSign: values.callSign } : record
+          )
+        );
         modals.closeAll();
       })}
     >

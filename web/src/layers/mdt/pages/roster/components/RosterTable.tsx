@@ -6,6 +6,7 @@ import { RosterOfficer } from '../../../../../typings';
 import { IconSettings } from '@tabler/icons-react';
 import locales from '../../../../../locales';
 import RosterOfficerMenu from './RosterOfficerMenu';
+import { useRosterRecordsState } from '../../../../../state/roster';
 
 const DEBUG_DATA: RosterOfficer[] = [
   {
@@ -101,7 +102,7 @@ const RosterTable: React.FC = () => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [records, setRecords] = React.useState<RosterOfficer[]>([]);
+  const [records, setRecords] = useRosterRecordsState();
   const [totalRecords, setTotalRecords] = React.useState(0);
 
   React.useEffect(() => {
