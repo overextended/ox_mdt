@@ -5,6 +5,7 @@ import { RosterOfficer } from '../../../../../typings';
 import locales from '../../../../../locales';
 import { modals } from '@mantine/modals';
 import SetCallSignModal from './modals/SetCallSignModal';
+import SetRankModal from './modals/SetRankModal';
 
 const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) => {
   return (
@@ -28,7 +29,12 @@ const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) =>
           >
             {locales.set_call_sign}
           </Menu.Item>
-          <Menu.Item icon={<IconArrowBadgeUp size={20} />}>{locales.set_rank}</Menu.Item>
+          <Menu.Item
+            icon={<IconArrowBadgeUp size={20} />}
+            onClick={() => modals.open({ title: locales.set_rank, size: 'xs', children: <SetRankModal /> })}
+          >
+            {locales.set_rank}
+          </Menu.Item>
           <Menu.Item icon={<IconUserX size={20} />} color="red">
             {locales.fire_officer}
           </Menu.Item>

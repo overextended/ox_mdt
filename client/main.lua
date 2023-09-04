@@ -104,6 +104,10 @@ RegisterNuiCallback('hideMDT', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
+RegisterNuiCallback('getDepartmentsData', function(_, cb)
+    cb(framework.getDepartments())
+end)
+
 ---@param event string
 ---@param clientCb? fun(data: any, cb: function)
 local function serverNuiCallback(event, clientCb)

@@ -5,6 +5,18 @@ ox.loadedEvent = 'ox:playerLoaded'
 ox.logoutEvent = 'ox:playerLogout'
 ox.setGroupEvent = 'ox:setGroup'
 
+function ox.getDepartments()
+    --todo: support multiple police jobs
+    local group = GlobalState['group.police']
+
+    return {
+        police = {
+            label = group.label:gsub('[%U]', ''),
+            ranks = group.grades
+        }
+    }
+end
+
 function ox.getGroupTitle()
     if not ox.getGroupGrade() then return end
 

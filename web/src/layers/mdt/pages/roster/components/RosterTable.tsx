@@ -65,7 +65,7 @@ const COLUMNS: DataTableColumn<RosterOfficer>[] = [
   },
   {
     accessor: 'title',
-    title: locales.officer_title,
+    title: locales.officer_rank,
   },
   {
     accessor: 'actions',

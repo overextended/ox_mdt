@@ -122,8 +122,9 @@
   "OFFENSES INVOLVING THE OPERATION OF A VEHICLE": "Offenses Involving The Operation Of A Vehicle",
   "OFFENSES INVOLVING THE WELL-BEING OF WILDLIFE": "Offenses Involving The Well-Being Of Wildlife",
   "call_sign": "Call sign",
-  "officer_title": "Title",
+  "officer_rank": "Rank",
   "set_call_sign": "Set call sign",
   "set_rank": "Set rank",
-  "fire_officer": "Fire"
+  "fire_officer": "Fire",
+  "officer_department": "Department"
 }
