@@ -2,7 +2,7 @@ import React from 'react';
 import { ActionIcon, Badge, createStyles, Group, Stack, Text } from '@mantine/core';
 import { IconCar, IconHelicopter, IconLogin, IconLogout, IconMotorbike, IconSpeedboat } from '@tabler/icons-react';
 import { Unit } from '../../../../../../typings';
-import { useSetCharacter } from '../../../../../../state';
+import { useDispatchMap, useSetCharacter } from '../../../../../../state';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import UnitSettings from './UnitSettings';
 
@@ -14,6 +14,12 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     lineHeight: 'normal',
   },
+  memberBadge: {
+    '&:hover': {
+      backgroundColor: theme.colors.durple[0],
+      cursor: 'pointer',
+    },
+  },
 }));
 
 const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolean }> = ({
@@ -23,6 +29,7 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
 }) => {
   const { classes } = useStyles();
   const setCharacter = useSetCharacter();
+  const map = useDispatchMap();
 
   return (
     <Stack className={classes.unitContainer}>
@@ -62,7 +69,11 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
       {unit.members.length > 0 && (
         <Group spacing="xs">
           {unit.members.map((member) => (
-            <Badge key={member.stateId}>
+            <Badge
+              key={member.stateId}
+              onClick={() => map && map.flyTo([member.position[0], member.position[1]])}
+              className={classes.memberBadge}
+            >
               {member.firstName} {member.lastName} {member.callSign ? `(${member.callSign})` : ''}
             </Badge>
           ))}
