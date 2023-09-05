@@ -31,7 +31,9 @@ const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) =>
           </Menu.Item>
           <Menu.Item
             icon={<IconArrowBadgeUp size={20} />}
-            onClick={() => modals.open({ title: locales.set_rank, size: 'xs', children: <SetRankModal /> })}
+            onClick={() =>
+              modals.open({ title: locales.set_rank, size: 'xs', children: <SetRankModal officer={officer} /> })
+            }
           >
             {locales.set_rank}
           </Menu.Item>

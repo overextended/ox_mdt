@@ -46,3 +46,36 @@ utils.registerCallback('ox_mdt:setOfficerCallSign', function(source, data)
 
     return true
 end)
+
+---@param source number
+---@param data {stateId: string, group: string, grade: number}
+utils.registerCallback('ox_mdt:setOfficerRank', function(source, data)
+    -- todo: move into framework
+    local player = Ox.GetPlayerByFilter({stateId = data.stateId})
+
+    -- todo: permission and security checks
+
+    local policeGroups = {'police'}
+
+    if player then
+        for i = 1, #policeGroups do
+            local group = policeGroups[i]
+            -- if player has selected police group update it, otherwise remove all the other police groups
+            if player.hasGroup(group) and group == data.group then
+                player.setGroup(data.group, data.grade + 1)
+            else
+                player.setGroup(group, -1)
+            end
+        end
+
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { data.stateId })
+
+    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ', { data.grade + 1, charId, data.group })
+
+    -- todo: delete other police groups from db?
+
+    return true
+end)
