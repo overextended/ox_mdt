@@ -17,12 +17,13 @@ function ox.getDepartments()
     }
 end
 
-function ox.getGroupTitle()
-    if not ox.getGroupGrade() then return end
+---@param officer? Officer
+function ox.getGroupTitle(officer)
+    if not ox.getGroupGrade() and not officer then return end
 
     local group = GlobalState['group.police'] --[[@as OxGroupProperties]]
 
-    return ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[player.groups.police])
+    return ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[officer and officer.grade or player.groups.police])
 end
 
 function ox.getGroupGrade()
