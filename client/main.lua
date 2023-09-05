@@ -227,6 +227,7 @@ serverNuiCallback('getRosterPage', function(data, cb)
 end)
 serverNuiCallback('setOfficerCallSign')
 serverNuiCallback('setOfficerRank')
+serverNuiCallback('fireOfficer')
 
 
 ---@param data table

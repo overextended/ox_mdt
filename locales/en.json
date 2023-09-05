@@ -126,5 +126,6 @@
   "set_call_sign": "Set call sign",
   "set_rank": "Set rank",
   "fire_officer": "Fire",
-  "officer_department": "Department"
+  "officer_department": "Department",
+  "fire_officer_description": "Are you sure you want to fire %s %s?"
 }

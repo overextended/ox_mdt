@@ -79,3 +79,30 @@ utils.registerCallback('ox_mdt:setOfficerRank', function(source, data)
 
     return true
 end)
+
+---@param source number
+---@param stateId number
+utils.registerCallback('ox_mdt:fireOfficer', function(source, stateId)
+    -- todo: permission and security checks
+
+    -- todo: move into framework
+    local player = Ox.GetPlayerByFilter({stateId = stateId})
+
+    local policeGroups = {'police'}
+
+    if player then
+        for i = 1, #policeGroups do
+            local group = policeGroups[i]
+            player.setGroup(group, -1)
+        end
+
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
+
+    -- todo: delete other police groups
+    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` = ? ', { charId, 'police' })
+
+    return true
+end)
