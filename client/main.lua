@@ -22,11 +22,29 @@ end)
 
 AddEventHandler(framework.setGroupEvent, framework.getOfficerData)
 
+local tabletAnimDict = 'amb@world_human_seat_wall_tablet@female@base'
+local tablet
+
 local function openMdt()
     ---@type boolean?, string?
     local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
     if not isAuthorised then return end
+
+    if not IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
+        lib.requestAnimDict(tabletAnimDict)
+        TaskPlayAnim(cache.ped, tabletAnimDict, 'base', 6.0, 3.0, -1, 49, 1.0, false, false, false)
+    end
+
+    if not tablet then
+        local model = lib.requestModel(`prop_cs_tablet`)
+
+        if not model then return end
+
+        local coords = GetEntityCoords(cache.ped)
+        tablet = CreateObject(model, coords.x, coords.y, coords.z, true, true, true)
+        AttachEntityToEntity(tablet, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
+    end
 
     if not hasLoadedUi then
         -- Maybe combine into a single callback?
@@ -99,9 +117,29 @@ lib.addKeybind({
     end
 })
 
+local function closeMdt()
+    if IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
+        ClearPedTasks(cache.ped)
+    end
+
+    if tablet then
+        if DoesEntityExist(tablet) then
+            Wait(300)
+            DeleteEntity(tablet)
+        end
+
+        tablet = nil
+    end
+end
+
+AddEventHandler('onResourceStop', function(resource)
+    if resource == cache.resource then closeMdt() end
+end)
+
 RegisterNuiCallback('hideMDT', function(_, cb)
     cb(1)
     SetNuiFocus(false, false)
+    closeMdt()
 end)
 
 RegisterNuiCallback('getDepartmentsData', function(_, cb)
