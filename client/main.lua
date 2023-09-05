@@ -202,7 +202,8 @@ RegisterNetEvent('ox_mdt:createCall', function(data)
     data.call.id = data.id
     data.call.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.call.coords[1], data.call.coords[2], 0))
 
-    -- TODO: play sound (maybe isEmergency later?)
+    -- maybe isEmergency later?
+    PlaySoundFrontend(-1, 'Near_Miss_Counter_Reset', 'GTAO_FM_Events_Soundset', false)
 
     SendNUIMessage({
         action = 'addCall',
