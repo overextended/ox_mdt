@@ -2,37 +2,59 @@ local utils = require 'server.utils'
 local framework = require 'server.framework.ox_core'
 local db = require 'server.db'
 
+local selectOfficers = [[
+    SELECT
+        firstName,
+        lastName,
+        characters.stateId,
+        character_groups.grade AS grade,
+        ox_mdt_profiles.image,
+        ox_mdt_profiles.callSign
+    FROM
+        character_groups
+    LEFT JOIN
+        characters
+    ON
+        character_groups.charid = characters.charid
+    LEFT JOIN
+        ox_mdt_profiles
+    ON
+        characters.stateId = ox_mdt_profiles.stateId
+    WHERE
+        character_groups.name = "police"
+    LIMIT 9
+    OFFSET ?
+]]
+
+local selectOfficersCount = [[
+    SELECT
+        COUNT(*)
+    FROM
+        character_groups
+    LEFT JOIN
+        characters
+    ON
+        character_groups.charid = characters.charid
+    LEFT JOIN
+        ox_mdt_profiles
+    ON
+        characters.stateId = ox_mdt_profiles.stateId
+    WHERE
+        character_groups.name = "police"
+]]
+
 ---@param source number
 utils.registerCallback('ox_mdt:getInitialRosterPage', function(source)
-    local officers = framework.getOfficers()
-    local cbOfficers = {}
-
-    for i = 1, 9 do
-        local officer = officers[i]
-        cbOfficers[#cbOfficers + 1] = officer
-    end
-
     return {
-        totalRecords = #officers,
-        officers = cbOfficers
+        totalRecords = MySQL.prepare.await(selectOfficersCount),
+        officers = MySQL.rawExecute.await(selectOfficers, { 0 })
     }
 end)
 
 ---@param source number
 ---@param page number
 utils.registerCallback('ox_mdt:getRosterPage', function(source, page)
-    local officers = framework.getOfficers()
-    local cbOfficers = {}
-
-    local START = page * 9
-    local END =  START + 9
-
-    for i = START, END do
-        local officer = allOfficers[i]
-        cbOfficers[#cbOfficers + 1] = officer
-    end
-
-    return cbOfficers
+    return MySQL.rawExecute.await(selectOfficers, { (page - 1) * 9 })
 end)
 
 
