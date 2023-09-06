@@ -127,5 +127,6 @@
   "set_rank": "Set rank",
   "fire_officer": "Fire",
   "officer_department": "Department",
-  "fire_officer_description": "Are you sure you want to fire %s %s?"
+  "fire_officer_description": "Are you sure you want to fire %s %s?",
+  "no_records": "No records"
 }

@@ -74,11 +74,11 @@ const COLUMNS: DataTableColumn<RosterOfficer>[] = [
   },
 ];
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, params: { isEmpty: boolean }) => ({
   root: {
     backgroundColor: theme.colors.durple[6],
     '&& td': {
-      backgroundColor: theme.colors.durple[5],
+      backgroundColor: theme.colors.durple[params.isEmpty ? 6 : 5],
     },
   },
   header: {
@@ -99,11 +99,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const RosterTable: React.FC = () => {
-  const { classes } = useStyles();
   const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
   const [records, setRecords] = useRosterRecordsState();
   const [totalRecords, setTotalRecords] = React.useState(0);
+  const { classes } = useStyles({ isEmpty: records.length === 0 });
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -133,6 +133,7 @@ const RosterTable: React.FC = () => {
       withBorder={false}
       page={page}
       fetching={isLoading}
+      noRecordsText={locales.no_records}
       onPageChange={async (newPage) => {
         setIsLoading(true);
         setPage(newPage);
