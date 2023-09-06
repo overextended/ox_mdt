@@ -31,7 +31,7 @@ const SetCallSignModal: React.FC<Props> = ({ officer }) => {
           { data: true, delay: 500 }
         );
         setIsLoading(false);
-        if (!resp) return form.setFieldError('callSign', 'Call sign already in use');
+        if (!resp) return form.setFieldError('callSign', locales.call_sign_in_use);
         setRecords((prev) =>
           prev.map((record) =>
             record.stateId === officer.stateId ? { ...officer, callSign: values.callSign } : record

@@ -228,6 +228,7 @@ end)
 serverNuiCallback('setOfficerCallSign')
 serverNuiCallback('setOfficerRank')
 serverNuiCallback('fireOfficer')
+serverNuiCallback('hireOfficer')
 
 
 ---@param data table

@@ -128,5 +128,9 @@
   "fire_officer": "Fire",
   "officer_department": "Department",
   "fire_officer_description": "Are you sure you want to fire %s %s?",
-  "no_records": "No records"
+  "no_records": "No records",
+  "hire_officer": "Hire officer",
+  "call_sign_in_use": "Call sign already in use",
+  "state_id_already_hired": "The citizen with this State ID is already hired",
+  "hire_state_id_description": "State ID of the citizen you want to hire"
 }

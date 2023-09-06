@@ -106,3 +106,27 @@ utils.registerCallback('ox_mdt:fireOfficer', function(source, stateId)
 
     return true
 end)
+
+---@param source number
+---@param stateId string
+utils.registerCallback('ox_mdt:hireOfficer', function(source, stateId)
+    -- todo: permission and security checks
+
+    -- todo: move into framework
+    local player = Ox.GetPlayerByFilter({stateId = stateId})
+
+    local policeGroups = {'police'}
+
+    if player then
+        if player.hasGroup(policeGroups) then return false end
+
+        player.setGroup('police', 1)
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
+
+    local success = pcall(MySQL.prepare.await, 'INSERT INTO `character_groups` (`charId`, `name`, `grade`) VALUES (?, ?, ?)', { charId, 'police', 1 })
+
+    return success
+end)
