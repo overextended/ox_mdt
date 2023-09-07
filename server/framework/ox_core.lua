@@ -98,7 +98,7 @@ local selectOfficers = [[
 local selectOfficersByName = selectOfficers .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
 local selectOfficersPartial = selectOfficers .. ' AND (`lastName` LIKE ? OR ox_mdt_profiles.callsign LIKE ?)'
 local selectOfficersPaginate = selectOfficers .. 'LIMIT 9 OFFSET ?'
-local selectOfficersCount = selectOfficers:gsub('SELECT(.-)FROM', 'COUNT(*)')
+local selectOfficersCount = selectOfficers:gsub('SELECT.-FROM', 'SELECT COUNT(*) FROM')
 
 ---@param parameters? string[]
 ---@param match? boolean
