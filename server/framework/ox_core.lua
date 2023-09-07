@@ -1,12 +1,14 @@
 local officers = require 'server.officers'
-local policeGroups = { 'police' }
+local units = require 'server.units'
+local utils = require 'server.utils'
+local config = require 'config'
 
 local function addOfficer(playerId)
     if officers.get(playerId) then return end
 
     local player = Ox.GetPlayer(playerId)
 
-    if player and player.hasGroup(policeGroups) then
+    if player and player.hasGroup(config.policeGroups) then
         officers.add(playerId, player.firstName, player.lastName, player.stateId, 132)
     end
 end
@@ -17,7 +19,16 @@ end
 
 AddEventHandler('ox:playerLoaded', addOfficer)
 AddEventHandler('ox:setGroup', addOfficer)
-AddEventHandler('ox:playerLogout', officers.remove)
+
+AddEventHandler('ox:playerLogout', function(playerId)
+    local officer = officers.get(playerId)
+
+    if officer then
+        local state = Player(playerId).state
+        units.removePlayerFromUnit(officer, state)
+        officers.remove(playerId)
+    end
+end)
 
 local ox = {}
 
@@ -86,6 +97,8 @@ local selectOfficers = [[
 
 local selectOfficersByName = selectOfficers .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
 local selectOfficersPartial = selectOfficers .. ' AND (`lastName` LIKE ? OR ox_mdt_profiles.callsign LIKE ?)'
+local selectOfficersPaginate = selectOfficers .. 'LIMIT 9 OFFSET ?'
+local selectOfficersCount = selectOfficers:gsub('SELECT(.-)FROM', 'COUNT(*)')
 
 ---@param parameters? string[]
 ---@param match? boolean
@@ -97,6 +110,20 @@ function ox.getOfficers(parameters, match)
 
     return MySQL.rawExecute.await(match and selectOfficersByName or selectOfficersPartial, parameters)
 end
+
+---@param source number
+utils.registerCallback('ox_mdt:getInitialRosterPage', function(source)
+    return {
+        totalRecords = MySQL.prepare.await(selectOfficersCount),
+        officers = MySQL.rawExecute.await(selectOfficersPaginate, { 0 })
+    }
+end)
+
+---@param source number
+---@param page number
+utils.registerCallback('ox_mdt:getRosterPage', function(source, page)
+    return MySQL.rawExecute.await(selectOfficersPaginate, { (page - 1) * 9 })
+end)
 
 local selectWarrants = [[
     SELECT
@@ -250,5 +277,80 @@ function ox.getAnnouncements(parameters)
         ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?
     ]], parameters)
 end
+
+---@param source number
+---@param data {stateId: string, group: string, grade: number}
+utils.registerCallback('ox_mdt:setOfficerRank', function(source, data)
+    local player = Ox.GetPlayerByFilter({stateId = data.stateId})
+
+    -- todo: permission and security checks
+
+    if player then
+        for i = 1, #config.policeGroups do
+            local group = config.policeGroups[i]
+            -- if player has selected police group update it, otherwise remove all the other police groups
+            if player.hasGroup(group) and group == data.group then
+                player.setGroup(data.group, data.grade + 1)
+            else
+                player.setGroup(group, -1)
+            end
+        end
+
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { data.stateId })
+
+    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ', { data.grade + 1, charId, data.group })
+
+    -- todo: delete other police groups from db?
+
+    return true
+end)
+
+---@param source number
+---@param stateId number
+utils.registerCallback('ox_mdt:fireOfficer', function(source, stateId)
+    -- todo: permission and security checks
+
+    local player = Ox.GetPlayerByFilter({stateId = stateId})
+
+    if player then
+        for i = 1, #config.policeGroups do
+            local group = config.policeGroups[i]
+            player.setGroup(group, -1)
+        end
+
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
+
+    -- todo: delete other police groups
+    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` = ? ', { charId, 'police' })
+
+    return true
+end)
+
+---@param source number
+---@param stateId string
+utils.registerCallback('ox_mdt:hireOfficer', function(source, stateId)
+    -- todo: permission and security checks
+
+    local player = Ox.GetPlayerByFilter({stateId = stateId})
+
+    if player then
+        if player.hasGroup(config.policeGroups) then return false end
+
+        player.setGroup('police', 1)
+        return true
+    end
+
+    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
+
+    local success = pcall(MySQL.prepare.await, 'INSERT INTO `character_groups` (`charId`, `name`, `grade`) VALUES (?, ?, ?)', { charId, 'police', 1 })
+
+    return success
+end)
 
 return ox

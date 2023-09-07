@@ -1,12 +1,9 @@
-lib.locale()
-
 local utils = require 'server.utils'
 local db = require 'server.db'
 local officers = require 'server.officers'
-local units = require 'server.units'
-require 'server.charges'
-require 'server.roster'
 
+require 'server.units'
+require 'server.charges'
 require 'server.calls'
 require 'server.framework.ox_core'
 
@@ -244,6 +241,16 @@ utils.registerCallback('ox_mdt:getActiveOfficers', function()
     return officers.getAll()
 end)
 
+---@param source number
+---@param data { stateId: string, callSign: string }
+utils.registerCallback('ox_mdt:setOfficerCallSign', function(source, data)
+    --todo permission checks
+    if db.selectOfficerCallSign(data.callSign) then return false end
+
+    db.updateOfficerCallSign(data.stateId, data.callSign)
+
+    return true
+end)
 
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= cache.resource then return end
@@ -252,15 +259,5 @@ AddEventHandler('onResourceStop', function(resource)
         if officer.unitId then
             Player(playerId).state.mdtUnitId = nil
         end
-    end
-end)
-
-AddEventHandler('ox:playerLogout', function(playerId)
-    local officer = officers.get(playerId)
-
-    if officer then
-        local state = Player(playerId).state
-        units.removePlayerFromUnit(officer, state)
-        officers.remove(playerId)
     end
 end)
