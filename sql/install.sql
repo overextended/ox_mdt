@@ -101,9 +101,15 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS `ox_mdt_profiles` (
-        `stateid` VARCHAR(7) NOT NULL PRIMARY KEY,
-        `image` VARCHAR(90) NULL,
-        `notes` TEXT NULL,
-        `callsign` VARCHAR(10) NULL UNIQUE KEY,
-        CONSTRAINT `ox_mdt_profiles_characters_stateid_fk` FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateid`) ON UPDATE CASCADE ON DELETE CASCADE
-    );
+    `id` INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `stateid`  VARCHAR(7)  NOT NULL,
+    `image`    VARCHAR(90) NULL,
+    `notes`    TEXT        NULL,
+    `callsign` VARCHAR(10) NULL,
+    CONSTRAINT `ox_mdt_profiles_pk` UNIQUE (`callsign`),
+    CONSTRAINT `ox_mdt_profiles_pk2` UNIQUE (`stateid`),
+    CONSTRAINT `ox_mdt_profiles_characters_stateId_fk`
+        FOREIGN KEY (`stateid`) REFERENCES `characters` (`stateId`)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
