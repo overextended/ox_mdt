@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionIcon, Group, Menu, Text } from '@mantine/core';
-import { Icon123, IconArrowBadgeUp, IconArrowsUpDown, IconBadge, IconSettings, IconUserX } from '@tabler/icons-react';
+import { Icon123, IconArrowBadgeUp, IconSettings, IconUserX } from '@tabler/icons-react';
 import { RosterOfficer } from '../../../../../typings';
 import locales from '../../../../../locales';
 import { modals } from '@mantine/modals';

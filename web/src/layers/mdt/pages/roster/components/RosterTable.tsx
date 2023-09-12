@@ -1,9 +1,8 @@
 import React from 'react';
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import { fetchNui } from '../../../../../utils/fetchNui';
-import { ActionIcon, Avatar, createStyles, Group } from '@mantine/core';
+import { Avatar, createStyles } from '@mantine/core';
 import { RosterOfficer } from '../../../../../typings';
-import { IconSettings } from '@tabler/icons-react';
 import locales from '../../../../../locales';
 import RosterOfficerMenu from './RosterOfficerMenu';
 import { useRosterRecordsState } from '../../../../../state/roster';

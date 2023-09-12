@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchNui } from '../../../../../utils/fetchNui';
-import { Profile, PartialProfileData } from '../../../../../typings';
+import { PartialProfileData, Profile } from '../../../../../typings';
 import { DEBUG_PROFILE, useSetProfile } from '../../../../../state';
 import locales from '../../../../../locales';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';

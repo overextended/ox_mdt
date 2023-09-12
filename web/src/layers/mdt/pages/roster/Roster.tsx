@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, Stack, TextInput } from '@mantine/core';
+import { Button, createStyles, Group, Stack, TextInput } from '@mantine/core';
 import { IconSearch, IconUserPlus } from '@tabler/icons-react';
 import locales from '../../../../locales';
 import RosterTable from './components/RosterTable';

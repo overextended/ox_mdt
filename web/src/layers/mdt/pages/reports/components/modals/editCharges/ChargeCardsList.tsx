@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box, SimpleGrid, Stack, Text } from '@mantine/core';
 import ChargeCard from './ChargeCard';
-import { useCharges, useInfiniteCharges } from '../../../../../../../state/charges';
+import { useInfiniteCharges } from '../../../../../../../state/charges';
 import locales from '../../../../../../../locales';
 import { useInfiniteScroll } from '../../../../../../../hooks/useInfiniteScroll';
-import { Charge } from '../../../../../../../typings';
-import { queryClient } from '../../../../../../../main';
 
 const ChargeCardsList: React.FC = () => {
   const [data, dispatch] = useInfiniteCharges();

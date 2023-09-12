@@ -1,4 +1,4 @@
-import { Select, Stack, Button } from '@mantine/core';
+import { Button, Select, Stack } from '@mantine/core';
 import React from 'react';
 import locales from '../../../../../../locales';
 import { RosterOfficer } from '../../../../../../typings';

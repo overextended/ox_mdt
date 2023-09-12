@@ -1,11 +1,9 @@
 import React from 'react';
-import { Divider, Grid, Stack, TextInput } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { Divider, Grid, Stack } from '@mantine/core';
 import ChargeCardsList from './ChargeCardsList';
 import SelectedChargesList from './SelectedChargesList';
 import { PrimitiveAtom } from 'jotai';
 import { Charge, Criminal } from '../../../../../../../typings';
-import locales from '../../../../../../../locales';
 import {
   chargeSearchAtoms,
   useInfiniteCharges,

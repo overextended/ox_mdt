@@ -6,7 +6,6 @@ import { MantineProvider } from '@mantine/core';
 import { HashRouter } from 'react-router-dom';
 import { isEnvBrowser } from './utils/misc';
 import { theme } from './theme';
-import { ModalsProvider } from '@mantine/modals';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Provider } from 'jotai';

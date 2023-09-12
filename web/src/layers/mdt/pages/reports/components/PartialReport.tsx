@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchNui } from '../../../../../utils/fetchNui';
-import { Report, type PartialReportData } from '../../../../../typings';
+import { type PartialReportData, Report } from '../../../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../../state';
 import { useSetLoader } from '../../../../../state/loader';

@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Select, Stack } from '@mantine/core';
 import { UnitType } from '../../../../../../typings';
 import locales from '../../../../../../locales';
-import { IconCar } from '@tabler/icons-react';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { modals } from '@mantine/modals';
 

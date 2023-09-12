@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, Group, SimpleGrid, Stack } from '@mantine/core';
+import { createStyles, SimpleGrid, Stack } from '@mantine/core';
 import { queryClient } from '../../../../main';
 import { Announcement } from '../../../../typings';
 import AnnouncementsContainer from './components/announcements/AnnouncementsContainer';

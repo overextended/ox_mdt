@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimpleGrid, Stack, Text } from '@mantine/core';
+import { SimpleGrid, Stack } from '@mantine/core';
 import ProfileField from './ProfileField';
 import { IconCalendar, IconId, IconPhone, IconUser } from '@tabler/icons-react';
 import { useProfileState } from '../../../../../state';
