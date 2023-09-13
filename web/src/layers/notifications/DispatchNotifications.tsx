@@ -24,12 +24,12 @@ const DEBUG_CALLS: Call[] = [
   {
     code: '10-69',
     id: 1,
-    info: {
-      plate: 'XYZ 123',
-      location: 'Strawberry Ave',
-      time: Date.now(),
-      vehicle: 'Sultan RS',
-    },
+    time: Date.now(),
+    location: 'Strawberry Ave',
+    info: [
+      { label: 'Sultan RS', icon: 'car' },
+      { label: 'XYZ 123', icon: 'badge-tm' },
+    ],
     completed: false,
     blip: 51,
     coords: [1, 1],
