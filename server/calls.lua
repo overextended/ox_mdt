@@ -18,12 +18,9 @@ function createCall(data)
         units = {},
         coords = data.coords,
         blip = data.blip,
-        info = {
-            time = os.time() * 1000,
-            location = '',
-            plate = data.info.plate,
-            vehicle = data.info.vehicle
-        }
+        time = os.time() * 1000,
+        location = '',
+        info = data.info
     }
 
     officers.triggerEvent('ox_mdt:createCall', { id = callId, call = activeCalls[callId] })
@@ -54,8 +51,8 @@ Citizen.SetTimeout(7500, function()
         code = '10-69',
         blip = 51,
         info = {
-            plate = 'XYZ 123',
-            vehicle = 'Dinka Blista'
+            {label = 'XYZ 123', icon = 'badge-tm'},
+            {label = 'Dinka Blista', icon = 'car'}
         },
         coords = {coords.x, coords.y}
     })

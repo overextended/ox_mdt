@@ -68,7 +68,12 @@ const Dev: React.FC = () => {
                     blip: 51,
                     coords: [1, 1],
                     linked: false,
-                    info: { vehicle: 'Sultan RS', plate: 'XYZ 123', time: Date.now(), location: 'Strawberry Ave' },
+                    time: Date.now(),
+                    location: 'Strawberry Ave',
+                    info: [
+                      { label: 'Sultan RS', icon: 'car' },
+                      { label: 'XYZ 123', icon: 'badge-tm' },
+                    ],
                     completed: false,
                     units: [],
                   },

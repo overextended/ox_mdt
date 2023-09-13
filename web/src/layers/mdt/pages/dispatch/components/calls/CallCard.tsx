@@ -43,14 +43,14 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
                   setLoaderModal(true);
                   const resp = await fetchNui<number>(
                     'createReport',
-                    `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
+                    `${call.offense} - ${dayjs(call.time).format('DD/MM/YYYY')}`,
                     { data: 199 }
                   );
                   navigate('/reports');
                   const officers: Officer[] = [];
                   call.units.map((unit) => unit.members.map((officer) => officers.push(officer)));
                   setReport({
-                    title: `${call.offense} - ${dayjs(call.info.time).format('DD/MM/YYYY')}`,
+                    title: `${call.offense} - ${dayjs(call.time).format('DD/MM/YYYY')}`,
                     description: '<p></p>',
                     id: resp,
                     evidence: [],
@@ -73,24 +73,20 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
       <Stack spacing={2} c="dark.2">
         <Group spacing="xs">
           <IconClock size={16} />
-          <Text size="sm">{dayjs(call.info.time).fromNow()}</Text>
+          <Text size="sm">{dayjs(call.time).fromNow()}</Text>
         </Group>
         <Group spacing="xs" noWrap>
           <IconMap2 size={16} />
-          <Text size="sm">{call.info.location}</Text>
+          <Text size="sm">{call.location}</Text>
         </Group>
-        {call.info.vehicle && (
-          <Group spacing="xs" noWrap>
-            <IconCar size={16} />
-            <Text size="sm">{call.info.vehicle}</Text>
-          </Group>
-        )}
-        {call.info.plate && (
-          <Group spacing="xs" noWrap>
-            <IconBadgeTm size={16} />
-            <Text size="sm">{call.info.plate}</Text>
-          </Group>
-        )}
+        {call.info &&
+          call.info.length > 0 &&
+          call.info.map((info) => (
+            <Group spacing="xs" key={info.label}>
+              <i className={`ti ti-${info.icon}`} style={{ fontSize: 16 }} />
+              <Text size="sm">{info.label}</Text>
+            </Group>
+          ))}
       </Stack>
       {call.units.length > 0 && (
         <>

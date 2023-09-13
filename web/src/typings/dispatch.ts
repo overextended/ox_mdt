@@ -10,12 +10,9 @@ export interface Call {
   linked: boolean;
   coords: [number, number];
   blip: number;
-  info: {
-    time: number;
-    location: string;
-    plate?: string;
-    vehicle?: string;
-  };
+  time: number;
+  location: string;
+  info?: { label: string; icon: string }[];
   units: Unit[];
 }
 

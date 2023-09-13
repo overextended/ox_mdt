@@ -10,10 +10,8 @@ import { convertCalls } from '../../helpers';
 const DEBUG_CALLS: Call[] = [
   {
     id: 1,
-    info: {
-      time: Date.now(),
-      location: 'Somewhere',
-    },
+    time: Date.now(),
+    location: 'Somewhere',
     coords: [350, 350],
     completed: false,
     linked: false,
@@ -48,10 +46,12 @@ const DEBUG_CALLS: Call[] = [
   },
   {
     id: 2,
-    info: {
-      time: Date.now(),
-      location: 'Somewhere',
-    },
+    time: Date.now(),
+    location: 'Somewhere',
+    info: [
+      { label: 'Sultan RS', icon: 'car' },
+      { label: 'XYZ 123', icon: 'badge-tm' },
+    ],
     coords: [255, 150],
     blip: 51,
     completed: Date.now(),
@@ -117,10 +117,8 @@ const DEBUG_CALLS: Call[] = [
   },
   {
     id: 3,
-    info: {
-      time: Date.now(),
-      location: 'Somewhere',
-    },
+    time: Date.now(),
+    location: 'Somewhere',
     coords: [500, 750],
     completed: false,
     linked: false,

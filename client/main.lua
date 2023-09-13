@@ -200,7 +200,7 @@ serverNuiCallback('getCalls', function(data, cb)
     -- Assign street names to data from the sever to be sent to UI
 
     for _, call in pairs(data) do
-        call.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(call.coords[1], call.coords[2], 0))
+        call.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(call.coords[1], call.coords[2], 0))
     end
 
     cb(data)
@@ -241,7 +241,7 @@ end)
 ---@param data {id: number, call: Call}
 RegisterNetEvent('ox_mdt:createCall', function(data)
     data.call.id = data.id
-    data.call.info.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.call.coords[1], data.call.coords[2], 0))
+    data.call.location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.call.coords[1], data.call.coords[2], 0))
 
     -- maybe isEmergency later?
     PlaySoundFrontend(-1, 'Near_Miss_Counter_Reset', 'GTAO_FM_Events_Soundset', false)

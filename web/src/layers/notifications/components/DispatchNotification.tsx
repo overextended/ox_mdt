@@ -59,10 +59,11 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
           </Group>
           <Divider />
           <SimpleGrid cols={2} spacing="xs">
-            <NotificationInfo label={dayjs(call.info.time).fromNow()} icon={IconClock} />
-            <NotificationInfo icon={IconMap2} label={call.info.location} />
-            {call.info.vehicle && <NotificationInfo icon={IconCar} label={call.info.vehicle} />}
-            {call.info.plate && <NotificationInfo icon={IconBadgeTm} label={call.info.plate} />}
+            <NotificationInfo label={dayjs(call.time).fromNow()} icon={IconClock} />
+            <NotificationInfo icon={IconMap2} label={call.location} />
+            {call.info &&
+              call.info.length > 0 &&
+              call.info.map((info) => <NotificationInfo key={info.label} icon={info.icon} label={info.label} />)}
           </SimpleGrid>
           {call.units.length > 0 && (
             <>
