@@ -8,9 +8,10 @@ interface Props {
   valueAtom: Atom<string>;
   setDebouncedValue: (prev: string) => void;
   placeholder?: string;
+  style?: React.CSSProperties;
 }
 
-const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue, placeholder }) => {
+const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue, placeholder, style }) => {
   const search = useAtomValue(valueAtom);
 
   return (
@@ -18,6 +19,7 @@ const ListSearch: React.FC<Props> = ({ valueAtom, setDebouncedValue, placeholder
       icon={<IconSearch size={20} />}
       placeholder={placeholder || locales.search}
       value={search}
+      style={style}
       onChange={(e) => setDebouncedValue(e.target.value)}
     />
   );

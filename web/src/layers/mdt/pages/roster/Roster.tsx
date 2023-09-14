@@ -5,6 +5,8 @@ import locales from '../../../../locales';
 import RosterTable from './components/RosterTable';
 import { modals } from '@mantine/modals';
 import HireOfficerModal from './components/modals/HireOfficerModal';
+import ListSearch from '../../components/ListSearch';
+import { tableSearchAtoms, useSetRosterSearchDebounce } from '../../../../state/roster/tableSearch';
 
 const useStyles = createStyles((theme) => ({
   searchContainer: {
@@ -17,11 +19,17 @@ const useStyles = createStyles((theme) => ({
 
 const Roster: React.FC = () => {
   const { classes } = useStyles();
+  const setRosterDebounce = useSetRosterSearchDebounce();
 
   return (
     <Stack spacing="xs" h="100%">
       <Group p="xs" className={classes.searchContainer} noWrap spacing="xs">
-        <TextInput placeholder={locales.search} icon={<IconSearch size={20} />} sx={{ flex: '1 0 0' }} />
+        <ListSearch
+          placeholder={locales.search_officers}
+          setDebouncedValue={setRosterDebounce}
+          valueAtom={tableSearchAtoms.currentValueAtom}
+          style={{ flex: '1 0 0' }}
+        />
         <Button
           variant="light"
           leftIcon={<IconUserPlus size={20} />}

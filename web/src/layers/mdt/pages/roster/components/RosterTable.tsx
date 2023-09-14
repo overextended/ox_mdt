@@ -6,6 +6,7 @@ import { RosterOfficer } from '../../../../../typings';
 import locales from '../../../../../locales';
 import RosterOfficerMenu from './RosterOfficerMenu';
 import { useRosterRecordsState } from '../../../../../state/roster';
+import { useIsRosterDebouncing, useRosterSearchDebouncedValue } from '../../../../../state/roster/tableSearch';
 
 const DEBUG_DATA: RosterOfficer[] = [
   {
@@ -103,6 +104,8 @@ const RosterTable: React.FC = () => {
   const [records, setRecords] = useRosterRecordsState();
   const [totalRecords, setTotalRecords] = React.useState(0);
   const { classes } = useStyles({ isEmpty: records.length === 0 });
+  const isRosterDebouncing = useIsRosterDebouncing();
+  const rosterSearchDebouncedValue = useRosterSearchDebouncedValue();
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -120,6 +123,29 @@ const RosterTable: React.FC = () => {
     });
   }, []);
 
+  React.useEffect(() => {
+    setIsLoading(true);
+    setPage(1);
+    const fetchData = async () => {
+      return await fetchNui<{ totalRecords: number; officers: RosterOfficer[] }>(
+        'searchRoster',
+        rosterSearchDebouncedValue,
+        {
+          data: {
+            totalRecords: 0,
+            officers: [],
+          },
+        }
+      );
+    };
+
+    fetchData().then((resp) => {
+      setRecords(resp.officers);
+      setTotalRecords(resp.totalRecords);
+      setIsLoading(false);
+    });
+  }, [rosterSearchDebouncedValue]);
+
   return (
     <DataTable
       classNames={{ ...classes }}
@@ -131,12 +157,16 @@ const RosterTable: React.FC = () => {
       shadow="md"
       withBorder={false}
       page={page}
-      fetching={isLoading}
+      fetching={isLoading || isRosterDebouncing}
       noRecordsText={locales.no_records}
       onPageChange={async (newPage) => {
         setIsLoading(true);
         setPage(newPage);
-        const resp = await fetchNui<RosterOfficer[]>('getRosterPage', newPage, { data: DEBUG_DATA, delay: 2000 });
+        const resp = await fetchNui<RosterOfficer[]>(
+          'getRosterPage',
+          { page: newPage, search: rosterSearchDebouncedValue },
+          { data: DEBUG_DATA, delay: 2000 }
+        );
         setRecords(resp);
         setIsLoading(false);
       }}
