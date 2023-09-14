@@ -215,11 +215,6 @@ serverNuiCallback('setUnitOfficers')
 serverNuiCallback('setUnitType')
 
 -- Roster
-serverNuiCallback('getInitialRosterPage', function(data, cb)
-    data.officers = getOfficersWithTitle(data.officers)
-
-    cb(data)
-end)
 serverNuiCallback('getRosterPage', function(data, cb)
     data = getOfficersWithTitle(data)
 
@@ -229,7 +224,11 @@ serverNuiCallback('setOfficerCallSign')
 serverNuiCallback('setOfficerRank')
 serverNuiCallback('fireOfficer')
 serverNuiCallback('hireOfficer')
-serverNuiCallback('searchRoster')
+serverNuiCallback('fetchRoster', function(data, cb)
+    data.officers = getOfficersWithTitle(data.officers)
+
+    cb(data)
+end)
 
 
 ---@param data table

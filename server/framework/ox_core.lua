@@ -114,27 +114,8 @@ function ox.getOfficers(parameters, match)
 end
 
 ---@param source number
-utils.registerCallback('ox_mdt:getInitialRosterPage', function(source)
-    return {
-        totalRecords = MySQL.prepare.await(selectOfficersCount),
-        officers = MySQL.rawExecute.await(selectOfficersPaginate, { 0 })
-    }
-end)
-
----@param source number
----@param data {page: number, search?: string}
-utils.registerCallback('ox_mdt:getRosterPage', function(source, data)
-    local page = data.page - 1
-
-    if data.search == '' then
-        return MySQL.rawExecute.await(selectOfficersPaginate, { page * 9 })
-    end
-
-    -- Todo: full search by name or stateid or callsign
-    return MySQL.rawExecute.await(selectOfficersSearchPaginate, { data.search, 'doe', page })
-end)
-
-utils.registerCallback('ox_mdt:searchRoster', function(source, search)
+---@param search string
+utils.registerCallback('ox_mdt:fetchRoster', function(source, search)
     if search == '' then
         return {
             totalRecords = MySQL.prepare.await(selectOfficersCount),
