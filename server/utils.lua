@@ -1,9 +1,13 @@
+local permissions = require 'server.permissions'
 local utils = {}
 
 ---@param playerId number
 ---@return boolean
 function utils.isAuthorised(playerId, permission)
     ---@diagnostic disable-next-line: param-type-mismatch
+
+    -- todo: permission checks against permissions object
+
     return IsPlayerAceAllowed(playerId, permission)
 end
 

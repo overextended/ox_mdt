@@ -5,5 +5,4 @@ export * from './report';
 export * from './officer';
 export * from './character';
 export * from './charges';
-export * from './config';
 export * from './roster';

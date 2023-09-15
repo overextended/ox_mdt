@@ -8,18 +8,17 @@ import AnnouncementList from './AnnouncementList';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
 import { useCharacter } from '../../../../../../state';
-import { useConfig } from '../../../../../../state/config';
+import permissions from '../../../../../../permissions';
 
 const AnnouncementsContainer = () => {
   const character = useCharacter();
-  const config = useConfig();
 
   return (
     <>
       <CardTitle title={locales.announcements} icon={<IconMessageCircle2 />} />
       <Box>
         <Button
-          disabled={character.grade < config.permissions.announcements.create}
+          disabled={character.grade < permissions.create_announcement}
           fullWidth
           variant="light"
           leftIcon={<IconBrandTelegram />}

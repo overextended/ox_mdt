@@ -1,6 +1,7 @@
 local utils = require 'server.utils'
 local db = require 'server.db'
 local officers = require 'server.officers'
+local permissions = require 'server.permissions'
 
 require 'server.units'
 require 'server.charges'
@@ -32,7 +33,7 @@ utils.registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local officer = officers.get(source)
 
     return officer and db.createAnnouncement(officer.stateId, contents)
-end, 'mdt.create_announcement')
+end)
 
 ---@param source number
 ---@param data { announcement: Announcement, value: string }

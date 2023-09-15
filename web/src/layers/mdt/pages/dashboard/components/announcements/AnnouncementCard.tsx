@@ -11,11 +11,11 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { useConfig } from '../../../../../../state/config';
 import { Announcement, Character } from '../../../../../../typings';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
+import permissions from '../../../../../../permissions';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -37,7 +37,6 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
   ref
 ) => {
   const { classes } = useStyles();
-  const config = useConfig();
 
   const editor = useEditor({
     content: announcement.contents,
@@ -69,7 +68,7 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
           <Menu.Target>
             <ActionIcon
               disabled={
-                announcement.stateId !== character.stateId && character.grade < config.permissions.announcements.delete
+                announcement.stateId !== character.stateId && character.grade < permissions.delete_announcement.police
               }
               size="lg"
               variant="light"
