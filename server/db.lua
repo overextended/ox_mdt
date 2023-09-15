@@ -2,30 +2,11 @@ local db = {}
 local wildcard = '%s%%'
 local framework = require 'server.framework.ox_core'
 local profileCards = require 'server.profileCards'
-
----@generic T
----@param fn async fun(parameters?: string[], match?: boolean): T
----@param search string?
----@return T
-local function performSearch(fn, search)
-    if not search or search == '' then
-        return fn()
-    end
-
-    local a, b = search:match('^([%w]+) ?([%w]*)$')
-
-    if b == '' then
-        a = wildcard:format(a)
-
-        return fn({ a, a })
-    end
-
-    return fn({ a, wildcard:format(b) }, true)
-end
+local dbSearch = require 'server.dbSearch'
 
 ---@param search string
 function db.searchCharacters(search)
-    return performSearch(framework.getCharacters, search)
+    return dbSearch(framework.getCharacters, search)
 end
 
 ---@param title string
@@ -199,7 +180,7 @@ end
 ---@return Officer | Officer[] | nil
 function db.searchOfficers(search)
     print('searchOfficers', type(search), search)
-    return performSearch(framework.getOfficers, search)
+    return dbSearch(framework.getOfficers, search)
 end
 
 ---@param reportId number
@@ -260,7 +241,7 @@ end
 ---@param search string
 function db.selectWarrants(search)
     print('selectWarrants', type(search), search)
-    return performSearch(framework.getWarrants, search)
+    return dbSearch(framework.getWarrants, search)
 end
 
 function db.createWarrant(reportId, stateId, expiry)
