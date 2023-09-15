@@ -39,12 +39,14 @@
 ---@field label string
 ---@field type 'misdemeanour' | 'felony' | 'infraction'
 ---@field description string
----@field penalty { time: number, fine: number }
+---@field time number
+---@field fine number
 
 ---@class SelectedCharge
 ---@field label string
 ---@field count number
----@field penalty { time: number, fine: number }
+---@field time number
+---@field fine number
 
 ---@class Report
 ---@field title string
@@ -98,7 +100,9 @@
 ---@field coords { [1]: number, [2]: number }
 ---@field blip number
 ---@field units Units
----@field info { time: number, location: string, plate?: string, vehicle?: string }
+---@field time number
+---@field location string
+---@field info { plate?: string, vehicle?: string, [string]: string | number }
 
 ---@class Calls
 ---@field [number] Call
@@ -115,5 +119,5 @@
 ---@field blip number
 
 ---@alias FetchOfficers { firstName: string, lastName: string, stateId: string }[]
----@alias FetchCriminals { stateId: string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean }[]
+---@alias FetchCriminals { stateId: string, firstName: string, lastName: string, reduction: number, warrantExpiry?: string, processed?: number | boolean, pleadedGuilty?: number | boolean, issueWarrant?: boolean, [string]: any }[]
 ---@alias FetchCharges { stateId: string, label: string, time: number?, fine: number?, count: number }[]
