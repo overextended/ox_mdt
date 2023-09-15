@@ -16,6 +16,7 @@ import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
 import permissions from '../../../../../../permissions';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -67,9 +68,7 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
         <Menu position="bottom-end" offset={3} withArrow arrowPosition="center">
           <Menu.Target>
             <ActionIcon
-              disabled={
-                announcement.stateId !== character.stateId && character.grade < permissions.delete_announcement.police
-              }
+              disabled={announcement.stateId !== character.stateId && !hasPermission(character, 'delete_announcement')}
               size="lg"
               variant="light"
               color="blue"
