@@ -29,7 +29,7 @@ local function dbSearch(fn, search, offset)
 
     local a, b, match = splitSearch(search)
 
-    return fn({ a, b, offset }, match)
+    return fn({ a, b, offset }, match or false)
 end
 
 return dbSearch

@@ -76,8 +76,7 @@ end
 ---@return PartialProfileData[]?
 function db.selectProfiles(page, search)
     local offset = (page - 1) * 10
-    -- todo: search based on name or stateid
-    return framework.getProfiles({ offset })
+    return dbSearch(framework.getProfiles, search, offset)
 end
 
 ---@param reportId number
