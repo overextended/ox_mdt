@@ -1,6 +1,26 @@
 {
   "create_announcement": 2,
   "delete_announcement": {
-    "police": 2
-  }
+    "police": 4
+  },
+  "create_bolo": 3,
+  "delete_bolo": 3,
+  "change_profile_picture": 2,
+  "edit_profile_notes": 2,
+  "create_report": 1,
+  "delete_report": 3,
+  "edit_report_title": 2,
+  "add_criminal": 1,
+  "remove_criminal": 2,
+  "save_criminal": 1,
+  "add_officer_involved": 1,
+  "add_evidence": 1,
+  "remove_officer_involved": 2,
+  "remove_evidence": 2,
+  "create_unit": 2,
+  "mark_call_completed": 2,
+  "set_call_sign": 4,
+  "set_officer_rank": 4,
+  "hire_officer": 4,
+  "fire_officer": 5
 }
