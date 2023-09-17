@@ -4,6 +4,18 @@ local utils = require 'server.utils'
 local config = require 'config'
 local dbSearch = require 'server.dbSearch'
 
+CreateThread(function()
+    local dbUserIndexes = MySQL.rawExecute.await('SHOW INDEX FROM `characters`') or {}
+
+    for i = 1, #dbUserIndexes do
+        local index = dbUserIndexes[i]
+
+        if index.Key_name == 'stateId_name' then return end
+    end
+
+    MySQL.update('ALTER TABLE `characters` ADD FULLTEXT INDEX `stateId_name` (`stateId`, `firstName`, `lastName`)')
+end)
+
 local function addOfficer(playerId)
     if officers.get(playerId) then return end
 
@@ -65,13 +77,13 @@ local selectCharacters = [[
         characters
 ]]
 
-local selectCharactersByName = selectCharacters .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
-local selectCharacterPartial = selectCharacters .. ' WHERE `lastName` LIKE ? OR `stateId` LIKE ?'
+local selectCharactersFilter = selectCharacters .. 'WHERE MATCH (`stateId`, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 
 ---@param parameters string[]
+---@param filter? boolean
 ---@return PartialProfileData[]?
-function ox.getCharacters(parameters, match)
-    local query = match and selectCharactersByName or match == false and selectCharacterPartial or selectCharacters
+function ox.getCharacters(parameters, filter)
+    local query = filter and selectCharactersFilter or selectCharacters
     return MySQL.rawExecute.await(query, parameters)
 end
 
@@ -97,18 +109,16 @@ local selectOfficers = [[
         character_groups.name = "police"
 ]]
 
-local selectOfficersByName = selectOfficers .. ' AND (`firstName` = ? AND `lastName` LIKE ?)'
-local selectOfficersPartial = selectOfficers .. ' AND (`lastName` LIKE ? OR ox_mdt_profiles.stateId LIKE ?)'
+local selectOfficersFilter = selectOfficers .. ' AND MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 local selectOfficersPaginate = selectOfficers .. 'LIMIT 9 OFFSET ?'
-local selectOfficersByNamePaginate = selectOfficersByName .. ' LIMIT 9 OFFSET ?'
-local selectOfficersPartialPaginate = selectOfficersPartial .. ' LIMIT 9 OFFSET ?'
+local selectOfficersFilterPaginate = selectOfficersFilter .. ' LIMIT 9 OFFSET ?'
 local selectOfficersCount = selectOfficers:gsub('SELECT.-FROM', 'SELECT COUNT(*) FROM')
 
 ---@param parameters? string[]
----@param match? boolean
+---@param filter? boolean
 ---@return Officer[]?
-function ox.getOfficers(parameters, match)
-    local query = match and selectOfficersByName or match == false and selectOfficersPartial or selectOfficers
+function ox.getOfficers(parameters, filter)
+    local query = filter and selectOfficersFilter or selectOfficers
     return MySQL.rawExecute.await(query, parameters)
 end
 
@@ -122,10 +132,8 @@ utils.registerCallback('ox_mdt:fetchRoster', function(source, search)
         }
     end
 
-    return dbSearch(function(parameters, match)
-        local response = MySQL.rawExecute.await(match and selectOfficersByNamePaginate or selectOfficersPartialPaginate, parameters)
-        print(match and selectOfficersByNamePaginate or selectOfficersPartialPaginate)
-        print(json.encode(parameters))
+    return dbSearch(function(parameters, filter)
+        local response = MySQL.rawExecute.await(filter and selectOfficersFilterPaginate or selectOfficersPaginate, parameters)
 
         return {
             totalRecords = #response,
@@ -136,24 +144,25 @@ end)
 
 local selectWarrants = [[
     SELECT
-        a.reportId,
-        a.stateId,
-        b.firstName,
-        b.lastName,
-        DATE_FORMAT(a.expiresAt, "%Y-%m-%d %T") AS expiresAt
+        warrants.reportId,
+        characters.stateId,
+        characters.firstName,
+        characters.lastName,
+        DATE_FORMAT(warrants.expiresAt, "%Y-%m-%d %T") AS expiresAt
     FROM
-        `ox_mdt_warrants` a
+        `ox_mdt_warrants` warrants
     LEFT JOIN
-        `characters` b
+        `characters`
     ON
-        a.stateid = b.stateid
+        warrants.stateid = characters.stateid
 ]]
 
-local selectWarrantsByName = selectWarrants .. ' WHERE `firstName` = ? AND `lastName` LIKE ?'
-local selectWarrantsPartial = selectWarrants .. ' WHERE `lastName` LIKE ? OR a.stateId LIKE ?'
+local selectWarrantsFilter = selectWarrants .. ' WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 
-function ox.getWarrants(parameters, match)
-    local query = match and selectWarrantsByName or match == false and selectWarrantsPartial or selectWarrants
+---@param parameters table
+---@param filter? boolean
+function ox.getWarrants(parameters, filter)
+    local query = filter and selectWarrantsFilter or selectWarrants
     return MySQL.rawExecute.await(query, parameters)
 end
 
@@ -173,11 +182,12 @@ local selectProfiles = [[
     LIMIT 10 OFFSET ?
 ]]
 
-local selectProfilesByName = selectProfiles:gsub('LIMIT', 'WHERE `firstName` = ? AND `lastName` LIKE ? LIMIT')
-local selectProfilesPartial = selectProfiles:gsub('LIMIT', 'WHERE `lastName` LIKE ? OR characters.stateId LIKE ? LIMIT')
+local selectProfilesFilter = selectProfiles:gsub('LIMIT', 'WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE) LIMIT')
 
-function ox.getProfiles(parameters, match)
-    local query = match and selectProfilesByName or match == false and selectProfilesPartial or selectProfiles
+---@param parameters table
+---@param filter? boolean
+function ox.getProfiles(parameters, filter)
+    local query = filter and selectProfilesFilter or selectProfiles
     return MySQL.rawExecute.await(query, parameters)
 end
 
