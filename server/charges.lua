@@ -1,4 +1,4 @@
-local utils = require 'server.utils'
+local registerCallback = require 'server.utils.registerCallback'
 
 local chargeCategories = {
 	['OFFENSES AGAINST PERSONS'] = 'Offenses Against Persons',
@@ -29,6 +29,6 @@ MySQL.ready(function()
     end
 end)
 
-utils.registerCallback('ox_mdt:getAllCharges', function()
+registerCallback('ox_mdt:getAllCharges', function()
     return charges
 end)

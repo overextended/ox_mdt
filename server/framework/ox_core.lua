@@ -1,8 +1,8 @@
 local officers = require 'server.officers'
 local units = require 'server.units'
-local utils = require 'server.utils'
+local registerCallback = require 'server.utils.registerCallback'
 local config = require 'config'
-local dbSearch = require 'server.dbSearch'
+local dbSearch = require 'server.utils.dbSearch'
 
 CreateThread(function()
     local dbUserIndexes = MySQL.rawExecute.await('SHOW INDEX FROM `characters`') or {}
@@ -124,7 +124,7 @@ end
 
 ---@param source number
 ---@param search string
-utils.registerCallback('ox_mdt:fetchRoster', function(source, search)
+registerCallback('ox_mdt:fetchRoster', function(source, search)
     if search == '' then
         return {
             totalRecords = MySQL.prepare.await(selectOfficersCount),
@@ -302,7 +302,7 @@ end
 
 ---@param source number
 ---@param data {stateId: string, group: string, grade: number}
-utils.registerCallback('ox_mdt:setOfficerRank', function(source, data)
+registerCallback('ox_mdt:setOfficerRank', function(source, data)
     local player = Ox.GetPlayerByFilter({stateId = data.stateId})
 
     -- todo: permission and security checks
@@ -332,7 +332,7 @@ end)
 
 ---@param source number
 ---@param stateId number
-utils.registerCallback('ox_mdt:fireOfficer', function(source, stateId)
+registerCallback('ox_mdt:fireOfficer', function(source, stateId)
     -- todo: permission and security checks
 
     local player = Ox.GetPlayerByFilter({stateId = stateId})
@@ -356,7 +356,7 @@ end)
 
 ---@param source number
 ---@param stateId string
-utils.registerCallback('ox_mdt:hireOfficer', function(source, stateId)
+registerCallback('ox_mdt:hireOfficer', function(source, stateId)
     -- todo: permission and security checks
 
     local player = Ox.GetPlayerByFilter({stateId = stateId})

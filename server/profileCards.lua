@@ -1,4 +1,4 @@
-local utils = require 'server.utils'
+local registerCallback = require 'server.utils.registerCallback'
 local framework = require 'server.framework.ox_core'
 
 ---@class CustomProfileCard
@@ -97,7 +97,7 @@ createProfileCard({
     },
 })
 
-utils.registerCallback('ox_mdt:getCustomProfileCards', function()
+registerCallback('ox_mdt:getCustomProfileCards', function()
     return customProfileCards
 end)
 

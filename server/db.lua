@@ -1,7 +1,7 @@
 local db = {}
 local framework = require 'server.framework.ox_core'
 local profileCards = require 'server.profileCards'
-local dbSearch = require 'server.dbSearch'
+local dbSearch = require 'server.utils.dbSearch'
 
 ---@param search string
 function db.searchCharacters(search)

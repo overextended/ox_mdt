@@ -5,7 +5,7 @@ local activeCalls = {}
 local completedCalls = {}
 
 local callId = 0
-local utils = require 'server.utils'
+local registerCallback = require 'server.utils.registerCallback'
 local units = require 'server.units'
 local officers = require 'server.officers'
 
@@ -66,13 +66,13 @@ end)
 
 ---@param source number
 ---@param data 'active' | 'completed'
-utils.registerCallback('ox_mdt:getCalls', function(source, data)
+registerCallback('ox_mdt:getCalls', function(source, data)
     return data == 'active' and activeCalls or completedCalls
 end)
 
 ---@param source number
 ---@param id number
-utils.registerCallback('ox_mdt:attachToCall', function(source, id)
+registerCallback('ox_mdt:attachToCall', function(source, id)
     local playerUnitId = Player(source).state.mdtUnitId --[[@as number]]
 
     if not playerUnitId or activeCalls[id].units[playerUnitId] then return false end
@@ -87,7 +87,7 @@ end)
 
 ---@param source number
 ---@param id number
-utils.registerCallback('ox_mdt:detachFromCall', function(source, id)
+registerCallback('ox_mdt:detachFromCall', function(source, id)
     local playerUnitId = Player(source).state.mdtUnitId --[[@as number]]
     if not playerUnitId then return false end
 
@@ -103,7 +103,7 @@ end)
 
 ---@param source number
 ---@param id number
-utils.registerCallback('ox_mdt:completeCall', function(source, id)
+registerCallback('ox_mdt:completeCall', function(source, id)
     if not activeCalls[id] then return end
 
     activeCalls[id].completed = os.time()
@@ -115,7 +115,7 @@ end)
 
 ---@param source number
 ---@param data {id: number, units: string[]}
-utils.registerCallback('ox_mdt:setCallUnits', function(source, data)
+registerCallback('ox_mdt:setCallUnits', function(source, data)
     local officer = officers.get(source)
 
     --if not officer.isDispatch then return end

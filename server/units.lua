@@ -6,7 +6,7 @@
 ---@type Units
 local units = {}
 local officers = require 'server.officers'
-local utils = require 'server.utils'
+local registerCallback = require 'server.utils.registerCallback'
 
 ---@param officer Officer
 ---@param state StateBag
@@ -77,7 +77,7 @@ end
 
 ---@param source number
 ---@param unitType UnitType
-utils.registerCallback('ox_mdt:createUnit', function(source, unitType)
+registerCallback('ox_mdt:createUnit', function(source, unitType)
     local officer = officers.get(source)
 
     if not officer or not officer.callSign then return end
@@ -102,12 +102,12 @@ end)
 
 ---@param source number
 ---@param unitId string
-utils.registerCallback('ox_mdt:joinUnit', function(source, unitId)
+registerCallback('ox_mdt:joinUnit', function(source, unitId)
     return addPlayerToUnit(source, unitId)
 end)
 
 ---@param source number
-utils.registerCallback('ox_mdt:leaveUnit', function(source)
+registerCallback('ox_mdt:leaveUnit', function(source)
     local officer = officers.get(source)
 
     if not officer then return end
@@ -115,7 +115,7 @@ utils.registerCallback('ox_mdt:leaveUnit', function(source)
     return removePlayerFromUnit(officer, Player(source).state)
 end)
 
-utils.registerCallback('ox_mdt:getUnits', function()
+registerCallback('ox_mdt:getUnits', function()
     return units
 end)
 
@@ -123,7 +123,7 @@ end)
 
 ---@param source number
 ---@param data {id: number, officers: string[]}
-utils.registerCallback('ox_mdt:setUnitOfficers', function(source, data)
+registerCallback('ox_mdt:setUnitOfficers', function(source, data)
     local unit = units[data.id]
     local includesCreator = false
     local newOfficers = {}
@@ -160,7 +160,7 @@ end)
 
 ---@param source number
 ---@param data {id: number, value: string}
-utils.registerCallback('ox_mdt:setUnitType', function(source, data)
+registerCallback('ox_mdt:setUnitType', function(source, data)
     --TODO authorisation checks - isDispatch and belongs to the unit
 
     units[data.id].type = data.value
