@@ -6,11 +6,6 @@ require 'server.units'
 require 'server.charges'
 require 'server.calls'
 
----for testing
-if not IsPrincipalAceAllowed('mdt.access', 'builtin.everyone') then
-    lib.addAce('builtin.everyone', 'mdt.access')
-end
-
 registerCallback('ox_mdt:openMdt', function()
     return officers.get(source) and true
 end)
