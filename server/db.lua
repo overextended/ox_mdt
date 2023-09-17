@@ -1,5 +1,4 @@
 local db = {}
-local wildcard = '%s%%'
 local framework = require 'server.framework.ox_core'
 local profileCards = require 'server.profileCards'
 local dbSearch = require 'server.dbSearch'
@@ -21,20 +20,28 @@ function db.selectReportById(id)
 end
 
 local selectReports = 'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d %T") as date FROM `ox_mdt_reports`'
-local selectReportsById = selectReports .. 'WHERE `id` LIKE ?'
+local selectReportsById = selectReports .. 'WHERE `id` = ?'
 
 ---@param id number | string
 function db.selectReportsById(id)
-    return MySQL.rawExecute.await(selectReportsById, { wildcard:format(id) })
+    return MySQL.rawExecute.await(selectReportsById, { id })
 end
 
-local selectReportsByString = selectReports .. ' WHERE `title` LIKE ? or `author` LIKE ? or `date` LIKE ? ORDER BY `date` DESC LIMIT 10 OFFSET ?'
+local selectReportsPaginate = selectReports .. 'ORDER BY `date` DESC LIMIT 10 OFFSET ?'
+local selectReportsFilter = selectReports .. ' WHERE MATCH (`title`, `author`, `description`) AGAINST (? IN BOOLEAN MODE) ORDER BY `date` DESC LIMIT 10 OFFSET ?'
 
 ---@param page number
 ---@param search string
 function db.selectReports(page, search)
-    search = wildcard:format(search)
-    return MySQL.rawExecute.await(selectReportsByString, { search, search, search, (page - 1) * 10 })
+    local offset = (page - 1) * 10
+
+    if not search or search == '' then
+        return MySQL.rawExecute.await(selectReportsPaginate, { offset })
+    end
+
+    return dbSearch(function(parameters)
+        return MySQL.rawExecute.await(selectReportsFilter, parameters)
+    end, search, offset)
 end
 
 ---@param stateId string
@@ -178,7 +185,6 @@ end
 ---@param search string?
 ---@return Officer | Officer[] | nil
 function db.searchOfficers(search)
-    print('searchOfficers', type(search), search)
     return dbSearch(framework.getOfficers, search)
 end
 
@@ -239,7 +245,6 @@ end
 
 ---@param search string
 function db.selectWarrants(search)
-    print('selectWarrants', type(search), search)
     return dbSearch(framework.getWarrants, search)
 end
 
