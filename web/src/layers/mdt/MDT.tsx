@@ -72,7 +72,7 @@ const MDT: React.FC = () => {
   );
 
   useNuiEvent('setVisible', (data?: Character) => {
-    setVisible(true);
+    setVisible(data ? true : false);
     data && setCharacter(data);
   });
 
