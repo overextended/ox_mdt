@@ -45,6 +45,19 @@ end)
 
 local ox = {}
 
+---@param playerId number
+---@param permission number | table<string, number>
+---@return boolean?
+function ox.isAuthorised(playerId, permission)
+    if type(permission) == 'table' then
+        return Ox.GetPlayer(playerId)?.hasGroup(permission) and true
+    end
+
+    local _, grade = Ox.GetPlayer(playerId)?.hasGroup(config.policeGroups)
+
+    return grade and grade >= permission
+end
+
 ---@return { label: string, plate: string }[]
 function ox.getVehicles(parameters)
     local vehicles = MySQL.rawExecute.await('SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?', parameters) or
