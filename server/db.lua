@@ -27,8 +27,8 @@ function db.selectReportsById(id)
     return MySQL.rawExecute.await(selectReportsById, { id })
 end
 
-local selectReportsPaginate = selectReports .. 'ORDER BY `date` DESC LIMIT 10 OFFSET ?'
-local selectReportsFilter = selectReports .. ' WHERE MATCH (`title`, `author`, `description`) AGAINST (? IN BOOLEAN MODE) ORDER BY `date` DESC LIMIT 10 OFFSET ?'
+local selectReportsPaginate = selectReports .. 'ORDER BY `id` DESC LIMIT 10 OFFSET ?'
+local selectReportsFilter = selectReports .. ' WHERE MATCH (`title`, `author`, `description`) AGAINST (? IN BOOLEAN MODE) ORDER BY `id` DESC LIMIT 10 OFFSET ?'
 
 ---@param page number
 ---@param search string

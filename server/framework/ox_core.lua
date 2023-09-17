@@ -296,7 +296,7 @@ function ox.getAnnouncements(parameters)
             `characters` b
         ON
             b.stateId = a.creator
-        ORDER BY `createdAt` DESC LIMIT 5 OFFSET ?
+        ORDER BY `id` DESC LIMIT 5 OFFSET ?
     ]], parameters)
 end
 
