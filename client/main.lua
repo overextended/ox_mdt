@@ -1,6 +1,7 @@
 if not lib then return end
 
 local hasLoadedUi = false
+local isMdtOpen = false
 local framework = require 'client.framework.ox_core'
 local player = framework.getOfficerData()
 
@@ -13,24 +14,64 @@ local function getOfficersWithTitle(officers)
     return officers
 end
 
+local tabletAnimDict = 'amb@world_human_seat_wall_tablet@female@base'
+local tablet
+
+local function closeMdt(hideUi)
+    if not isMdtOpen then return end
+
+    isMdtOpen = false
+
+    if hideUi then
+        SendNUIMessage({
+            action = 'setVisible',
+            data = false
+        })
+
+        SetNuiFocus(false, false)
+    end
+
+    if IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
+        ClearPedTasks(cache.ped)
+    end
+
+    if tablet then
+        if DoesEntityExist(tablet) then
+            Wait(300)
+            DeleteEntity(tablet)
+        end
+
+        tablet = nil
+    end
+end
+
 AddEventHandler(framework.loadedEvent, function()
     player = framework.getOfficerData()
 end)
 
 AddEventHandler(framework.logoutEvent, function()
     hasLoadedUi = false
+
+    if player.group then closeMdt(true) end
 end)
 
-AddEventHandler(framework.setGroupEvent, framework.getOfficerData)
+AddEventHandler(framework.setGroupEvent, function()
+    local lastGroup = player.group
 
-local tabletAnimDict = 'amb@world_human_seat_wall_tablet@female@base'
-local tablet
+    framework.getOfficerData()
+
+    if not player.group and lastGroup or (lastGroup and lastGroup ~= player.group) then
+        closeMdt(true)
+    end
+end)
 
 local function openMdt()
     ---@type boolean?, string?
     local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
 
     if not isAuthorised then return end
+
+    isMdtOpen = true
 
     if not IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
         lib.requestAnimDict(tabletAnimDict)
@@ -117,21 +158,6 @@ lib.addKeybind({
         end
     end
 })
-
-local function closeMdt()
-    if IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
-        ClearPedTasks(cache.ped)
-    end
-
-    if tablet then
-        if DoesEntityExist(tablet) then
-            Wait(300)
-            DeleteEntity(tablet)
-        end
-
-        tablet = nil
-    end
-end
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == cache.resource then closeMdt() end
