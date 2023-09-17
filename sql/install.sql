@@ -26,7 +26,8 @@ CREATE TABLE
         `description` text DEFAULT NULL,
         `author` varchar(50) DEFAULT NULL,
         `date` datetime DEFAULT curtime(),
-        PRIMARY KEY (`id`) USING BTREE
+        PRIMARY KEY (`id`) USING BTREE,
+        FULLTEXT INDEX `title_desc_author` (`title`, `description`, `author`)
     );
 
 CREATE TABLE
