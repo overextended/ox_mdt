@@ -11,6 +11,7 @@ import ListSearch from '../../components/ListSearch';
 import { queryClient } from '../../../../main';
 import { PartialReportData } from '../../../../typings';
 import locales from '../../../../locales';
+import CreateReportButton from './components/CreateReportButton';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -47,16 +48,7 @@ const Reports: React.FC = () => {
           <IconReceipt />
         </Group>
         <ListSearch setDebouncedValue={setDebouncedSearch} valueAtom={reportsListAtoms.currentValueAtom} />
-        <Box>
-          <Button
-            fullWidth
-            variant="light"
-            leftIcon={<IconFileImport size={20} />}
-            onClick={() => modals.open({ title: locales.create_report, size: 'sm', children: <CreateReportModal /> })}
-          >
-            {locales.create_report}
-          </Button>
-        </Box>
+        <CreateReportButton />
         <ListContainer
           ListComponent={ReportsList}
           setDebouncedSearch={setDebouncedSearch}

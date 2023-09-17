@@ -9,12 +9,16 @@ import { RichTextEditor } from '@mantine/tiptap';
 import { ActionIcon, createStyles, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import locales from '../../../locales';
+import { PermissionKey } from '../../../permissions';
+import { hasPermission } from '../../../helpers/hasPermission';
+import { useCharacter } from '../../../state';
 
 interface Props {
   onSave?: (value: string) => void;
   placeholder?: string;
   content?: string;
   onChange?: (value?: string) => void;
+  permission?: PermissionKey;
 }
 
 const useStyles = createStyles({
@@ -31,12 +35,14 @@ const useStyles = createStyles({
   },
 });
 
-const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onChange }) => {
+const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onChange, permission }) => {
   const { classes } = useStyles();
   const [canSave, setCanSave] = React.useState(false);
+  const character = useCharacter();
+
   const editor = useEditor({
     content,
-
+    editable: permission ? hasPermission(character, permission) : true,
     extensions: [
       StarterKit,
       Underline,
@@ -66,7 +72,7 @@ const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onC
     <RichTextEditor
       placeholder={locales.report_placeholder}
       editor={editor}
-      styles={{
+      styles={(theme) => ({
         root: {
           overflow: 'hidden',
           display: 'flex',
@@ -79,7 +85,7 @@ const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onC
           overflowY: 'scroll',
           '> .ProseMirror': { height: '100%' },
         },
-      }}
+      })}
     >
       {editor && (
         <>

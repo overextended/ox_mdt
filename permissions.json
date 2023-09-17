@@ -9,6 +9,7 @@
   "edit_profile_notes": 2,
   "create_report": 1,
   "delete_report": 3,
+  "edit_report_contents": 2,
   "edit_report_title": 2,
   "add_criminal": 1,
   "remove_criminal": 2,
@@ -21,6 +22,6 @@
   "mark_call_completed": 2,
   "set_call_sign": 4,
   "set_officer_rank": 4,
-  "hire_officer": 4,
-  "fire_officer": 5
+  "fire_officer": 5,
+  "hire_officer": 4
 }

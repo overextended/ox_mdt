@@ -8,6 +8,7 @@ import { modals } from '@mantine/modals';
 import { Call } from '../../../../../../typings';
 import { useCharacter, useDispatchMap } from '../../../../../../state';
 import ManageUnitsModal from '../modals/ManageUnitsModal';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 interface Props {
   call: Call;
@@ -67,6 +68,7 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
             {locales.find_on_map}
           </Menu.Item>
           <Menu.Item
+            disabled={!hasPermission(character, 'mark_call_completed')}
             icon={<IconCheck size={20} />}
             onClick={() => {
               modals.openConfirmModal({

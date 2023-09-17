@@ -7,7 +7,7 @@ const DEBUG_CHARACTER: Character = {
   firstName: 'Svetozar',
   lastName: 'Miletić',
   title: 'LSPD Officer',
-  grade: 4,
+  grade: 5,
   callSign: 103,
   isDispatch: true,
 };

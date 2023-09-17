@@ -1,17 +1,19 @@
 import React from 'react';
 import { ActionIcon, Badge, Group, rem, Text } from '@mantine/core';
 import { IconUsers, IconX } from '@tabler/icons-react';
-import { useOfficersInvolved, useReportId, useSetOfficersInvolved } from '../../../../../state';
+import { useCharacter, useOfficersInvolved, useReportId, useSetOfficersInvolved } from '../../../../../state';
 import BadgeButton from '../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
 import AddOfficerModal from './modals/addOfficer/AddOfficerModal';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import locales from '../../../../../locales';
+import { hasPermission } from '../../../../../helpers/hasPermission';
 
 const OfficersInvolved: React.FC = () => {
   const id = useReportId();
   const officers = useOfficersInvolved();
   const setOfficersInvolved = useSetOfficersInvolved();
+  const character = useCharacter();
 
   return (
     <>
@@ -21,6 +23,7 @@ const OfficersInvolved: React.FC = () => {
       </Group>
       <Group spacing="xs">
         <BadgeButton
+          disabled={!hasPermission(character, 'add_officer_involved')}
           label={locales.add_officer}
           onClick={() => {
             modals.open({
@@ -37,6 +40,7 @@ const OfficersInvolved: React.FC = () => {
               <ActionIcon
                 size="xs"
                 radius="xl"
+                disabled={!hasPermission(character, 'remove_officer_involved')}
                 variant="transparent"
                 onClick={() => {
                   modals.openConfirmModal({

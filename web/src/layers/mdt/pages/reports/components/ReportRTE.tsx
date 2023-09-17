@@ -12,6 +12,7 @@ const ReportRTE: React.FC = () => {
     <Editor
       placeholder={locales.report_placeholder}
       content={description}
+      permission="edit_report_contents"
       onSave={(value) => {
         fetchNui('saveReportContents', { reportId: id, contents: value });
         setDescription(value);

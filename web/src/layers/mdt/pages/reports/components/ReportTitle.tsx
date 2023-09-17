@@ -1,17 +1,19 @@
 import React from 'react';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { useReportId, useReportTitle, useSetIsReportActive } from '../../../../../state';
+import { useCharacter, useReportId, useReportTitle, useSetIsReportActive } from '../../../../../state';
 import { modals } from '@mantine/modals';
 import EditTitleModal from './modals/EditTitleModal';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../main';
 import locales from '../../../../../locales';
+import { hasPermission } from '../../../../../helpers/hasPermission';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();
   const id = useReportId();
   const setIsReportActive = useSetIsReportActive();
+  const character = useCharacter();
 
   return (
     <Group position="apart" noWrap>
@@ -23,6 +25,7 @@ const ReportTitle: React.FC = () => {
           <ActionIcon
             color="red"
             variant="light"
+            disabled={!hasPermission(character, 'delete_report')}
             onClick={() =>
               modals.openConfirmModal({
                 title: locales.delete_report,
@@ -53,6 +56,7 @@ const ReportTitle: React.FC = () => {
           <ActionIcon
             color="blue"
             variant="light"
+            disabled={!hasPermission(character, 'edit_report_title')}
             onClick={() =>
               modals.open({
                 title: locales.edit_report_title,

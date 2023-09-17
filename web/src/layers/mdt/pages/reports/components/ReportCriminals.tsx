@@ -1,11 +1,8 @@
 import React from 'react';
-import { Box, Button, Stack } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { Box, Stack } from '@mantine/core';
 import { useCriminals } from '../../../../../state';
 import Criminal from './Criminal';
-import { modals } from '@mantine/modals';
-import AddCriminalModal from './modals/addCriminal/AddCriminalModal';
-import locales from '../../../../../locales';
+import AddCriminalButton from './AddCriminalButton';
 
 const ReportCriminals: React.FC = () => {
   const criminals = useCriminals();
@@ -13,19 +10,7 @@ const ReportCriminals: React.FC = () => {
   return (
     <Box sx={{ overflowY: 'scroll' }}>
       <Stack spacing="xs">
-        <Button
-          variant="light"
-          leftIcon={<IconPlus size={20} />}
-          onClick={() =>
-            modals.open({
-              title: locales.add_criminal,
-              children: <AddCriminalModal />,
-              styles: { body: { height: 400, overflow: 'hidden' } },
-            })
-          }
-        >
-          {locales.add_criminal}
-        </Button>
+        <AddCriminalButton />
         {criminals.map((criminal, index) => (
           <Criminal key={criminal.toString()} criminalAtom={criminal} index={index} />
         ))}

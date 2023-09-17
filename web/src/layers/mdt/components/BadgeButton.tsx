@@ -4,6 +4,7 @@ import { Button, ButtonProps, createStyles } from '@mantine/core';
 interface Props extends ButtonProps {
   label: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const useStyles = createStyles({
@@ -23,6 +24,7 @@ const BadgeButton: React.FC<Props> = (props) => {
       radius="xl"
       h="20px"
       uppercase
+      disabled={props.disabled}
       className={classes.button}
       {...props}
       onClick={props.onClick}

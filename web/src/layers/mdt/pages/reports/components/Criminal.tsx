@@ -4,7 +4,7 @@ import { IconClockDown, IconDeviceFloppy, IconTrash, IconUserShare } from '@tabl
 import BadgeButton from '../../../components/BadgeButton';
 import BaseCard from './BaseCard';
 import { PrimitiveAtom, useAtom } from 'jotai';
-import { useReportId, useSetCriminals, useSetProfile, useSetSelectedCharges } from '../../../../../state';
+import { useCharacter, useReportId, useSetCriminals, useSetProfile, useSetSelectedCharges } from '../../../../../state';
 import { modals } from '@mantine/modals';
 import EditChargesModal from './modals/editCharges/EditChargesModal';
 import { fetchNui } from '../../../../../utils/fetchNui';
@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { useSetLoader } from '../../../../../state/loader';
 import { useNavigate } from 'react-router-dom';
 import { formatNumber } from '../../../../../helpers/formatNumber';
+import { hasPermission } from '../../../../../helpers/hasPermission';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -49,6 +50,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
   const setLoaderModal = useSetLoader();
   const navigate = useNavigate();
   const setProfile = useSetProfile();
+  const character = useCharacter();
 
   return (
     <BaseCard key={criminal.stateId}>
@@ -63,6 +65,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
               <ActionIcon
                 color="red"
                 variant="light"
+                disabled={!hasPermission(character, 'remove_criminal')}
                 onClick={() =>
                   modals.openConfirmModal({
                     title: locales.remove_criminal,
@@ -110,6 +113,7 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
             <Tooltip label={locales.save_criminal}>
               <ActionIcon
                 color="blue"
+                disabled={!hasPermission(character, 'save_criminal')}
                 variant="light"
                 onClick={() => {
                   fetchNui(

@@ -5,14 +5,16 @@ import { modals } from '@mantine/modals';
 import CreateUnitModal from '../modals/CreateUnitModal';
 import { useCharacter } from '../../../../../../state';
 import locales from '../../../../../../locales';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const CreateUnitButton: React.FC = () => {
   const character = useCharacter();
+
   return (
     <Button
       variant="light"
       leftIcon={<IconPlus />}
-      disabled={character.unit !== undefined}
+      disabled={character.unit !== undefined || !hasPermission(character, 'create_unit')}
       onClick={() =>
         modals.open({
           title: locales.create_unit,

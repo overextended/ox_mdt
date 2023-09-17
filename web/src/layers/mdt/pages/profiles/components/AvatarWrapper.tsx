@@ -1,10 +1,11 @@
 import React from 'react';
 import { ActionIcon, Avatar, Box, createStyles } from '@mantine/core';
-import { useProfile } from '../../../../../state';
+import { useCharacter, useProfile } from '../../../../../state';
 import { IconEdit } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AvatarModal from './AvatarModal';
 import locales from '../../../../../locales';
+import { hasPermission } from '../../../../../helpers/hasPermission';
 
 const useStyles = createStyles({
   container: {
@@ -26,11 +27,13 @@ const AvatarWrapper: React.FC = () => {
   const profile = useProfile();
   const [hovering, setHovering] = React.useState(false);
   const { classes } = useStyles();
+  const character = useCharacter();
 
   return (
     <Box className={classes.container} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
       {hovering && (
         <ActionIcon
+          disabled={!hasPermission(character, 'change_profile_picture')}
           className={classes.iconButton}
           onClick={() =>
             modals.open({

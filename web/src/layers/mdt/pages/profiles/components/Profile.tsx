@@ -30,6 +30,7 @@ const Profile: React.FC = () => {
         <Editor
           placeholder={locales.profile_notes_placeholder}
           content={profile.notes}
+          permission="edit_profile_notes"
           onSave={(value) =>
             setProfile((prev) => {
               if (!prev) return null;

@@ -8,20 +8,29 @@ import SetCallSignModal from './modals/SetCallSignModal';
 import SetRankModal from './modals/SetRankModal';
 import { useSetRosterRecords } from '../../../../../state/roster';
 import { fetchNui } from '../../../../../utils/fetchNui';
+import { useCharacter } from '../../../../../state';
+import { hasPermission } from '../../../../../helpers/hasPermission';
 
 const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) => {
   const setRecords = useSetRosterRecords();
+  const character = useCharacter();
 
   return (
     <Group position="center">
       <Menu withinPortal withArrow position="bottom-end">
         <Menu.Target>
-          <ActionIcon variant="light" size="lg" color="blue">
+          <ActionIcon
+            disabled={!hasPermission(character, ['set_call_sign', 'set_officer_rank', 'fire_officer'])}
+            variant="light"
+            size="lg"
+            color="blue"
+          >
             <IconSettings />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item
+            disabled={!hasPermission(character, 'set_call_sign')}
             icon={<Icon123 size={20} />}
             onClick={() =>
               modals.open({
@@ -34,6 +43,7 @@ const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) =>
             {locales.set_call_sign}
           </Menu.Item>
           <Menu.Item
+            disabled={!hasPermission(character, 'set_officer_rank')}
             icon={<IconArrowBadgeUp size={20} />}
             onClick={() =>
               modals.open({ title: locales.set_rank, size: 'xs', children: <SetRankModal officer={officer} /> })
@@ -42,6 +52,7 @@ const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) =>
             {locales.set_rank}
           </Menu.Item>
           <Menu.Item
+            disabled={!hasPermission(character, 'fire_officer')}
             icon={<IconUserX size={20} />}
             color="red"
             onClick={() =>

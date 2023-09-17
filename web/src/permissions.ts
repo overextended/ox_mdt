@@ -1,3 +1,5 @@
 import permissions from '../../permissions.json';
 
-export default permissions as Record<keyof typeof permissions, number | { [key: string]: number }>;
+export type PermissionKey = keyof typeof permissions;
+
+export default permissions as Record<PermissionKey, number | { [key: string]: number }>;

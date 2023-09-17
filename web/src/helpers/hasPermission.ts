@@ -1,8 +1,28 @@
 import { Character } from '../typings';
-import permissions from '../permissions';
+import permissions, { PermissionKey } from '../permissions';
+import { fail } from 'assert';
 
-export const hasPermission = (character: Character, permission: keyof typeof permissions) => {
+export const hasPermission = (character: Character, permission: PermissionKey | PermissionKey[]) => {
   // todo: remove hardcoded police job
-  const perm = permissions[permission];
-  return typeof perm !== 'object' ? character.grade >= perm : character.grade >= perm.police;
+
+  if (!Array.isArray(permission)) {
+    const perm = permissions[permission];
+
+    return typeof perm !== 'object' ? character.grade >= perm : character.grade >= perm.police;
+  }
+
+  let failedPerms = 0;
+  for (let i = 0; i < permission.length; i++) {
+    const perm = permissions[permission[i]];
+
+    if (typeof perm !== 'object' ? character.grade < perm : character.grade < perm.police) {
+      failedPerms++;
+    }
+
+    if (failedPerms === permission.length) {
+      return false;
+    }
+  }
+
+  return true;
 };
