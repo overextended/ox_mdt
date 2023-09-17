@@ -7,6 +7,7 @@ import { modals } from '@mantine/modals';
 import HireOfficerModal from './components/modals/HireOfficerModal';
 import ListSearch from '../../components/ListSearch';
 import { tableSearchAtoms, useSetRosterSearchDebounce } from '../../../../state/roster/tableSearch';
+import HireOfficerButton from './components/HireOfficerButton';
 
 const useStyles = createStyles((theme) => ({
   searchContainer: {
@@ -30,13 +31,7 @@ const Roster: React.FC = () => {
           valueAtom={tableSearchAtoms.currentValueAtom}
           style={{ flex: '1 0 0' }}
         />
-        <Button
-          variant="light"
-          leftIcon={<IconUserPlus size={20} />}
-          onClick={() => modals.open({ title: locales.hire_officer, size: 'xs', children: <HireOfficerModal /> })}
-        >
-          {locales.hire_officer}
-        </Button>
+        <HireOfficerButton/>
       </Group>
       <RosterTable />
     </Stack>
