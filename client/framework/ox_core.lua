@@ -1,45 +1,69 @@
+local config = require "config"
 local ox = {}
-local officer = {}
+local localOfficer = {}
 
 ox.loadedEvent = 'ox:playerLoaded'
 ox.logoutEvent = 'ox:playerLogout'
 ox.setGroupEvent = 'ox:setGroup'
 
-function ox.getDepartments()
-    --todo: support multiple police jobs
-    local group = GlobalState['group.police']
+local function getGroupState(groupName)
+    return GlobalState['group.' .. groupName] --[[@as OxGroupProperties]]
+end
 
-    return {
-        police = {
-            label = group.label:gsub('[%U]', ''),
+---@param group OxGroupProperties
+local function getGroupLabel(group)
+    return group.label:gsub('[%U]', '')
+end
+
+---@param group OxGroupProperties
+---@param grade number
+---@return string
+local function getGradeLabel(group, grade)
+    return ('%s %s'):format(getGroupLabel(group), group.grades[grade])
+end
+
+function ox.getGroupInfo()
+    local groupName, grade = player.hasGroup(config.policeGroups)
+
+    if not groupName or not grade then return end
+
+    return groupName, grade, getGradeLabel(getGroupState(groupName), grade)
+end
+
+function ox.getDepartments()
+    local groups = {}
+
+    for i = 1, #config.policeGroups do
+        local name = config.policeGroups[i]
+        local group = getGroupState(name)
+
+        groups[name] = {
+            label = getGroupLabel(group),
             ranks = group.grades
         }
-    }
+    end
+
+    return groups
 end
 
----@param officer? Officer
-function ox.getGroupTitle(officer)
-    if not ox.getGroupGrade() and not officer then return end
-
-    local group = GlobalState['group.police'] --[[@as OxGroupProperties]]
-
-    return ('%s %s'):format(group.label:gsub('[%U]', ''), group.grades[officer and officer.grade or player.groups.police])
-end
-
-function ox.getGroupGrade()
-    return player.groups.police
+---@param groupName string
+---@param officer Officer
+function ox.getGroupTitle(groupName, officer)
+    return getGradeLabel(getGroupState(groupName), officer.grade)
 end
 
 function ox.getOfficerData()
     if player then
-        officer.stateId = player.stateId
-        officer.firstName = player.firstName
-        officer.lastName = player.lastName
-        officer.title = ox.getGroupTitle()
-        officer.grade = ox.getGroupGrade()
+        local group, grade, title = ox.getGroupInfo()
+        localOfficer.stateId = player.stateId
+        localOfficer.firstName = player.firstName
+        localOfficer.lastName = player.lastName
+        localOfficer.group = group
+        localOfficer.title = title
+        localOfficer.grade = grade
     end
 
-    return officer
+    return localOfficer
 end
 
 return ox

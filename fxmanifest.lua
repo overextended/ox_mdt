@@ -42,5 +42,6 @@ files {
     'web/build/index.html',
     'web/build/**/*',
     'locales/*.json',
-    'client/framework/*.lua'
+    'client/framework/*.lua',
+    'config.lua'
 }

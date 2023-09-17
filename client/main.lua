@@ -6,7 +6,8 @@ local player = framework.getOfficerData()
 
 local function getOfficersWithTitle(officers)
     for i = 1, #officers do
-        officers[i].title = framework.getGroupTitle(officers[i])
+        ---@todo send group name
+        officers[i].title = framework.getGroupTitle('police', officers[i])
     end
 
     return officers
