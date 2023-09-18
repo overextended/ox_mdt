@@ -6,7 +6,7 @@ game         'gta5'
 
 --[[ Resource Information ]]--
 name         'ox_mdt'
-version      '0.0.0'
+version      '0.1.0'
 description  'MDT'
 author       'overextended'
 repository   'https://github.com/overextended/ox_mdt'
