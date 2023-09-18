@@ -84,7 +84,7 @@ registerCallback('ox_mdt:createUnit', function(source, unitType)
 
     ---@type string
     local unitId = officer.callSign
-    local unitName = ('Unit %d'):format(unitId)
+    local unitName = ('Unit %s'):format(unitId)
 
 
     units[unitId] = {
