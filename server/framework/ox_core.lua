@@ -303,6 +303,7 @@ function ox.getAnnouncements(parameters)
             b.firstName,
             b.lastName,
             c.image,
+            c.callSign,
             DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
         FROM
             `ox_mdt_announcements` a
