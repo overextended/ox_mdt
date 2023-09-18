@@ -10,16 +10,21 @@ local function getGroupState(groupName)
     return GlobalState['group.' .. groupName] --[[@as OxGroupProperties]]
 end
 
----@param group OxGroupProperties
-local function getGroupLabel(group)
-    return group.label:gsub('[%U]', '')
+---@param name string
+local function getGroupLabel(name)
+    return getGroupState(name)?.label:gsub('[%U]', '')
 end
 
----@param group OxGroupProperties
+---@param name string
+local function getGroupGrades(name)
+    return getGroupState(name)?.grades
+end
+
+---@param group string
 ---@param grade number
 ---@return string
 local function getGradeLabel(group, grade)
-    return ('%s %s'):format(getGroupLabel(group), group.grades[grade])
+    return ('%s %s'):format(getGroupLabel(group), getGroupGrades(group)?[grade])
 end
 
 function ox.getGroupInfo()
@@ -27,29 +32,12 @@ function ox.getGroupInfo()
 
     if not groupName or not grade then return end
 
-    return groupName, grade, getGradeLabel(getGroupState(groupName), grade)
+    return groupName, grade, getGradeLabel(groupName, grade)
 end
 
-function ox.getDepartments()
-    local groups = {}
-
-    for i = 1, #config.policeGroups do
-        local name = config.policeGroups[i]
-        local group = getGroupState(name)
-
-        groups[name] = {
-            label = getGroupLabel(group),
-            ranks = group.grades
-        }
-    end
-
-    return groups
-end
-
----@param groupName string
 ---@param officer Officer
-function ox.getGroupTitle(groupName, officer)
-    return getGradeLabel(getGroupState(groupName), officer.grade)
+function ox.getGroupTitle(officer)
+    return getGradeLabel(officer.group, officer.grade)
 end
 
 function ox.getOfficerData()
