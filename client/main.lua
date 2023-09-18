@@ -9,7 +9,7 @@ local player = framework.getOfficerData()
 local function getOfficersWithTitle(officers)
     for i = 1, #officers do
         ---@todo send group name
-        officers[i].title = framework.getGroupTitle('police', officers[i])
+        officers[i].title = framework.getGroupTitle(officers[i])
     end
 
     return officers
@@ -173,7 +173,17 @@ RegisterNuiCallback('hideMDT', function(_, cb)
 end)
 
 RegisterNuiCallback('getDepartmentsData', function(_, cb)
-    cb(framework.getDepartments())
+    local groups = {}
+
+    for i = 1, #config.policeGroups do
+        local name = config.policeGroups[i]
+        groups[name] = {
+            label = framework.getGroupLabel(name),
+            ranks = framework.getGroupGrades(name)
+        }
+    end
+
+    cb(groups)
 end)
 
 ---@param event string
