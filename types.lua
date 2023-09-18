@@ -24,7 +24,8 @@
 ---@field isDispatch? boolean
 ---@field ped number
 ---@field playerId number
----@field grade? number
+---@field grade number
+---@field group string
 
 ---@class CriminalProfile : PartialProfileData
 

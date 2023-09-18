@@ -27,15 +27,24 @@ SetInterval(function()
     table.wipe(officersArray)
 end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 5000)))
 
-local function addOfficer(playerId, firstName, lastName, stateId, callSign)
+---@param playerId number
+---@param firstName string
+---@param lastName string
+---@param stateId string
+---@param callSign string
+---@param group string
+---@param grade number
+local function addOfficer(playerId, firstName, lastName, stateId, callSign, group, grade)
     activeOfficers[playerId] = {
         firstName = firstName,
         lastName = lastName,
         stateId = stateId,
-        callSign = math.random(100, 999),
+        callSign = callSign or math.random(100, 999),
         playerId = playerId,
         ped = GetPlayerPed(playerId),
         position = {},
+        group = group,
+        grade = grade,
     }
 end
 
