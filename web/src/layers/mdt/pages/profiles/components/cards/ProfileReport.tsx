@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { useSetActiveReport, useSetIsReportActive } from '../../../../../state';
-import { useSetLoader } from '../../../../../state/loader';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import { Report } from '../../../../../typings';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
+import { useSetLoader } from '../../../../../../state/loader';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import { Report } from '../../../../../../typings';
 import { useNavigate } from 'react-router-dom';
-import { isEnvBrowser } from '../../../../../utils/misc';
+import { isEnvBrowser } from '../../../../../../utils/misc';
 
 interface Props {
   author: string;

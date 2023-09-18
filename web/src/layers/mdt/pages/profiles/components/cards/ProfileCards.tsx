@@ -3,9 +3,9 @@ import ProfileCard from './ProfileCard';
 import { IconReceipt } from '@tabler/icons-react';
 import { Badge, Group, Stack } from '@mantine/core';
 import ProfileReport from './ProfileReport';
-import { useProfile } from '../../../../../state';
-import locales from '../../../../../locales';
-import { useProfileCards } from '../../../../../state/profiles/profileCards';
+import { useProfile } from '../../../../../../state';
+import locales from '../../../../../../locales';
+import { useProfileCards } from '../../../../../../state/profiles/profileCards';
 
 const ProfileCards: React.FC = () => {
   const profile = useProfile();

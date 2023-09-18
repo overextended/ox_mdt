@@ -1,10 +1,10 @@
 import React from 'react';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import { PartialProfileData, Profile } from '../../../../../typings';
-import { DEBUG_PROFILE, useSetProfile } from '../../../../../state';
-import locales from '../../../../../locales';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import { PartialProfileData, Profile } from '../../../../../../typings';
+import { DEBUG_PROFILE, useSetProfile } from '../../../../../../state';
+import locales from '../../../../../../locales';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
-import { useSetLoader } from '../../../../../state/loader';
+import { useSetLoader } from '../../../../../../state/loader';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {

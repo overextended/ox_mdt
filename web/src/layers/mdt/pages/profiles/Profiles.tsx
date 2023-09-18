@@ -1,10 +1,10 @@
 import React from 'react';
 import { Center, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconUserOff, IconUsers } from '@tabler/icons-react';
-import ProfilesList from './components/ProfilesList';
-import Profile from './components/Profile';
+import ProfilesList from './components/list/ProfilesList';
+import Profile from './components/profile/Profile';
 import { profilesListAtoms, useIsProfileActive, useSetProfilesDebounce } from '../../../../state';
-import ProfileCards from './components/ProfileCards';
+import ProfileCards from './components/cards/ProfileCards';
 import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';

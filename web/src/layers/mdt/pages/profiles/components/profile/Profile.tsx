@@ -2,11 +2,11 @@ import React from 'react';
 import { SimpleGrid, Stack } from '@mantine/core';
 import ProfileField from './ProfileField';
 import { IconCalendar, IconId, IconPhone, IconUser } from '@tabler/icons-react';
-import { useProfileState } from '../../../../../state';
+import { useProfileState } from '../../../../../../state';
 import AvatarWrapper from './AvatarWrapper';
-import Editor from '../../../components/Editor';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import locales from '../../../../../locales';
+import Editor from '../../../../components/Editor';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useProfileState();

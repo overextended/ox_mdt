@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Stack, TextInput } from '@mantine/core';
-import { useSetProfile } from '../../../../../state';
+import { useSetProfile } from '../../../../../../state';
 import { modals } from '@mantine/modals';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import locales from '../../../../../locales';
-import { queryClient } from '../../../../../main';
-import { PartialProfileData } from '../../../../../typings';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
+import { queryClient } from '../../../../../../main';
+import { PartialProfileData } from '../../../../../../typings';
 
 interface Props {
   image?: string;

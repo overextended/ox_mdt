@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack } from '@mantine/core';
-import { useProfilesList } from '../../../../../state';
-import NotFound from '../../../components/NotFound';
+import { useProfilesList } from '../../../../../../state';
+import NotFound from '../../../../components/NotFound';
 import { IconUserOff } from '@tabler/icons-react';
-import locales from '../../../../../locales';
-import { useInfiniteScroll } from '../../../../../hooks/useInfiniteScroll';
+import locales from '../../../../../../locales';
+import { useInfiniteScroll } from '../../../../../../hooks/useInfiniteScroll';
 import PartialProfile from './PartialProfile';
 
 const ProfilesList: React.FC = () => {
