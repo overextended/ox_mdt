@@ -4,6 +4,7 @@ export interface Character {
   lastName: string;
   title: string;
   grade: number;
+  group: string;
   image?: string;
   callSign: number;
   unit?: number;
