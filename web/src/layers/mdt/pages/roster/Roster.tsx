@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, createStyles, Group, Stack, TextInput } from '@mantine/core';
-import { IconSearch, IconUserPlus } from '@tabler/icons-react';
 import locales from '../../../../locales';
 import RosterTable from './components/RosterTable';
 import { modals } from '@mantine/modals';
@@ -31,7 +30,7 @@ const Roster: React.FC = () => {
           valueAtom={tableSearchAtoms.currentValueAtom}
           style={{ flex: '1 0 0' }}
         />
-        <HireOfficerButton/>
+        <HireOfficerButton />
       </Group>
       <RosterTable />
     </Stack>

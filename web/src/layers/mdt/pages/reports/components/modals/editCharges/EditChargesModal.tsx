@@ -38,6 +38,7 @@ const EditChargesModal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({
           <ListContainer
             debounceAtom={chargeSearchAtoms.isDebouncingAtom}
             ListComponent={ChargeCardsList}
+            ListComponentProps={{ addButton: true }}
             setDebouncedSearch={setChargeSearchDebounceValue}
           />
         </Stack>

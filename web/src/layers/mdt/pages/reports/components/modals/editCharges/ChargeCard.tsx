@@ -8,6 +8,7 @@ import { formatNumber } from '../../../../../../../helpers/formatNumber';
 
 interface Props {
   charge: Charge;
+  addButton?: boolean;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -26,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ChargeCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ charge }, ref) => {
+const ChargeCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> = ({ charge, addButton }, ref) => {
   const { classes } = useStyles();
   const setSelectedCharges = useSetSelectedCharges();
 
@@ -71,29 +72,31 @@ const ChargeCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Props> =
               <IconQuestionMark size={20} />
             </Stack>
           </Tooltip>
-          <ActionIcon
-            color="blue"
-            variant="light"
-            onClick={() =>
-              setSelectedCharges((prev) => {
-                const prevChargeIndex = prev.findIndex((el) => el.label === charge.label);
+          {addButton && (
+            <ActionIcon
+              color="blue"
+              variant="light"
+              onClick={() =>
+                setSelectedCharges((prev) => {
+                  const prevChargeIndex = prev.findIndex((el) => el.label === charge.label);
 
-                if (prevChargeIndex === -1) {
-                  return [...prev, { label: charge.label, count: 1, time: charge.time, fine: charge.fine }];
-                }
-
-                return prev.map((el, index) => {
-                  if (index === prevChargeIndex) {
-                    return { ...el, count: ++el.count };
+                  if (prevChargeIndex === -1) {
+                    return [...prev, { label: charge.label, count: 1, time: charge.time, fine: charge.fine }];
                   }
 
-                  return el;
-                });
-              })
-            }
-          >
-            <IconPlus size={20} />
-          </ActionIcon>
+                  return prev.map((el, index) => {
+                    if (index === prevChargeIndex) {
+                      return { ...el, count: ++el.count };
+                    }
+
+                    return el;
+                  });
+                })
+              }
+            >
+              <IconPlus size={20} />
+            </ActionIcon>
+          )}
         </Group>
       </Group>
     </Stack>

@@ -18,6 +18,7 @@ import { useSetProfileCards } from '../../state/profiles/profileCards';
 import { useSetCharges } from '../../state/charges';
 import Roster from './pages/roster/Roster';
 import dayjs from 'dayjs';
+import Charges from './pages/charges/Charges';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -111,6 +112,7 @@ const MDT: React.FC = () => {
                   <Route path="/profiles" element={<Profiles />} />
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/dispatch" element={<Dispatch />} />
+                  <Route path="/charges" element={<Charges />} />
                   <Route path="/roster" element={<Roster />} />
                 </Routes>
                 <LoaderModal />
