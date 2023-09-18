@@ -53,4 +53,4 @@ clone the docs, checkout the mdt branch and host them locally.
 - Setting ranks
 - Firing
 
-<br><div><h4 align='center'><a href='https://discord.overextende.dev'>Discord Server</a></h4></div><br>
+<br><div><h4 align='center'><a href='https://discord.overextended.dev'>Discord Server</a></h4></div><br>
