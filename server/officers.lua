@@ -31,15 +31,14 @@ end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 5000)))
 ---@param firstName string
 ---@param lastName string
 ---@param stateId string
----@param callSign string
 ---@param group string
 ---@param grade number
-local function addOfficer(playerId, firstName, lastName, stateId, callSign, group, grade)
+local function addOfficer(playerId, firstName, lastName, stateId, group, grade)
     activeOfficers[playerId] = {
         firstName = firstName,
         lastName = lastName,
         stateId = stateId,
-        callSign = callSign or math.random(100, 999),
+        callSign = MySQL.prepare.await('SELECT `callSign` FROM `ox_mdt_profiles` WHERE stateId = ?', { stateId }) --[[@as string?]],
         playerId = playerId,
         ped = GetPlayerPed(playerId),
         position = {},

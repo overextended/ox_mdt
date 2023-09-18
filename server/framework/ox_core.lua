@@ -24,13 +24,15 @@ local function addOfficer(playerId)
     local group, grade = player.hasGroup(config.policeGroups)
 
     if group and grade then
-        officers.add(playerId, player.firstName, player.lastName, player.stateId, 132, group, grade)
+        officers.add(playerId, player.firstName, player.lastName, player.stateId, group, grade)
     end
 end
 
-for _, playerId in pairs(GetPlayers()) do
-    addOfficer(tonumber(playerId))
-end
+CreateThread(function()
+    for _, playerId in pairs(GetPlayers()) do
+        addOfficer(tonumber(playerId))
+    end
+end)
 
 AddEventHandler('ox:playerLoaded', addOfficer)
 
