@@ -55,7 +55,7 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
     <Stack className={classes.announcementContainer} p="md" ref={ref}>
       <Group position="apart">
         <Group>
-          <Avatar color="blue" />
+          <Avatar color="blue" src={announcement.image} />
           <Stack spacing={0}>
             <Text fw={500}>{`${announcement.firstName} ${announcement.lastName} ${
               announcement.callSign ? `· ${announcement.callSign}` : ''

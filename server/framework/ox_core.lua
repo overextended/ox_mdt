@@ -302,6 +302,7 @@ function ox.getAnnouncements(parameters)
             a.creator AS stateId,
             b.firstName,
             b.lastName,
+            c.image,
             DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
         FROM
             `ox_mdt_announcements` a
@@ -309,6 +310,10 @@ function ox.getAnnouncements(parameters)
             `characters` b
         ON
             b.stateId = a.creator
+        LEFT JOIN
+            `ox_mdt_profiles` c
+        ON
+            c.stateId = a.creator
         ORDER BY `id` DESC LIMIT 5 OFFSET ?
     ]], parameters)
 end
