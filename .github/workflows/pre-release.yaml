@@ -85,7 +85,7 @@ jobs:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           title: 'Pre-release - ${{ env.RELEASE_VERSION }}'
           prerelease: true
-          automatic_releases_tag: 'prerelease'
+          automatic_release_tag: '${{ github.event.inputs.tag }}'
           files: ox_mdt.zip
 
         env:
