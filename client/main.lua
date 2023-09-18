@@ -97,6 +97,7 @@ local function openMdt()
             action = 'setInitData',
             data = {
                 profileCards = profileCards,
+                locale = GetConvar('ox:locale', 'en'),
                 locales = lib.getLocales(),
                 charges = charges
             }

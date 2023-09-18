@@ -17,6 +17,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { useSetProfileCards } from '../../state/profiles/profileCards';
 import { useSetCharges } from '../../state/charges';
 import Roster from './pages/roster/Roster';
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -61,6 +62,7 @@ const MDT: React.FC = () => {
   useNuiEvent(
     'setInitData',
     async (data: {
+      locale: string;
       locales: typeof locales;
       profileCards: CustomProfileData[];
       charges: { [category: string]: Charge[] };
@@ -68,6 +70,8 @@ const MDT: React.FC = () => {
       setLocale(data.locales);
       setProfileCards(data.profileCards);
       setCategoryCharges(data.charges);
+      await import(`../../../node_modules/dayjs/locale/${data.locale}.js`);
+      dayjs.locale(data.locale);
     }
   );
 
