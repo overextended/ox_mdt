@@ -66,7 +66,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
             </Tooltip>
           )}
         </Group>
-        <Badge variant="light" color="blue" sx={{ alignSelf: 'flex-start' }} radius="sm">
+        <Badge variant="light" color={call.isEmergency ? 'red' : 'blue'} sx={{ alignSelf: 'flex-start' }} radius="sm">
           {call.code}
         </Badge>
       </Stack>

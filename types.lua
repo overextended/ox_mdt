@@ -88,8 +88,6 @@
 ---@field [number] Unit
 
 ---@class CallInfo
----@field time number
----@field location string
 ---@field plate? string
 ---@field vehicle? string
 
@@ -103,7 +101,8 @@
 ---@field units Units
 ---@field time number
 ---@field location string
----@field info { plate?: string, vehicle?: string, [string]: string | number }
+---@field isEmergency? boolean
+---@field info { [string]: string | number }
 
 ---@class Calls
 ---@field [number] Call

@@ -31,7 +31,7 @@ const useStyles = createStyles((theme) => ({
 const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
   const { classes } = useStyles();
   const [mounted, setMounted] = React.useState(false);
-  const timeout = useTimeout(() => setMounted(false), 8000, {
+  const timeout = useTimeout(() => setMounted(false), call.isEmergency ? 13000 : 8000, {
     autoInvoke: true,
   });
 
@@ -50,7 +50,7 @@ const DispatchNotification: React.FC<Props> = ({ call, setQueue }) => {
         <Stack className={classes.notification} spacing={6} style={style}>
           <Group position="apart">
             <Group spacing="xs">
-              <Badge variant="light" color="blue" radius="sm">
+              <Badge variant="light" color={call.isEmergency ? 'red' : 'blue'} radius="sm">
                 {call.code}
               </Badge>
               <Text>{call.offense}</Text>

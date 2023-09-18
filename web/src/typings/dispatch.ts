@@ -12,6 +12,7 @@ export interface Call {
   blip: number;
   time: number;
   location: string;
+  isEmergency?: boolean;
   info?: { label: string; icon: string }[];
   units: Unit[];
 }
