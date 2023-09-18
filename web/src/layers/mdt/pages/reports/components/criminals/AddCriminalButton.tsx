@@ -2,10 +2,10 @@ import React from 'react';
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import locales from '../../../../../locales';
-import AddCriminalModal from './modals/addCriminal/AddCriminalModal';
-import { useCharacter } from '../../../../../state';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import locales from '../../../../../../locales';
+import AddCriminalModal from '../modals/addCriminal/AddCriminalModal';
+import { useCharacter } from '../../../../../../state';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const AddCriminalButton: React.FC = () => {
   const character = useCharacter();

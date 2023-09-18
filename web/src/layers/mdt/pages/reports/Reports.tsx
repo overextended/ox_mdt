@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, createStyles, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { IconFileImport, IconReceipt } from '@tabler/icons-react';
-import ReportsList from './components/ReportsList';
+import ReportsList from './components/list/ReportsList';
 import { modals } from '@mantine/modals';
 import CreateReportModal from './components/modals/CreateReportModal';
 import ActiveReport from './components/ActiveReport';
@@ -11,7 +11,7 @@ import ListSearch from '../../components/ListSearch';
 import { queryClient } from '../../../../main';
 import { PartialReportData } from '../../../../typings';
 import locales from '../../../../locales';
-import CreateReportButton from './components/CreateReportButton';
+import CreateReportButton from './components/list/CreateReportButton';
 
 const useStyles = createStyles((theme) => ({
   container: {

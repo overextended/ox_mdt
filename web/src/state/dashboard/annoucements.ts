@@ -44,4 +44,3 @@ const [announcementsAtom, announcementsStatusAtom] = atomsWithInfiniteQuery(
 );
 
 export const useAnnouncements = () => useAtom(announcementsAtom);
-export const useSetAnnouncements = () => useSetAtom(announcementsAtom);

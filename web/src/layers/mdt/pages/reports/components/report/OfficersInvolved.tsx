@@ -1,13 +1,13 @@
 import React from 'react';
 import { ActionIcon, Badge, Group, rem, Text } from '@mantine/core';
 import { IconUsers, IconX } from '@tabler/icons-react';
-import { useCharacter, useOfficersInvolved, useReportId, useSetOfficersInvolved } from '../../../../../state';
-import BadgeButton from '../../../components/BadgeButton';
+import { useCharacter, useOfficersInvolved, useReportId, useSetOfficersInvolved } from '../../../../../../state';
+import BadgeButton from '../../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
-import AddOfficerModal from './modals/addOfficer/AddOfficerModal';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import locales from '../../../../../locales';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import AddOfficerModal from '../modals/addOfficer/AddOfficerModal';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const OfficersInvolved: React.FC = () => {
   const id = useReportId();

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack } from '@mantine/core';
-import { useReportsList } from '../../../../../state';
+import { useReportsList } from '../../../../../../state';
 import { IconReceiptOff } from '@tabler/icons-react';
-import NotFound from '../../../components/NotFound';
-import { useInfiniteScroll } from '../../../../../hooks/useInfiniteScroll';
-import locales from '../../../../../locales';
+import NotFound from '../../../../components/NotFound';
+import { useInfiniteScroll } from '../../../../../../hooks/useInfiniteScroll';
+import locales from '../../../../../../locales';
 import PartialReport from './PartialReport';
 
 const ReportsList: React.FC = () => {

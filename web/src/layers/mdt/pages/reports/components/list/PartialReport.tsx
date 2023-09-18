@@ -1,9 +1,9 @@
 import React from 'react';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import { type PartialReportData, Report } from '../../../../../typings';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import { type PartialReportData, Report } from '../../../../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
-import { useSetActiveReport, useSetIsReportActive } from '../../../../../state';
-import { useSetLoader } from '../../../../../state/loader';
+import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
+import { useSetLoader } from '../../../../../../state/loader';
 
 const useStyles = createStyles((theme) => ({
   reportContainer: {

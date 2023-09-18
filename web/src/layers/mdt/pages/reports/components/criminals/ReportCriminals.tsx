@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Stack } from '@mantine/core';
-import { useCriminals } from '../../../../../state';
+import { useCriminals } from '../../../../../../state';
 import Criminal from './Criminal';
 import AddCriminalButton from './AddCriminalButton';
 

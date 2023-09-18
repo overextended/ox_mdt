@@ -1,13 +1,13 @@
 import React from 'react';
 import { ActionIcon, Badge, Group, Image, rem, Text, Tooltip } from '@mantine/core';
 import { IconPaperBag, IconX } from '@tabler/icons-react';
-import { useCharacter, useEvidence, useReportId, useSetEvidence } from '../../../../../state';
-import BadgeButton from '../../../components/BadgeButton';
+import { useCharacter, useEvidence, useReportId, useSetEvidence } from '../../../../../../state';
+import BadgeButton from '../../../../components/BadgeButton';
 import { modals } from '@mantine/modals';
-import AddEvidenceModal from './modals/AddEvidenceModal';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import locales from '../../../../../locales';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import AddEvidenceModal from '../modals/AddEvidenceModal';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import locales from '../../../../../../locales';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const ReportEvidence: React.FC = () => {
   const evidence = useEvidence();

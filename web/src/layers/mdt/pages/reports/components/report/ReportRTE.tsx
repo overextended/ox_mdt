@@ -1,8 +1,8 @@
 import React from 'react';
-import Editor from '../../../components/Editor';
-import { useReportDescriptionState, useReportId } from '../../../../../state';
-import locales from '../../../../../locales';
-import { fetchNui } from '../../../../../utils/fetchNui';
+import Editor from '../../../../components/Editor';
+import { useReportDescriptionState, useReportId } from '../../../../../../state';
+import locales from '../../../../../../locales';
+import { fetchNui } from '../../../../../../utils/fetchNui';
 
 const ReportRTE: React.FC = () => {
   const [description, setDescription] = useReportDescriptionState();

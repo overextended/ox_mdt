@@ -1,21 +1,27 @@
 import React from 'react';
 import { ActionIcon, Badge, Checkbox, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
 import { IconClockDown, IconDeviceFloppy, IconTrash, IconUserShare } from '@tabler/icons-react';
-import BadgeButton from '../../../components/BadgeButton';
-import BaseCard from './BaseCard';
+import BadgeButton from '../../../../components/BadgeButton';
+import BaseCard from '../BaseCard';
 import { PrimitiveAtom, useAtom } from 'jotai';
-import { useCharacter, useReportId, useSetCriminals, useSetProfile, useSetSelectedCharges } from '../../../../../state';
+import {
+  useCharacter,
+  useReportId,
+  useSetCriminals,
+  useSetProfile,
+  useSetSelectedCharges,
+} from '../../../../../../state';
 import { modals } from '@mantine/modals';
-import EditChargesModal from './modals/editCharges/EditChargesModal';
-import { fetchNui } from '../../../../../utils/fetchNui';
+import EditChargesModal from '../modals/editCharges/EditChargesModal';
+import { fetchNui } from '../../../../../../utils/fetchNui';
 import WarrantExpiry from './WarrantExpiry';
-import type { Criminal, Profile } from '../../../../../typings';
-import locales from '../../../../../locales';
+import type { Criminal, Profile } from '../../../../../../typings';
+import locales from '../../../../../../locales';
 import dayjs from 'dayjs';
-import { useSetLoader } from '../../../../../state/loader';
+import { useSetLoader } from '../../../../../../state/loader';
 import { useNavigate } from 'react-router-dom';
-import { formatNumber } from '../../../../../helpers/formatNumber';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import { formatNumber } from '../../../../../../helpers/formatNumber';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const percentages = [25, 50, 75, 80, 90];
 

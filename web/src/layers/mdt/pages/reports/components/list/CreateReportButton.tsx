@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, Button } from '@mantine/core';
 import { IconFileImport } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import locales from '../../../../../locales';
-import CreateReportModal from './modals/CreateReportModal';
-import { useCharacter } from '../../../../../state';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import locales from '../../../../../../locales';
+import CreateReportModal from '../modals/CreateReportModal';
+import { useCharacter } from '../../../../../../state';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const CreateReportButton: React.FC = () => {
   const character = useCharacter();

@@ -1,13 +1,13 @@
 import React from 'react';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { useCharacter, useReportId, useReportTitle, useSetIsReportActive } from '../../../../../state';
+import { useCharacter, useReportId, useReportTitle, useSetIsReportActive } from '../../../../../../state';
 import { modals } from '@mantine/modals';
-import EditTitleModal from './modals/EditTitleModal';
-import { fetchNui } from '../../../../../utils/fetchNui';
-import { queryClient } from '../../../../../main';
-import locales from '../../../../../locales';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import EditTitleModal from '../modals/EditTitleModal';
+import { fetchNui } from '../../../../../../utils/fetchNui';
+import { queryClient } from '../../../../../../main';
+import locales from '../../../../../../locales';
+import { hasPermission } from '../../../../../../helpers/hasPermission';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();

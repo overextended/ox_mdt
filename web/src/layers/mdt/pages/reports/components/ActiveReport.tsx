@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, createStyles, Stack } from '@mantine/core';
 import BaseCard from './BaseCard';
-import ReportContent from './ReportContent';
-import OfficersInvolved from './OfficersInvolved';
-import ReportEvidence from './ReportEvidence';
-import ReportCriminals from './ReportCriminals';
+import ReportContent from './report/ReportContent';
+import OfficersInvolved from './report/OfficersInvolved';
+import ReportEvidence from './report/ReportEvidence';
+import ReportCriminals from './criminals/ReportCriminals';
 import { useIsReportActive } from '../../../../../state';
 import NotFound from '../../../components/NotFound';
 import { IconReceiptOff } from '@tabler/icons-react';
