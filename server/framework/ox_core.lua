@@ -17,12 +17,14 @@ CreateThread(function()
 end)
 
 local function addOfficer(playerId)
-    if officers.get(playerId) then return end
-
     local player = Ox.GetPlayer(playerId)
 
-    if player and player.hasGroup(config.policeGroups) then
-        officers.add(playerId, player.firstName, player.lastName, player.stateId, 132)
+    if not player then return end
+
+    local group, grade = player.hasGroup(config.policeGroups)
+
+    if group and grade then
+        officers.add(playerId, player.firstName, player.lastName, player.stateId, 132, group, grade)
     end
 end
 
@@ -31,7 +33,24 @@ for _, playerId in pairs(GetPlayers()) do
 end
 
 AddEventHandler('ox:playerLoaded', addOfficer)
-AddEventHandler('ox:setGroup', addOfficer)
+
+AddEventHandler('ox:setGroup', function(playerId, name, grade)
+    local officer = officers.get(playerId)
+
+    if officer then
+        if officer.group == name then
+            if not grade then
+                return officers.remove(playerId)
+            end
+
+            officer.grade = grade
+        end
+
+        return
+    end
+
+    addOfficer(playerId)
+end)
 
 AddEventHandler('ox:playerLogout', function(playerId)
     local officer = officers.get(playerId)
@@ -105,7 +124,8 @@ local selectOfficers = [[
         firstName,
         lastName,
         characters.stateId,
-        character_groups.grade AS grade,
+        character_groups.name AS `group`,
+        character_groups.grade,
         ox_mdt_profiles.image,
         ox_mdt_profiles.callSign
     FROM
