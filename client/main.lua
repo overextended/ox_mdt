@@ -2,7 +2,8 @@ if not lib then return end
 
 local hasLoadedUi = false
 local isMdtOpen = false
-local framework = require 'client.framework.ox_core'
+local config = require 'config'
+local framework = require(('client.framework.%s'):format(config.framework))
 local player = framework.getOfficerData()
 
 local function getOfficersWithTitle(officers)

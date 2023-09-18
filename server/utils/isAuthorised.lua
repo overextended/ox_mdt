@@ -1,8 +1,9 @@
+local config = require 'config'
 local permissions = require 'server.permissions'
 local framework
 
 CreateThread(function()
-   framework = require 'server.framework.ox_core'
+   framework = require(('server.framework.%s'):format(config.framework))
 end)
 
 ---@param playerId number

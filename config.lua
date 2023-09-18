@@ -1,3 +1,4 @@
 return {
-    policeGroups = { 'police' }
+    framework = 'ox_core',
+    policeGroups = { 'police' },
 }

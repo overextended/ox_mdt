@@ -1,5 +1,6 @@
 local registerCallback = require 'server.utils.registerCallback'
-local framework = require 'server.framework.ox_core'
+local config = require 'config'
+local framework = require(('server.framework.%s'):format(config.framework))
 
 ---@class CustomProfileCard
 ---@field id string

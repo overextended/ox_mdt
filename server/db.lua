@@ -1,5 +1,6 @@
 local db = {}
-local framework = require 'server.framework.ox_core'
+local config = require 'config'
+local framework = require(('server.framework.%s'):format(config.framework))
 local profileCards = require 'server.profileCards'
 local dbSearch = require 'server.utils.dbSearch'
 
