@@ -7,6 +7,7 @@ import AvatarWrapper from './AvatarWrapper';
 import Editor from '../../../../components/Editor';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
+import dayjs from 'dayjs';
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useProfileState();
@@ -23,7 +24,7 @@ const Profile: React.FC = () => {
         <ProfileField
           icon={IconCalendar}
           label={locales.date_of_birth}
-          value={new Date(profile.dob).toLocaleDateString()}
+          value={dayjs(profile.dob).format('YYYY/MM/DD')}
         />
       </SimpleGrid>
       <Stack spacing="xs" h="100%">

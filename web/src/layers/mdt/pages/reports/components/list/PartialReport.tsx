@@ -4,6 +4,7 @@ import { type PartialReportData, Report } from '../../../../../../typings';
 import { createStyles, Group, Stack, Text } from '@mantine/core';
 import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
 import { useSetLoader } from '../../../../../../state/loader';
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   reportContainer: {
@@ -54,7 +55,7 @@ const PartialReport: React.ForwardRefRenderFunction<HTMLDivElement | null, Props
       <Text>{report.title}</Text>
       <Group position="apart">
         <Text size="xs" c="dark.2">
-          {report.author} - {new Date(report.date).toLocaleDateString()}
+          {report.author} - {dayjs(report.date).format('YYYY/MM/DD')}
         </Text>
         <Text size="xs" c="dark.2">
           #{report.id}

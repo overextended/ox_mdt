@@ -5,6 +5,7 @@ import { DEBUG_PROFILE, useSetProfile } from '../../../../../../state';
 import locales from '../../../../../../locales';
 import { Avatar, Box, createStyles, Group, Stack, Text } from '@mantine/core';
 import { useSetLoader } from '../../../../../../state/loader';
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   profileContainer: {
@@ -53,7 +54,7 @@ const PartialProfile: React.ForwardRefRenderFunction<HTMLDivElement | null, Prop
             {profile.firstName} {profile.lastName}
           </Text>
           <Text size="xs" c="dark.2">
-            {locales.date_of_birth}: {new Date(profile.dob).toLocaleDateString()}
+            {locales.date_of_birth}: {dayjs(profile.dob).format('YYYY/MM/DD')}
           </Text>
           <Text size="xs" c="dark.2">
             {locales.state_id}: {profile.stateId}
