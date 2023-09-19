@@ -113,14 +113,14 @@ registerCallback('ox_mdt:completeCall', function(source, id)
     activeCalls[id] = nil
 
     return true
-end)
+end, 'mark_call_completed')
 
 ---@param source number
 ---@param data {id: number, units: string[]}
 registerCallback('ox_mdt:setCallUnits', function(source, data)
     local officer = officers.get(source)
 
-    --if not officer.isDispatch then return end
+    -- todo: if not officer.isDispatch then return end
 
     activeCalls[data.id].units = {}
     for i = 1, #data.units do

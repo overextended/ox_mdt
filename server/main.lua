@@ -26,7 +26,7 @@ registerCallback('ox_mdt:createAnnouncement', function(source, contents)
     local officer = officers.get(source)
 
     return officer and db.createAnnouncement(officer.stateId, contents)
-end)
+end, 'create_announcement')
 
 ---@param source number
 ---@param data { announcement: Announcement, value: string }
@@ -44,7 +44,7 @@ registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
     -- todo: permission check or creator check
 
     return db.removeAnnouncement(id)
-end)
+end, 'delete_announcement')
 
 ---@param source number
 ---@param search string
@@ -59,7 +59,7 @@ registerCallback('ox_mdt:createReport', function(source, title)
     local officer = officers.get(source)
 
     return officer and db.createReport(title, ('%s %s'):format(officer.firstName, officer.lastName))
-end)
+end, 'create_report')
 
 ---@param source number
 ---@param data { page: number, search: string }
@@ -94,33 +94,33 @@ end)
 ---@return number
 registerCallback('ox_mdt:deleteReport', function(source, reportId)
     return db.deleteReport(reportId)
-end)
+end, 'delete_report')
 
 ---@param source number
 ---@param data { id: number, title: string}
 ---@return number
 registerCallback('ox_mdt:setReportTitle', function(source, data)
     return db.updateReportTitle(data.title, data.id)
-end)
+end, 'edit_report_title')
 
 ---@param source number
 ---@param data { reportId: number, contents: string}
 ---@return number
 registerCallback('ox_mdt:saveReportContents', function(source, data)
     return db.updateReportContents(data.reportId, data.contents)
-end)
+end, 'edit_report_contents')
 
 ---@param source number
 ---@param data { id: number, criminalId: string }
 registerCallback('ox_mdt:addCriminal', function(source, data)
     return db.addCriminal(data.id, data.criminalId)
-end)
+end, 'add_criminal')
 
 ---@param source number
 ---@param data { id: number, criminalId: string }
 registerCallback('ox_mdt:removeCriminal', function(source, data)
     return db.removeCriminal(data.id, data.criminalId)
-end)
+end, 'remove_criminal')
 
 ---@param source number
 ---@param data { id: number, criminal: Criminal }
@@ -134,31 +134,19 @@ registerCallback('ox_mdt:saveCriminal', function(source, data)
     end
 
     return db.saveCriminal(data.id, data.criminal)
-end)
-
----@param source number
----@param data { id: number, callSign: string }
-registerCallback('ox_mdt:addOfficer', function(source, data)
-    return 1
-end)
-
----@param source number
----@param data { id: number, index: number }
-registerCallback('ox_mdt:removeOfficer', function(source, data)
-    return 1
-end)
+end, 'save_criminal')
 
 ---@param source number
 ---@param data { id: number, evidence: Evidence }
 registerCallback('ox_mdt:addEvidence', function(source, data)
     return db.addEvidence(data.id, data.evidence.type, data.evidence.label, data.evidence.value)
-end)
+end, 'add_evidence')
 
 ---@param source number
 ---@param data { id: number, label: string, value: string }
 registerCallback('ox_mdt:removeEvidence', function(source, data)
     return db.removeEvidence(data.id, data.label, data.value)
-end)
+end, 'remove_evidence')
 
 ---@param source number
 ---@param data {page: number, search: string}
@@ -181,13 +169,13 @@ end)
 ---@param data {stateId: string, image: string}
 registerCallback('ox_mdt:saveProfileImage', function(source, data)
     return db.updateProfileImage(data.stateId, data.image)
-end)
+end, 'change_profile_picture')
 
 ---@param source number
 ---@param data {stateId: string, notes: string}
 registerCallback('ox_mdt:saveProfileNotes', function(source, data)
     return db.updateProfileNotes(data.stateId, data.notes)
-end)
+end, 'edit_profile_notes')
 
 ---@param source number
 ---@param data string
@@ -199,13 +187,13 @@ end)
 ---@param data {id: number, stateId: number}
 registerCallback('ox_mdt:addOfficer', function(source, data)
     return db.addOfficer(data.id, data.stateId)
-end)
+end, 'add_officer_involved')
 
 ---@param source number
 ---@param data {id: number, stateId: number}
 registerCallback('ox_mdt:removeOfficer', function(source, data)
     return db.removeOfficer(data.id, data.stateId)
-end)
+end, 'remove_officer_involved')
 
 ---@param source number
 ---@param charges Charge[]
@@ -238,13 +226,12 @@ end)
 ---@param source number
 ---@param data { stateId: string, callSign: string }
 registerCallback('ox_mdt:setOfficerCallSign', function(source, data)
-    --todo permission checks
     if db.selectOfficerCallSign(data.callSign) then return false end
 
     db.updateOfficerCallSign(data.stateId, data.callSign)
 
     return true
-end)
+end, 'set_call_sign')
 
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= cache.resource then return end

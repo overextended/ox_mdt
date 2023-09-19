@@ -346,8 +346,6 @@ end
 registerCallback('ox_mdt:setOfficerRank', function(source, data)
     local player = Ox.GetPlayerByFilter({stateId = data.stateId})
 
-    -- todo: permission and security checks
-
     if player then
         for i = 1, #config.policeGroups do
             local group = config.policeGroups[i]
@@ -369,13 +367,11 @@ registerCallback('ox_mdt:setOfficerRank', function(source, data)
     -- todo: delete other police groups from db?
 
     return true
-end)
+end, 'set_officer_rank')
 
 ---@param source number
 ---@param stateId number
 registerCallback('ox_mdt:fireOfficer', function(source, stateId)
-    -- todo: permission and security checks
-
     local player = Ox.GetPlayerByFilter({stateId = stateId})
 
     if player then
@@ -393,7 +389,7 @@ registerCallback('ox_mdt:fireOfficer', function(source, stateId)
     MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` = ? ', { charId, 'police' })
 
     return true
-end)
+end, 'fire_officer')
 
 ---@param source number
 ---@param stateId string
@@ -414,6 +410,6 @@ registerCallback('ox_mdt:hireOfficer', function(source, stateId)
     local success = pcall(MySQL.prepare.await, 'INSERT INTO `character_groups` (`charId`, `name`, `grade`) VALUES (?, ?, ?)', { charId, 'police', 1 })
 
     return success
-end)
+end, 'hire_officer')
 
 return ox
