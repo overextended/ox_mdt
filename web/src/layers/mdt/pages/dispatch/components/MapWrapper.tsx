@@ -1,4 +1,4 @@
-// https://github.com/BubbleDK/bub-mdt/blob/main/src/pages/dispatch/index.tsx
+// https://github.com/BubbleDK/bub-mdt/blob/main/web/src/pages/dispatch/index.tsx
 
 import React from 'react';
 import { MapContainer } from 'react-leaflet';
