@@ -394,8 +394,6 @@ end, 'fire_officer')
 ---@param source number
 ---@param stateId string
 registerCallback('ox_mdt:hireOfficer', function(source, stateId)
-    -- todo: permission and security checks
-
     local player = Ox.GetPlayerByFilter({stateId = stateId})
 
     if player then

@@ -114,8 +114,6 @@ registerCallback('ox_mdt:getUnits', function()
     return units
 end)
 
---TODO: statebags sync and make work properly
-
 ---@param source number
 ---@param data {id: number, officers: string[]}
 registerCallback('ox_mdt:setUnitOfficers', function(source, data)
@@ -156,7 +154,7 @@ end)
 ---@param source number
 ---@param data {id: number, value: string}
 registerCallback('ox_mdt:setUnitType', function(source, data)
-    --TODO authorisation checks - isDispatch and belongs to the unit
+    --TODO authorisation checks - isDispatch or belongs to the unit
 
     units[data.id].type = data.value
 

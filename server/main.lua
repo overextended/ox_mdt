@@ -41,7 +41,7 @@ end)
 ---@param source number
 ---@param id number
 registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
-    -- todo: permission check or creator check
+    -- todo: check for creator
 
     return db.removeAnnouncement(id)
 end, 'delete_announcement')
