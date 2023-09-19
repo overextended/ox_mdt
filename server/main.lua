@@ -213,7 +213,6 @@ registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, charges)
     return currentTime * 1000 + addonTime + baseWarrantDuration
 end)
 
--- TODO: use cron daily to remove existing warrants?
 ---@param search string
 registerCallback('ox_mdt:getWarrants', function(source, search)
     return db.selectWarrants(search)
@@ -241,4 +240,8 @@ AddEventHandler('onResourceStop', function(resource)
             Player(playerId).state.mdtUnitId = nil
         end
     end
+end)
+
+lib.cron.new('0 */1 * * *', function()
+    db.removeOldWarrants()
 end)

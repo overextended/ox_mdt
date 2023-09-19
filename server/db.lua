@@ -257,4 +257,8 @@ function db.removeWarrant(reportId, stateId)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_warrants` WHERE `reportid` = ? AND `stateid` = ?', { reportId, stateId })
 end
 
+function db.removeOldWarrants()
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_warrants` WHERE `expiresAt` < (NOW() - INTERVAL 1 HOUR)')
+end
+
 return db
