@@ -15,8 +15,6 @@ const useStyles = createStyles((theme) => ({
     width: 300,
     height: '100%',
     padding: theme.spacing.xs,
-    paddingLeft: theme.spacing.md,
-    paddingRight: theme.spacing.md,
   },
 }));
 
