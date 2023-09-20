@@ -54,4 +54,7 @@ function ox.getOfficerData()
     return localOfficer
 end
 
+ox.getGroupLabel = getGroupLabel
+ox.getGroupGrades = getGroupGrades
+
 return ox
