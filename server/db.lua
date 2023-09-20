@@ -250,6 +250,12 @@ function db.selectWarrants(search)
 end
 
 function db.createWarrant(reportId, stateId, expiry)
+    local warrantExists = MySQL.prepare.await('SELECT COUNT(1) FROM `ox_mdt_warrants` WHERE `reportId` = ? AND `stateId` = ?', { reportId, stateId }) > 0
+
+    if warrantExists then
+        return MySQL.prepare.await('UPDATE `ox_mdt_warrants` SET `expiresAt` = ? WHERE `reportId` = ? AND `stateId` = ?', { expiry, reportId, stateId })
+    end
+
     return MySQL.prepare.await('INSERT INTO `ox_mdt_warrants` (`reportid`, `stateid`, `expiresAt`) VALUES (?, ?, ?)', { reportId, stateId, expiry })
 end
 
