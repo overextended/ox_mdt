@@ -14,7 +14,6 @@ import {
 import { modals } from '@mantine/modals';
 import EditChargesModal from '../modals/editCharges/EditChargesModal';
 import { fetchNui } from '../../../../../../utils/fetchNui';
-import WarrantExpiry from './WarrantExpiry';
 import type { Criminal, Profile } from '../../../../../../typings';
 import locales from '../../../../../../locales';
 import dayjs from 'dayjs';
