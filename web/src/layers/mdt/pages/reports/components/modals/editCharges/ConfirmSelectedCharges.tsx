@@ -5,6 +5,7 @@ import { Button } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { Criminal, SelectedCharge } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
+import { fetchNui } from '../../../../../../../utils/fetchNui';
 
 interface Props {
   criminalAtom: PrimitiveAtom<Criminal>;
@@ -28,19 +29,25 @@ const calculateCharges = (charges: SelectedCharge[]) => {
 
 const ConfirmSelectedCharges: React.FC<Props> = ({ criminalAtom }) => {
   const selectedCharges = useSelectedCharges();
+  const [isLoading, setIsLoading] = React.useState(false);
   const setCriminal = useSetAtom(criminalAtom);
 
   return (
     <Button
       color="blue"
       variant="light"
-      onClick={() => {
-        modals.closeAll();
+      loading={isLoading}
+      onClick={async () => {
+        setIsLoading(true);
+        const resp = await fetchNui('getRecommendedWarrantExpiry', selectedCharges, { data: Date.now() });
         setCriminal((prev) => ({
           ...prev,
           charges: selectedCharges,
           penalty: calculateCharges(selectedCharges),
+          warrantExpiry: new Date(resp),
         }));
+        setIsLoading(false);
+        modals.closeAll();
       }}
     >
       {locales.confirm}

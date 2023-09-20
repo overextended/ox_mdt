@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionIcon, Badge, Checkbox, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
-import { IconClockDown, IconDeviceFloppy, IconTrash, IconUserShare } from '@tabler/icons-react';
+import { IconCalendar, IconClockDown, IconDeviceFloppy, IconTrash, IconUserShare } from '@tabler/icons-react';
 import BadgeButton from '../../../../components/BadgeButton';
 import BaseCard from '../BaseCard';
 import { PrimitiveAtom, useAtom } from 'jotai';
@@ -22,6 +22,7 @@ import { useSetLoader } from '../../../../../../state/loader';
 import { useNavigate } from 'react-router-dom';
 import { formatNumber } from '../../../../../../helpers/formatNumber';
 import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { DatePickerInput, DateValue } from '@mantine/dates';
 
 const percentages = [25, 50, 75, 80, 90];
 
@@ -48,7 +49,7 @@ const calculateReductions = (penalties: Criminal['penalty']) => {
   return reductions;
 };
 
-const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number }> = ({ criminalAtom, index }) => {
+const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal> }> = ({ criminalAtom }) => {
   const [criminal, setCriminal] = useAtom(criminalAtom);
   const id = useReportId();
   const setSelectedCharges = useSetSelectedCharges();
@@ -173,11 +174,16 @@ const Criminal: React.FC<{ criminalAtom: PrimitiveAtom<Criminal>; index: number 
         onChange={() => setCriminal((prev) => ({ ...prev, issueWarrant: !prev.issueWarrant }))}
       />
       {criminal.issueWarrant ? (
-        <WarrantExpiry
-          charges={criminal.charges}
-          reportId={id}
-          index={index}
-          onChange={(val) => setCriminal((prev) => ({ ...prev, warrantExpiry: val }))}
+        <DatePickerInput
+          icon={<IconCalendar size={20} />}
+          label={locales.warrant_expiration_date}
+          placeholder="2023-03-12"
+          weekendDays={[]}
+          minDate={new Date()}
+          value={criminal.warrantExpiry ? new Date(criminal.warrantExpiry) : null}
+          onChange={(val) => {
+            setCriminal((prev) => ({ ...prev, warrantExpiry: val }));
+          }}
         />
       ) : (
         <>

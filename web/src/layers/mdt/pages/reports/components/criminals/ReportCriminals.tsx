@@ -11,8 +11,8 @@ const ReportCriminals: React.FC = () => {
     <Box sx={{ overflowY: 'scroll' }}>
       <Stack spacing="xs">
         <AddCriminalButton />
-        {criminals.map((criminal, index) => (
-          <Criminal key={criminal.toString()} criminalAtom={criminal} index={index} />
+        {criminals.map((criminal) => (
+          <Criminal key={criminal.toString()} criminalAtom={criminal} />
         ))}
       </Stack>
     </Box>
