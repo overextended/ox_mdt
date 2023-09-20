@@ -3,6 +3,7 @@ import { MantineThemeOverride } from '@mantine/core';
 export const theme: MantineThemeOverride = {
   fontFamily: 'Roboto',
   colorScheme: 'dark',
+  cursorType: 'pointer',
   shadows: {
     md: '0 4px 3px rgba(0, 0, 0, 0.07)',
   },

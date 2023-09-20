@@ -233,13 +233,18 @@ function ox.getOfficersInvolved(parameters)
         SELECT
             characters.firstName,
             characters.lastName,
-            characters.stateId
+            characters.stateId,
+            profile.callSign
         FROM
             ox_mdt_reports_officers officer
         LEFT JOIN
             characters
         ON
             characters.stateId = officer.stateId
+        LEFT JOIN
+            ox_mdt_profiles profile
+        ON 
+            characters.stateId = profile.stateId
         WHERE
             reportid = ?
     ]], parameters)
