@@ -114,7 +114,7 @@ const RosterTable: React.FC = () => {
     const fetchData = async () => {
       return await fetchNui<{ totalRecords: number; officers: RosterOfficer[] }>(
         'fetchRoster',
-        rosterSearchDebouncedValue,
+        { page: 1, search: rosterSearchDebouncedValue },
         {
           data: {
             totalRecords: DEBUG_DATA.length,
@@ -147,15 +147,15 @@ const RosterTable: React.FC = () => {
       onPageChange={async (newPage) => {
         setIsLoading(true);
         setPage(newPage);
-        const resp = await fetchNui<RosterOfficer[]>(
-          'getRosterPage',
+        const resp = await fetchNui<{ totalRecords: number; officers: RosterOfficer[] }>(
+          'fetchRoster',
           { page: newPage, search: rosterSearchDebouncedValue },
-          { data: DEBUG_DATA, delay: 2000 }
+          { data: { totalRecords: 0, officers: DEBUG_DATA }, delay: 2000 }
         );
-        setRecords(resp);
+        setRecords(resp.officers);
         setIsLoading(false);
       }}
-      recordsPerPage={9}
+      recordsPerPage={1}
     />
   );
 };

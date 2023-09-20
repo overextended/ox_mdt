@@ -123,6 +123,7 @@ end
 
 local selectOfficers = [[
     SELECT
+        ox_mdt_profiles.id,
         firstName,
         lastName,
         characters.stateId,
@@ -158,12 +159,12 @@ function ox.getOfficers(parameters, filter)
 end
 
 ---@param source number
----@param search string
-registerCallback('ox_mdt:fetchRoster', function(source, search)
-    if search == '' then
+---@param data {page: number, search: string}
+registerCallback('ox_mdt:fetchRoster', function(source, data)
+    if data.search == '' then
         return {
             totalRecords = MySQL.prepare.await(selectOfficersCount),
-            officers = MySQL.rawExecute.await(selectOfficersPaginate, { 0 })
+            officers = MySQL.rawExecute.await(selectOfficersPaginate, { data.page - 1 })
         }
     end
 
@@ -174,7 +175,7 @@ registerCallback('ox_mdt:fetchRoster', function(source, search)
             totalRecords = #response,
             officers = response,
         }
-    end, search, 0)
+    end, data.search, data.page - 1)
 end)
 
 local selectWarrants = [[
