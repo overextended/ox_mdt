@@ -12,6 +12,7 @@ local officers = require 'server.officers'
 ---@param data CallData
 function createCall(data)
     activeCalls[callId] = {
+        id = callId,
         code = data.code,
         offense = data.offense,
         completed = false,
@@ -140,4 +141,20 @@ lib.cron.new('0 */1 * * *', function()
             completedCalls[id] = nil
         end
     end
+end)
+
+RegisterCommand('createCall', function()
+    local coords = GetEntityCoords(GetPlayerPed(1))
+
+    createCall({
+        offense = 'Speeding',
+        code = '10-69',
+        blip = 51,
+        isEmergency = true,
+        info = {
+            {label = 'XYZ 123', icon = 'badge-tm'},
+            {label = 'Dinka Blista', icon = 'car'}
+        },
+        coords = {coords.x, coords.y}
+    })
 end)

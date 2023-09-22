@@ -1,6 +1,6 @@
 import { Call, Unit, UnitsObject } from '../typings';
 
-export interface CallsResponse extends Omit<Call, 'id' | 'units'> {
+export interface CallsResponse extends Omit<Call, 'units'> {
   units: UnitsObject;
 }
 
@@ -10,8 +10,9 @@ export const convertUnitsToArray = (units: UnitsObject): Unit[] => {
 };
 
 export const convertCalls = (resp: { [key: string]: CallsResponse }): Call[] => {
+  if (Array.isArray(resp)) return resp;
   return Object.entries(resp).map((entry: [string, CallsResponse]) => {
-    const call: Call = { id: +entry[0], ...entry[1], units: [] };
+    const call: Call = { ...entry[1], units: [] };
     call.units = convertUnitsToArray(entry[1].units);
 
     return call;
