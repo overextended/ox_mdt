@@ -142,19 +142,3 @@ lib.cron.new('0 */1 * * *', function()
         end
     end
 end)
-
-RegisterCommand('createCall', function()
-    local coords = GetEntityCoords(GetPlayerPed(1))
-
-    createCall({
-        offense = 'Speeding',
-        code = '10-69',
-        blip = 51,
-        isEmergency = true,
-        info = {
-            {label = 'XYZ 123', icon = 'badge-tm'},
-            {label = 'Dinka Blista', icon = 'car'}
-        },
-        coords = {coords.x, coords.y}
-    })
-end)
