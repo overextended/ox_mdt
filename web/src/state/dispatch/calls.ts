@@ -4,8 +4,7 @@ import { isEnvBrowser } from '../../utils/misc';
 import { atomsWithQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';
 import { queryClient } from '../../main';
-
-import { convertCalls } from '../../helpers';
+import { CallsResponse, convertCalls } from '../../helpers';
 
 const DEBUG_CALLS: Call[] = [
   {
@@ -152,10 +151,6 @@ const DEBUG_CALLS: Call[] = [
     ],
   },
 ];
-
-interface CallsResponse extends Omit<Call, 'id' | 'units'> {
-  units: { [key: string]: Omit<Unit, 'id'> };
-}
 
 const getCalls = async (callType: 'active' | 'completed'): Promise<Call[]> => {
   if (isEnvBrowser()) return DEBUG_CALLS;
