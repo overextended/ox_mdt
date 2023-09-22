@@ -1,5 +1,8 @@
 if not lib then return end
 
+lib.locale()
+
+
 local hasLoadedUi = false
 local isMdtOpen = false
 local config = require 'config'
@@ -46,19 +49,19 @@ local function closeMdt(hideUi)
     end
 end
 
-AddEventHandler(framework.loadedEvent, function()
+RegisterNetEvent(framework.loadedEvent, function()
     player = framework.getOfficerData()
 end)
 
-AddEventHandler(framework.logoutEvent, function()
+RegisterNetEvent(framework.logoutEvent, function()
     hasLoadedUi = false
 
     if player.group then closeMdt(true) end
 end)
 
-AddEventHandler(framework.setGroupEvent, function()
+RegisterNetEvent(framework.setGroupEvent, function()
     local lastGroup = player.group
-
+    
     framework.getOfficerData()
 
     if not player.group and lastGroup or (lastGroup and lastGroup ~= player.group) then
@@ -93,6 +96,7 @@ local function openMdt()
         -- Maybe combine into a single callback?
         local profileCards = lib.callback.await('ox_mdt:getCustomProfileCards')
         local charges = lib.callback.await('ox_mdt:getAllCharges')
+
 
         SendNUIMessage({
             action = 'setInitData',
