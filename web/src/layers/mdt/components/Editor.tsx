@@ -5,8 +5,8 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { Placeholder } from '@tiptap/extension-placeholder';
-import { RichTextEditor } from '@mantine/tiptap';
-import { ActionIcon, createStyles, Transition } from '@mantine/core';
+import { RichTextEditor, RichTextEditorStylesNames } from '@mantine/tiptap';
+import { ActionIcon, createStyles, Styles, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import locales from '../../../locales';
 import { PermissionKey } from '../../../permissions';
@@ -19,6 +19,7 @@ interface Props {
   content?: string;
   onChange?: (value?: string) => void;
   permission?: PermissionKey;
+  fillHeight?: boolean;
 }
 
 const useStyles = createStyles({
@@ -35,7 +36,7 @@ const useStyles = createStyles({
   },
 });
 
-const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onChange, permission }) => {
+const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onChange, permission, fillHeight }) => {
   const { classes } = useStyles();
   const [canSave, setCanSave] = React.useState(false);
   const character = useCharacter();
@@ -77,7 +78,8 @@ const Editor: React.FC<Props> = ({ content = '<p></p>', onSave, placeholder, onC
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          flex: '1 1 0',
+          flex: fillHeight ? 1 : '1 1 0',
+          height: fillHeight ? '100%' : undefined,
         },
         typographyStylesProvider: { height: '100%', flex: '1' },
         content: {

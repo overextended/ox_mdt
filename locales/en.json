@@ -132,5 +132,9 @@
   "hire_officer": "Hire officer",
   "call_sign_in_use": "Call sign already in use",
   "state_id_already_hired": "The citizen with this State ID is already hired",
-  "hire_state_id_description": "State ID of the citizen you want to hire"
+  "hire_state_id_description": "State ID of the citizen you want to hire",
+  "bolos": "BOLOs",
+  "create_bolo": "Create BOLO",
+  "create_bolo_placeholder": "BOLO contents...",
+  "images": "Images"
 }

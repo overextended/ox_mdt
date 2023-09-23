@@ -14,11 +14,12 @@ const useStyles = createStyles({
   },
 });
 
-const BadgeButton: React.FC<Props> = (props) => {
+const BadgeButton: React.ForwardRefRenderFunction<HTMLButtonElement, Props> = (props, ref) => {
   const { classes } = useStyles();
 
   return (
     <Button
+      ref={ref}
       size="xs"
       variant="light"
       radius="xl"
@@ -34,4 +35,4 @@ const BadgeButton: React.FC<Props> = (props) => {
   );
 };
 
-export default BadgeButton;
+export default React.forwardRef(BadgeButton);
