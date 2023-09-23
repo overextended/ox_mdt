@@ -6,7 +6,7 @@ import AnnouncementsContainer from './components/announcements/AnnouncementsCont
 import WarrantsContainer from './components/warrants/WarrantsContainer';
 import CardTitle from '../../components/CardTitle';
 import { IconEye } from '@tabler/icons-react';
-import BOLOsContainer from './components/bolos/BOLOsContainer';
+import BolosContainer from './components/bolos/BolosContainer';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
         <WarrantsContainer />
       </Stack>
       <Stack p="md" className={classes.container}>
-        <BOLOsContainer />
+        <BolosContainer />
       </Stack>
     </SimpleGrid>
   );

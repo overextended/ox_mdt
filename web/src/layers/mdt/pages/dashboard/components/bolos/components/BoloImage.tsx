@@ -1,16 +1,30 @@
 import React from 'react';
-import { ActionIcon, Image, Stack } from '@mantine/core';
+import { ActionIcon, createStyles, Image, Stack } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
+
+const useStyles = createStyles({
+  container: {
+    position: 'relative',
+  },
+  iconButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    overflow: 'visible',
+  },
+});
 
 const BoloImage: React.FC<{ image: string; setImages: React.Dispatch<React.SetStateAction<string[]>> }> = ({
   image,
   setImages,
 }) => {
+  const { classes } = useStyles();
+
   return (
-    <Stack sx={{ position: 'relative', overflow: 'visible' }}>
+    <Stack className={classes.container}>
       <Image src={image} width={105} height={105} radius="sm" />
       <ActionIcon
-        sx={{ position: 'absolute', top: 0, right: 0, overflow: 'visible' }}
+        className={classes.iconButton}
         variant="filled"
         color="red"
         radius="sm"

@@ -1,17 +1,29 @@
 import React from 'react';
-import { ActionIcon, Group, Popover, TextInput } from '@mantine/core';
+import { ActionIcon, createStyles, Group, Popover, TextInput } from '@mantine/core';
 import { IconCheck, IconPlus } from '@tabler/icons-react';
+
+const useStyles = createStyles((theme) => ({
+  popoverDropdown: {
+    backgroundColor: theme.colors.durple[6],
+  },
+  input: {
+    flex: 1,
+  },
+}));
 
 const AddImagePopover: React.FC<{ setImages: React.Dispatch<React.SetStateAction<string[]>> }> = ({ setImages }) => {
   const [open, setOpen] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const { classes } = useStyles();
 
   return (
     <Popover
       withinPortal
       withArrow
       position="bottom"
-      styles={(theme) => ({ dropdown: { backgroundColor: theme.colors.durple[6] } })}
+      classNames={{
+        dropdown: classes.popoverDropdown,
+      }}
       width={400}
       opened={open}
       onClose={() => setOpen(false)}
@@ -23,7 +35,7 @@ const AddImagePopover: React.FC<{ setImages: React.Dispatch<React.SetStateAction
       </Popover.Target>
       <Popover.Dropdown>
         <Group align="center" spacing="xs">
-          <TextInput placeholder="https://i.imgur.com/dqopYB9b.jpg" sx={{ flex: 1 }} ref={inputRef} />
+          <TextInput placeholder="https://i.imgur.com/dqopYB9b.jpg" className={classes.input} ref={inputRef} />
           <ActionIcon
             variant="light"
             color="blue"
