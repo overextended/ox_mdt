@@ -15,6 +15,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.durple[6],
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.md,
+    overflow: 'scroll',
   },
 }));
 
