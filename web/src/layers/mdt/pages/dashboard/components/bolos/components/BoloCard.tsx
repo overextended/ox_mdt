@@ -69,4 +69,4 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
   );
 };
 
-export default BoloCard;
+export default React.memo(BoloCard);

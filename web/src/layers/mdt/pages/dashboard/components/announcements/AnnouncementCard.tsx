@@ -4,19 +4,12 @@ import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
-import { useEditor } from '@tiptap/react';
-import { RichTextEditor } from '@mantine/tiptap';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Highlight from '@tiptap/extension-highlight';
-import TextAlign from '@tiptap/extension-text-align';
-import { Placeholder } from '@tiptap/extension-placeholder';
 import { Announcement, Character } from '../../../../../../typings';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
-import permissions from '../../../../../../permissions';
 import { hasPermission } from '../../../../../../helpers/hasPermission';
+import ReadOnlyEditor from '../../../../components/ReadOnlyEditor';
 
 const useStyles = createStyles((theme) => ({
   announcementContainer: {
@@ -38,18 +31,6 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
   ref
 ) => {
   const { classes } = useStyles();
-
-  const editor = useEditor({
-    content: announcement.contents,
-    editable: false,
-    extensions: [
-      StarterKit,
-      Underline,
-      Highlight,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: locales.announcement_placeholder }),
-    ],
-  });
 
   return (
     <Stack className={classes.announcementContainer} p="md" ref={ref}>
@@ -123,16 +104,7 @@ const AnnouncementCard: React.ForwardRefRenderFunction<HTMLDivElement | null, Pr
           </Menu.Dropdown>
         </Menu>
       </Group>
-      <RichTextEditor
-        editor={editor}
-        styles={{
-          root: { borderColor: 'transparent' },
-          content: { '.ProseMirror': { padding: 0 } },
-          typographyStylesProvider: { fontSize: 14 },
-        }}
-      >
-        <RichTextEditor.Content />
-      </RichTextEditor>
+      <ReadOnlyEditor content={announcement.contents} />
     </Stack>
   );
 };

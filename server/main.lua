@@ -47,6 +47,15 @@ registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
 end, 'delete_announcement')
 
 ---@param source number
+---@param page number
+registerCallback('ox_mdt:getBOLOs', function(source, page)
+    return {
+        hasMore = false,
+        bolos = {}
+    }
+end)
+
+---@param source number
 ---@param search string
 ---@return CriminalProfile[]?
 registerCallback('ox_mdt:getCriminalProfiles', function(source, search)

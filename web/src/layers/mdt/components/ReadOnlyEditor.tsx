@@ -49,4 +49,4 @@ const ReadOnlyEditor: React.FC<Props> = (props) => {
   );
 };
 
-export default ReadOnlyEditor;
+export default React.memo(ReadOnlyEditor);
