@@ -64,6 +64,20 @@ registerCallback('ox_mdt:deleteBOLO', function(source, id)
 end)
 
 ---@param source number
+---@param data {id: number, contents: string, images: string[]}
+registerCallback('ox_mdt:editBOLO', function(source, data)
+    --todo: edit bolo
+    return true
+end)
+
+---@param source number
+---@param data {contents: string, images: string[]}
+registerCallback('ox_mdt:createBOLO', function(source, data)
+    --todo: create bolo
+    return true
+end)
+
+---@param source number
 ---@param search string
 ---@return CriminalProfile[]?
 registerCallback('ox_mdt:getCriminalProfiles', function(source, search)

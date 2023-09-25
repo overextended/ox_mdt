@@ -9,6 +9,7 @@ import locales from '../../../../../../../locales';
 import { hasPermission } from '../../../../../../../helpers/hasPermission';
 import { useCharacter } from '../../../../../../../state';
 import { fetchNui } from '../../../../../../../utils/fetchNui';
+import CreateBoloModal from '../modals/CreateBoloModal';
 
 interface Props {
   bolo: BOLO;
@@ -53,7 +54,13 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item disabled={bolo.stateId !== character.stateId} icon={<IconEdit size={18} />}>
+            <Menu.Item
+              // disabled={bolo.stateId !== character.stateId}
+              icon={<IconEdit size={18} />}
+              onClick={() =>
+                modals.open({ title: locales.edit_bolo, children: <CreateBoloModal bolo={bolo} />, size: 'lg' })
+              }
+            >
               {locales.edit}
             </Menu.Item>
             <Menu.Item

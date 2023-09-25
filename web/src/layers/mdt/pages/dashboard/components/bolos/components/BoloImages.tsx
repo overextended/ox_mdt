@@ -2,6 +2,11 @@ import React from 'react';
 import { Stack, Image, Box, createStyles } from '@mantine/core';
 import AddImagePopover from './AddImagePopover';
 import BoloImage from './BoloImage';
+import { BOLO } from '../../../../../../../typings/bolo';
+
+interface Props {
+  images?: BOLO['images'];
+}
 
 const useStyles = createStyles({
   container: {
@@ -10,8 +15,8 @@ const useStyles = createStyles({
   },
 });
 
-const BoloImages: React.FC = () => {
-  const [images, setImages] = React.useState<string[]>([]);
+const BoloImages: React.FC<Props> = (props) => {
+  const [images, setImages] = React.useState<string[]>(props.images || []);
   const { classes } = useStyles();
 
   return (
