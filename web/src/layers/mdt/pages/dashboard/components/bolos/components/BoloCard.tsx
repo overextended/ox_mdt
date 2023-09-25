@@ -1,9 +1,11 @@
 import React from 'react';
 import { BOLO } from '../../../../../../../typings/bolo';
-import { createStyles, Group, Stack, Text, Image } from '@mantine/core';
+import { createStyles, Group, Stack, Text, Image, ActionIcon, Avatar, Menu } from '@mantine/core';
 import ReadOnlyEditor from '../../../../../components/ReadOnlyEditor';
 import { modals } from '@mantine/modals';
 import dayjs from 'dayjs';
+import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
+import locales from '../../../../../../../locales';
 
 interface Props {
   bolo: BOLO;
@@ -30,6 +32,30 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
 
   return (
     <Stack className={classes.container}>
+      <Group position="apart">
+        <Group h="100%">
+          <Avatar variant="light" color="blue" />
+          <Stack spacing={0} align="start">
+            <Text c="dark.0" size="md" weight={500}>{`${bolo.firstName} ${bolo.lastName} · ${bolo.callSign}`}</Text>
+            <Text c="dark.2" size="xs">
+              {dayjs(bolo.createdAt).fromNow()}
+            </Text>
+          </Stack>
+        </Group>
+        <Menu position="bottom-end" offset={3} withArrow arrowPosition="center">
+          <Menu.Target>
+            <ActionIcon variant="light" color="blue" size="lg">
+              <IconDots />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item icon={<IconEdit size={18} />}>{locales.edit}</Menu.Item>
+            <Menu.Item color="red" icon={<IconTrash size={18} />}>
+              {locales.delete}
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Group>
       <ReadOnlyEditor content={bolo.contents} />
       {bolo.images && bolo.images.length > 0 && (
         <Group spacing="xs">
@@ -59,12 +85,6 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
           ))}
         </Group>
       )}
-      <Group position="apart">
-        <Text c="dark.2" size="xs">{`${bolo.firstName} ${bolo.lastName} · ${bolo.callSign}`}</Text>
-        <Text c="dark.2" size="xs">
-          {dayjs(bolo.createdAt).fromNow()}
-        </Text>
-      </Group>
     </Stack>
   );
 };
