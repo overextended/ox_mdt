@@ -206,6 +206,7 @@ serverNuiCallback('createAnnouncement')
 serverNuiCallback('editAnnouncement')
 serverNuiCallback('deleteAnnouncement')
 serverNuiCallback('getBOLOs')
+serverNuiCallback('deleteBOLO')
 
 -- Reports
 serverNuiCallback('getCriminalProfiles')

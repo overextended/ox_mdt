@@ -49,10 +49,18 @@ end, 'delete_announcement')
 ---@param source number
 ---@param page number
 registerCallback('ox_mdt:getBOLOs', function(source, page)
+    --todo: fetch bolos
     return {
         hasMore = false,
         bolos = {}
     }
+end)
+
+---@param source number
+---@param id number
+registerCallback('ox_mdt:deleteBOLO', function(source, id)
+    --todo: delete bolo
+    return true
 end)
 
 ---@param source number

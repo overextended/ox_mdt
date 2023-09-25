@@ -14,6 +14,7 @@ const DEBUG_BOLOS: BOLOData = {
       contents:
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores aspernatur at facilis magni necessitatibus nemo odit possimus temporibus, veniam. A adipisci amet architecto, asperiores atque debitis deleniti, doloremque earum eos error expedita impedit ipsa iste magni maiores maxime, molestiae natus nisi odit omnis quidem quo repellat soluta tempora ut voluptates!',
       id: 0,
+      stateId: 'AF3112',
       callSign: '132',
       firstName: 'John',
       lastName: 'Doe',

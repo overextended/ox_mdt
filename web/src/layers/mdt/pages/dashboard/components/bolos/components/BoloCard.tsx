@@ -6,6 +6,9 @@ import { modals } from '@mantine/modals';
 import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import locales from '../../../../../../../locales';
+import { hasPermission } from '../../../../../../../helpers/hasPermission';
+import { useCharacter } from '../../../../../../../state';
+import { fetchNui } from '../../../../../../../utils/fetchNui';
 
 interface Props {
   bolo: BOLO;
@@ -29,6 +32,7 @@ const useStyles = createStyles((theme) => ({
 
 const BoloCard: React.FC<Props> = ({ bolo }) => {
   const { classes } = useStyles();
+  const character = useCharacter();
 
   return (
     <Stack className={classes.container}>
@@ -49,8 +53,30 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item icon={<IconEdit size={18} />}>{locales.edit}</Menu.Item>
-            <Menu.Item color="red" icon={<IconTrash size={18} />}>
+            <Menu.Item disabled={bolo.stateId !== character.stateId} icon={<IconEdit size={18} />}>
+              {locales.edit}
+            </Menu.Item>
+            <Menu.Item
+              color="red"
+              disabled={bolo.stateId !== character.stateId && !hasPermission(character, 'delete_bolo')}
+              icon={<IconTrash size={18} />}
+              onClick={() => {
+                modals.openConfirmModal({
+                  title: locales.delete_bolo,
+                  children: (
+                    <Text size="sm" c="dark.2">
+                      {locales.delete_bolo_confirm}
+                    </Text>
+                  ),
+                  labels: { confirm: locales.confirm, cancel: locales.cancel },
+                  confirmProps: { color: 'red' },
+                  groupProps: { spacing: 6 },
+                  onConfirm: async () => {
+                    await fetchNui('deleteBOLO', bolo.id, { data: true });
+                  },
+                });
+              }}
+            >
               {locales.delete}
             </Menu.Item>
           </Menu.Dropdown>

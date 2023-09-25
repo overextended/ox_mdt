@@ -137,5 +137,7 @@
   "create_bolo": "Create BOLO",
   "create_bolo_placeholder": "BOLO contents...",
   "images": "Images",
-  "no_bolos": "No active BOLOs"
+  "no_bolos": "No active BOLOs",
+  "delete_bolo": "Delete BOLO",
+  "delete_bolo_confirm": "Are you sure you want to delete this BOLO?"
 }
