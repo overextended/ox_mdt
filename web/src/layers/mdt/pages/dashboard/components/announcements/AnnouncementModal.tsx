@@ -43,7 +43,7 @@ const AnnouncementModal: React.FC<{ announcement?: Announcement }> = ({ announce
         onClick={() => (announcement ? editAnnouncement() : createAnnouncement())}
         loading={isLoading}
       >
-        Confirm
+        {locales.confirm}
       </Button>
     </Stack>
   );

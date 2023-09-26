@@ -6,6 +6,7 @@ import BoloImages from '../components/BoloImages';
 import { BOLO } from '../../../../../../../typings/bolo';
 import { fetchNui } from '../../../../../../../utils/fetchNui';
 import { modals } from '@mantine/modals';
+import ConfirmBoloButton from '../components/ConfirmBoloButton';
 
 interface Props {
   bolo?: BOLO;
@@ -19,9 +20,9 @@ const useStyles = createStyles({
 });
 
 const CreateBoloModal: React.FC<Props> = ({ bolo }) => {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(bolo?.contents || '');
+  const [images, setImages] = React.useState<string[]>(bolo?.images || []);
   const { classes } = useStyles();
-  const [isLoading, setIsLoading] = React.useState(false);
 
   return (
     <Stack h={500} justify="space-between">
@@ -32,30 +33,9 @@ const CreateBoloModal: React.FC<Props> = ({ bolo }) => {
           onChange={(val) => setValue(val || '')}
           fillHeight
         />
-        <BoloImages images={bolo?.images} />
+        <BoloImages images={images} setImages={setImages} />
       </Group>
-      <Box>
-        <Button
-          variant="light"
-          fullWidth
-          loading={isLoading}
-          onClick={async () => {
-            setIsLoading(true);
-            await fetchNui(
-              bolo ? 'editBOLO' : 'createBOLO',
-              { contents: value, images: null, id: bolo?.id },
-              {
-                data: true,
-                delay: 1500,
-              }
-            );
-            setIsLoading(false);
-            modals.closeAll();
-          }}
-        >
-          {locales.confirm}
-        </Button>
-      </Box>
+      <ConfirmBoloButton bolo={bolo} value={value} images={images} />
     </Stack>
   );
 };
