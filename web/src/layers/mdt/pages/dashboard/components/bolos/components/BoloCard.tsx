@@ -105,12 +105,6 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
                   withCloseButton: false,
                   padding: 0,
                   size: 'unset',
-                  styles: {
-                    content: {
-                      maxWidth: '50%',
-                      maxHeight: '50%',
-                    },
-                  },
                   transitionProps: { transition: 'pop' },
                 })
               }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActionIcon, createStyles, Image, Stack } from '@mantine/core';
-import { IconX } from '@tabler/icons-react';
+import { ActionIcon, Box, createStyles, Image, Stack } from '@mantine/core';
+import { IconTrash, IconX } from '@tabler/icons-react';
 
 const useStyles = createStyles({
   container: {
@@ -8,9 +8,16 @@ const useStyles = createStyles({
   },
   iconButton: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: '50%',
+    left: '50%',
     overflow: 'visible',
+    transform: 'translate(-50%, -50%)',
+    pointerEvents: 'none',
+  },
+  image: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
 });
 
@@ -19,20 +26,25 @@ const BoloImage: React.FC<{ image: string; setImages: React.Dispatch<React.SetSt
   setImages,
 }) => {
   const { classes } = useStyles();
+  const [isHovering, setIsHovering] = React.useState(false);
 
   return (
     <Stack className={classes.container}>
-      <Image src={image} width={105} height={105} radius="sm" />
-      <ActionIcon
-        className={classes.iconButton}
-        variant="filled"
-        color="red"
+      <Image
+        src={image}
+        width={105}
+        height={105}
         radius="sm"
-        size="xs"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        className={classes.image}
         onClick={() => setImages((prev) => prev.filter((img) => img !== image))}
-      >
-        <IconX />
-      </ActionIcon>
+      />
+      {isHovering && (
+        <Box className={classes.iconButton} c="red.5">
+          <IconTrash size={32} />
+        </Box>
+      )}
     </Stack>
   );
 };
