@@ -31,6 +31,12 @@ const DEBUG_BOLOS: BOLOData = {
 };
 
 const getBolos = async (page: number): Promise<{ hasMore: boolean; bolos: BOLO[] }> => {
+  if (isEnvBrowser()) {
+    return {
+      hasMore: true,
+      bolos: DEBUG_BOLOS.bolos.slice((page - 1) * 7, page * 7),
+    };
+  }
   return await fetchNui<BOLOData>('getBOLOs', page, { data: DEBUG_BOLOS });
 };
 

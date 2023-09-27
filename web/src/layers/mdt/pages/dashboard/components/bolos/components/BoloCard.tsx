@@ -31,12 +31,12 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const BoloCard: React.FC<Props> = ({ bolo }) => {
+const BoloCard: React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ bolo }, ref) => {
   const { classes } = useStyles();
   const character = useCharacter();
 
   return (
-    <Stack className={classes.container}>
+    <Stack className={classes.container} ref={ref}>
       <Group position="apart">
         <Group h="100%">
           <Avatar variant="light" color="blue" />
@@ -117,4 +117,4 @@ const BoloCard: React.FC<Props> = ({ bolo }) => {
   );
 };
 
-export default React.memo(BoloCard);
+export default React.memo(React.forwardRef(BoloCard));
