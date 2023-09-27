@@ -244,6 +244,29 @@ function db.removeAnnouncement(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
 end
 
+function db.selectBOLOs(page)
+    return framework.getBOLOs({ (page - 1) * 5 })
+end
+
+---@param creator string
+---@param contents string
+function db.createBOLO(creator, contents)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_bolos` (`creator`, `contents`) VALUES (?, ?)', { creator, contents })
+end
+
+---@param id number
+---@param images string[]
+function db.createBOLOImages(id, images)
+    local queries = {}
+
+    for i = 1, #images do
+        local image = images[i]
+        queries[i] = { 'INSERT INTO `ox_mdt_bolos_images` (`boloId`, `image`) VALUES (?, ?)', { id, image } }
+    end
+
+    return MySQL.transaction.await(queries)
+end
+
 ---@param search string
 function db.selectWarrants(search)
     return dbSearch(framework.getWarrants, search)

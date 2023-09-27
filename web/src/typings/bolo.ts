@@ -3,6 +3,7 @@ export interface BOLO {
   firstName: string;
   lastName: string;
   stateId: string;
+  image?: string;
   callSign: string;
   contents: string;
   createdAt: number;

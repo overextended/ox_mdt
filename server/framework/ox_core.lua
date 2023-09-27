@@ -347,6 +347,36 @@ function ox.getAnnouncements(parameters)
     ]], parameters)
 end
 
+function ox.getBOLOs(parameters)
+    return MySQL.rawExecute.await([[
+        SELECT
+            a.id,
+            a.creator AS stateId,
+            a.contents,
+            b.callSign,
+            b.image,
+            c.firstName,
+            c.lastName,
+            JSON_ARRAYAGG(d.image) AS images,
+            DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
+        FROM
+            `ox_mdt_bolos` a
+        LEFT JOIN
+            `ox_mdt_profiles` b
+        ON
+            b.stateId = a.creator
+        LEFT JOIN
+            `characters` c
+        ON
+            c.stateId = b.stateId
+        LEFT JOIN
+            `ox_mdt_bolos_images` d
+        ON
+            d.boloId = a.id
+        GROUP BY `id` ORDER BY `id` DESC LIMIT 5 OFFSET ?
+    ]], parameters)
+end
+
 ---@param source number
 ---@param data {stateId: string, group: string, grade: number}
 registerCallback('ox_mdt:setOfficerRank', function(source, data)

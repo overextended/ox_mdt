@@ -49,10 +49,15 @@ end, 'delete_announcement')
 ---@param source number
 ---@param page number
 registerCallback('ox_mdt:getBOLOs', function(source, page)
-    --todo: fetch bolos
+    local bolos = db.selectBOLOs(page)
+
+    for i = 1, #bolos do
+        bolos[i].images = json.decode(bolos[i].images) or nil
+    end
+
     return {
-        hasMore = false,
-        bolos = {}
+        hasMore = #bolos == 5 or false,
+        bolos = bolos
     }
 end)
 
@@ -73,9 +78,11 @@ end)
 ---@param source number
 ---@param data {contents: string, images: string[]}
 registerCallback('ox_mdt:createBOLO', function(source, data)
-    --todo: create bolo
-    return true
-end)
+    local officer = officers.get(source)
+    local boloId = db.createBOLO(officer.stateId, data.contents)
+
+    return db.createBOLOImages(boloId, data.images)
+end, 'create_bolo')
 
 ---@param source number
 ---@param search string

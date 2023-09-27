@@ -114,3 +114,24 @@ CREATE TABLE
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS `ox_mdt_bolos`
+(
+    `id`        INT UNSIGNED AUTO_INCREMENT
+        PRIMARY KEY,
+    `creator`   VARCHAR(7)                 NOT NULL,
+    `contents`  TEXT                       NULL,
+    `createdAt` DATETIME DEFAULT curtime() NOT NULL,
+    CONSTRAINT `ox_mdt_bolos_ox_mdt_profiles_stateid_fk`
+        FOREIGN KEY (`creator`) REFERENCES `ox_mdt_profiles` (`stateid`)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS `ox_mdt_bolos_images`
+(
+    `boloId` INT UNSIGNED NOT NULL,
+    `image`  VARCHAR(90)  NULL,
+    CONSTRAINT `ox_mdt_bolos_images_ox_mdt_bolos_id_fk`
+        FOREIGN KEY (`boloId`) REFERENCES `ox_mdt_bolos` (`id`)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+

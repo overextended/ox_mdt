@@ -30,6 +30,7 @@ const ConfirmBoloButton: React.FC<Props> = ({ bolo, value, images }) => {
               delay: 1500,
             }
           );
+          // TODO: update bolos query
           setIsLoading(false);
           modals.closeAll();
         }}
