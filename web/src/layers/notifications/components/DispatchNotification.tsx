@@ -1,7 +1,7 @@
 import React from 'react';
 import { Call } from '../../../typings';
 import { Badge, createStyles, Divider, Group, SimpleGrid, Stack, Text, Transition } from '@mantine/core';
-import { IconBadgeTm, IconCar, IconClock, IconMap2 } from '@tabler/icons-react';
+import { IconClock, IconMap2 } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import NotificationInfo from './NotificationInfo';
 import { useTimeout } from '@mantine/hooks';

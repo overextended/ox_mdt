@@ -7,7 +7,6 @@ import locales from '../../../../../locales';
 import RosterOfficerMenu from './RosterOfficerMenu';
 import { useRosterRecordsState } from '../../../../../state/roster';
 import { useIsRosterDebouncing, useRosterSearchDebouncedValue } from '../../../../../state/roster/tableSearch';
-import { isEnvBrowser } from '../../../../../utils/misc';
 
 const DEBUG_DATA: RosterOfficer[] = [
   {

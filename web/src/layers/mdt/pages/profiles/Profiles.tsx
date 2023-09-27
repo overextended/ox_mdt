@@ -9,8 +9,6 @@ import ListContainer from '../../components/ListContainer';
 import ListSearch from '../../components/ListSearch';
 import NotFound from '../../components/NotFound';
 import locales from '../../../../locales';
-import { queryClient } from '../../../../main';
-import { PartialProfileData } from '../../../../typings';
 import { removePages } from '../../../../helpers';
 
 const useStyles = createStyles((theme) => ({

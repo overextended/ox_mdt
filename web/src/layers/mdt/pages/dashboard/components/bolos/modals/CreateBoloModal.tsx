@@ -1,11 +1,9 @@
 import React from 'react';
-import { Box, Button, createStyles, Group, Stack } from '@mantine/core';
+import { createStyles, Group, Stack } from '@mantine/core';
 import locales from '../../../../../../../locales';
 import Editor from '../../../../../components/Editor';
 import BoloImages from '../components/BoloImages';
 import { BOLO } from '../../../../../../../typings/bolo';
-import { fetchNui } from '../../../../../../../utils/fetchNui';
-import { modals } from '@mantine/modals';
 import ConfirmBoloButton from '../components/ConfirmBoloButton';
 
 interface Props {

@@ -3,7 +3,7 @@ import { queryClient } from '../../main';
 import { BOLO } from '../../typings/bolo';
 import { isEnvBrowser } from '../../utils/misc';
 import { fetchNui } from '../../utils/fetchNui';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 
 type BOLOData = { hasMore: boolean; bolos: BOLO[] };
 

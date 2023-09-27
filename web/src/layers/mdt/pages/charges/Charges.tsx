@@ -4,8 +4,6 @@ import { chargeSearchAtoms, useSetChargeSearchDebounceValue } from '../../../../
 import ChargeCardsList from '../reports/components/modals/editCharges/ChargeCardsList';
 import ListSearch from '../../components/ListSearch';
 import { Box, createStyles, Stack } from '@mantine/core';
-import { queryClient } from '../../../../main';
-import { Charge } from '../../../../typings';
 import { removePages } from '../../../../helpers';
 
 const useStyles = createStyles((theme) => ({

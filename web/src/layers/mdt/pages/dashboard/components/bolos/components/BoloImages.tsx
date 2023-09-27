@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Image, Box, createStyles } from '@mantine/core';
+import { Box, createStyles, Stack } from '@mantine/core';
 import AddImagePopover from './AddImagePopover';
 import BoloImage from './BoloImage';
 import { BOLO } from '../../../../../../../typings/bolo';

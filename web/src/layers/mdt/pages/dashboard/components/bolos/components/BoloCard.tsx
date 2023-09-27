@@ -1,6 +1,6 @@
 import React from 'react';
 import { BOLO } from '../../../../../../../typings/bolo';
-import { createStyles, Group, Stack, Text, Image, ActionIcon, Avatar, Menu } from '@mantine/core';
+import { ActionIcon, Avatar, createStyles, Group, Image, Menu, Stack, Text } from '@mantine/core';
 import ReadOnlyEditor from '../../../../../components/ReadOnlyEditor';
 import { modals } from '@mantine/modals';
 import dayjs from 'dayjs';

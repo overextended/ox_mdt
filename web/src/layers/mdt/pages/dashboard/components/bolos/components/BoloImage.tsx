@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActionIcon, Box, createStyles, Image, Stack } from '@mantine/core';
-import { IconTrash, IconX } from '@tabler/icons-react';
+import { Box, createStyles, Image, Stack } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 const useStyles = createStyles({
   container: {

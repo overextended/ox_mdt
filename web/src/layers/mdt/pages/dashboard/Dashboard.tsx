@@ -1,11 +1,7 @@
 import React from 'react';
 import { createStyles, SimpleGrid, Stack } from '@mantine/core';
-import { queryClient } from '../../../../main';
-import { Announcement } from '../../../../typings';
 import AnnouncementsContainer from './components/announcements/AnnouncementsContainer';
 import WarrantsContainer from './components/warrants/WarrantsContainer';
-import CardTitle from '../../components/CardTitle';
-import { IconEye } from '@tabler/icons-react';
 import BolosContainer from './components/bolos/BolosContainer';
 import { removePages } from '../../../../helpers';
 

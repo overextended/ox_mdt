@@ -1,9 +1,7 @@
 import React from 'react';
-import { Button, createStyles, Group, Stack, TextInput } from '@mantine/core';
+import { createStyles, Group, Stack } from '@mantine/core';
 import locales from '../../../../locales';
 import RosterTable from './components/RosterTable';
-import { modals } from '@mantine/modals';
-import HireOfficerModal from './components/modals/HireOfficerModal';
 import ListSearch from '../../components/ListSearch';
 import { tableSearchAtoms, useSetRosterSearchDebounce } from '../../../../state/roster/tableSearch';
 import HireOfficerButton from './components/HireOfficerButton';

@@ -1,4 +1,4 @@
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { Announcement } from '../../typings';
 import { atomsWithInfiniteQuery } from 'jotai-tanstack-query';
 import { fetchNui } from '../../utils/fetchNui';

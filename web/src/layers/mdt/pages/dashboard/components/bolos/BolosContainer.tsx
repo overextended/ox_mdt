@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Stack } from '@mantine/core';
+import { Box, Button } from '@mantine/core';
 import CardTitle from '../../../../components/CardTitle';
 import { IconEye, IconPlus } from '@tabler/icons-react';
 import locales from '../../../../../../locales';
