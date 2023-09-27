@@ -7,7 +7,7 @@ import EditTitleModal from '../modals/EditTitleModal';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const ReportTitle: React.FC = () => {
   const title = useReportTitle();

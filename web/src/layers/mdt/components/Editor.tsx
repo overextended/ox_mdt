@@ -10,7 +10,7 @@ import { ActionIcon, createStyles, Styles, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import locales from '../../../locales';
 import { PermissionKey } from '../../../permissions';
-import { hasPermission } from '../../../helpers/hasPermission';
+import { hasPermission } from '../../../helpers';
 import { useCharacter } from '../../../state';
 
 interface Props {

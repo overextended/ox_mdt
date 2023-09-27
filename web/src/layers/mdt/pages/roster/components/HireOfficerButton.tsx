@@ -5,7 +5,7 @@ import { modals } from '@mantine/modals';
 import locales from '../../../../../locales';
 import HireOfficerModal from './modals/HireOfficerModal';
 import { useCharacter } from '../../../../../state';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../helpers';
 
 const HireOfficerButton: React.FC = () => {
   const character = useCharacter();

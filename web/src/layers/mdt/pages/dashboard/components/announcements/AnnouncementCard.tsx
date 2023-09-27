@@ -8,7 +8,7 @@ import { Announcement, Character } from '../../../../../../typings';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import { queryClient } from '../../../../../../main';
 import locales from '../../../../../../locales';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 import ReadOnlyEditor from '../../../../components/ReadOnlyEditor';
 
 const useStyles = createStyles((theme) => ({

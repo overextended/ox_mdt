@@ -6,7 +6,7 @@ import NotFound from '../../../../../components/NotFound';
 import locales from '../../../../../../../locales';
 import { IconEyeOff } from '@tabler/icons-react';
 import BoloCard from './BoloCard';
-import { removePages } from '../../../../../../../helpers/removePages';
+import { removePages } from '../../../../../../../helpers';
 
 const BoloList: React.FC = () => {
   const [bolos, dispatch] = useBolos();

@@ -6,6 +6,7 @@ import ListSearch from '../../components/ListSearch';
 import { Box, createStyles, Stack } from '@mantine/core';
 import { queryClient } from '../../../../main';
 import { Charge } from '../../../../typings';
+import { removePages } from '../../../../helpers';
 
 const useStyles = createStyles((theme) => ({
   searchContainer: {
@@ -29,16 +30,7 @@ const Charges: React.FC = () => {
   const { classes } = useStyles();
 
   React.useEffect(() => {
-    return () => {
-      queryClient.setQueriesData<{ pageParams: number[]; pages: [string, Charge[]][] }>(
-        ['charges'],
-        (data) =>
-          data && {
-            pages: data.pages.slice(0, 1),
-            pageParams: data.pageParams.slice(0, 1),
-          }
-      );
-    };
+    return () => removePages(['charges']);
   }, []);
 
   return (

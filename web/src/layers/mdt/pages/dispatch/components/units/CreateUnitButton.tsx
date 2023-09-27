@@ -5,7 +5,7 @@ import { modals } from '@mantine/modals';
 import CreateUnitModal from '../modals/CreateUnitModal';
 import { useCharacter } from '../../../../../../state';
 import locales from '../../../../../../locales';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const CreateUnitButton: React.FC = () => {
   const character = useCharacter();

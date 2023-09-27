@@ -5,7 +5,7 @@ import { IconEdit } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import AvatarModal from '../modals/AvatarModal';
 import locales from '../../../../../../locales';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const useStyles = createStyles({
   container: {

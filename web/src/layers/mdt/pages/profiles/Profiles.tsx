@@ -11,6 +11,7 @@ import NotFound from '../../components/NotFound';
 import locales from '../../../../locales';
 import { queryClient } from '../../../../main';
 import { PartialProfileData } from '../../../../typings';
+import { removePages } from '../../../../helpers';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -28,16 +29,7 @@ const Profiles: React.FC = () => {
   const isProfileActive = useIsProfileActive();
 
   React.useEffect(() => {
-    return () => {
-      queryClient.setQueriesData<{ pages: PartialProfileData[][]; pageParams: number[] }>(['profiles'], (data) => {
-        if (!data) return;
-
-        return {
-          pages: [data.pages[0]],
-          pageParams: [data.pageParams[0]],
-        };
-      });
-    };
+    return () => removePages(['profiles']);
   }, []);
 
   return (

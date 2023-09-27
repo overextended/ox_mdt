@@ -12,6 +12,7 @@ import { queryClient } from '../../../../main';
 import { PartialReportData } from '../../../../typings';
 import locales from '../../../../locales';
 import CreateReportButton from './components/list/CreateReportButton';
+import { removePages } from '../../../../helpers';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -28,16 +29,7 @@ const Reports: React.FC = () => {
   const setDebouncedSearch = useSetReportsDebounce();
 
   React.useEffect(() => {
-    return () => {
-      queryClient.setQueriesData<{ pages: PartialReportData[][]; pageParams: number[] }>(['reports'], (data) => {
-        if (!data) return;
-
-        return {
-          pages: [data.pages[0]],
-          pageParams: [data.pageParams[0]],
-        };
-      });
-    };
+    return () => removePages(['reports']);
   }, []);
 
   return (

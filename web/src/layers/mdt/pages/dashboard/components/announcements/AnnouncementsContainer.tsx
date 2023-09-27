@@ -8,7 +8,7 @@ import AnnouncementList from './AnnouncementList';
 import { modals } from '@mantine/modals';
 import AnnouncementModal from './AnnouncementModal';
 import { useCharacter } from '../../../../../../state';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const AnnouncementsContainer = () => {
   const character = useCharacter();

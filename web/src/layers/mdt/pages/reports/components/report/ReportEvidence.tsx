@@ -7,7 +7,7 @@ import { modals } from '@mantine/modals';
 import AddEvidenceModal from '../modals/AddEvidenceModal';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const ReportEvidence: React.FC = () => {
   const evidence = useEvidence();

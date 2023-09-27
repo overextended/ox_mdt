@@ -4,7 +4,7 @@ import { IconPlus, IconQuestionMark } from '@tabler/icons-react';
 import { useSetSelectedCharges } from '../../../../../../../state';
 import { Charge } from '../../../../../../../typings';
 import locales from '../../../../../../../locales';
-import { formatNumber } from '../../../../../../../helpers/formatNumber';
+import { formatNumber } from '../../../../../../../helpers';
 
 interface Props {
   charge: Charge;

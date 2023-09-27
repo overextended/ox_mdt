@@ -6,7 +6,7 @@ import { modals } from '@mantine/modals';
 import dayjs from 'dayjs';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import locales from '../../../../../../../locales';
-import { hasPermission } from '../../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../../helpers';
 import { useCharacter } from '../../../../../../../state';
 import { fetchNui } from '../../../../../../../utils/fetchNui';
 import CreateBoloModal from '../modals/CreateBoloModal';

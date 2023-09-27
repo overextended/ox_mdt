@@ -19,8 +19,8 @@ import locales from '../../../../../../locales';
 import dayjs from 'dayjs';
 import { useSetLoader } from '../../../../../../state/loader';
 import { useNavigate } from 'react-router-dom';
-import { formatNumber } from '../../../../../../helpers/formatNumber';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { formatNumber } from '../../../../../../helpers';
+import { hasPermission } from '../../../../../../helpers';
 import { DatePickerInput, DateValue } from '@mantine/dates';
 
 const percentages = [25, 50, 75, 80, 90];

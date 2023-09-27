@@ -5,7 +5,7 @@ import { modals } from '@mantine/modals';
 import locales from '../../../../../../locales';
 import CreateReportModal from '../modals/CreateReportModal';
 import { useCharacter } from '../../../../../../state';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 const CreateReportButton: React.FC = () => {
   const character = useCharacter();

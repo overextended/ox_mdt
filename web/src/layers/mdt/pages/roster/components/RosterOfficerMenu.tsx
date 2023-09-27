@@ -9,7 +9,7 @@ import SetRankModal from './modals/SetRankModal';
 import { useSetRosterRecords } from '../../../../../state/roster';
 import { fetchNui } from '../../../../../utils/fetchNui';
 import { useCharacter } from '../../../../../state';
-import { hasPermission } from '../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../helpers';
 
 const RosterOfficerMenu: React.FC<{ officer: RosterOfficer }> = ({ officer }) => {
   const setRecords = useSetRosterRecords();

@@ -8,7 +8,7 @@ import { modals } from '@mantine/modals';
 import { Call } from '../../../../../../typings';
 import { useCharacter, useDispatchMap } from '../../../../../../state';
 import ManageUnitsModal from '../modals/ManageUnitsModal';
-import { hasPermission } from '../../../../../../helpers/hasPermission';
+import { hasPermission } from '../../../../../../helpers';
 
 interface Props {
   call: Call;
