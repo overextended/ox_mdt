@@ -271,6 +271,24 @@ function db.deleteBOLO(id)
     return MySQL.prepare.await('DELETE FROM `ox_mdt_bolos` WHERE id = ?', { id })
 end
 
+function db.updateBOLO(id, contents, images)
+    local queries = {
+        { 'DELETE FROM `ox_mdt_bolos_images` where `boloId` = ? ', { id } },
+    }
+    
+    local queryN = #queries
+
+    for i = 1, #images do
+        local image = images[i]
+        queryN += 1
+        queries[queryN] = { 'INSERT INTO `ox_mdt_bolos_images` (`boloId`, `image`) VALUES (?, ?)', { id, image } }
+    end
+
+    queries[queryN + 1] = { 'UPDATE `ox_mdt_bolos` SET `contents` = ? WHERE `id` = ?', { contents, id } }
+
+    return MySQL.transaction.await(queries)
+end
+
 ---@param search string
 function db.selectWarrants(search)
     return dbSearch(framework.getWarrants, search)

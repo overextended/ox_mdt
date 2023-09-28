@@ -70,8 +70,8 @@ end, 'delete_bolo')
 ---@param source number
 ---@param data {id: number, contents: string, images: string[]}
 registerCallback('ox_mdt:editBOLO', function(source, data)
-    --todo: edit bolo
-    return true
+    --todo: creator check
+    return db.updateBOLO(data.id, data.contents, data.images)
 end)
 
 ---@param source number
