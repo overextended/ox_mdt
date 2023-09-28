@@ -64,9 +64,8 @@ end)
 ---@param source number
 ---@param id number
 registerCallback('ox_mdt:deleteBOLO', function(source, id)
-    --todo: delete bolo
-    return true
-end)
+    return db.deleteBOLO(id)
+end, 'delete_bolo')
 
 ---@param source number
 ---@param data {id: number, contents: string, images: string[]}

@@ -267,6 +267,10 @@ function db.createBOLOImages(id, images)
     return MySQL.transaction.await(queries)
 end
 
+function db.deleteBOLO(id)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_bolos` WHERE id = ?', { id })
+end
+
 ---@param search string
 function db.selectWarrants(search)
     return dbSearch(framework.getWarrants, search)
