@@ -32,7 +32,27 @@ const ConfirmBoloButton: React.FC<Props> = ({ bolo, value, images }) => {
               delay: 1500,
             }
           );
-          await queryClient.invalidateQueries(['bolos']);
+          if (!bolo) await queryClient.invalidateQueries(['bolos']);
+          else {
+            queryClient.setQueriesData<{ pages: { bolos: BOLO[]; hasMore: boolean }[]; pageParams: number[] }>(
+              ['bolos'],
+              (data) => {
+                if (!data) return;
+
+                const newPages: { bolos: BOLO[]; hasMore: boolean }[] = data.pages.map((page) => ({
+                  bolos: page.bolos.map((oldBolo) =>
+                    oldBolo.id === bolo.id ? { ...bolo, contents: value, images: images } : oldBolo
+                  ),
+                  hasMore: page.hasMore,
+                }));
+
+                return {
+                  pages: newPages,
+                  pageParams: data.pageParams,
+                };
+              }
+            );
+          }
           setIsLoading(false);
           modals.closeAll();
         }}
