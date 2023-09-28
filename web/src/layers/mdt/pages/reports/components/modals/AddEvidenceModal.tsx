@@ -8,67 +8,41 @@ import { useForm } from '@mantine/form';
 import locales from '../../../../../../locales';
 
 const AddEvidenceModal: React.FC = () => {
-  const [type, setType] = React.useState<'image' | 'item'>('image');
+  const [isLoading, setIsLoading] = React.useState(false);
   const setEvidence = useSetEvidence();
   const id = useReportId();
 
   const form = useForm({
     initialValues: {
-      firstInput: '',
-      secondInput: '',
+      label: '',
+      image: '',
     },
 
     validate: {
-      firstInput: (value) =>
-        value.length === 0 ? (type === 'image' ? locales.image_label_required : locales.item_name_required) : null,
-      secondInput: (value) =>
-        value.length === 0 ? (type === 'image' ? locales.image_url_required : locales.item_count_required) : null,
+      label: (value) => (value.length === 0 ? locales.image_label_required : null),
+      image: (value) => (value.length === 0 ? locales.image_url_required : null),
     },
   });
 
-  React.useEffect(() => form.clearErrors(), [type]);
-
-  const handleSubmit = async (values: { firstInput: string; secondInput: string }) => {
+  const handleSubmit = async (values: { label: string; image: string }) => {
+    setIsLoading(true);
+    await fetchNui('addEvidence', { id, evidence: { ...values } }, { data: 1 });
+    setEvidence((prev) => [...prev, values]);
+    setIsLoading(false);
     modals.closeAll();
-
-    const firstInput = values.firstInput;
-    const secondInput = values.secondInput;
-
-    const evidence: Evidence = { type, label: firstInput, value: secondInput };
-
-    await fetchNui('addEvidence', { id, evidence }, { data: 1 });
-    setEvidence((prev) => [...prev, evidence]);
   };
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Stack>
-        <Select
-          data={[
-            { label: locales.image, value: 'image' },
-            { label: locales.item, value: 'item' },
-          ]}
-          defaultValue="image"
-          label={locales.evidence_type}
-          onChange={(value: 'image' | 'item') => value && setType(value)}
+        <TextInput label={locales.image_label} withAsterisk {...form.getInputProps('label')} />
+        <TextInput
+          label={locales.image_url}
+          withAsterisk
+          placeholder="https://i.imgur.com/dqopYB9b.jpg"
+          {...form.getInputProps('image')}
         />
-        {type === 'image' ? (
-          <>
-            <TextInput label={locales.image_label} withAsterisk {...form.getInputProps('firstInput')} />
-            <TextInput
-              label={locales.image_url}
-              withAsterisk
-              placeholder="https://i.imgur.com/dqopYB9b.jpg"
-              {...form.getInputProps('secondInput')}
-            />
-          </>
-        ) : (
-          <>
-            <TextInput label={locales.item_name} withAsterisk {...form.getInputProps('firstInput')} />
-            <NumberInput label={locales.item_count} withAsterisk hideControls {...form.getInputProps('secondInput')} />
-          </>
-        )}
-        <Button color="blue" variant="light" type="submit">
+        <Button color="blue" variant="light" type="submit" loading={isLoading}>
           {locales.add_evidence}
         </Button>
       </Stack>

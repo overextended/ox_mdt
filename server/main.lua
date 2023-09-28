@@ -178,13 +178,13 @@ end, 'save_criminal')
 ---@param source number
 ---@param data { id: number, evidence: Evidence }
 registerCallback('ox_mdt:addEvidence', function(source, data)
-    return db.addEvidence(data.id, data.evidence.type, data.evidence.label, data.evidence.value)
+    return db.addEvidence(data.id, data.evidence.label, data.evidence.image)
 end, 'add_evidence')
 
 ---@param source number
----@param data { id: number, label: string, value: string }
+---@param data { id: number, label: string, image: string }
 registerCallback('ox_mdt:removeEvidence', function(source, data)
-    return db.removeEvidence(data.id, data.label, data.value)
+    return db.removeEvidence(data.id, data.label, data.image)
 end, 'remove_evidence')
 
 ---@param source number

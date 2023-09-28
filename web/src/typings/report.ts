@@ -17,9 +17,8 @@ export interface Criminal extends CriminalProfile {
 }
 
 export type Evidence = {
-  type: 'image' | 'item';
   label: string;
-  value: string;
+  image: string;
 };
 
 export interface Report {

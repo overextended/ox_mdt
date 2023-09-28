@@ -131,7 +131,7 @@ function db.selectCriminalsInvolved(reportId)
 end
 
 function db.selectEvidence(reportId)
-    return MySQL.rawExecute.await('SELECT `label`, `value`, `type` FROM `ox_mdt_reports_evidence` WHERE reportid = ?', { reportId })
+    return MySQL.rawExecute.await('SELECT `label`, `image` FROM `ox_mdt_reports_evidence` WHERE reportId = ?', { reportId })
 end
 
 ---@param reportId number
@@ -202,18 +202,17 @@ function db.removeOfficer(reportId, stateId)
 end
 
 ---@param id number
----@param type 'image' | 'item'
 ---@param label string
----@param value string | number 
-function db.addEvidence(id, type, label, value)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `value`, `type`) VALUES (?, ?, ?, ?)', { id, label, value, type })
+---@param image string
+function db.addEvidence(id, label, image)
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `image`) VALUES (?, ?, ?)', { id, label, image })
 end
 
 ---@param id number
 ---@param label string
----@param value string
-function db.removeEvidence(id, label, value)
-    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `value` = ?', { id, label, value })
+---@param image string
+function db.removeEvidence(id, label, image)
+    return MySQL.prepare.await('DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `image` = ?', { id, label, image })
 end
 
 ---@param id number

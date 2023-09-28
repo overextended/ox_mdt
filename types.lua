@@ -65,9 +65,8 @@
 ---@field id number
 
 ---@class Evidence
----@field type 'image' | 'item'
 ---@field label string
----@field value string
+---@field image string
 
 ---@class Announcement
 ---@field id number
