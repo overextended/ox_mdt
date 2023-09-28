@@ -6,7 +6,7 @@ export interface Character {
   grade: number;
   group: string;
   image?: string;
-  callSign: number;
+  callSign: string;
   unit?: number;
   isDispatch: boolean;
 }

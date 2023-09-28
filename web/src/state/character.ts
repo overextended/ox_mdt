@@ -8,7 +8,7 @@ const DEBUG_CHARACTER: Character = {
   lastName: 'Miletić',
   title: 'LSPD Officer',
   grade: 5,
-  callSign: 103,
+  callSign: '103',
   group: 'police',
   isDispatch: true,
 };
@@ -23,7 +23,7 @@ const characterAtom = atom<Character>(
         title: '',
         grade: 0,
         group: '',
-        callSign: 0,
+        callSign: '',
         isDispatch: false,
       }
 );

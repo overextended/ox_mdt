@@ -23,7 +23,7 @@ const BoloList: React.FC = () => {
       {pages.length > 0 ? (
         <>
           {pages.map((bolo, index) => (
-            <BoloCard bolo={bolo} key={bolo.id} ref={index === pages.length - 1 ? ref : null} />
+            <BoloCard bolo={bolo} key={`${bolo.id}-${bolo.contents}`} ref={index === pages.length - 1 ? ref : null} />
           ))}
         </>
       ) : (

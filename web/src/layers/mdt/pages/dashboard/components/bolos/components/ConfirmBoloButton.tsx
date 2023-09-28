@@ -4,6 +4,8 @@ import { fetchNui } from '../../../../../../../utils/fetchNui';
 import { modals } from '@mantine/modals';
 import locales from '../../../../../../../locales';
 import { BOLO } from '../../../../../../../typings/bolo';
+import { queryClient } from '../../../../../../../main';
+import { useCharacter } from '../../../../../../../state';
 
 interface Props {
   bolo?: BOLO;
@@ -22,15 +24,15 @@ const ConfirmBoloButton: React.FC<Props> = ({ bolo, value, images }) => {
         loading={isLoading}
         onClick={async () => {
           setIsLoading(true);
-          await fetchNui(
+          await fetchNui<number>(
             bolo ? 'editBOLO' : 'createBOLO',
             { contents: value, images: images, id: bolo?.id },
             {
-              data: true,
+              data: 1,
               delay: 1500,
             }
           );
-          // TODO: update bolos query
+          await queryClient.invalidateQueries(['bolos']);
           setIsLoading(false);
           modals.closeAll();
         }}

@@ -80,7 +80,9 @@ registerCallback('ox_mdt:createBOLO', function(source, data)
     local officer = officers.get(source)
     local boloId = db.createBOLO(officer.stateId, data.contents)
 
-    return db.createBOLOImages(boloId, data.images)
+    db.createBOLOImages(boloId, data.images)
+
+    return boloId
 end, 'create_bolo')
 
 ---@param source number

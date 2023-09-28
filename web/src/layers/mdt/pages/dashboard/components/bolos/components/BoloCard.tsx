@@ -10,6 +10,7 @@ import { hasPermission } from '../../../../../../../helpers';
 import { useCharacter } from '../../../../../../../state';
 import { fetchNui } from '../../../../../../../utils/fetchNui';
 import CreateBoloModal from '../modals/CreateBoloModal';
+import { queryClient } from '../../../../../../../main';
 
 interface Props {
   bolo: BOLO;
@@ -55,7 +56,7 @@ const BoloCard: React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ bolo 
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
-              // disabled={bolo.stateId !== character.stateId}
+              disabled={bolo.stateId !== character.stateId}
               icon={<IconEdit size={18} />}
               onClick={() =>
                 modals.open({ title: locales.edit_bolo, children: <CreateBoloModal bolo={bolo} />, size: 'lg' })
@@ -80,6 +81,22 @@ const BoloCard: React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ bolo 
                   groupProps: { spacing: 6 },
                   onConfirm: async () => {
                     await fetchNui('deleteBOLO', bolo.id, { data: true });
+                    queryClient.setQueriesData<{ pages: { bolos: BOLO[]; hasMore: boolean }[]; pageParams: number[] }>(
+                      ['bolos'],
+                      (data) => {
+                        if (!data) return;
+
+                        const newPages: { bolos: BOLO[]; hasMore: boolean }[] = data.pages.map((page) => ({
+                          ...page,
+                          bolos: page.bolos.filter((oldBolo) => oldBolo.id !== bolo.id),
+                        }));
+
+                        return {
+                          pages: newPages,
+                          pageParams: data.pageParams,
+                        };
+                      }
+                    );
                   },
                 });
               }}
