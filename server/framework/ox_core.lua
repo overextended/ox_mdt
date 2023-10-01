@@ -245,7 +245,7 @@ local selectProfilesFilter = selectProfiles:gsub('LIMIT', 'WHERE MATCH (characte
 ---@param filter? boolean
 function ox.getProfiles(parameters, filter)
     local query = filter and selectProfilesFilter or selectProfiles
-    local params = filter and {parameters[1], parameters[1]} or parameters
+    local params = filter and {parameters[1], parameters[1], parameters[2]} or parameters
 
     return MySQL.rawExecute.await(query, params)
 end
