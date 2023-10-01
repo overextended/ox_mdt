@@ -6,14 +6,31 @@ local dbSearch = require 'server.utils.dbSearch'
 
 CreateThread(function()
     local dbUserIndexes = MySQL.rawExecute.await('SHOW INDEX FROM `characters`') or {}
+    local dbPlateIndexes = MySQL.rawExecute.await('SHOW INDEX FROM `vehicles`') or {}
+    local insertCharIndex = true
 
     for i = 1, #dbUserIndexes do
         local index = dbUserIndexes[i]
 
-        if index.Key_name == 'stateId_name' then return end
+        if index.Key_name == 'stateId_name' then
+            insertCharIndex = false
+            break
+        end
     end
 
-    MySQL.update('ALTER TABLE `characters` ADD FULLTEXT INDEX `stateId_name` (`stateId`, `firstName`, `lastName`)')
+    if insertCharIndex then
+        MySQL.update('ALTER TABLE `characters` ADD FULLTEXT INDEX `stateId_name` (`stateId`, `firstName`, `lastName`)')
+    end
+
+    for i = 1, #dbPlateIndexes do
+        local index = dbPlateIndexes[i]
+
+        if index.Key_name == 'vehicle_plate' then
+            return
+        end
+    end
+
+    MySQL.update('ALTER TABLE `vehicles` ADD FULLTEXT INDEX `vehicle_plate` (`plate`)')
 end)
 
 local function addOfficer(playerId)
@@ -215,16 +232,22 @@ local selectProfiles = [[
         ox_mdt_profiles profile
     ON
         profile.stateid = characters.stateid
+    LEFT JOIN
+        vehicles vehicle
+    ON
+        vehicle.owner = characters.charId
     LIMIT 10 OFFSET ?
 ]]
 
-local selectProfilesFilter = selectProfiles:gsub('LIMIT', 'WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE) LIMIT')
+local selectProfilesFilter = selectProfiles:gsub('LIMIT', 'WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE) OR MATCH (vehicle.plate) AGAINST (? IN BOOLEAN MODE) LIMIT')
 
 ---@param parameters table
 ---@param filter? boolean
 function ox.getProfiles(parameters, filter)
     local query = filter and selectProfilesFilter or selectProfiles
-    return MySQL.rawExecute.await(query, parameters)
+    local params = filter and {parameters[1], parameters[1]} or parameters
+
+    return MySQL.rawExecute.await(query, params)
 end
 
 ---@param parameters { [1]: number }
