@@ -232,20 +232,32 @@ local selectProfiles = [[
         ox_mdt_profiles profile
     ON
         profile.stateid = characters.stateid
-    LEFT JOIN
-        vehicles vehicle
-    ON
-        vehicle.owner = characters.charId
     LIMIT 10 OFFSET ?
 ]]
 
-local selectProfilesFilter = selectProfiles:gsub('LIMIT', 'WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE) OR MATCH (vehicle.plate) AGAINST (? IN BOOLEAN MODE) LIMIT')
+local selectProfilesFilter = selectProfiles:gsub('LIMIT', [[
+    LEFT JOIN
+        vehicles
+    ON
+        vehicles.owner = characters.charId
+    WHERE MATCH
+        (characters.stateId, `firstName`, `lastName`)
+    AGAINST
+        (? IN BOOLEAN MODE)
+    OR MATCH
+        (vehicles.plate)
+    AGAINST
+        (? IN BOOLEAN MODE)
+    GROUP BY
+        characters.charId
+    LIMIT
+]])
 
 ---@param parameters table
 ---@param filter? boolean
 function ox.getProfiles(parameters, filter)
     local query = filter and selectProfilesFilter or selectProfiles
-    local params = filter and {parameters[1], parameters[1], parameters[2]} or parameters
+    local params = filter and { parameters[1], parameters[1], parameters[2] } or parameters
 
     return MySQL.rawExecute.await(query, params)
 end
