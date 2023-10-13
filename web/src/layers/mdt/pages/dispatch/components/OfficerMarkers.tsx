@@ -54,7 +54,7 @@ const OfficerMarkers: React.FC = () => {
         officers.map((officer) => (
           <Marker
             key={officer.stateId}
-            position={[officer.position[0], officer.position[1]]}
+            position={[officer.position[1], officer.position[0]]}
             icon={L.divIcon({
               className: 'custom-icon',
               iconSize: [20, 20],
