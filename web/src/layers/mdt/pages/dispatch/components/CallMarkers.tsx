@@ -25,7 +25,7 @@ const CallMarkers: React.FC = () => {
         calls.map((call) => (
           <Marker
             key={call.id}
-            position={[call.coords[1], call.coords[0]]}
+            position={[call.coords[0], call.coords[1]]}
             icon={L.icon({
               iconSize: [26, 26],
               iconUrl: `./blips/${call.blip}.png`,
