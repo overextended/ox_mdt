@@ -6,7 +6,7 @@ require 'server.units'
 require 'server.charges'
 require 'server.calls'
 
-registerCallback('ox_mdt:openMdt', function()
+registerCallback('ox_mdt:openMDT', function()
     return officers.get(source) and true
 end)
 

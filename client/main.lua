@@ -66,9 +66,9 @@ AddEventHandler(framework.setGroupEvent, function()
     end
 end)
 
-local function openMdt()
+local function openMDT()
     ---@type boolean?, string?
-    local isAuthorised, callSign = lib.callback.await('ox_mdt:openMdt', 500)
+    local isAuthorised, callSign = lib.callback.await('ox_mdt:openMDT', 500)
 
     if not isAuthorised then return end
 
@@ -120,13 +120,13 @@ local function openMdt()
     SetNuiFocus(true, true)
 end
 
-exports('openMdt', openMdt)
+exports('openMDT', openMDT)
 
 lib.addKeybind({
     defaultKey = 'm',
     description = 'Open the Police MDT',
-    name = 'openMdt',
-    onPressed = openMdt
+    name = 'openMDT',
+    onPressed = openMDT
 })
 
 local callsAreFocused = false
