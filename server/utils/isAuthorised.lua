@@ -10,7 +10,7 @@ end)
 ---@param permission string
 ---@return boolean?
 local function isAuthorised(playerId, permission)
-    return framework.isAuthorised(playerId, permissions[permission] or 0)
+    return framework.isAuthorised(playerId, permissions[permission] or 0, permission)
 end
 
 return isAuthorised

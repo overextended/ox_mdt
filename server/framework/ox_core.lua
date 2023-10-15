@@ -85,8 +85,9 @@ local ox = {}
 
 ---@param playerId number
 ---@param permission number | table<string, number>
+---@param permissionName string
 ---@return boolean?
-function ox.isAuthorised(playerId, permission)
+function ox.isAuthorised(playerId, permission, permissionName)
     local player = Ox.GetPlayer(playerId)
 
     if player?.hasGroup('dispatch') then
@@ -96,9 +97,7 @@ function ox.isAuthorised(playerId, permission)
             return grade >= permission.dispatch
         end
 
-        -- TODO: possible undesirable effect where dispatch has checks against normal number permissions
-        -- which should not apply to the dispatch grade, such as opening the MDT
-        return grade >= permission
+        return permissionName == 'mdt.access' or false
     end
 
     if type(permission) == 'table' then
