@@ -10,7 +10,6 @@ const DEBUG_CHARACTER: Character = {
   grade: 5,
   callSign: '103',
   group: 'police',
-  isDispatch: true,
 };
 
 const characterAtom = atom<Character>(
@@ -24,7 +23,6 @@ const characterAtom = atom<Character>(
         grade: 0,
         group: '',
         callSign: '',
-        isDispatch: false,
       }
 );
 

@@ -19,7 +19,10 @@
   "remove_officer_involved": 2,
   "remove_evidence": 2,
   "create_unit": 2,
-  "mark_call_completed": 2,
+  "mark_call_completed": {
+    "police": 2,
+    "dispatch": 1
+  },
   "set_call_sign": 4,
   "set_officer_rank": 4,
   "fire_officer": 5,

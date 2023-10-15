@@ -41,7 +41,7 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
           </Menu.Item>
           <Menu.Item
             icon={<IconCar size={20} />}
-            disabled={!character.isDispatch}
+            disabled={!(character.group === 'dispatch')}
             onClick={() =>
               modals.open({
                 title: locales.manage_units,

@@ -31,7 +31,7 @@ const UnitsList: React.FC = () => {
             key={`${unit.id}-${unit.members}`}
             unit={unit}
             isInThisUnit={character.unit === unit.id}
-            isDispatch={character.isDispatch}
+            isDispatch={character.group === 'dispatch'}
           />
         ))
       ) : (

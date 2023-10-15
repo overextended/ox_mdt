@@ -21,7 +21,6 @@
 ---@field callSign? string
 ---@field unitId? string
 ---@field position? { [1]: number, [2]: number }
----@field isDispatch? boolean
 ---@field ped number
 ---@field playerId number
 ---@field grade number

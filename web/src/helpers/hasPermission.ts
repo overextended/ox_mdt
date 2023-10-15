@@ -5,6 +5,15 @@ export const hasPermission = (character: Character, permission: PermissionKey | 
   if (!Array.isArray(permission)) {
     const perm = permissions[permission];
 
+    if (character.group === 'dispatch') {
+      if (typeof perm === 'object') {
+        if (!perm.dispatch) return false;
+        return character.grade >= perm.dispatch;
+      }
+
+      return false;
+    }
+
     return typeof perm !== 'object' ? character.grade >= perm : character.grade >= perm[character.group];
   }
 

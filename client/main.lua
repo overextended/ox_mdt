@@ -109,7 +109,6 @@ local function openMDT()
 
     player.unit = LocalPlayer.state.mdtUnitId
     player.callSign = callSign
-    player.isDispatch = true
     player.group = framework.getGroupInfo()
 
     SendNUIMessage({

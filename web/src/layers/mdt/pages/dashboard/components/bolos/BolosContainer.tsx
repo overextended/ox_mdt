@@ -7,8 +7,12 @@ import { modals } from '@mantine/modals';
 import CreateBoloModal from './modals/CreateBoloModal';
 import SuspenseLoader from '../../../../components/SuspenseLoader';
 import BoloList from './components/BoloList';
+import { useCharacter } from '../../../../../../state';
+import { hasPermission } from '../../../../../../helpers';
 
 const BolosContainer: React.FC = () => {
+  const character = useCharacter();
+
   return (
     <>
       <CardTitle title={locales.bolos} icon={<IconEye />} />
@@ -17,6 +21,7 @@ const BolosContainer: React.FC = () => {
           variant="light"
           fullWidth
           leftIcon={<IconPlus size={20} />}
+          disabled={!hasPermission(character, 'create_bolo')}
           onClick={() => modals.open({ title: locales.create_bolo, children: <CreateBoloModal />, size: 'lg' })}
         >
           {locales.create_bolo}
