@@ -126,7 +126,7 @@ registerCallback('ox_mdt:setCallUnits', function(source, data)
     activeCalls[data.id].units = {}
     for i = 1, #data.units do
         local unitId = data.units[i]
-        activeCalls[data.id].units[unitId] = units.getUnit(unitId)
+        activeCalls[data.id].units[unitId] = units.getUnit(tostring(unitId))
     end
 
     officers.triggerEvent('ox_mdt:setCallUnits', { id = data.id, units = activeCalls[data.id].units })
