@@ -136,6 +136,11 @@ registerCallback('ox_mdt:setUnitOfficers', function(source, data)
     end
 
     if #data.officers == 0 or not includesCreator then
+        for i = 1, #units[data.id].members do
+            local officer = units[data.id].members[i]
+            Player(officer.playerId).state.mdtUnitId = nil
+        end
+
         units[data.id] = nil
         officers.triggerEvent('ox_mdt:refreshUnits', units)
 
