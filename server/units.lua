@@ -163,7 +163,9 @@ end)
 ---@param source number
 ---@param data {id: number, value: string}
 registerCallback('ox_mdt:setUnitType', function(source, data)
-    --TODO authorisation checks - is dispatch or belongs to the unit
+    local officer = officers.get(source)
+
+    if officer.group ~= 'dispatch' and officer.unitId ~= data.id then return end
 
     units[data.id].type = data.value
 
