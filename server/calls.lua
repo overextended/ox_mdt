@@ -121,7 +121,7 @@ end, 'mark_call_completed')
 registerCallback('ox_mdt:setCallUnits', function(source, data)
     local officer = officers.get(source)
 
-    -- todo: if not officer.group == = 'dispatch' then return end
+    if not officer.group == 'dispatch' then return end
 
     activeCalls[data.id].units = {}
     for i = 1, #data.units do
