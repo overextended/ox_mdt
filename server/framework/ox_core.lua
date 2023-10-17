@@ -166,7 +166,7 @@ local selectOfficers = [[
     LEFT JOIN
         characters
     ON
-        character_groups.charid = characters.charid
+        character_groups.charId = characters.charId
     LEFT JOIN
         ox_mdt_profiles
     ON

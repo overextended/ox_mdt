@@ -1,6 +1,7 @@
 local registerCallback = require 'server.utils.registerCallback'
 local db = require 'server.db'
 local officers = require 'server.officers'
+local isAuthorised = require 'server.utils.isAuthorised'
 
 require 'server.units'
 require 'server.charges'
@@ -41,7 +42,10 @@ end)
 ---@param source number
 ---@param id number
 registerCallback('ox_mdt:deleteAnnouncement', function(source, id)
-    -- todo: check for creator
+    local officer = officers.get(source)
+    local announcement = db.selectAnnouncement(id)
+
+    if not isAuthorised(source, 'delete_announcement') and announcement.creator ~= officer.stateId then return end
 
     return db.removeAnnouncement(id)
 end, 'delete_announcement')
