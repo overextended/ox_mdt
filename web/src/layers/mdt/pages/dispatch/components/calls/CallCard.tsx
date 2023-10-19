@@ -3,13 +3,14 @@ import { ActionIcon, Badge, createStyles, Divider, Group, Stack, Text, Tooltip }
 import { IconClock, IconFileImport, IconMap2 } from '@tabler/icons-react';
 import { Call, Officer } from '../../../../../../typings';
 import dayjs from 'dayjs';
-import { useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
+import { useCharacter, useSetActiveReport, useSetIsReportActive } from '../../../../../../state';
 import { useNavigate } from 'react-router-dom';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import locales from '../../../../../../locales';
 import CallActionMenu from './CallActionMenu';
 import UnitBadge from '../../../../components/UnitBadge';
 import { useSetLoader } from '../../../../../../state/loader';
+import { hasPermission } from '../../../../../../helpers';
 
 const useStyles = createStyles((theme) => ({
   callContainer: {
@@ -26,6 +27,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
   const setReport = useSetActiveReport();
   const setIsReportActive = useSetIsReportActive();
   const setLoaderModal = useSetLoader();
+  const character = useCharacter();
 
   return (
     <Stack className={classes.callContainer}>
@@ -39,6 +41,7 @@ const CallCard: React.FC<{ call: Call }> = ({ call }) => {
               <ActionIcon
                 color="blue"
                 variant="light"
+                disabled={!hasPermission(character, 'create_report')}
                 onClick={async () => {
                   setLoaderModal(true);
                   const resp = await fetchNui<number>(
