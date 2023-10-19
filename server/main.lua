@@ -74,7 +74,11 @@ end, 'delete_bolo')
 ---@param source number
 ---@param data {id: number, contents: string, images: string[]}
 registerCallback('ox_mdt:editBOLO', function(source, data)
-    --todo: creator check
+    local officer = officers.get(source)
+    local bolo = db.selectBOLO(data.id)
+
+    if bolo.creator ~= officer.stateId then return end
+
     return db.updateBOLO(data.id, data.contents, data.images)
 end)
 
@@ -123,7 +127,6 @@ registerCallback('ox_mdt:getReport', function(source, reportId)
     local response = db.selectReportById(reportId)
 
     if response then
-        ---@todo officersInvovled callSigns
         response.officersInvolved = db.selectOfficersInvolved(reportId)
         response.evidence = db.selectEvidence(reportId)
         response.criminals = db.selectCriminalsInvolved(reportId)
