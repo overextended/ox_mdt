@@ -154,7 +154,7 @@ const RosterTable: React.FC = () => {
         setRecords(resp.officers);
         setIsLoading(false);
       }}
-      recordsPerPage={1}
+      recordsPerPage={9}
     />
   );
 };
