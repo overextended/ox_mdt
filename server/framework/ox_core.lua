@@ -444,11 +444,23 @@ registerCallback('ox_mdt:setOfficerRank', function(source, data)
         return true
     end
 
+    -- Todo: Somehow avoid running 3 queries?
+
     local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { data.stateId })
 
-    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ', { data.grade + 1, charId, data.group })
+    local groups = config.policeGroups
 
-    -- todo: delete other police groups from db?
+    -- Remove all police groups from the character except the one being set
+    for i = 1, #groups do
+        local group = groups[i]
+        if group == data.group then
+            groups[i] = nil
+        end
+    end
+
+    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?)', { groups })
+
+    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ', { data.grade + 1, charId, data.group })
 
     return true
 end, 'set_officer_rank')
@@ -469,8 +481,7 @@ registerCallback('ox_mdt:fireOfficer', function(source, stateId)
 
     local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
 
-    -- todo: delete other police groups
-    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` = ? ', { charId, 'police' })
+    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?) ', { charId, config.policeGroups })
 
     return true
 end, 'fire_officer')
