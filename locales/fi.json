@@ -38,7 +38,7 @@
   "evidence": "Todisteet",
   "evidence_type": "Todistetyyppi",
   "expires_in": "Vanhenee",
-  "find_on map": "Etsi kartalta", // Korjattu "find_on map" -> "find_on_map"
+  "find_on_map": "Etsi kartalta",
   "fine": "Sakko",
   "heli": "Helikopteri",
   "image": "Kuva",
