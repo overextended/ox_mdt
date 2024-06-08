@@ -17,7 +17,7 @@ function createCall(data)
         offense = data.offense,
         completed = false,
         units = {},
-        coords = {data.coords[2], data.coords[1]},
+        coords = {data.coords[1], data.coords[2]},
         blip = data.blip,
         isEmergency = data.isEmergency,
         time = os.time() * 1000,
@@ -45,27 +45,29 @@ end
 
 exports('updateCallCoords', updateCallCoords)
 
---Citizen.SetTimeout(7500, function()
---    local coords = GetEntityCoords(GetPlayerPed(1))
---
---    local id = createCall({
---        offense = 'Speeding',
---        code = '10-69',
---        blip = 51,
---        isEmergency = true,
---        info = {
---            {label = 'XYZ 123', icon = 'badge-tm'},
---            {label = 'Dinka Blista', icon = 'car'}
---        },
---        coords = {coords.x, coords.y}
---    })
---
---    -- local multiplier = 1
---    -- SetInterval(function()
---    --     updateCallCoords(id, {coords.x * multiplier, coords.y * multiplier})
---    --     multiplier += 1
---    -- end, 1500)
---end)
+--[[
+Citizen.SetTimeout(7500, function()
+    local coords = GetEntityCoords(GetPlayerPed(1))
+
+    local id = createCall({
+        offense = 'Speeding',
+        code = '10-69',
+        blip = 51,
+        isEmergency = true,
+        info = {
+            {label = 'XYZ 123', icon = 'badge-tm'},
+            {label = 'Dinka Blista', icon = 'car'}
+        },
+        coords = {coords.x, coords.y}
+    })
+
+    local multiplier = 1
+    SetInterval(function()
+        updateCallCoords(id, {coords.x + (multiplier*100), coords.y + (multiplier*100)})
+        multiplier += 1
+    end, 1500)
+end)
+]]
 
 ---@param source number
 ---@param data 'active' | 'completed'

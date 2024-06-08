@@ -38,7 +38,7 @@ local function addOfficer(playerId)
 
     if not player then return end
 
-    local group, grade = player.hasGroup(config.policeGroups)
+    local group, grade = player.getGroup(config.policeGroups)
 
     if group and grade then
         officers.add(playerId, player.firstName, player.lastName, player.stateId, group, grade)
@@ -88,9 +88,11 @@ local ox = {}
 ---@param permissionName string
 ---@return boolean?
 function ox.isAuthorised(playerId, permission, permissionName)
+    if not (exports.ox_inventory:Search(playerId, "count", config.item) > 0) then return end
+
     local player = Ox.GetPlayer(playerId)
 
-    if player?.hasGroup('dispatch') then
+    if player?.getGroup('dispatch') then
         local grade = player.getGroup('dispatch')
         if type(permission) == 'table' then
             if not permission.dispatch then return false end
@@ -101,10 +103,10 @@ function ox.isAuthorised(playerId, permission, permissionName)
     end
 
     if type(permission) == 'table' then
-        return player?.hasGroup(permission) and true
+        return player?.getGroup(permission) and true
     end
 
-    local _, grade = player?.hasGroup(config.policeGroups)
+    local _, grade = player?.getGroup(config.policeGroups)
 
     return grade and grade >= permission
 end
@@ -428,13 +430,13 @@ end
 ---@param source number
 ---@param data {stateId: string, group: string, grade: number}
 registerCallback('ox_mdt:setOfficerRank', function(source, data)
-    local player = Ox.GetPlayerByFilter({stateId = data.stateId})
+    local player = Ox.GetPlayerFromFilter({stateId = data.stateId})
 
     if player then
         for i = 1, #config.policeGroups do
             local group = config.policeGroups[i]
             -- if player has selected police group update it, otherwise remove all the other police groups
-            if player.hasGroup(group) and group == data.group then
+            if player.getGroup(group) and group == data.group then
                 player.setGroup(data.group, data.grade + 1)
             else
                 player.setGroup(group, -1)
@@ -468,7 +470,7 @@ end, 'set_officer_rank')
 ---@param source number
 ---@param stateId number
 registerCallback('ox_mdt:fireOfficer', function(source, stateId)
-    local player = Ox.GetPlayerByFilter({stateId = stateId})
+    local player = Ox.GetPlayerFromFilter({stateId = stateId})
 
     if player then
         for i = 1, #config.policeGroups do
@@ -489,10 +491,10 @@ end, 'fire_officer')
 ---@param source number
 ---@param stateId string
 registerCallback('ox_mdt:hireOfficer', function(source, stateId)
-    local player = Ox.GetPlayerByFilter({stateId = stateId})
+    local player = Ox.GetPlayerFromFilter({stateId = stateId})
 
     if player then
-        if player.hasGroup(config.policeGroups) then return false end
+        if player.getGroup(config.policeGroups) then return false end
 
         player.setGroup('police', 1)
         return true
