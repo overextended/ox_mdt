@@ -88,7 +88,7 @@ local ox = {}
 ---@param permissionName string
 ---@return boolean?
 function ox.isAuthorised(playerId, permission, permissionName)
-    if not (exports.ox_inventory:Search(playerId, "count", config.item) > 0) then return end
+    if config.item and exports.ox_inventory:GetItemCount(playerId, config.item) == 0 then return false end
 
     local player = Ox.GetPlayer(playerId)
 
