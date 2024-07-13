@@ -13,7 +13,7 @@ const Map: React.FC = () => {
   map.setMaxBounds(bounds);
   map.setView([0, 0], 2);
 
-  return <ImageOverlay url="https://i.imgur.com/EdOZjzF.jpg" bounds={bounds} />;
+  return <ImageOverlay url="./map.jpeg" bounds={bounds} />;
 };
 
 export default Map;
