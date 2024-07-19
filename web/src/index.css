@@ -33,5 +33,5 @@ html {
 }
 
 .leaflet-container img.leaflet-tile {
-    mix-blend-mode: initial;
+  mix-blend-mode: initial;
 }
