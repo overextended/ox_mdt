@@ -31,3 +31,7 @@ html {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.leaflet-container img.leaflet-tile {
+    mix-blend-mode: initial;
+}
