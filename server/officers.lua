@@ -16,8 +16,8 @@ SetInterval(function()
 
     for _, officer in pairs(activeOfficers) do
         local coords = GetEntityCoords(officer.ped)
-        officer.position[1] = coords.y
-        officer.position[2] = coords.x
+        officer.position[1] = coords.x
+        officer.position[2] = coords.y
         officer.position[3] = coords.z
         n += 1
         officersArray[n] = officer

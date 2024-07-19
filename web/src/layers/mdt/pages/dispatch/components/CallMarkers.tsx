@@ -7,6 +7,7 @@ import MarkerPopup from './MarkerPopup';
 import { useNuiEvent } from '../../../../../hooks/useNuiEvent';
 import { queryClient } from '../../../../../main';
 import { Call } from '../../../../../typings';
+import { gameToMap } from './Map';
 
 const CallMarkers: React.FC = () => {
   const calls = useCalls();
@@ -25,7 +26,7 @@ const CallMarkers: React.FC = () => {
         calls.map((call) => (
           <Marker
             key={call.id}
-            position={[call.coords[1], call.coords[0]]}
+            position={gameToMap(call.coords[0], call.coords[1])}
             icon={L.icon({
               iconSize: [26, 26],
               iconUrl: `./blips/${call.blip}.png`,

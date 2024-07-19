@@ -8,6 +8,7 @@ import { IconCircleFilled } from '@tabler/icons-react';
 import L from 'leaflet';
 import MarkerPopup from './MarkerPopup';
 import { Officer } from '../../../../../typings';
+import { gameToMap } from './Map';
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -34,7 +35,7 @@ const OfficerMarkers: React.FC = () => {
         {
           firstName: 'Merry',
           lastName: 'Jane',
-          position: [1000, 300, 0],
+          position: [300, 1000, 0],
           callSign: 751,
           stateId: '103214',
           playerId: 3,
@@ -54,7 +55,7 @@ const OfficerMarkers: React.FC = () => {
         officers.map((officer) => (
           <Marker
             key={officer.stateId}
-            position={[officer.position[0], officer.position[1]]}
+            position={gameToMap(officer.position[0], officer.position[1])}
             icon={L.divIcon({
               className: 'custom-icon',
               iconSize: [20, 20],

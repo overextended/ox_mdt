@@ -9,6 +9,7 @@ import { Call } from '../../../../../../typings';
 import { useCharacter, useDispatchMap } from '../../../../../../state';
 import ManageUnitsModal from '../modals/ManageUnitsModal';
 import { hasPermission } from '../../../../../../helpers';
+import { gameToMap } from '../Map';
 
 interface Props {
   call: Call;
@@ -62,7 +63,7 @@ const CallActionMenu: React.FC<Props> = ({ call }) => {
           <Menu.Item
             icon={<IconMap2 size={20} />}
             onClick={() => {
-              if (map) map.flyTo([call.coords[1], call.coords[0]], 4);
+              if (map) map.flyTo(gameToMap(call.coords[0], call.coords[1]), 7);
             }}
           >
             {locales.find_on_map}

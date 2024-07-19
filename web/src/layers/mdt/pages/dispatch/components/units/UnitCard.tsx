@@ -5,6 +5,7 @@ import { Unit } from '../../../../../../typings';
 import { useDispatchMap, useSetCharacter } from '../../../../../../state';
 import { fetchNui } from '../../../../../../utils/fetchNui';
 import UnitSettings from './UnitSettings';
+import { gameToMap } from '../Map';
 
 const useStyles = createStyles((theme) => ({
   unitContainer: {
@@ -71,7 +72,7 @@ const UnitCard: React.FC<{ unit: Unit; isInThisUnit: boolean; isDispatch: boolea
           {unit.members.map((member) => (
             <Badge
               key={member.stateId}
-              onClick={() => map && map.flyTo([member.position[0], member.position[1]])}
+              onClick={() => map && map.flyTo(gameToMap(member.position[0], member.position[1]), 7)}
               className={classes.memberBadge}
             >
               {member.firstName} {member.lastName} {member.callSign ? `(${member.callSign})` : ''}
