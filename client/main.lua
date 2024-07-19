@@ -33,7 +33,7 @@ local function closeMdt(hideUi)
     end
 
     if IsEntityPlayingAnim(cache.ped, tabletAnimDict, 'base', 3) then
-        ClearPedTasks(cache.ped)
+        ClearPedSecondaryTask(cache.ped)
     end
 
     if tablet then
