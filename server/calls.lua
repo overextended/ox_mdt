@@ -66,8 +66,7 @@ Citizen.SetTimeout(7500, function()
         updateCallCoords(id, {coords.x + (multiplier*100), coords.y + (multiplier*100)})
         multiplier += 1
     end, 1500)
-end)
-]]
+end)]]
 
 ---@param source number
 ---@param data 'active' | 'completed'

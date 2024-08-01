@@ -45,7 +45,7 @@ end
 function ox.getOfficerData()
     if player and player.charId then
         local group, grade, title = ox.getGroupInfo()
-        localOfficer.stateId = player.get("stateId")
+        localOfficer.stateId = player.stateId
         localOfficer.firstName = player.get("firstName")
         localOfficer.lastName = player.get("lastName")
         localOfficer.group = group

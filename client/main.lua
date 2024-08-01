@@ -328,36 +328,36 @@ RegisterNetEvent('ox_mdt:refreshUnits', function(data)
     })
 end)
 
+AddTextEntry('BLIP_OTHPLYR', 'Units')
 local blips = {}
 
 ---@param data Officer[]
 RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
-    if not hasLoadedUi then return end
-
     for i = 1, #data do
         local officer = data[i]
 
-        if officer.stateId ~= player.stateid then
+        if officer.stateId ~= player.stateId then
             local blip = blips[officer.stateId]
 
             if not blip then
                 local name = ('police:%s'):format(officer.stateId)
-                blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
+                blip = AddBlipForCoord(officer.position[1], officer.position[2], officer.position[3])
                 blips[officer.stateId] = blip
 
                 SetBlipSprite(blip, 1)
                 SetBlipDisplay(blip, 3)
                 SetBlipColour(blip, 42)
-                ShowFriendIndicatorOnBlip(blip, true)
-                AddTextEntry(name, ('%s %s (%s)'):format(officer.firstName, officer.lastName, officer.callSign))
+                AddTextEntry(name, officer.callSign and ('%s %s (%s)'):format(officer.firstName, officer.lastName, officer.callSign) or ('%s %s'):format(officer.firstName, officer.lastName))
                 BeginTextCommandSetBlipName(name)
                 EndTextCommandSetBlipName(blip)
                 SetBlipCategory(blip, 7)
             else
-                SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
+                SetBlipCoords(blip, officer.position[1], officer.position[2], officer.position[3])
             end
         end
     end
+
+    if not hasLoadedUi then return end
 
     SendNUIMessage({
         action = 'updateOfficerPositions',
