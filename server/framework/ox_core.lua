@@ -41,7 +41,7 @@ local function addOfficer(playerId)
     local group, grade = player.getGroup(config.policeGroups)
 
     if group and grade then
-        officers.add(playerId, player.firstName, player.lastName, player.stateId, group, grade)
+        officers.add(playerId, player.get('firstName'), player.get('lastName'), player.stateId, group, grade)
     end
 end
 

@@ -25,7 +25,7 @@ SetInterval(function()
 
     triggerOfficerEvent('ox_mdt:updateOfficerPositions', officersArray)
     table.wipe(officersArray)
-end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 5000)))
+end, math.max(500, GetConvarInt('mdt:positionRefreshInterval', 2500)))
 
 ---@param playerId number
 ---@param firstName string
