@@ -370,7 +370,6 @@ function ox.getCharacterProfile(parameters)
     return profile
 end
 
-
 ---@param parameters { [1]: number }
 ---@return Announcement[]?
 function ox.getAnnouncements(parameters)
