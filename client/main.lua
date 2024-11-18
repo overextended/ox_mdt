@@ -342,7 +342,7 @@ RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
 
             if not blip then
                 local name = ('police:%s'):format(officer.stateId)
-                blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
+                blip = AddBlipForCoord(officer.position[1], officer.position[2], officer.position[3])
                 blips[officer.stateId] = blip
 
                 SetBlipSprite(blip, 1)
@@ -354,7 +354,7 @@ RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
                 EndTextCommandSetBlipName(blip)
                 SetBlipCategory(blip, 7)
             else
-                SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
+                SetBlipCoords(blip, officer.position[1], officer.position[2], officer.position[3])
             end
         end
     end
