@@ -113,6 +113,7 @@ local function openMDT()
     player.unit = LocalPlayer.state.mdtUnitId
     player.callSign = callSign
     player.group = framework.getGroupInfo()
+    player.permissions = framework.getPermissions()
 
     SendNUIMessage({
         action = 'setVisible',

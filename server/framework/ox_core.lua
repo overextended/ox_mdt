@@ -3,6 +3,21 @@ local units = require 'server.units'
 local registerCallback = require 'server.utils.registerCallback'
 local config = require 'config'
 local dbSearch = require 'server.utils.dbSearch'
+local permissions = require 'server.permissions'
+
+for i = 1, #config.policeGroups do
+    local group = config.policeGroups[i]
+
+    Ox.SetGroupPermission(group, 1, 'mdt.access', 'allow')
+
+    for permission, grade in pairs(permissions) do
+        grade = type(grade) == 'number' and grade or grade[group]
+
+        if grade then
+            Ox.SetGroupPermission(group, grade, ('mdt.%s'):format(permission), 'allow')
+        end
+    end
+end
 
 CreateThread(function()
     local dbUserIndexes = MySQL.rawExecute.await('SHOW INDEX FROM `characters`') or {}
@@ -84,31 +99,19 @@ end)
 local ox = {}
 
 ---@param playerId number
----@param permission number | table<string, number>
----@param permissionName string
+---@param permission string
 ---@return boolean?
-function ox.isAuthorised(playerId, permission, permissionName)
+function ox.isAuthorised(playerId, permission)
     if config.item and exports.ox_inventory:GetItemCount(playerId, config.item) == 0 then return false end
 
     local player = Ox.GetPlayer(playerId)
+    local group = player and player.get('activeGroup')
 
-    if player?.getGroup('dispatch') then
-        local grade = player.getGroup('dispatch')
-        if type(permission) == 'table' then
-            if not permission.dispatch then return false end
-            return grade >= permission.dispatch
-        end
+    if not group then return end
 
-        return permissionName == 'mdt.access' or false
-    end
+    permission = ('group.%s.%s'):format(group, permission)
 
-    if type(permission) == 'table' then
-        return player?.getGroup(permission) and true
-    end
-
-    local _, grade = player?.getGroup(config.policeGroups)
-
-    return grade and grade >= permission
+    return player.hasPermission(permission)
 end
 
 ---@return { label: string, plate: string }[]
@@ -143,7 +146,8 @@ local selectCharacters = [[
         characters
 ]]
 
-local selectCharactersFilter = selectCharacters .. 'WHERE MATCH (`stateId`, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
+local selectCharactersFilter = selectCharacters ..
+    'WHERE MATCH (`stateId`, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 
 ---@param parameters string[]
 ---@param filter? boolean
@@ -152,6 +156,7 @@ function ox.getCharacters(parameters, filter)
     local query = filter and selectCharactersFilter or selectCharacters
     return MySQL.rawExecute.await(query, parameters)
 end
+
 -- TODO: don't hardcode police group
 local selectOfficers = [[
     SELECT
@@ -177,7 +182,8 @@ local selectOfficers = [[
         character_groups.name IN ("police", "dispatch")
 ]]
 
-local selectOfficersFilter = selectOfficers .. ' AND MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
+local selectOfficersFilter = selectOfficers ..
+    ' AND MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 local selectOfficersPaginate = selectOfficers .. 'LIMIT 9 OFFSET ?'
 local selectOfficersFilterPaginate = selectOfficersFilter .. ' LIMIT 9 OFFSET ?'
 local selectOfficersCount = selectOfficers:gsub('SELECT.-FROM', 'SELECT COUNT(*) FROM')
@@ -201,7 +207,8 @@ registerCallback('ox_mdt:fetchRoster', function(source, data)
     end
 
     return dbSearch(function(parameters, filter)
-        local response = MySQL.rawExecute.await(filter and selectOfficersFilterPaginate or selectOfficersPaginate, parameters)
+        local response = MySQL.rawExecute.await(filter and selectOfficersFilterPaginate or selectOfficersPaginate,
+            parameters)
 
         return {
             totalRecords = #response,
@@ -225,7 +232,8 @@ local selectWarrants = [[
         warrants.stateid = characters.stateid
 ]]
 
-local selectWarrantsFilter = selectWarrants .. ' WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
+local selectWarrantsFilter = selectWarrants ..
+    ' WHERE MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
 
 ---@param parameters table
 ---@param filter? boolean
@@ -294,7 +302,7 @@ function ox.getOfficersInvolved(parameters)
             characters.stateId = officer.stateId
         LEFT JOIN
             ox_mdt_profiles profile
-        ON 
+        ON
             characters.stateId = profile.stateId
         WHERE
             reportid = ?
@@ -430,7 +438,7 @@ end
 ---@param source number
 ---@param data {stateId: string, group: string, grade: number}
 registerCallback('ox_mdt:setOfficerRank', function(source, data)
-    local player = Ox.GetPlayerFromFilter({stateId = data.stateId})
+    local player = Ox.GetPlayerFromFilter({ stateId = data.stateId })
 
     if player then
         for i = 1, #config.policeGroups do
@@ -462,7 +470,8 @@ registerCallback('ox_mdt:setOfficerRank', function(source, data)
 
     MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?)', { groups })
 
-    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ', { data.grade + 1, charId, data.group })
+    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ',
+        { data.grade + 1, charId, data.group })
 
     return true
 end, 'set_officer_rank')
@@ -470,7 +479,7 @@ end, 'set_officer_rank')
 ---@param source number
 ---@param stateId number
 registerCallback('ox_mdt:fireOfficer', function(source, stateId)
-    local player = Ox.GetPlayerFromFilter({stateId = stateId})
+    local player = Ox.GetPlayerFromFilter({ stateId = stateId })
 
     if player then
         for i = 1, #config.policeGroups do
@@ -483,7 +492,8 @@ registerCallback('ox_mdt:fireOfficer', function(source, stateId)
 
     local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
 
-    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?) ', { charId, config.policeGroups })
+    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?) ',
+        { charId, config.policeGroups })
 
     return true
 end, 'fire_officer')
@@ -491,7 +501,7 @@ end, 'fire_officer')
 ---@param source number
 ---@param stateId string
 registerCallback('ox_mdt:hireOfficer', function(source, stateId)
-    local player = Ox.GetPlayerFromFilter({stateId = stateId})
+    local player = Ox.GetPlayerFromFilter({ stateId = stateId })
 
     if player then
         if player.getGroup(config.policeGroups) then return false end
@@ -502,7 +512,8 @@ registerCallback('ox_mdt:hireOfficer', function(source, stateId)
 
     local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { stateId })
 
-    local success = pcall(MySQL.prepare.await, 'INSERT INTO `character_groups` (`charId`, `name`, `grade`) VALUES (?, ?, ?)', { charId, 'police', 1 })
+    local success = pcall(MySQL.prepare.await,
+        'INSERT INTO `character_groups` (`charId`, `name`, `grade`) VALUES (?, ?, ?)', { charId, 'police', 1 })
 
     return success
 end, 'hire_officer')
