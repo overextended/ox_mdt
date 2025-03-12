@@ -50,14 +50,12 @@ end)
 
 local function addOfficer(playerId)
     local player = Ox.GetPlayer(playerId)
+    local group = player and player.get('activeGroup')
+    local grade = group and player.getGroup(group)
 
-    if not player then return end
+    if not grade or not lib.array.includes(config.policeGroups, group) then return end
 
-    local group, grade = player.getGroup(config.policeGroups)
-
-    if group and grade then
-        officers.add(playerId, player.get('firstName'), player.get('lastName'), player.stateId, group, grade)
-    end
+    officers.add(playerId, player.get('firstName'), player.get('lastName'), player.stateId, group, grade)
 end
 
 CreateThread(function()
@@ -435,43 +433,25 @@ function ox.getBOLOs(parameters)
     ]], parameters)
 end
 
----@param source number
+---@param playerId number
 ---@param data {stateId: string, group: string, grade: number}
-registerCallback('ox_mdt:setOfficerRank', function(source, data)
-    local player = Ox.GetPlayerFromFilter({ stateId = data.stateId })
+registerCallback('ox_mdt:setOfficerRank', function(playerId, data)
+    local player = Ox.GetPlayer(playerId)
+    local grade = player and player.getGroup(data.group)
 
-    if player then
-        for i = 1, #config.policeGroups do
-            local group = config.policeGroups[i]
-            -- if player has selected police group update it, otherwise remove all the other police groups
-            if player.getGroup(group) and group == data.group then
-                player.setGroup(data.group, data.grade + 1)
-            else
-                player.setGroup(group, -1)
-            end
-        end
+    if not grade or grade <= data.grade then return false end
 
-        return true
+    local target = Ox.GetPlayerFromFilter({ stateId = data.stateId, groups = data.group })
+
+    if target then
+        if playerId == target.source or not target.getGroup(data.group) then return false end
+
+        return target.setGroup(data.group, data.grade + 1)
     end
 
-    -- Todo: Somehow avoid running 3 queries?
-
-    local charId = MySQL.prepare.await('SELECT `charid` FROM `characters` WHERE `stateId` = ?', { data.stateId })
-
-    local groups = config.policeGroups
-
-    -- Remove all police groups from the character except the one being set
-    for i = 1, #groups do
-        local group = groups[i]
-        if group == data.group then
-            groups[i] = nil
-        end
-    end
-
-    MySQL.prepare.await('DELETE FROM `character_groups` WHERE `charId` = ? AND `name` IN (?)', { groups })
-
-    MySQL.prepare.await('UPDATE `character_groups` SET `grade` = ? WHERE `charId` = ? AND `name` = ? ',
-        { data.grade + 1, charId, data.group })
+    MySQL.prepare.await(
+        'UPDATE `character_groups` SET `grade` = ? WHERE `charId` = (SELECT `charId` FROM `characters` WHERE `stateId` = ?) AND `name` = ? ',
+        { data.grade + 1, data.stateId, data.group })
 
     return true
 end, 'set_officer_rank')
