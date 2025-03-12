@@ -7,7 +7,7 @@ ox.logoutEvent = 'ox:playerLogout'
 ox.setGroupEvent = 'ox:setGroup'
 
 local function getGroupState(groupName)
-    return GlobalState['group.' .. groupName] --[[@as OxGroupProperties]]
+    return GlobalState['group.' .. groupName] --[[@as OxGroup]]
 end
 
 ---@param name string

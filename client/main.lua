@@ -56,7 +56,7 @@ AddEventHandler(framework.logoutEvent, function()
     if player.group then closeMdt(true) end
 end)
 
-AddEventHandler(framework.setGroupEvent, function()
+RegisterNetEvent(framework.setGroupEvent, function()
     local lastGroup = player.group
 
     framework.getOfficerData()
