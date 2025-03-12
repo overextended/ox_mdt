@@ -1,6 +1,6 @@
 {
   "active": "Aktif",
-  "active_warrants": "Aktif Ruhsatlar",
+  "active_warrants": "Aktif Arananlar",
   "add_criminal": "Suçlu Ekle",
   "add_evidence": "Delil Ekle",
   "add_officer": "Memur Ekle",
@@ -123,12 +123,12 @@
   "call_sign_in_use": "Bu çağrı kodu zaten kullanımda",
   "state_id_already_hired": "Bu kimlik numarasına sahip kişi zaten işe alınmış",
   "hire_state_id_description": "İşe almak istediğiniz kişinin kimlik numarası",
-  "bolos": "Arananlar",
-  "create_bolo": "Aranan Oluştur",
-  "create_bolo_placeholder": "Aranan içeriği...",
+  "bolos": "Tehlikeli Kişi Raporları",
+  "create_bolo": "Tehlikeli Kişi Raporu Oluştur",
+  "create_bolo_placeholder": "Tehlikeli Kişi Rapor içeriği...",
   "images": "Görseller",
-  "no_bolos": "Aktif aranması yok",
-  "delete_bolo": "Aranma Sil",
-  "delete_bolo_confirm": "Bu Aranmayı silmek istediğinizden emin misiniz?",
-  "edit_bolo": "Aranma Düzenle"
+  "no_bolos": "Aktif olarak tehlikeli kişi olduğuna dair bir rapor yok",
+  "delete_bolo": "Tehlikeli Kişi Raporu Sil",
+  "delete_bolo_confirm": "Bu Tehlikeli Kişi Raporunu silmek istediğinizden emin misiniz?",
+  "edit_bolo": "Tehlikeli Kişi Raporu Düzenle"
 }
