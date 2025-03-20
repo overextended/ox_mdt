@@ -1,5 +1,7 @@
 import type permissions from '../../../permissions.json';
 
+export type PermissionKey = keyof typeof permissions;
+
 export interface Character {
 	stateId: string;
 	firstName: string;
@@ -10,5 +12,5 @@ export interface Character {
 	image?: string;
 	callSign: string;
 	unit?: number;
-	permissions: Record<keyof typeof permissions, true>;
+	permissions: Record<PermissionKey, true>;
 }

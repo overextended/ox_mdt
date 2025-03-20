@@ -9,7 +9,7 @@ import { RichTextEditor } from '@mantine/tiptap';
 import { ActionIcon, createStyles, Transition } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import locales from '../../../locales';
-import { PermissionKey } from '../../../permissions';
+import { PermissionKey } from '../../../typings/character';
 import { hasPermission } from '../../../helpers';
 import { useCharacter } from '../../../state';
 
