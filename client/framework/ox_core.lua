@@ -25,7 +25,7 @@ end
 ---@param group string
 ---@param grade number
 local function getGradeLabel(group, grade)
-    label = ('%s %s'):format(getGroupLabel(group), getGroupGrades(group)?[grade])
+    return ('%s %s'):format(getGroupLabel(group), getGroupGrades(group)?[grade])
 end
 
 local player = Ox.GetPlayer()
@@ -36,7 +36,7 @@ function ox.getGroupInfo()
     if not group or not lib.array.includes(config.policeGroups, group) then return end
 
     grade = player.getGroup(group)
-    getGradeLabel(group, grade or 1)
+    label = getGradeLabel(group, grade or 1)
 
     return group, grade, label
 end
