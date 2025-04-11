@@ -1,6 +1,7 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Character } from '../typings';
+import type { Character } from '../typings';
 import { isEnvBrowser } from '../utils/misc';
+import permissions from '../../../permissions.json';
 
 const DEBUG_CHARACTER: Character = {
   stateId: '1993201',
@@ -10,6 +11,7 @@ const DEBUG_CHARACTER: Character = {
   grade: 5,
   callSign: '103',
   group: 'police',
+  permissions: permissions
 };
 
 const characterAtom = atom<Character>(
@@ -23,6 +25,7 @@ const characterAtom = atom<Character>(
         grade: 0,
         group: '',
         callSign: '',
+        permissions: {},
       }
 );
 
