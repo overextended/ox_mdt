@@ -10,8 +10,6 @@ clone the docs, checkout the mdt branch and host them locally.
 ## Frameworks
 
 - ox_core
-- qbox (not yet)
-- esx (not yet)
 
 ## Pages
 
