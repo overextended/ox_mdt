@@ -227,9 +227,8 @@ function db.selectAnnouncements(page)
 end
 
 ---@param id number
----@return Announcement
 function db.selectAnnouncement(id)
-    return MySQL.prepare.await('SELECT * FROM `ox_mdt_announcements` WHERE `id` = ?', { id })
+    return MySQL.prepare.await('SELECT * FROM `ox_mdt_announcements` WHERE `id` = ?', { id }) --[[@as Announcement]]
 end
 
 ---@param creator string
@@ -262,7 +261,7 @@ end
 ---@param creator string
 ---@param contents string
 function db.createBOLO(creator, contents)
-    return MySQL.prepare.await('INSERT INTO `ox_mdt_bolos` (`creator`, `contents`) VALUES (?, ?)', { creator, contents })
+    return MySQL.prepare.await('INSERT INTO `ox_mdt_bolos` (`creator`, `contents`) VALUES (?, ?)', { creator, contents }) --[[@as number]]
 end
 
 ---@param id number
