@@ -66,10 +66,12 @@ end)
 
 AddEventHandler('ox:playerLoaded', addOfficer)
 
-AddEventHandler('ox:setGroup', function(playerId, name, grade)
+AddEventHandler('ox:setActiveGroup', function(playerId, name)
     local officer = officers.get(playerId)
 
     if officer then
+        local grade = Ox.GetPlayer(playerId).getGroup(officer.group)
+
         if officer.group == name then
             if not grade then
                 return officers.remove(playerId)
