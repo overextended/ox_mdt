@@ -157,8 +157,7 @@ function ox.getCharacters(parameters, filter)
     return MySQL.rawExecute.await(query, parameters)
 end
 
--- TODO: don't hardcode police group
-local selectOfficers = [[
+local selectOfficers = ([[
     SELECT
         ox_mdt_profiles.id,
         firstName,
@@ -179,8 +178,8 @@ local selectOfficers = [[
     ON
         characters.stateId = ox_mdt_profiles.stateId
     WHERE
-        character_groups.name IN ("police", "dispatch")
-]]
+        character_groups.name IN ("%s")
+]]):format(table.concat(config.policeGroups, '","'))
 
 local selectOfficersFilter = selectOfficers ..
     ' AND MATCH (characters.stateId, `firstName`, `lastName`) AGAINST (? IN BOOLEAN MODE)'
