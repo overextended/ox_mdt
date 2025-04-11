@@ -8,7 +8,6 @@ local player = framework.getOfficerData()
 
 local function getOfficersWithTitle(officers)
     for i = 1, #officers do
-        ---@todo send group name
         officers[i].title = framework.getGroupTitle(officers[i])
     end
 
@@ -258,19 +257,12 @@ serverNuiCallback('setCallUnits')
 serverNuiCallback('getActiveOfficers')
 serverNuiCallback('setUnitOfficers')
 serverNuiCallback('setUnitType')
-
--- Roster
-serverNuiCallback('getRosterPage', function(data, cb)
-    data = getOfficersWithTitle(data)
-
-    cb(data)
-end)
 serverNuiCallback('setOfficerCallSign')
 serverNuiCallback('setOfficerRank')
 serverNuiCallback('fireOfficer')
 serverNuiCallback('hireOfficer')
 serverNuiCallback('fetchRoster', function(data, cb)
-    data.officers = getOfficersWithTitle(data.officers)
+    getOfficersWithTitle(data.officers)
 
     cb(data)
 end)
@@ -343,7 +335,7 @@ RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
 
             if not blip then
                 local name = ('police:%s'):format(officer.stateId)
-                blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
+                blip = AddBlipForCoord(officer.position[1], officer.position[2], officer.position[3])
                 blips[officer.stateId] = blip
 
                 SetBlipSprite(blip, 1)
@@ -355,7 +347,7 @@ RegisterNetEvent('ox_mdt:updateOfficerPositions', function(data)
                 EndTextCommandSetBlipName(blip)
                 SetBlipCategory(blip, 7)
             else
-                SetBlipCoords(blip, officer.position[2], officer.position[1], officer.position[3])
+                SetBlipCoords(blip, officer.position[1], officer.position[2], officer.position[3])
             end
         end
     end
