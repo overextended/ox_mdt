@@ -30,7 +30,7 @@ registerCallback('ox_mdt:createAnnouncement', function(source, contents)
 end, 'create_announcement')
 
 ---@param source number
----@param data { announcement: Announcement, value: string }
+---@param data { announcement: Announcement, value: string, id: number }
 registerCallback('ox_mdt:editAnnouncement', function(source, data)
     local officer = officers.get(source)
     local announcement = db.selectAnnouncement(data.id)
@@ -78,11 +78,12 @@ end, 'delete_bolo')
 ---@param data {id: number, contents: string, images: string[]}
 registerCallback('ox_mdt:editBOLO', function(source, data)
     local officer = officers.get(source)
-    local bolo = db.selectBOLO(data.id)
 
     if not officer then return end
 
-    if bolo.creator ~= officer.stateId then return end
+    local bolo = db.selectBOLO(data.id)
+
+    if not bolo or bolo.creator ~= officer.stateId then return end
 
     return db.updateBOLO(data.id, data.contents, data.images)
 end)
@@ -117,7 +118,8 @@ end, 'create_report')
 ---@param data { page: number, search: string }
 ---@return PartialReportData[]
 registerCallback('ox_mdt:getReports', function(source, data)
-    local reports = tonumber(data.search) and db.selectReportById(data.search --[[@as number]]) or db.selectReports(data.page, data.search)
+    local reports = tonumber(data.search) and db.selectReportById(data.search --[[@as number]]) or
+        db.selectReports(data.page, data.search)
 
     return {
         hasMore = #reports == 10 or false,
@@ -257,7 +259,8 @@ registerCallback('ox_mdt:getRecommendedWarrantExpiry', function(source, charges)
     for i = 1, #charges do
         local charge = charges[i]
         if charge.time ~= 0 then
-            addonTime = addonTime + (charge.time * 60 * 60000 * charge.count)  -- 1 month of penalty time = 1 hour of warrant time
+            addonTime = addonTime +
+                (charge.time * 60 * 60000 * charge.count) -- 1 month of penalty time = 1 hour of warrant time
         end
     end
 
@@ -296,3 +299,14 @@ end)
 lib.cron.new('0 */1 * * *', function()
     db.removeOldWarrants()
 end)
+
+-- for testing
+RegisterCommand('toggleduty', function(playerId)
+    local player = Ox.GetPlayer(playerId)
+
+    if not player.getGroup('police') then return end
+
+    player.setActiveGroup(not player.get('activeGroup') and 'police' or nil)
+
+    print(player.charId, player.get('activeGroup'))
+end, true)
