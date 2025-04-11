@@ -42,6 +42,7 @@
 ---@field description string
 ---@field time number
 ---@field fine number
+---@field count number
 
 ---@class SelectedCharge
 ---@field label string
@@ -73,7 +74,7 @@
 ---@field createdAt string
 ---@field firstName string
 ---@field lastName string
----@field stateId string
+---@field creator string
 
 ---@alias UnitType
 ---| 'car'
