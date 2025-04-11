@@ -10,5 +10,5 @@ export interface Character {
 	image?: string;
 	callSign: string;
 	unit?: number;
-	permissions: Record<keyof typeof permissions, true>;
+	permissions: Partial<typeof permissions>;
 }
