@@ -9,7 +9,7 @@ name         'ox_mdt'
 version      '0.3.0'
 description  'MDT'
 author       'overextended'
-repository   'https://github.com/overextended/ox_mdt'
+repository   'https://github.com/communityox/ox_mdt'
 
 --[[ Manifest ]]--
 dependencies {

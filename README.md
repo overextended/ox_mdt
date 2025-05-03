@@ -4,7 +4,7 @@ Comprehensive police MDT with built in dispatch.
 
 ## Documentation
 
-Documentation is available on the `mdt` branch of the docs [repo](https://github.com/overextended/overextended.github.io), so you will need to
+Documentation is available on the `mdt` branch of the docs [repo](https://github.com/communityox/docs), so you will need to
 clone the docs, checkout the mdt branch and host them locally.
 
 ## Frameworks
@@ -51,4 +51,4 @@ clone the docs, checkout the mdt branch and host them locally.
 - Setting ranks
 - Firing
 
-<br><div><h4 align='center'><a href='https://discord.overextended.dev'>Discord Server</a></h4></div><br>
+<br><div><h4 align='center'><a href='https://discord.coxdocs.dev'>Discord Server</a></h4></div><br>
