@@ -1,11 +1,12 @@
 import { triggerServerCallback } from '@communityox/ox_lib/client';
 
-export const serverNuiCallback = (
+export const serverNuiCallback = <T = any>(
   event: string,
-  clientCb?: (data: unknown, cb: (data: any) => void) => void
+  clientCb?: (data: T, cb: (data: T) => void) => void
 ) => {
-  RegisterNuiCallback(event, async (data: unknown, cb: (data: any) => void) => {
-    const response = await triggerServerCallback<Promise<unknown>>(`ox_mdt:${event}`, null, data);
+  RegisterNuiCallback(event, async function (data: T, cb: (data: T) => void) {
+
+    const response = await triggerServerCallback<Promise<unknown>>(`ox_mdt:${event}`, null, data) as T;
 
     if (clientCb) {
       clientCb(response, cb);
