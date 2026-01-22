@@ -1,6 +1,9 @@
 import { Ox } from '@communityox/ox_core/server';
 import { Config, Permissions } from '@common/index';
 
+// initialize event listeners
+import './events';
+
 Config.policeGroups.forEach((group) => {
   Ox.SetGroupPermission(group, 1, 'mdt.access', 'allow');
 
