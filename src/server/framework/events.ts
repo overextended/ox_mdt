@@ -1,5 +1,5 @@
 import { Config } from "@common/index";
-import { GetPlayer } from "@communityox/ox_core/server"
+import { GetPlayer, GetPlayers } from "@communityox/ox_core/server"
 import { OfficerManager } from "../officerManager";
 
 const addOfficer = (playerId: number): void => {
@@ -50,4 +50,10 @@ on('ox:playerLogout', (playerId: number, userId: number, charId: number) => {
   // UnitManager.removePlayerFromUnit(officer, state);
 
   OfficerManager.remove(playerId);
+});
+
+setImmediate(() => {
+  GetPlayers().forEach(ply => {
+    addOfficer(ply.source);
+  })
 });
