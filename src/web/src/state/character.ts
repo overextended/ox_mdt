@@ -11,7 +11,7 @@ const DEBUG_CHARACTER: Character = {
   grade: 5,
   callSign: '103',
   group: 'police',
-  permissions: permissions
+  permissions: permissions,
 };
 
 const characterAtom = atom<Character>(
