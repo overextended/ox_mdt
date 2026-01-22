@@ -1,43 +1,71 @@
-import { cache, getLocales, hideTextUI, requestAnimDict, sleep, waitFor } from '@communityox/ox_lib/client';
-import { SendTypedNUIMessage, serverNuiCallback } from './utils';
+import { getOfficerWithTitle } from './framework';
+import { serverNuiCallback } from './utils';
+import type { Calls } from '@common/typings';
 
-let hasLoadedUi = false;
-let isUiOpen = false;
+// Dashboard
+serverNuiCallback('getAnnouncements');
+serverNuiCallback('getWarrants');
+serverNuiCallback('createAnnouncement');
+serverNuiCallback('editAnnouncement');
+serverNuiCallback('deleteAnnouncement');
+serverNuiCallback('getBOLOs');
+serverNuiCallback('deleteBOLO');
+serverNuiCallback('createBOLO');
+serverNuiCallback('editBOLO');
 
-function setupUi() {
-  if (hasLoadedUi) return;
+// Reports
+serverNuiCallback('getCriminalProfiles');
+serverNuiCallback('createReport');
+serverNuiCallback('getReports');
+serverNuiCallback('getReport');
+serverNuiCallback('deleteReport');
+serverNuiCallback('setReportTitle');
+serverNuiCallback('getSearchOfficers');
+serverNuiCallback('addCriminal');
+serverNuiCallback('removeCriminal');
+serverNuiCallback('saveCriminal');
+serverNuiCallback('addOfficer');
+serverNuiCallback('removeOfficer');
+serverNuiCallback('addEvidence');
+serverNuiCallback('removeEvidence');
+serverNuiCallback('saveReportContents');
+serverNuiCallback('getRecommendedWarrantExpiry');
 
-  SendNUIMessage({
-    action: 'setInitData',
-    data: {
-      locales: getLocales(),
-    },
-  });
+// Profiles
+serverNuiCallback('getProfiles');
+serverNuiCallback('getProfile');
+serverNuiCallback('saveProfileImage');
+serverNuiCallback('saveProfileNotes');
 
-  hasLoadedUi = true;
-}
+// Dispatch
+serverNuiCallback('attachToCall');
+serverNuiCallback('completeCall');
+serverNuiCallback('detachFromCall');
+serverNuiCallback<Calls>('getCalls', (data, cb) => {
+  // Assign street names to data from the sever to be sent to UI
+  for (let i = 0; i < data.length; i++) {
+    const call = data[i];
+    const [x, y, z = 0] = call.coords;
+    const [h, _] = GetStreetNameAtCoord(x, y, z);
+    data[i].location = GetStreetNameFromHashKey(h);
+  }
 
-RegisterNuiCallback('exit', async (_: any, cb: Function) => {
-  cb(1);
-  SetNuiFocus(false, false);
-
-  isUiOpen = false;
+  cb(data);
 });
+serverNuiCallback('getUnits');
+serverNuiCallback('createUnit');
+serverNuiCallback('joinUnit');
+serverNuiCallback('leaveUnit');
+serverNuiCallback('setCallUnits');
+serverNuiCallback('getActiveOfficers');
+serverNuiCallback('setUnitOfficers');
+serverNuiCallback('setUnitType');
+serverNuiCallback('setOfficerCallSign');
+serverNuiCallback('setOfficerRank');
+serverNuiCallback('fireOfficer');
+serverNuiCallback('hireOfficer');
+serverNuiCallback('fetchRoster', (data, cb) => {
+  const titledOfficers = getOfficerWithTitle(data.officers);
 
-serverNuiCallback('getDashboardData');
-serverNuiCallback('transferOwnership');
-serverNuiCallback('manageUser');
-serverNuiCallback('removeUser');
-serverNuiCallback('getAccountUsers');
-serverNuiCallback('addUserToAccount');
-serverNuiCallback('getAccounts');
-serverNuiCallback('createAccount');
-serverNuiCallback('deleteAccount');
-serverNuiCallback('depositMoney');
-serverNuiCallback('withdrawMoney');
-serverNuiCallback('transferMoney');
-serverNuiCallback('renameAccount');
-serverNuiCallback('convertAccountToShared');
-serverNuiCallback('getLogs');
-serverNuiCallback('getInvoices');
-serverNuiCallback('payInvoice');
+  cb(titledOfficers);
+});
