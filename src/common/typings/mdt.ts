@@ -22,6 +22,7 @@ export interface Officer {
   callSign?: string;
   unitId?: string;
   position?: [number, number];
+  title?: string;
   ped: number;
   playerId: number;
   grade: number;
