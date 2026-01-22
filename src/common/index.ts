@@ -11,3 +11,4 @@ export function LoadJsonFile<T = unknown>(path: string): T {
 }
 
 export const Config = LoadJsonFile<typeof import('~/data/config.json')>('data/config.json');
+export const Permissions = LoadJsonFile<typeof import('~/data/permissions.json')>('data/permissions.json');
