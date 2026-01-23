@@ -208,4 +208,23 @@ export class DB {
       [reportId]
     );
   }
+
+  static async createAnnouncement(stateId: string, contents: string): Promise<any> {
+    return await oxmysql.prepare('INSERT INTO `ox_mdt_announcements` (`creator`, `contents`) VALUES (?, ?)', [
+      stateId,
+      contents,
+    ]);
+  }
+
+  static async selectAnnouncement(id: number): Promise<Announcement> {
+    return await oxmysql.prepare('SELECT * FROM `ox_mdt_announcements` WHERE `id` = ?', [id]);
+  }
+
+  static async updateAnnouncementContents(id: number, contents: string) {
+    return await oxmysql.prepare('UPDATE `ox_mdt_announcements` SET `contents` = ? WHERE `id` = ?', [contents, id]);
+  }
+
+  static async removeAnnouncement(id: number) {
+    return await oxmysql.prepare('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', [id]);
+  }
 }
