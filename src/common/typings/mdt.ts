@@ -89,7 +89,7 @@ export interface Announcement {
 export type UnitType = 'car' | 'motor' | 'heli' | 'boat';
 
 export interface Unit {
-  id: number;
+  id: string;
   name: string;
   members: Officer[];
   type: UnitType;
