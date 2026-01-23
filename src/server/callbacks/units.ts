@@ -1,7 +1,7 @@
 import { isUnitTypeValid, UnitType } from '@common/typings';
 import { registerAuthorisedCallback } from '../utils/callback';
-import { OfficerManager } from '../officerManager';
-import { UnitManager } from '../unitManager';
+import { OfficerManager } from '../managers/officerManager';
+import { UnitManager } from '../managers/unitManager';
 
 registerAuthorisedCallback(
   'ox_mdt:createUnit',

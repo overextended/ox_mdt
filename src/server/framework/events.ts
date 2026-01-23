@@ -1,6 +1,6 @@
 import { Config } from '@common/index';
 import { GetPlayer, GetPlayers } from '@communityox/ox_core/server';
-import { OfficerManager } from '../officerManager';
+import { OfficerManager } from '../managers/officerManager';
 
 const addOfficer = (playerId: number): void => {
   const player = GetPlayer(playerId);
