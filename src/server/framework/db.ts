@@ -21,7 +21,8 @@ export class DB {
   }
 
   static async getLicenses(parameters: [any]): Promise<Record<string, { label: string } | string>[]> {
-    return this.query<any>(`
+    return this.query<any>(
+      `
       SELECT
         ox_licenses.label,
         JSON_VALUE(character_licenses.data, "$.issued") AS \`issued\`
@@ -130,7 +131,8 @@ export class DB {
   }
 
   static async getCharacterProfile(parameters: [string]): Promise<Profile | null> {
-    const results = await this.query<Profile>(`
+    const results = await this.query<Profile>(
+      `
       SELECT
         a.firstName,
         a.lastName,
@@ -151,7 +153,8 @@ export class DB {
   }
 
   static async getAnnouncements(parameters: [number]): Promise<Announcement[]> {
-    return this.query<Announcement>(`
+    return this.query<Announcement>(
+      `
       SELECT
         a.id,
         a.contents,
@@ -171,7 +174,8 @@ export class DB {
   }
 
   static async getOfficersInvolved(reportId: number): Promise<FetchOfficers> {
-    return this.query(`
+    return this.query(
+      `
       SELECT
         characters.firstName,
         characters.lastName,
@@ -187,7 +191,8 @@ export class DB {
   }
 
   static async getCriminalsInvolved(reportId: number): Promise<FetchCriminals> {
-    return this.query(`
+    return this.query(
+      `
       SELECT DISTINCT
         criminal.stateId,
         characters.firstName,

@@ -22,9 +22,13 @@ registerAuthorisedCallback('ox_mdt:detachFromCall', (source, callId: number) => 
   return CallManager.removeUnitFromCall(callId, unitId);
 });
 
-registerAuthorisedCallback('ox_mdt:completeCall', (source, callId: number) => {
-  return CallManager.markCallComplete(callId);
-}, 'mark_call_completed');
+registerAuthorisedCallback(
+  'ox_mdt:completeCall',
+  (source, callId: number) => {
+    return CallManager.markCallComplete(callId);
+  },
+  'mark_call_completed'
+);
 
 type SetCallUnitsData = {
   id: number; // callId
