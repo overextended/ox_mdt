@@ -29,6 +29,10 @@ export class UnitManager {
     return true;
   }
 
+  public static getUnits(): Units {
+    return this.units;
+  }
+
   public static removePlayerFromUnit(officer: Officer, state: StateBagInterface): boolean {
     const unitId = state.mdtUnitId as number;
 
