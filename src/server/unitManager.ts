@@ -38,7 +38,7 @@ export class UnitManager {
 
     // Unit gets deleted when the owner leaves it
     if (unit.id === officer.callSign) {
-      unit.members.forEach(member => {
+      unit.members.forEach((member) => {
         delete member.unitId;
         Player(member.playerId).state.mdtUnitId = null;
       });
@@ -55,7 +55,7 @@ export class UnitManager {
 
     state.mdtUnitId = null;
 
-    unit.members = unit.members.filter(member => member.stateId !== officer.stateId);
+    unit.members = unit.members.filter((member) => member.stateId !== officer.stateId);
 
     if (unit.members.length === 0) {
       delete this.units[unitId];
@@ -68,21 +68,41 @@ export class UnitManager {
     return true;
   }
 
-  public static addPlayerToUnit(playerId: number, unitId: string): boolean {
-    const officer = OfficerManager.get(playerId);
+  public static addPlayerToUnit(playerIds: number[], unitId: string): boolean;
+  public static addPlayerToUnit(playerId: number, unitId: string): boolean;
+  public static addPlayerToUnit(idInput: number | number[], unitId: string): boolean {
     const unit = this.units[unitId];
-    const state = Player(playerId).state;
+    if (!unit) return false;
 
-    if (!officer || !unit) return false;
+    const playerIds = Array.isArray(idInput) ? idInput : [idInput];
+    let anySuccess = false;
 
-    if (state.mdtUnitId) this.removePlayerFromUnit(officer, state);
+    for (const playerId of playerIds) {
+      const officer = OfficerManager.get(playerId);
+      const state = Player(playerId.toString()).state;
 
-    unit.members.push(officer);
-    officer.unitId = unitId;
-    state.mdtUnitId = unitId;
+      if (!officer) continue;
 
-    OfficerManager.triggerEvent('ox_mdt:refreshUnits', this.units);
+      if (state.mdtUnitId === unitId) {
+        anySuccess = true;
+        continue;
+      }
 
-    return true;
+      if (state.mdtUnitId) {
+        this.removePlayerFromUnit(officer, state);
+      }
+
+      unit.members.push(officer);
+      officer.unitId = unitId;
+      state.mdtUnitId = unitId;
+
+      anySuccess = true;
+    }
+
+    if (anySuccess) {
+      OfficerManager.triggerEvent('ox_mdt:refreshUnits', this.units);
+    }
+
+    return anySuccess;
   }
 }
