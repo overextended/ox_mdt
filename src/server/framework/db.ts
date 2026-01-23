@@ -1,12 +1,5 @@
 import { oxmysql } from '@communityox/oxmysql';
-import {
-  PartialProfileData,
-  Officer,
-  Profile,
-  FetchOfficers,
-  FetchCriminals,
-  Announcement
-} from '@common/typings';
+import { PartialProfileData, Officer, Profile, FetchOfficers, FetchCriminals, Announcement } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 
 export class DB {
@@ -16,14 +9,14 @@ export class DB {
   }
 
   static async getVehicles(parameters: [any]): Promise<{ label: string; plate: string }[]> {
-    const vehicles = await this.query<{ plate: string; model: string }> (
+    const vehicles = await this.query<{ plate: string; model: string }>(
       'SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?',
       parameters
     );
 
-    return vehicles.map(v => ({
+    return vehicles.map((v) => ({
       plate: v.plate,
-      label: Ox.GetVehicleData(v.model)?.name || v.model
+      label: Ox.GetVehicleData(v.model)?.name || v.model,
     }));
   }
 
@@ -66,13 +59,16 @@ export class DB {
     return this.query<Officer>(query, parameters);
   }
 
-  static async fetchRoster(policeGroups: string[], data: { page: number, search: string }) {
+  static async fetchRoster(policeGroups: string[], data: { page: number; search: string }) {
     const groupsFormatted = policeGroups.join('","');
     const baseQuery = `FROM character_groups LEFT JOIN characters ON character_groups.charId = characters.charId WHERE character_groups.name IN ("${groupsFormatted}")`;
 
     if (data.search === '') {
       const total = await oxmysql.prepare(`SELECT COUNT(*) ${baseQuery}`);
-      const officers = await this.query(`SELECT firstName, lastName, characters.stateId ${baseQuery} LIMIT 9 OFFSET ?`, [data.page * 9]);
+      const officers = await this.query(
+        `SELECT firstName, lastName, characters.stateId ${baseQuery} LIMIT 9 OFFSET ?`,
+        [data.page * 9]
+      );
       return { totalRecords: total, officers };
     }
 
@@ -83,7 +79,7 @@ export class DB {
 
     return {
       totalRecords: results.length,
-      officers: results
+      officers: results,
     };
   }
 
@@ -102,33 +98,45 @@ export class DB {
   }
 
   static async getCharacterProfile(parameters: [string]): Promise<Profile | null> {
-    const results = await this.query<Profile>(`
+    const results = await this.query<Profile>(
+      `
       SELECT a.firstName, a.lastName, a.stateId, a.charid,
       DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob, a.phoneNumber, b.image, b.notes
       FROM \`characters\` a
       LEFT JOIN \`ox_mdt_profiles\` b ON b.stateid = a.stateid
       WHERE a.stateId = ?
-    `, parameters);
+    `,
+      parameters
+    );
 
     return results[0] || null;
   }
 
   static async getAnnouncements(parameters: [number]): Promise<Announcement[]> {
-    return this.query<Announcement>(`
+    return this.query<Announcement>(
+      `
       SELECT a.id, a.contents, a.creator AS stateId, b.firstName, b.lastName, c.image, c.callSign,
       DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
       FROM \`ox_mdt_announcements\` a
       LEFT JOIN \`characters\` b ON b.stateId = a.creator
       LEFT JOIN \`ox_mdt_profiles\` c ON c.stateId = a.creator
       ORDER BY id DESC LIMIT 5 OFFSET ?
-    `, parameters);
+    `,
+      parameters
+    );
   }
 
   static async getOfficersInvolved(reportId: number): Promise<FetchOfficers> {
-    return this.query(`SELECT characters.firstName, characters.lastName, characters.stateId, profile.callSign FROM ox_mdt_reports_officers officer LEFT JOIN characters ON characters.stateId = officer.stateId LEFT JOIN ox_mdt_profiles profile ON characters.stateId = profile.stateId WHERE reportid = ?`, [reportId]);
+    return this.query(
+      `SELECT characters.firstName, characters.lastName, characters.stateId, profile.callSign FROM ox_mdt_reports_officers officer LEFT JOIN characters ON characters.stateId = officer.stateId LEFT JOIN ox_mdt_profiles profile ON characters.stateId = profile.stateId WHERE reportid = ?`,
+      [reportId]
+    );
   }
 
   static async getCriminalsInvolved(reportId: number): Promise<FetchCriminals> {
-    return this.query(`SELECT DISTINCT criminal.stateId, characters.firstName, characters.lastName, criminal.reduction, DATE_FORMAT(criminal.warrantExpiry, "%Y-%m-%d") AS warrantExpiry, criminal.processed, criminal.pleadedGuilty FROM ox_mdt_reports_criminals criminal LEFT JOIN characters ON characters.stateId = criminal.stateId WHERE reportid = ?`, [reportId]);
+    return this.query(
+      `SELECT DISTINCT criminal.stateId, characters.firstName, characters.lastName, criminal.reduction, DATE_FORMAT(criminal.warrantExpiry, "%Y-%m-%d") AS warrantExpiry, criminal.processed, criminal.pleadedGuilty FROM ox_mdt_reports_criminals criminal LEFT JOIN characters ON characters.stateId = criminal.stateId WHERE reportid = ?`,
+      [reportId]
+    );
   }
 }

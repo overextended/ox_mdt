@@ -1,6 +1,6 @@
-import { Config } from "@common/index";
-import { GetPlayer, GetPlayers } from "@communityox/ox_core/server"
-import { OfficerManager } from "../officerManager";
+import { Config } from '@common/index';
+import { GetPlayer, GetPlayers } from '@communityox/ox_core/server';
+import { OfficerManager } from '../officerManager';
 
 const addOfficer = (playerId: number): void => {
   const player = GetPlayer(playerId);
@@ -13,7 +13,7 @@ const addOfficer = (playerId: number): void => {
   if (!Config.policeGroups.includes(group)) return;
 
   OfficerManager.add(playerId, player.get('firstName'), player.get('lastName'), player.stateId, group, grade);
-}
+};
 
 on('ox:playerLoaded', (playerId: number, userId: number, charId: number) => {
   addOfficer(playerId);
@@ -53,7 +53,7 @@ on('ox:playerLogout', (playerId: number, userId: number, charId: number) => {
 });
 
 setImmediate(() => {
-  GetPlayers().forEach(ply => {
+  GetPlayers().forEach((ply) => {
     addOfficer(ply.source);
-  })
+  });
 });

@@ -35,10 +35,9 @@ export class OfficerManager {
     group: string,
     grade: number
   ) {
-    const callSign = await oxmysql.prepare<string>(
-      'SELECT `callSign` FROM `ox_mdt_profiles` WHERE stateId = ?',
-      [stateId]
-    );
+    const callSign = await oxmysql.prepare<string>('SELECT `callSign` FROM `ox_mdt_profiles` WHERE stateId = ?', [
+      stateId,
+    ]);
 
     const officer: Officer = {
       firstName,
@@ -49,7 +48,7 @@ export class OfficerManager {
       ped: GetPlayerPed(playerId.toString()),
       position: [0, 0],
       group,
-      grade
+      grade,
     };
 
     this.activeOfficers.set(playerId, officer);
