@@ -2,6 +2,9 @@ import { Call, CallData, Calls } from '@common/typings';
 import { OfficerManager } from './officerManager';
 import { UnitManager } from './unitManager';
 
+// ToDo:
+// add interval to clear completed calls on an hourly basis
+
 export class CallManager {
   private static callId: number = 0;
   private static activeCalls: Calls = [];
