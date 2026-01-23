@@ -87,6 +87,9 @@ export interface Announcement {
 }
 
 export type UnitType = 'car' | 'motor' | 'heli' | 'boat';
+export const isUnitTypeValid = (value: string): boolean => {
+  return ['car', 'motor', 'heli', 'boat'].includes(value);
+};
 
 export interface Unit {
   id: string;
