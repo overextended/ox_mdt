@@ -109,14 +109,14 @@ export interface Call {
   id: number;
   offense: string;
   code: string;
-  completed: boolean;
+  completed: boolean | number;
   coords: [number, number];
   blip: number;
   units: Units;
   time: number;
   location: string;
   isEmergency?: boolean;
-  info: Record<string, string | number>;
+  info: CallInfo;
 }
 
 export type Calls = Call[];
