@@ -95,7 +95,7 @@ export interface Unit {
   type: UnitType;
 }
 
-export type Units = Unit[];
+export type Units = Record<string, Unit>;
 
 export interface CallInfo {
   plate?: string;
