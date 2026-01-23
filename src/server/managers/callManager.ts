@@ -1,6 +1,6 @@
-import { Call, CallData, Calls } from "@common/typings";
-import { OfficerManager } from "./officerManager";
-import { UnitManager } from "./unitManager";
+import { Call, CallData, Calls } from '@common/typings';
+import { OfficerManager } from './officerManager';
+import { UnitManager } from './unitManager';
 
 export class CallManager {
   private static callId: number = 0;
@@ -77,26 +77,39 @@ export class CallManager {
     return true;
   }
 
+  public static addUnitToCall(callId: number, unitId: string) {
+    const call = this.activeCalls[callId];
+
+    if (!call || call.units[unitId]) return false;
+
+    const unit = UnitManager.getUnit(unitId);
+    if (unit) call.units[unitId] = unit;
+
+    OfficerManager.triggerEvent('ox_mdt:editCallUnits', {
+      id: callId,
+      units: call.units,
+    });
+
+    return true;
+  }
+
   public static removeUnitFromCall(callId: number, unitId: string) {
     const call = this.activeCalls[callId];
 
-    if (!call) return false;
-    if (!call.units[unitId]) return false;
+    if (!call || !call.units[unitId]) return false;
 
     delete call.units[unitId];
 
     OfficerManager.triggerEvent('ox_mdt:editCallUnits', {
       id: callId,
-      units: call.units
+      units: call.units,
     });
 
     return true;
   }
 
   public static getCalls(type: 'active' | 'completed') {
-    return type === 'completed'
-      ? this.completedCalls
-      : this.activeCalls;
+    return type === 'completed' ? this.completedCalls : this.activeCalls;
   }
 }
 
