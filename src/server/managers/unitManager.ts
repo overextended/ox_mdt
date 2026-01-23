@@ -29,6 +29,10 @@ export class UnitManager {
     return true;
   }
 
+  public static getUnit(unitId: string) {
+    return this.units[unitId] ?? false;
+  }
+
   public static getUnits(): Units {
     return this.units;
   }
