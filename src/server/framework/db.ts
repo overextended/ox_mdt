@@ -8,6 +8,9 @@ import {
   Announcement,
   DBBolo,
   BoloRecap,
+  PartialReportData,
+  FetchCharges,
+  Criminal,
 } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 
@@ -44,6 +47,9 @@ export class DB {
     );
   }
 
+  // ToDo:
+  // Think it's fucked up, haven't quite gathered how the searching was done in the lua build,
+  // between function wrappers and varying query strings I got lost
   static async getCharacters(parameters: string[], filter?: boolean): Promise<PartialProfileData[]> {
     const selectCharacters = `
       SELECT
@@ -56,6 +62,10 @@ export class DB {
     const query = filter
       ? `${selectCharacters} WHERE MATCH (stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE)`
       : selectCharacters;
+    // ToDo:
+    // * Consider a limit to avoid oversized queries ?
+    // * Implement pagination ?
+    // : selectCharacters + '\nLIMIT 20';
 
     return this.query<PartialProfileData>(query, parameters);
   }
@@ -303,5 +313,207 @@ export class DB {
     await oxmysql.transaction(queries);
 
     return boloId;
+  }
+
+  static async createReport(title: string, author: string) {
+    return await oxmysql.prepare('INSERT INTO `ox_mdt_reports` (`title`, `author`) VALUES (?, ?)', [title, author]);
+  }
+
+  static async getReportById(id: number): Promise<PartialReportData[]> {
+    return await oxmysql.prepare(
+      'SELECT `id`, `title`, `description`, DATE_FORMAT(`date`, "%Y-%m-%d %T") as date FROM `ox_mdt_reports` WHERE `id` = ?',
+      [id]
+    );
+  }
+
+  static async selectReports(page: number, search: string): Promise<PartialReportData[]> {
+    const offset = (page - 1) * 10;
+
+    const selectReportQuery =
+      'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d %T") as date FROM `ox_mdt_reports`';
+
+    if (!search || search.length < 1) {
+      return this.query(selectReportQuery + ' ORDER BY `id` DESC LIMIT 10 OFFSET ?', [offset]);
+    } else {
+      // ToDo:
+      // Check that search actually works properly
+      return this.query(
+        selectReportQuery +
+          ' WHERE MATCH (`title`, `author`, `description`) AGAINST (? IN BOOLEAN MODE) ORDER BY `id` DESC LIMIT 10 OFFSET ?',
+        [search, offset]
+      );
+    }
+  }
+
+  static async selectEvidence(id: number) {
+    return await this.query('SELECT `label`, `image` FROM `ox_mdt_reports_evidence` WHERE reportId = ?', [id]);
+  }
+
+  static async selectCriminalsInvolved(id: number) {
+    const dbCriminals = await oxmysql.rawExecute<FetchCriminals>(
+      `
+        SELECT DISTINCT
+          criminal.stateId,
+          characters.firstName,
+          characters.lastName,
+          characters.dateOfBirth AS dob,
+          criminal.reduction,
+          DATE_FORMAT(criminal.warrantExpiry, "%Y-%m-%d") AS warrantExpiry,
+          criminal.processed,
+          criminal.pleadedGuilty
+        FROM
+          ox_mdt_reports_criminals criminal
+        LEFT JOIN
+          characters ON characters.stateId = criminal.stateId
+        WHERE
+          reportid = ?`,
+      [id]
+    );
+
+    const dbCharges = await oxmysql.rawExecute<FetchCharges>(
+      `
+        SELECT
+          stateId,
+          charge as label,
+          time,
+          fine,
+          count
+        FROM
+          ox_mdt_reports_charges
+        WHERE
+          reportid = ?
+        GROUP BY
+          charge, stateId`,
+      [id]
+    );
+
+    const criminals: Criminal[] = [];
+    const charges = dbCharges || [];
+
+    for (const dbCrim of dbCriminals) {
+      const criminal: Criminal = {
+        stateId: dbCrim.stateId,
+        firstName: dbCrim.firstName,
+        lastName: dbCrim.lastName,
+        dob: dbCrim.dob,
+        charges: [],
+        issueWarrant: typeof dbCrim.warrantExpiry === 'string',
+        processed: !!dbCrim.processed,
+        pleadedGuilty: !!dbCrim.pleadedGuilty,
+        penalty: {
+          time: 0,
+          fine: 0,
+          reduction: dbCrim.reduction,
+        },
+      };
+
+      for (const charge of charges) {
+        if (charge.label && charge.stateId === criminal.stateId) {
+          criminal.penalty.time += charge.time || 0;
+          criminal.penalty.fine += charge.fine || 0;
+
+          criminal.charges.push({
+            label: charge.label,
+            count: charge.count,
+            time: charge.time || 0,
+            fine: charge.fine || 0,
+          });
+        }
+      }
+    }
+
+    return criminals;
+  }
+
+  static async deleteReport(reportId: number) {
+    return await oxmysql.prepare('DELETE FROM `ox_mdt_reports` WHERE `id` = ?', [reportId]);
+  }
+
+  static async updateReportTitle(reportId: number, data: string) {
+    return await oxmysql.prepare('UPDATE `ox_mdt_reports` SET `title` = ? WHERE `id` = ?', [data, reportId]);
+  }
+
+  static async updateReportContents(reportId: number, data: string) {
+    return await oxmysql.prepare('UPDATE `ox_mdt_reports` SET `description` = ? WHERE `id` = ?', [data, reportId]);
+  }
+
+  static async addCriminal(reportId: number, criminalId: string) {
+    return await oxmysql.prepare('INSERT INTO `ox_mdt_reports_criminals` (`reportid`, `stateId`) VALUES (?, ?)', [
+      reportId,
+      criminalId,
+    ]);
+  }
+
+  static async removeCriminal(reportId: number, criminalId: string) {
+    return await oxmysql.prepare('DELETE FROM `ox_mdt_reports_criminals` WHERE `reportid` = ? AND `stateId` = ?', [
+      reportId,
+      criminalId,
+    ]);
+  }
+
+  static async saveCriminal(reportId: number, criminal: Criminal) {
+    const queries: [string, (string | number | boolean)[]][] = [
+      ['DELETE FROM `ox_mdt_reports_charges` WHERE `reportid` = ? AND `stateId` = ?', [reportId, criminal.stateId]],
+      [
+        'UPDATE IGNORE `ox_mdt_reports_criminals` SET `warrantExpiry` = ?, `processed` = ?, `pleadedGuilty` = ? WHERE `reportid` = ? AND `stateId` = ?',
+        [
+          criminal.issueWarrant ? criminal.warrantExpiry : null,
+          criminal.processed,
+          criminal.pleadedGuilty,
+          reportId,
+          criminal.stateId,
+        ],
+      ],
+    ];
+
+    criminal.charges.forEach((charge) => {
+      queries.push([
+        'INSERT INTO `ox_mdt_reports_charges` (`reportid`, `stateId`, `charge`, `count`, `time`, `fine`) VALUES (?, ?, ?, ?, ?, ?)',
+        [reportId, criminal.stateId, charge.label, charge.count, charge.time, charge.fine],
+      ]);
+    });
+
+    return await oxmysql.transaction(queries);
+  }
+
+  static async createWarrant(reportId: number, stateId: string, expiry: string) {
+    const warrantExists =
+      (await oxmysql.prepare('SELECT COUNT(1) FROM `ox_mdt_warrants` WHERE `reportId` = ? AND `stateId` = ?', [
+        reportId,
+        stateId,
+      ])) > 0;
+
+    if (warrantExists) {
+      return await oxmysql.prepare(
+        'UPDATE `ox_mdt_warrants` SET `expiresAt` = ? WHERE `reportId` = ? AND `stateId` = ?',
+        [expiry, reportId, stateId]
+      );
+    } else {
+      return await oxmysql.prepare(
+        'INSERT INTO `ox_mdt_warrants` (`reportid`, `stateid`, `expiresAt`) VALUES (?, ?, ?)',
+        [reportId, stateId, expiry]
+      );
+    }
+  }
+
+  static async removeWarrant(reportId: number, stateId: string) {
+    return await oxmysql.prepare('DELETE FROM `ox_mdt_warrants` WHERE `reportid` = ? AND `stateid` = ?', [
+      reportId,
+      stateId,
+    ]);
+  }
+
+  static async addEvidence(reportId: number, label: string, image: string) {
+    return await oxmysql.prepare(
+      'INSERT INTO `ox_mdt_reports_evidence` (`reportid`, `label`, `image`) VALUES (?, ?, ?)',
+      [reportId, label, image]
+    );
+  }
+
+  static async removeEvidence(reportId: number, label: string, image: string) {
+    return await oxmysql.prepare(
+      'DELETE FROM `ox_mdt_reports_evidence` WHERE `reportid` = ? AND `label` = ? AND `image` = ?',
+      [reportId, label, image]
+    );
   }
 }
