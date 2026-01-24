@@ -1,5 +1,14 @@
 import { oxmysql } from '@communityox/oxmysql';
-import { PartialProfileData, Officer, Profile, FetchOfficers, FetchCriminals, Announcement } from '@common/typings';
+import {
+  PartialProfileData,
+  Officer,
+  Profile,
+  FetchOfficers,
+  FetchCriminals,
+  Announcement,
+  DBBolo,
+  BoloRecap,
+} from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 
 export class DB {
@@ -226,5 +235,73 @@ export class DB {
 
   static async removeAnnouncement(id: number) {
     return await oxmysql.prepare('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', [id]);
+  }
+
+  static async getBolos(parameters: [number]): Promise<BoloRecap[]> {
+    return await this.query(
+      `
+      SELECT
+            a.id,
+            a.creator AS stateId,
+            a.contents,
+            b.callSign,
+            b.image,
+            c.firstName,
+            c.lastName,
+            JSON_ARRAYAGG(d.image) AS images,
+            DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
+        FROM
+            \`ox_mdt_bolos\` a
+        LEFT JOIN
+            \`ox_mdt_profiles\` b
+        ON
+            b.stateId = a.creator
+        LEFT JOIN
+            \`characters\` c
+        ON
+            c.stateId = b.stateId
+        LEFT JOIN
+            \`ox_mdt_bolos_images\` d
+        ON
+            d.boloId = a.id
+        GROUP BY \`id\` ORDER BY \`id\` DESC LIMIT 5 OFFSET ?`,
+      parameters
+    );
+  }
+
+  static async deleteBOLO(id: number) {
+    return await oxmysql.prepare('DELETE FROM `ox_mdt_bolos` WHERE id = ?', [id]);
+  }
+
+  static async selectBolo(id: number): Promise<DBBolo> {
+    return await oxmysql.prepare('SELECT * FROM `ox_mdt_bolos` WHERE `id` = ?', [id]);
+  }
+
+  static async updateBOLO(id: number, contents: string, images: string[]) {
+    const queries: [string, (string | number)[]][] = [['DELETE FROM `ox_mdt_bolos_images` where `boloId` = ? ', [id]]];
+
+    images.forEach((img) => {
+      queries.push(['INSERT INTO `ox_mdt_bolos_images` (`boloId`, `image`) VALUES (?, ?)', [id, img]]);
+    });
+
+    queries.push(['UPDATE `ox_mdt_bolos` SET `contents` = ? WHERE `id` = ?', [contents, id]]);
+
+    return oxmysql.transaction(queries);
+  }
+
+  static async createBolo(creator: string, contents: string, images: string[]) {
+    const boloId: number = await oxmysql.prepare('INSERT INTO `ox_mdt_bolos` (`creator`, `contents`) VALUES (?, ?)', [
+      creator,
+      contents,
+    ]);
+
+    const queries: [string, (string | number)[]][] = images.map((img) => [
+      'INSERT INTO `ox_mdt_bolos_images` (`boloId`, `image`) VALUES (?, ?)',
+      [boloId, img],
+    ]);
+
+    await oxmysql.transaction(queries);
+
+    return boloId;
   }
 }
