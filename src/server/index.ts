@@ -1,4 +1,5 @@
-import { versionCheck, checkDependency } from '@communityox/ox_lib/server';
+import { versionCheck, checkDependency, cache } from '@communityox/ox_lib/server';
+import { OfficerManager } from './managers/officerManager';
 import './callbacks';
 
 versionCheck('communityox/ox_mdt');
@@ -10,3 +11,13 @@ if (coreDepCheck !== true) {
     console.error(coreDepCheck[1]);
   }, 1000);
 }
+
+on('onResourceStop', (resource: string) => {
+  if (resource !== cache.resource) return;
+
+  OfficerManager.getAll().forEach(({ unitId, playerId }) => {
+    if (unitId) {
+      Player(playerId).state.mdtUnitId = null;
+    }
+  });
+});
