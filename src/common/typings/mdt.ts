@@ -145,6 +145,7 @@ export type FetchCriminals = {
   firstName: string;
   lastName: string;
   reduction: number;
+  dob: number;
   warrantExpiry?: string;
   processed?: number | boolean;
   pleadedGuilty?: number | boolean;
