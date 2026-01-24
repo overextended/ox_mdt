@@ -1,4 +1,5 @@
 import { versionCheck, checkDependency } from '@communityox/ox_lib/server';
+import './callbacks';
 
 versionCheck('communityox/ox_mdt');
 
