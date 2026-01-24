@@ -2,7 +2,6 @@ import { Announcement } from '@common/typings';
 import { DB } from '../framework/db';
 import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
-import { off } from 'process';
 
 registerAuthorisedCallback('ox_mdt:getAnnouncements', async (source, page: number) => {
   const announcements = await DB.getAnnouncements([page]);
@@ -42,12 +41,16 @@ registerAuthorisedCallback('ox_mdt:editAnnouncement', async (source, data: Annou
   return await DB.updateAnnouncementContents(announcement.id, data.value);
 });
 
-registerAuthorisedCallback('ox_mdt:deleteAnnouncement', async (source, id) => {
-  const officer = OfficerManager.get(source);
+registerAuthorisedCallback(
+  'ox_mdt:deleteAnnouncement',
+  async (source, id) => {
+    const officer = OfficerManager.get(source);
 
-  const announcement = await DB.selectAnnouncement(id);
+    const announcement = await DB.selectAnnouncement(id);
 
-  if (announcement.creator !== officer.stateId) return;
+    if (announcement.creator !== officer.stateId) return;
 
-  return await DB.removeAnnouncement(id);
-}, 'delete_announcement');
+    return await DB.removeAnnouncement(id);
+  },
+  'delete_announcement'
+);
