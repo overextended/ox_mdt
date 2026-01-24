@@ -159,3 +159,23 @@ export type FetchCharges = {
   fine?: number;
   count: number;
 }[];
+
+// for the getBolos db method joining data for display
+export interface BoloRecap {
+  id: number;
+  stateId: string;
+  contents: string;
+  callSign: string | null;
+  image: string | null;
+  firstName: string;
+  lastName: string;
+  images: string[];
+  createdAt: string;
+}
+
+export interface DBBolo {
+  id: number;
+  creator: string;
+  contents: string;
+  createdAt: string;
+}
