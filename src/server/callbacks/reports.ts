@@ -1,4 +1,4 @@
-import { Criminal, Evidence, PartialReportData } from '@common/typings';
+import { Evidence, PartialReportData } from '@common/typings';
 import { DB } from '../framework/db';
 import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
@@ -116,26 +116,6 @@ registerAuthorisedCallback(
     return await DB.removeCriminal(data.id, data.criminalId);
   },
   'remove_criminal'
-);
-
-registerAuthorisedCallback(
-  'ox_mdt:saveCriminal',
-  async (
-    source,
-    data: {
-      id: number;
-      criminal: Criminal;
-    }
-  ) => {
-    if (data.criminal.issueWarrant) {
-      await DB.createWarrant(data.id, data.criminal.stateId, data.criminal.warrantExpiry);
-    } else {
-      await DB.removeWarrant(data.id, data.criminal.stateId);
-    }
-
-    return await DB.saveCriminal(data.id, data.criminal);
-  },
-  'save_criminal'
 );
 
 registerAuthorisedCallback(
