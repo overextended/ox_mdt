@@ -165,3 +165,53 @@ registerAuthorisedCallback(
   },
   'add_evidence'
 );
+
+registerAuthorisedCallback(
+  'ox_mdt:getProfiles',
+  async (
+    source,
+    data: {
+      page: number;
+      search: string;
+    }
+  ) => {
+    const profiles = await DB.selectProfiles(data.page, data.search);
+
+    return {
+      hasMore: profiles.length === 10,
+      profiles,
+    };
+  }
+);
+
+registerAuthorisedCallback('ox_mdt:getProfile', async (source, data: string) => {
+  return await DB.selectCharacterProfile(data);
+});
+
+registerAuthorisedCallback(
+  'ox_mdt:saveProfileImage',
+  async (
+    source,
+    data: {
+      stateId: string;
+      image: string;
+    }
+  ) => {
+    return await DB.updateProfilePicture(data.stateId, data.image);
+  },
+  'change_profile_picture'
+);
+
+registerAuthorisedCallback(
+  'ox_mdt:saveProfileNotes',
+  async (
+    source,
+    data: {
+      stateId: string;
+      notes: string;
+    }
+  ) => {
+    return await DB.updateProfileNotes(data.stateId, data.notes);
+  },
+  'edit_profile_notes'
+);
