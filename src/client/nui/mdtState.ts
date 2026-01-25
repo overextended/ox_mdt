@@ -25,7 +25,7 @@ export class MdtUiState {
   }
 
   static async openMdt() {
-    const officerData = triggerServerCallback<false | Partial<Officer>>('ox_mdt:openMDT', 500);
+    const officerData = await triggerServerCallback<false | Partial<Officer>>('ox_mdt:openMDT', 500);
 
     if (!officerData) return;
 
