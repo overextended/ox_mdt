@@ -516,4 +516,16 @@ export class DB {
       [reportId, label, image]
     );
   }
+  static async getPastCharges(stateId: string): Promise<{ label: string; count: number }[]> {
+    return await this.query(
+      `
+        SELECT
+          charge AS label,
+          SUM(count) AS count
+        FROM ox_mdt_reports_charges
+        WHERE charge IS NOT NULL AND stateId = ?
+        GROUP BY charge`,
+      [stateId]
+    );
+  }
 }
