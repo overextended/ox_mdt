@@ -15,10 +15,10 @@ export class AnimManager {
     ClearPedSecondaryTask(cache.ped);
   }
 
-  static playAnim() {
+  static async playAnim() {
     if (this.isPlayingAnim()) return;
 
-    requestAnimDict(this.tabletAnimDict);
+    await requestAnimDict(this.tabletAnimDict);
     TaskPlayAnim(cache.ped, this.tabletAnimDict, 'base', 6.0, 3.0, -1, 49, 1.0, false, false, false);
     RemoveAnimDict(this.tabletAnimDict);
   }
