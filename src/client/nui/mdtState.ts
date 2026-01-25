@@ -1,19 +1,17 @@
 import { cache, getLocales, triggerServerCallback } from '@communityox/ox_lib/client';
+import { DbCharge, Officer, ProfileCardData } from '@common/typings';
 import { AnimManager } from '../animManager';
 import { SendTypedNUIMessage } from '../utils';
-import { DbCharge, Officer, ProfileCardData } from '@common/typings';
-
-import {} from '@communityox/ox_lib/client';
 import { PlayerManager } from '../playerManager';
 
 export class MdtUiState {
   private static isLoaded = false;
-  private static isOpen = false;
+  private static isOpen: boolean = false;
 
   static closeMDT(hideUi: boolean) {
-    if (!this.isOpen) return;
+    if (!MdtUiState.isOpen) return;
 
-    this.isOpen = false;
+    MdtUiState.isOpen = false;
 
     if (hideUi) {
       SendTypedNUIMessage<boolean>('setVisible', false);
@@ -29,12 +27,12 @@ export class MdtUiState {
 
     if (!officerData) return;
 
-    this.isOpen = true;
+    MdtUiState.isOpen = true;
 
     AnimManager.playAnim();
     AnimManager.createTablet();
 
-    if (!this.isLoaded) {
+    if (!MdtUiState.isLoaded) {
       const profileCards =
         ((await triggerServerCallback<ProfileCardData[]>('ox_mdt:getCustomProfileCards', null)) as ProfileCardData[]) ??
         [];
@@ -56,7 +54,7 @@ export class MdtUiState {
         locales: getLocales(),
       });
 
-      this.isLoaded = true;
+      MdtUiState.isLoaded = true;
     }
 
     SendTypedNUIMessage('setVisible', {
@@ -70,7 +68,7 @@ export class MdtUiState {
   }
 
   static setLoadedState(state: boolean) {
-    this.isLoaded = state;
+    MdtUiState.isLoaded = state;
   }
 }
 
