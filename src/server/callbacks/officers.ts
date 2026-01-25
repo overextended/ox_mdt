@@ -135,3 +135,10 @@ registerAuthorisedCallback(
   },
   'hire_officer'
 );
+
+registerAuthorisedCallback('ox_mdt:fetchRoster', async (source, data: {
+  page: number;
+  search: string;
+}) => {
+  return await DB.fetchRoster(data.page, data.search);
+});
