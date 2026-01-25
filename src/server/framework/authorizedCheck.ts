@@ -6,5 +6,5 @@ export const isAuthorised = (source: number, permission: string): boolean => {
 
   if (!group) return false;
 
-  return player.hasPermission(`group.${group}.${permission}`);
+  return player.hasPermission(`group.${group}.mdt.${permission}`);
 };
