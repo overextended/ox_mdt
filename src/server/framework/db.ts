@@ -13,6 +13,7 @@ import {
   Criminal,
 } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
+import { ProfileCard } from '../utils/profileCards';
 
 export class DB {
   private static async query<T>(query: string, params?: any[]): Promise<T[]> {
@@ -32,7 +33,7 @@ export class DB {
     }));
   }
 
-  static async getLicenses(parameters: [any]): Promise<Record<string, { label: string } | string>[]> {
+  static async getLicenses(parameters: [any]): Promise<{ label: string; issued: number }[]> {
     return this.query<any>(
       `
       SELECT
@@ -42,7 +43,7 @@ export class DB {
       FROM character_licenses
       LEFT JOIN ox_licenses ON ox_licenses.name = character_licenses.name
 
-      WHERE \`charid\` = ?`,
+      WHERE character_licenses.charId = ?`,
       parameters
     );
   }
@@ -516,6 +517,111 @@ export class DB {
       [reportId, label, image]
     );
   }
+
+  static async selectProfiles(page: number, search: string) {
+    const offset = (page - 1) * 10;
+    const isFilter = search && search.trim().length > 0;
+
+    const query = `
+      SELECT
+        c.stateId,
+        c.firstName,
+        c.lastName,
+        DATE_FORMAT(c.dateofbirth, "%Y-%m-%d") AS dob,
+        p.image
+      FROM
+        characters c
+      LEFT JOIN ox_mdt_profiles p ON p.stateid = c.stateid
+      ${
+        isFilter
+          ? `
+      LEFT JOIN vehicles v ON v.owner = c.charId
+      WHERE
+        MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)
+        OR MATCH (v.plate) AGAINST (? IN BOOLEAN MODE)
+      `
+          : ''
+      }
+      GROUP BY
+        c.charId
+      ORDER BY
+        c.stateId DESC
+      LIMIT 10 OFFSET ?
+    `;
+
+    const params = isFilter ? [search, search, offset] : [offset];
+
+    const results = await oxmysql.rawExecute<PartialProfileData[]>(query, params);
+    return results;
+  }
+
+  static async selectCharacterProfile(stateId: string) {
+    const profile = (await this.query<Profile>(`
+      SELECT
+        a.firstName,
+        a.lastName,
+        a.stateId,
+        a.charid,
+        DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob,
+        a.phoneNumber,
+        b.image,
+        b.notes
+      FROM
+        \`characters\` a
+      LEFT JOIN
+        \`ox_mdt_profiles\` b
+      ON
+        b.stateid = a.stateid
+      WHERE
+        a.stateId = ?`,
+      [stateId]
+    ))[0];
+
+    if (!profile) return;
+
+    const cards = ProfileCard.getAll();
+    const profileCards: Record<string, string | string[]> = {};
+
+    cards.forEach(async (cardData) => {
+      profileCards[cardData.id] = await cardData.getData(profile);
+    });
+
+    const relatedReports = await this.query<PartialReportData>(`
+      SELECT DISTINCT
+        id,
+        title,
+        author,
+        DATE_FORMAT(date, "%Y-%m-%d") as date
+      FROM ox_mdt_reports a
+      LEFT JOIN ox_mdt_reports_charges b ON b.reportid = a.id
+
+      WHERE stateId = ?`,
+      [stateId]
+    );
+
+    return {
+      ...profile,
+      ...profileCards,
+      relatedReports,
+    }
+  }
+
+  static async updateProfilePicture(stateId: string, image: string) {
+    return await oxmysql.prepare(`
+      INSERT INTO ox_mdt_profiles (stateid, image, notes)
+      VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE image = ?`,
+      [stateId, image, null, image],
+    );
+  }
+
+  static async updateProfileNotes(stateId: string, notes: string) {
+    return await oxmysql.prepare(`
+      INSERT INTO ox_mdt_profiles (stateid, image, notes)
+      VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE notes = ?`,
+      [stateId, null, notes, notes],
+    );
+  }
+
   static async getPastCharges(stateId: string): Promise<{ label: string; count: number }[]> {
     return await this.query(
       `
