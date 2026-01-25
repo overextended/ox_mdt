@@ -5,3 +5,4 @@ import './charges';
 import './reports';
 import './units';
 import './profileCards';
+import './officers';
