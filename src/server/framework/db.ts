@@ -556,7 +556,9 @@ export class DB {
   }
 
   static async selectCharacterProfile(stateId: string) {
-    const profile = (await this.query<Profile>(`
+    const profile = (
+      await this.query<Profile>(
+        `
       SELECT
         a.firstName,
         a.lastName,
@@ -574,8 +576,9 @@ export class DB {
         b.stateid = a.stateid
       WHERE
         a.stateId = ?`,
-      [stateId]
-    ))[0];
+        [stateId]
+      )
+    )[0];
 
     if (!profile) return;
 
@@ -586,7 +589,8 @@ export class DB {
       profileCards[cardData.id] = await cardData.getData(profile);
     });
 
-    const relatedReports = await this.query<PartialReportData>(`
+    const relatedReports = await this.query<PartialReportData>(
+      `
       SELECT DISTINCT
         id,
         title,
@@ -603,22 +607,42 @@ export class DB {
       ...profile,
       ...profileCards,
       relatedReports,
-    }
+    };
   }
 
   static async updateProfilePicture(stateId: string, image: string) {
-    return await oxmysql.prepare(`
+    return await oxmysql.prepare(
+      `
       INSERT INTO ox_mdt_profiles (stateid, image, notes)
       VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE image = ?`,
-      [stateId, image, null, image],
+      [stateId, image, null, image]
     );
   }
 
   static async updateProfileNotes(stateId: string, notes: string) {
-    return await oxmysql.prepare(`
+    return await oxmysql.prepare(
+      `
       INSERT INTO ox_mdt_profiles (stateid, image, notes)
       VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE notes = ?`,
-      [stateId, null, notes, notes],
+      [stateId, null, notes, notes]
+    );
+  }
+
+  static async addOfficer(reportId: number, stateId: string) {
+    return await oxmysql.prepare(
+      `
+      INSERT INTO ox_mdt_reports_officers (reportid, stateId)
+      VALUES (?, ?)`,
+      [reportId, stateId]
+    );
+  }
+
+  static async removeOfficer(reportId: number, stateId: string) {
+    return await oxmysql.prepare(
+      `
+      DELETE FROM ox_mdt_reports_officers
+      WHERE reportid = ? AND stateId = ?`,
+      [reportId, stateId]
     );
   }
 
