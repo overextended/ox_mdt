@@ -1,10 +1,13 @@
-import { GetPlayer, GetPlayerFromFilter, Ox } from '@communityox/ox_core/server';
+import { GetPlayer, GetPlayerFromFilter } from '@communityox/ox_core/server';
 import { DB } from '../framework';
 import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
 import { oxmysql } from '@communityox/oxmysql';
-import { stat } from 'fs';
 import { Config } from '@common/index';
+
+registerAuthorisedCallback('ox_mdt:openMDT', (source) => {
+  return OfficerManager.get(source);
+});
 
 registerAuthorisedCallback('ox_mdt:getSearchOfficers', async (source, data: string) => {
   return await DB.searchOfficers(data);
