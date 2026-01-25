@@ -8,6 +8,8 @@ const addOfficer = (playerId: number): void => {
   if (!player) return;
 
   const group = player.get('activeGroup');
+  if (!group) return;
+
   const grade = player.getGroup(group);
 
   if (!Config.policeGroups.includes(group)) return;
