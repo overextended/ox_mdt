@@ -23,15 +23,6 @@ export class DB {
     return (resp || []) as T[];
   }
 
-  // DONT COMMIT
-  private static formatSearchValue(search: string) {
-    return search
-      .trim()
-      .split(/\s+/)
-      .map((word) => `+${word.replace(/[^\w\s]/gi, '')}*`)
-      .join('');
-  }
-
   static async getVehicles(parameters: [any]): Promise<{ label: string; plate: string }[]> {
     const vehicles = await this.query<{ plate: string; model: string }>(
       'SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?',
@@ -105,42 +96,6 @@ export class DB {
       : selectOfficers;
 
     return this.query<Officer>(query, parameters);
-  }
-
-  static async fetchRoster(policeGroups: string[], data: { page: number; search: string }) {
-    const groupsFormatted = policeGroups.join('","');
-    const baseQuery = `
-      FROM character_groups
-      LEFT JOIN characters ON character_groups.charId = characters.charId
-
-      WHERE character_groups.name IN ("${groupsFormatted}")`;
-
-    if (data.search === '') {
-      const total = await oxmysql.prepare(`SELECT COUNT(*) ${baseQuery}`);
-      const officers = await this.query(
-        `SELECT firstName, lastName, characters.stateId ${baseQuery} LIMIT 9 OFFSET ?`,
-        [data.page * 9]
-      );
-      return { totalRecords: total, officers };
-    }
-
-    // Handle search logic
-    const searchParams = [data.search, data.page * 9];
-
-    const searchQuery = `
-      SELECT
-        firstName,
-        lastName,
-        characters.stateId
-
-      ${baseQuery} AND MATCH (characters.stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE) LIMIT 9 OFFSET ?`;
-
-    const results = await this.query<Officer>(searchQuery, searchParams);
-
-    return {
-      totalRecords: results.length,
-      officers: results,
-    };
   }
 
   static async getWarrants(parameters: any[], filter?: boolean) {
@@ -702,6 +657,58 @@ export class DB {
 
     const results = await oxmysql.rawExecute<Officer[]>(query, params);
     return results || [];
+  }
+
+  static async fetchRoster(page: number, search: string) {
+    const offset = (page - 1) * 9;
+    const isFilter = search && search.trim().length > 0;
+    const groupsFormatted = Config.policeGroups.join('","');
+
+    const baseQuery = `
+      FROM
+        character_groups cg
+      LEFT JOIN
+        characters c ON cg.charId = c.charId
+      LEFT JOIN
+        ox_mdt_profiles p ON c.stateId = p.stateId
+      WHERE
+        cg.name IN ("${groupsFormatted}")
+    `;
+
+    const selectColumns = `
+      SELECT
+        p.id, c.firstName, c.lastName, c.stateId,
+        cg.name AS \`group\`, cg.grade, p.image, p.callSign
+    `;
+
+    if (!isFilter) {
+      const [countResult, officers] = await Promise.all([
+        oxmysql.scalar<number>(`SELECT COUNT(*) ${baseQuery}`),
+        oxmysql.rawExecute<Officer[]>(`${selectColumns} ${baseQuery} LIMIT 9 OFFSET ?`, [offset])
+      ]);
+
+      return {
+        totalRecords: countResult || 0,
+        officers: officers || []
+      };
+    }
+
+    const filterClause = 'AND MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)';
+
+    const filteredOfficers = await oxmysql.rawExecute<Officer[]>(
+      `${selectColumns} ${baseQuery} ${filterClause} LIMIT 9 OFFSET ?`,
+      [search, offset]
+    );
+
+    const totalFiltered = await oxmysql.scalar<number>(
+      `SELECT COUNT(*) ${baseQuery} ${filterClause}`,
+      [search]
+    );
+
+    return {
+      totalRecords: totalFiltered || 0,
+      officers: filteredOfficers || []
+    };
   }
 
   static async selectOfficerCallsign(callSign: string) {
