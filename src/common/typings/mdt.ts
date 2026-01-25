@@ -180,3 +180,11 @@ export interface DBBolo {
   contents: string;
   createdAt: string;
 }
+
+export interface Warrant {
+  reportId: number;
+  stateId: string;
+  firstName: string;
+  lastName: string;
+  expiresAt: string; // Format: YYYY-MM-DD HH:mm:ss
+}
