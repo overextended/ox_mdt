@@ -215,3 +215,31 @@ registerAuthorisedCallback(
   },
   'edit_profile_notes'
 );
+
+registerAuthorisedCallback(
+  'ox_mdt:addOfficer',
+  async (
+    source,
+    data: {
+      id: number;
+      stateId: string;
+    }
+  ) => {
+    return await DB.addOfficer(data.id, data.stateId);
+  },
+  'add_officer_involved'
+);
+
+registerAuthorisedCallback(
+  'ox_mdt:removeOfficer',
+  async (
+    source,
+    data: {
+      id: number;
+      stateId: string;
+    }
+  ) => {
+    return await DB.removeOfficer(data.id, data.stateId);
+  },
+  'remove_officer_involved'
+);
