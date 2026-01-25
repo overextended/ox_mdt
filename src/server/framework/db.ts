@@ -15,11 +15,21 @@ import {
 } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 import { ProfileCard } from '../utils/profileCards';
+import { Config } from '@common/index';
 
 export class DB {
   private static async query<T>(query: string, params?: any[]): Promise<T[]> {
     const resp = await oxmysql.rawExecute(query, params);
     return (resp || []) as T[];
+  }
+
+  // DONT COMMIT
+  private static formatSearchValue(search: string) {
+    return search
+      .trim()
+      .split(/\s+/)
+      .map((word) => `+${word.replace(/[^\w\s]/gi, '')}*`)
+      .join('');
   }
 
   static async getVehicles(parameters: [any]): Promise<{ label: string; plate: string }[]> {
@@ -657,6 +667,55 @@ export class DB {
         WHERE charge IS NOT NULL AND stateId = ?
         GROUP BY charge`,
       [stateId]
+    );
+  }
+
+  static async searchOfficers(search: string) {
+    const isFilter = search && search.trim().length > 0;
+    const groupsFormatted = Config.policeGroups.join('","');
+
+    const query = `
+      SELECT
+        p.id,
+        c.firstName,
+        c.lastName,
+        c.stateId,
+        cg.name AS \`group\`,
+        cg.grade,
+        p.image,
+        p.callSign
+      FROM
+        character_groups cg
+      LEFT JOIN
+        characters c ON cg.charId = c.charId
+      LEFT JOIN
+        ox_mdt_profiles p ON c.stateId = p.stateId
+      WHERE
+        cg.name IN ("${groupsFormatted}")
+        ${isFilter ? 'AND MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
+      ORDER BY
+        p.callSign ASC
+      ${isFilter ? '' : 'LIMIT 9'}
+    `;
+
+    const params = isFilter ? [search] : [];
+
+    const results = await oxmysql.rawExecute<Officer[]>(query, params);
+    return results || [];
+  }
+
+  static async selectOfficerCallsign(callSign: string) {
+    return await oxmysql.prepare<{ callSign: string }>('SELECT `callSign` FROM `ox_mdt_profiles` WHERE callSign = ?', [
+      callSign,
+    ]);
+  }
+
+  static async updateOfficerCallsign(stateId: string, callSign: string) {
+    return await oxmysql.prepare(
+      `
+      INSERT INTO ox_mdt_profiles (stateId, image, notes, callSign)
+      VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE callSign = ?`,
+      [stateId, null, null, callSign, callSign]
     );
   }
 
