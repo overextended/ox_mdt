@@ -78,3 +78,5 @@ on('ox:playerLogout', () => {
   MdtUiState.closeMDT(true);
   MdtUiState.setLoadedState(false);
 });
+
+exports('openMDT', MdtUiState.openMdt);
