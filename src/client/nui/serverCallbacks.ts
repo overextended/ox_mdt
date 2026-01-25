@@ -1,6 +1,6 @@
 import { triggerServerCallback } from '@communityox/ox_lib/client';
-import { getOfficerWithTitle } from '../framework';
-import { Calls } from '@common/typings';
+import { Calls, Officer } from '@common/typings';
+import { PlayerManager } from '../playerManager';
 
 const serverNuiCallback = <T = any>(event: string, clientCb?: (data: T, cb: (data: T) => void) => void) => {
   RegisterNuiCallback(event, async function (data: T, cb: (data: T) => void) {
@@ -76,8 +76,10 @@ serverNuiCallback('setOfficerCallSign');
 serverNuiCallback('setOfficerRank');
 serverNuiCallback('fireOfficer');
 serverNuiCallback('hireOfficer');
-serverNuiCallback('fetchRoster', (data, cb) => {
-  const titledOfficers = getOfficerWithTitle(data.officers);
+serverNuiCallback('fetchRoster', ({ officers, totalRecords }: { officers: Officer[]; totalRecords: number }, cb) => {
+  officers.forEach((officer) => {
+    officer.title = PlayerManager.getGradeLabel(officer.group, officer.grade);
+  });
 
-  cb(titledOfficers);
+  cb({ officers, totalRecords });
 });
