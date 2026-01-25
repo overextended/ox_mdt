@@ -11,6 +11,7 @@ import {
   PartialReportData,
   FetchCharges,
   Criminal,
+  Warrant,
 } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 import { ProfileCard } from '../utils/profileCards';
@@ -657,5 +658,29 @@ export class DB {
         GROUP BY charge`,
       [stateId]
     );
+  }
+
+  static async selectWarrants(search?: string): Promise<Warrant[]> {
+    const isFilter = search && search.trim().length > 0;
+
+    const query = `
+      SELECT
+        w.reportId,
+        c.stateId,
+        c.firstName,
+        c.lastName,
+        DATE_FORMAT(w.expiresAt, "%Y-%m-%d %T") AS expiresAt
+      FROM
+        \`ox_mdt_warrants\` w
+      LEFT JOIN
+        \`characters\` c ON w.stateid = c.stateid
+      ${isFilter ? 'WHERE MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
+      ORDER BY
+        w.expiresAt ASC
+    `;
+
+    const params = isFilter ? [search] : [];
+
+    return await this.query<Warrant>(query, params);
   }
 }
