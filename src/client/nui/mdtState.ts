@@ -1,4 +1,4 @@
-import { getLocales, triggerServerCallback } from '@communityox/ox_lib/client';
+import { cache, getLocales, triggerServerCallback } from '@communityox/ox_lib/client';
 import { AnimManager } from '../animManager';
 import { SendTypedNUIMessage } from '../utils';
 import { DbCharge, Officer, ProfileCardData } from '@common/typings';
@@ -78,5 +78,16 @@ on('ox:playerLogout', () => {
   MdtUiState.closeMDT(true);
   MdtUiState.setLoadedState(false);
 });
+
+RegisterNuiCallback('hideMDT', (_: unknown, cb: ({}) => void) => {
+  SetNuiFocus(false, false);
+  MdtUiState.closeMDT(false);
+})
+
+on('onResourceStop', (resource: string) => {
+  if (resource !== cache.resource) return;
+
+  MdtUiState.closeMDT(true);
+})
 
 exports('openMDT', MdtUiState.openMdt);
