@@ -8,7 +8,7 @@ export const registerAuthorisedCallback = (
   permission: PermissionKeys | 'access' | false = 'access'
 ) => {
   onClientCallback(event, (playerId, ...args) => {
-    if (permission !== false && isAuthorised(source, permission)) return false;
+    if (typeof permission === 'string' && !isAuthorised(source, permission)) return false;
 
     return cb(playerId, ...args);
   });
