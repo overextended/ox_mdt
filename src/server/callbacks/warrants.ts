@@ -1,6 +1,6 @@
-import { Charge, Criminal } from "@common/typings";
-import { registerAuthorisedCallback } from "../utils/callback";
-import { DB } from "../framework/db";
+import { Charge, Criminal } from '@common/typings';
+import { registerAuthorisedCallback } from '../utils/callback';
+import { DB } from '../framework/db';
 
 registerAuthorisedCallback(
   'ox_mdt:saveCriminal',
@@ -29,7 +29,7 @@ registerAuthorisedCallback('ox_mdt:getRecommendedWarrantExpiry', (source, charge
 
   for (const charge of charges) {
     if (charge.time !== 0) {
-      addonTime += (charge.time * 60 * 60000 * charge.count);
+      addonTime += charge.time * 60 * 60000 * charge.count;
     }
   }
 
