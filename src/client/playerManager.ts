@@ -17,8 +17,8 @@ export class PlayerManager {
 
   static getGradeLabel(groupName: string, gradeId: number): string {
     const group = GetGroup(groupName);
-    const grade = group.grades[gradeId];
-    return `${group} ${grade}`;
+    const grade = group.grades[gradeId - 1];
+    return `${group.label} ${grade}`;
   }
 
   static getGroupInfo() {
