@@ -1,5 +1,5 @@
 import { Announcement } from '@common/typings';
-import { DB } from '../framework/db';
+import { DB } from '../framework';
 import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
 

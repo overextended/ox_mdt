@@ -1,6 +1,6 @@
 import { Charge, Criminal } from '@common/typings';
 import { registerAuthorisedCallback } from '../utils/callback';
-import { DB } from '../framework/db';
+import { DB } from '../framework';
 
 registerAuthorisedCallback(
   'ox_mdt:saveCriminal',

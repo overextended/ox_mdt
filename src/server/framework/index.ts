@@ -1,6 +1,9 @@
 import { Ox } from '@communityox/ox_core/server';
 import { Config, Permissions } from '@common/index';
 
+export * from './authorizedCheck';
+export * from './db';
+
 // initialize event listeners
 import './events';
 

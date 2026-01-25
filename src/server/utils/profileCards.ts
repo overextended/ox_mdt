@@ -1,6 +1,6 @@
 import { ProfileCardData } from '@common/typings';
 import { locale } from '@communityox/ox_lib';
-import { DB } from '../framework/db';
+import { DB } from '../framework';
 
 export class ProfileCard {
   private static customProfileCards: ProfileCardData[] = [];
