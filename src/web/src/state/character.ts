@@ -1,7 +1,7 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import type { Character } from '../typings';
 import { isEnvBrowser } from '../utils/misc';
-import permissions from '../../../../permissions.json';
+import permissions from '../../../../data/permissions.json';
 
 const DEBUG_CHARACTER: Character = {
   stateId: '1993201',
