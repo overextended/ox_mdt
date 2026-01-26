@@ -73,4 +73,4 @@ export class OfficerManager {
   }
 }
 
-OfficerManager.startPositionUpdater();
+setImmediate(() => OfficerManager.startPositionUpdater());
