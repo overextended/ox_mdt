@@ -44,7 +44,7 @@ registerAuthorisedCallback(
     const player = GetPlayer(source);
     const grade = player.getGroup(data.group);
 
-    if (player.stateId !== data.stateId) return false;
+    if (player.stateId === data.stateId) return false;
     if (!grade || grade <= data.grade) return false;
 
     const target = GetPlayerFromFilter({
