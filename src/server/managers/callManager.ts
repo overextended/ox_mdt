@@ -16,7 +16,7 @@ export class CallManager {
       code: data.code,
       offense: data.offense,
       completed: false,
-      units: {},
+      units: [],
       coords: data.coords,
       blip: data.blip,
       // ToDo ? - is it implemented
@@ -69,7 +69,7 @@ export class CallManager {
 
     units.forEach((unitId) => {
       const unit = UnitManager.getUnit(unitId);
-      if (unit) call.units[unitId] = unit;
+      if (unit) call.units.push(unit);
     });
 
     OfficerManager.triggerEvent('ox_mdt:setCallUnits', {
@@ -83,10 +83,10 @@ export class CallManager {
   public static addUnitToCall(callId: number, unitId: string) {
     const call = this.activeCalls[callId];
 
-    if (!call || call.units[unitId]) return false;
+    if (!call || call.units.some(u => u.id === unitId)) return false;
 
     const unit = UnitManager.getUnit(unitId);
-    if (unit) call.units[unitId] = unit;
+    if (unit) call.units.push(unit);
 
     OfficerManager.triggerEvent('ox_mdt:editCallUnits', {
       id: callId,
@@ -99,9 +99,10 @@ export class CallManager {
   public static removeUnitFromCall(callId: number, unitId: string) {
     const call = this.activeCalls[callId];
 
-    if (!call || !call.units[unitId]) return false;
+    const unitIdx = call.units.findIndex(u => u.id === unitId);
+    if (!call || unitIdx !== -1) return false;
 
-    delete call.units[unitId];
+    delete call.units[unitIdx];
 
     OfficerManager.triggerEvent('ox_mdt:editCallUnits', {
       id: callId,
