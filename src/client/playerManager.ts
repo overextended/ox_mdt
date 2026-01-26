@@ -110,13 +110,6 @@ RegisterNuiCallback('getDepartmentsData', (_: null, cb: (data: object) => void) 
         ranks: groupData.grades,
       };
     });
-    // for i = 1, #config.policeGroups do
-    //     local name = config.policeGroups[i]
-    //     groups[name] = {
-    //         label = framework.getGroupLabel(name),
-    //         ranks = framework.getGroupGrades(name)
-    //     }
-    // end
 
     cb(groups);
 });
