@@ -162,7 +162,7 @@ export type FetchCharges = {
 }[];
 
 // for the getBolos db method joining data for display
-export interface BoloRecap {
+export interface DbBoloRecap {
   id: number;
   stateId: string;
   contents: string;
@@ -170,9 +170,13 @@ export interface BoloRecap {
   image: string | null;
   firstName: string;
   lastName: string;
-  images: string[];
+  images: string;
   createdAt: string;
 }
+
+export type BoloRecap = Omit<DbBoloRecap, 'images'> & {
+  images: string[];
+};
 
 export interface DBBolo {
   id: number;
