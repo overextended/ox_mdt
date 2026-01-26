@@ -12,7 +12,7 @@ export class PlayerManager {
   private static label: string;
 
   static getPlayer() {
-    return this.player;
+    return PlayerManager.player;
   }
 
   static getGradeLabel(groupName: string, gradeId: number): string {
@@ -22,43 +22,43 @@ export class PlayerManager {
   }
 
   static getGroupInfo() {
-    if (!this.player) this.player = GetPlayer();
+    if (!PlayerManager.player) PlayerManager.player = GetPlayer();
 
-    this.group = this.player.get('activeGroup');
+    PlayerManager.group = PlayerManager.player.get('activeGroup');
 
-    if (!this.group || Config.policeGroups.includes(this.group)) return;
+    if (!PlayerManager.group || !Config.policeGroups.includes(PlayerManager.group)) return;
 
-    this.grade = this.player.getGroup(this.group);
-    this.label = this.getGradeLabel(this.group, this.grade);
+    PlayerManager.grade = PlayerManager.player.getGroup(PlayerManager.group);
+    PlayerManager.label = PlayerManager.getGradeLabel(PlayerManager.group, PlayerManager.grade);
 
     return {
-      group: this.group,
-      grade: this.grade,
-      label: this.label,
+      group: PlayerManager.group,
+      grade: PlayerManager.grade,
+      label: PlayerManager.label,
     };
   }
 
   static getGroupTitle(officer: Officer) {
-    return this.getGradeLabel(officer.group, officer.grade);
+    return PlayerManager.getGradeLabel(officer.group, officer.grade);
   }
 
   static getOfficerData() {
-    if (!this.player) this.player = GetPlayer();
+    if (!PlayerManager.player) PlayerManager.player = GetPlayer();
 
     this.getGroupInfo();
 
-    this.officer.stateId = this.player.get('stateId');
-    this.officer.firstName = this.player.get('firstName');
-    this.officer.lastName = this.player.get('lastName');
-    this.officer.group = this.group;
-    this.officer.title = this.label;
-    this.officer.grade = this.grade;
+    PlayerManager.officer.stateId = PlayerManager.player.get('stateId');
+    PlayerManager.officer.firstName = PlayerManager.player.get('firstName');
+    PlayerManager.officer.lastName = PlayerManager.player.get('lastName');
+    PlayerManager.officer.group = PlayerManager.group;
+    PlayerManager.officer.title = PlayerManager.label;
+    PlayerManager.officer.grade = PlayerManager.grade;
 
-    return this.officer;
+    return PlayerManager.officer;
   }
 
   static getPermissions() {
-    const groupPermissions: OxGroupPermissions = GlobalState[`group.${this.group}:permissions`];
+    const groupPermissions: OxGroupPermissions = GlobalState[`group.${PlayerManager.group}:permissions`];
     const permissions: Record<string, boolean> = {};
 
     if (!groupPermissions) return permissions;
@@ -66,7 +66,7 @@ export class PlayerManager {
     for (const [gradeKey, perms] of Object.entries(groupPermissions)) {
       const grade = parseInt(gradeKey);
 
-      if (grade <= this.grade) {
+      if (grade <= PlayerManager.grade) {
         for (const [permNode, access] of Object.entries(perms)) {
           if (permNode.startsWith('mdt.')) {
             const permission = permNode.replace('mdt.', '');
@@ -92,4 +92,31 @@ onNet('ox:setGroup', () => {
   if ((!updatedPlayer.group && lastGroup) || lastGroup !== updatedPlayer.group) {
     MdtUiState.closeMDT(true);
   }
+});
+
+RegisterNuiCallback('getDepartmentsData', (_: null, cb: (data: object) => void) => {
+    let groups: {
+      [key: string]: {
+        label: string;
+        ranks: string[];
+      }
+    } = {};
+
+    Config.policeGroups.forEach(group => {
+      const groupData = GetGroup(group);
+
+      groups[group] = {
+        label: groupData.label,
+        ranks: groupData.grades,
+      };
+    });
+    // for i = 1, #config.policeGroups do
+    //     local name = config.policeGroups[i]
+    //     groups[name] = {
+    //         label = framework.getGroupLabel(name),
+    //         ranks = framework.getGroupGrades(name)
+    //     }
+    // end
+
+    cb(groups);
 });
