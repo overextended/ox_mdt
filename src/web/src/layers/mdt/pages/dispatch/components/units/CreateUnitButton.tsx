@@ -14,7 +14,7 @@ const CreateUnitButton: React.FC = () => {
     <Button
       variant="light"
       leftIcon={<IconPlus />}
-      disabled={character.unit !== undefined || !hasPermission(character, 'create_unit')}
+      disabled={!!character.unit || !hasPermission(character, 'create_unit')}
       onClick={() =>
         modals.open({
           title: locales.create_unit,
