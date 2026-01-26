@@ -8,6 +8,8 @@ export class MdtUiState {
   private static isLoaded = false;
   private static isOpen: boolean = false;
 
+  static isUiLoaded() { return this.isLoaded };
+
   static closeMDT(hideUi: boolean) {
     if (!MdtUiState.isOpen) return;
 
