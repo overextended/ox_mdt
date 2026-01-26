@@ -3,7 +3,7 @@ import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
 
 registerAuthorisedCallback('ox_mdt:getBOLOs', async (source, page: number) => {
-  const bolos = await DB.getBolos([page]);
+  const bolos = await DB.getBolos(page);
 
   return {
     hasMore: bolos.length === 5,

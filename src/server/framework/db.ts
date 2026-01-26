@@ -215,36 +215,50 @@ export class DB {
     return await oxmysql.prepare('DELETE FROM `ox_mdt_announcements` WHERE `id` = ?', [id]);
   }
 
-  static async getBolos(parameters: [number]): Promise<BoloRecap[]> {
-    return await this.query(
-      `
-      SELECT
-            a.id,
-            a.creator AS stateId,
-            a.contents,
-            b.callSign,
-            b.image,
-            c.firstName,
-            c.lastName,
-            JSON_ARRAYAGG(d.image) AS images,
-            DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
-        FROM
-            \`ox_mdt_bolos\` a
-        LEFT JOIN
-            \`ox_mdt_profiles\` b
-        ON
-            b.stateId = a.creator
-        LEFT JOIN
-            \`characters\` c
-        ON
-            c.stateId = b.stateId
-        LEFT JOIN
-            \`ox_mdt_bolos_images\` d
-        ON
-            d.boloId = a.id
-        GROUP BY \`id\` ORDER BY \`id\` DESC LIMIT 5 OFFSET ?`,
-      parameters
+  static async getBolos(page: number): Promise<BoloRecap[]> {
+    const pageSize = 5;
+    const bolos = await this.query<DbBoloRecap>(
+      `SELECT
+        a.id,
+        a.creator AS stateId,
+        a.contents,
+        b.callSign,
+        b.image,
+        c.firstName,
+        c.lastName,
+        JSON_ARRAYAGG(d.image) AS images,
+        DATE_FORMAT(a.createdAt, "%Y-%m-%d %T") AS createdAt
+      FROM
+        \`ox_mdt_bolos\` a
+      LEFT JOIN
+        \`ox_mdt_profiles\` b
+      ON
+        b.stateId = a.creator
+      LEFT JOIN
+        \`characters\` c
+      ON
+        c.stateId = b.stateId
+      LEFT JOIN
+        \`ox_mdt_bolos_images\` d
+      ON
+        d.boloId = a.id
+      GROUP BY \`id\` ORDER BY \`id\` DESC LIMIT ? OFFSET ?`,
+      [pageSize, (page - 1) * pageSize]
     );
+
+    return bolos.map(bolo => {
+      let parsedImages: (string | null)[] = [];
+      try {
+        parsedImages = typeof bolo.images === 'string' ? JSON.parse(bolo.images) : bolo.images;
+      } catch (e) {
+        parsedImages = [];
+      }
+
+      return {
+        ...bolo,
+        images: (parsedImages || []).filter((img): img is string => img !== null)
+      };
+    });
   }
 
   static async deleteBOLO(id: number) {
