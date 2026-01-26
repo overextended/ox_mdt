@@ -88,4 +88,4 @@ on('onResourceStop', (resource: string) => {
   MdtUiState.closeMDT(true);
 })
 
-exports('openMDT', MdtUiState.openMdt);
+exports('openMDT', () => MdtUiState.openMdt());
