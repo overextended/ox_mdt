@@ -138,7 +138,8 @@ export class DB {
     return results[0] || null;
   }
 
-  static async getAnnouncements(parameters: [number]): Promise<Announcement[]> {
+  static async getAnnouncements(page: number): Promise<Announcement[]> {
+    const pageSize = 5;
     return this.query<Announcement>(
       `
       SELECT
@@ -154,8 +155,8 @@ export class DB {
       LEFT JOIN \`characters\` b ON b.stateId = a.creator
       LEFT JOIN \`ox_mdt_profiles\` c ON c.stateId = a.creator
 
-      ORDER BY id DESC LIMIT 5 OFFSET ?`,
-      parameters
+      ORDER BY id DESC LIMIT ? OFFSET ?`,
+      [pageSize, (page - 1) * pageSize]
     );
   }
 

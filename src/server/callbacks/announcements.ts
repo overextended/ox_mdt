@@ -4,7 +4,7 @@ import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
 
 registerAuthorisedCallback('ox_mdt:getAnnouncements', async (source, page: number) => {
-  const announcements = await DB.getAnnouncements([page]);
+  const announcements = await DB.getAnnouncements(page);
 
   return {
     hasMore: announcements.length === 5,
