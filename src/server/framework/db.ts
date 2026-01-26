@@ -12,6 +12,7 @@ import {
   FetchCharges,
   Criminal,
   Warrant,
+  DbBoloRecap,
 } from '@common/typings';
 import { Ox } from '@communityox/ox_core';
 import { ProfileCard } from '../utils/profileCards';
