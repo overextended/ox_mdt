@@ -92,11 +92,10 @@ registerAuthorisedCallback(
 
       if (!charId) return false;
 
-      await oxmysql.prepare(
-        `
-      DELETE FROM character_groups
-      WHERE charId = ? AND name IN (?)`,
-        [charId, Config.policeGroups]
+      const placeholders = Config.policeGroups.map(() => '?').join(',');
+      await oxmysql.update(
+        `DELETE FROM character_groups WHERE charid = ? AND name IN (${placeholders})`,
+        [charId, ...Config.policeGroups]
       );
 
       return true;
