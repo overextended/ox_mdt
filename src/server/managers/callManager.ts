@@ -116,5 +116,5 @@ export class CallManager {
   }
 }
 
-exports('createCall', CallManager.createCall);
-exports('updateCallCoords', CallManager.updateCallCoords);
+exports('createCall', (data: CallData) => CallManager.createCall(data));
+exports('updateCallCoords', (id: number, coords: [number, number]) => CallManager.updateCallCoords(id, coords));
