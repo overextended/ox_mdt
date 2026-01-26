@@ -1,4 +1,4 @@
-import type permissions from '../../../permissions.json';
+import type permissions from '../../../../data/permissions.json';
 
 export interface Character {
   stateId: string;
