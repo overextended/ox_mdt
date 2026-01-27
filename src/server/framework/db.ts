@@ -24,6 +24,18 @@ export class DB {
     return (resp || []) as T[];
   }
 
+  // DONT COMMIT
+  private static formatSearchValue(search: string): string | null {
+    const words = search.trim().split(/\s+/);
+
+    const cleanedWords = words
+      .map((word) => word.replace(/[^\w\s]/gi, ''))
+      .filter((word) => word.length > 0)
+      .map((word) => `+${word}*`);
+
+    return cleanedWords.length > 0 ? cleanedWords.join(' ') : null;
+  }
+
   static async getVehicles(parameters: [any]): Promise<{ label: string; plate: string }[]> {
     const vehicles = await this.query<{ plate: string; model: string }>(
       'SELECT `plate`, `model` FROM `vehicles` WHERE `owner` = ?',
@@ -51,27 +63,23 @@ export class DB {
     );
   }
 
-  // ToDo:
-  // Think it's fucked up, haven't quite gathered how the searching was done in the lua build,
-  // between function wrappers and varying query strings I got lost
-  static async getCharacters(parameters: string[], filter?: boolean): Promise<PartialProfileData[]> {
-    const selectCharacters = `
+  static async getCharacters(search: string): Promise<PartialProfileData[]> {
+    const formattedSearch = search ? this.formatSearchValue(search) : null;
+
+    // If no inputted search value return
+    if (!formattedSearch) return [];
+
+    return this.query<PartialProfileData>(
+      `
       SELECT
         firstName,
         lastName,
         DATE_FORMAT(dateofbirth, "%Y-%m-%d") as dob,
         stateId
-      FROM characters`;
-
-    const query = filter
-      ? `${selectCharacters} WHERE MATCH (stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE)`
-      : selectCharacters;
-    // ToDo:
-    // * Consider a limit to avoid oversized queries ?
-    // * Implement pagination ?
-    // : selectCharacters + '\nLIMIT 20';
-
-    return this.query<PartialProfileData>(query, parameters);
+      FROM characters
+      WHERE MATCH (stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE)`,
+      [formattedSearch]
+    );
   }
 
   static async getOfficersInvolved(reportId: number): Promise<FetchOfficers> {
@@ -163,7 +171,7 @@ export class DB {
       [pageSize, (page - 1) * pageSize]
     );
 
-    return bolos.map(bolo => {
+    return bolos.map((bolo) => {
       let parsedImages: (string | null)[] = [];
       try {
         parsedImages = typeof bolo.images === 'string' ? JSON.parse(bolo.images) : bolo.images;
@@ -173,7 +181,7 @@ export class DB {
 
       return {
         ...bolo,
-        images: (parsedImages || []).filter((img): img is string => img !== null)
+        images: (parsedImages || []).filter((img): img is string => img !== null),
       };
     });
   }
@@ -227,19 +235,18 @@ export class DB {
 
   static async selectReports(page: number, search: string): Promise<PartialReportData[]> {
     const offset = (page - 1) * 10;
+    const formattedSearch = search ? this.formatSearchValue(search) : null;
 
     const selectReportQuery =
       'SELECT `id`, `title`, `author`, DATE_FORMAT(`date`, "%Y-%m-%d %T") as date FROM `ox_mdt_reports`';
 
-    if (!search || search.length < 1) {
+    if (!formattedSearch) {
       return this.query(selectReportQuery + ' ORDER BY `id` DESC LIMIT 10 OFFSET ?', [offset]);
     } else {
-      // ToDo:
-      // Check that search actually works properly
       return this.query(
         selectReportQuery +
           ' WHERE MATCH (`title`, `author`, `description`) AGAINST (? IN BOOLEAN MODE) ORDER BY `id` DESC LIMIT 10 OFFSET ?',
-        [search, offset]
+        [formattedSearch, offset]
       );
     }
   }
@@ -418,7 +425,7 @@ export class DB {
 
   static async selectProfiles(page: number, search: string) {
     const offset = (page - 1) * 10;
-    const isFilter = search && search.trim().length > 0;
+    const formattedSearch = search ? this.formatSearchValue(search) : null;
 
     const query = `
       SELECT
@@ -431,7 +438,7 @@ export class DB {
         characters c
       LEFT JOIN ox_mdt_profiles p ON p.stateid = c.stateid
       ${
-        isFilter
+        formattedSearch
           ? `
       LEFT JOIN vehicles v ON v.owner = c.charId
       WHERE
@@ -447,7 +454,7 @@ export class DB {
       LIMIT 10 OFFSET ?
     `;
 
-    const params = isFilter ? [search, search, offset] : [offset];
+    const params = formattedSearch ? [formattedSearch, formattedSearch, offset] : [offset];
 
     const results = await oxmysql.rawExecute<PartialProfileData[]>(query, params);
     return results;
@@ -558,7 +565,7 @@ export class DB {
   }
 
   static async searchOfficers(search: string) {
-    const isFilter = search && search.trim().length > 0;
+    const formattedSearch = search ? this.formatSearchValue(search) : null;
     const groupsFormatted = Config.policeGroups.join('","');
 
     const query = `
@@ -579,13 +586,13 @@ export class DB {
         ox_mdt_profiles p ON c.stateId = p.stateId
       WHERE
         cg.name IN ("${groupsFormatted}")
-        ${isFilter ? 'AND MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
+        ${formattedSearch ? 'AND MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
       ORDER BY
         p.callSign ASC
-      ${isFilter ? '' : 'LIMIT 9'}
+      ${formattedSearch ? '' : 'LIMIT 9'}
     `;
 
-    const params = isFilter ? [search] : [];
+    const params = formattedSearch ? [formattedSearch] : [];
 
     const results = await oxmysql.rawExecute<Officer[]>(query, params);
     return results || [];
@@ -616,12 +623,12 @@ export class DB {
     if (!isFilter) {
       const [countResult, officers] = await Promise.all([
         oxmysql.scalar<number>(`SELECT COUNT(*) ${baseQuery}`),
-        oxmysql.rawExecute<Officer[]>(`${selectColumns} ${baseQuery} LIMIT 9 OFFSET ?`, [offset])
+        oxmysql.rawExecute<Officer[]>(`${selectColumns} ${baseQuery} LIMIT 9 OFFSET ?`, [offset]),
       ]);
 
       return {
         totalRecords: countResult || 0,
-        officers: officers || []
+        officers: officers || [],
       };
     }
 
@@ -632,14 +639,11 @@ export class DB {
       [search, offset]
     );
 
-    const totalFiltered = await oxmysql.scalar<number>(
-      `SELECT COUNT(*) ${baseQuery} ${filterClause}`,
-      [search]
-    );
+    const totalFiltered = await oxmysql.scalar<number>(`SELECT COUNT(*) ${baseQuery} ${filterClause}`, [search]);
 
     return {
       totalRecords: totalFiltered || 0,
-      officers: filteredOfficers || []
+      officers: filteredOfficers || [],
     };
   }
 
@@ -659,7 +663,7 @@ export class DB {
   }
 
   static async selectWarrants(search?: string): Promise<Warrant[]> {
-    const isFilter = search && search.trim().length > 0;
+    const formattedSearch = search ? this.formatSearchValue(search) : null;
 
     const query = `
       SELECT
@@ -672,12 +676,12 @@ export class DB {
         \`ox_mdt_warrants\` w
       LEFT JOIN
         \`characters\` c ON w.stateid = c.stateid
-      ${isFilter ? 'WHERE MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
+      ${formattedSearch ? 'WHERE MATCH (c.stateId, c.firstName, c.lastName) AGAINST (? IN BOOLEAN MODE)' : ''}
       ORDER BY
         w.expiresAt ASC
     `;
 
-    const params = isFilter ? [search] : [];
+    const params = formattedSearch ? [formattedSearch] : [];
 
     return await this.query<Warrant>(query, params);
   }
