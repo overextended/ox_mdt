@@ -74,69 +74,21 @@ export class DB {
     return this.query<PartialProfileData>(query, parameters);
   }
 
-  static async getOfficers(policeGroups: string[], parameters?: any[], filter?: boolean): Promise<Officer[]> {
-    const groupsFormatted = policeGroups.join('","');
-    const selectOfficers = `
-      SELECT
-        ox_mdt_profiles.id,
-        firstName,
-        lastName,
-        characters.stateId,
-        character_groups.name AS \`group\`,
-        character_groups.grade,
-        ox_mdt_profiles.image,
-        ox_mdt_profiles.callSign
-      FROM character_groups
-      LEFT JOIN characters ON character_groups.charId = characters.charId
-      LEFT JOIN ox_mdt_profiles ON characters.stateId = ox_mdt_profiles.stateId
-
-      WHERE character_groups.name IN ("${groupsFormatted}")`;
-
-    const query = filter
-      ? `${selectOfficers} AND MATCH (characters.stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE)`
-      : selectOfficers;
-
-    return this.query<Officer>(query, parameters);
-  }
-
-  static async getWarrants(parameters: any[], filter?: boolean) {
-    const selectWarrants = `
-      SELECT
-        warrants.reportId,
-        characters.stateId,
-        characters.firstName,
-        characters.lastName,
-        DATE_FORMAT(warrants.expiresAt, "%Y-%m-%d %T") AS expiresAt
-      FROM \`ox_mdt_warrants\` warrants
-      LEFT JOIN \`characters\` ON warrants.stateid = characters.stateid
-    `;
-    const query = filter
-      ? `${selectWarrants}\n WHERE MATCH (characters.stateId, firstName, lastName) AGAINST (? IN BOOLEAN MODE)`
-      : selectWarrants;
-
-    return this.query(query, parameters);
-  }
-
-  static async getCharacterProfile(parameters: [string]): Promise<Profile | null> {
-    const results = await this.query<Profile>(
+  static async getOfficersInvolved(reportId: number): Promise<FetchOfficers> {
+    return this.query(
       `
       SELECT
-        a.firstName,
-        a.lastName,
-        a.stateId,
-        a.charid,
-        DATE_FORMAT(a.dateofbirth, "%Y-%m-%d") AS dob,
-        a.phoneNumber,
-        b.image,
-        b.notes
-      FROM \`characters\` a
-      LEFT JOIN \`ox_mdt_profiles\` b ON b.stateid = a.stateid
+        characters.firstName,
+        characters.lastName,
+        characters.stateId,
+        profile.callSign
+      FROM ox_mdt_reports_officers officer
+      LEFT JOIN characters ON characters.stateId = officer.stateId
+      LEFT JOIN ox_mdt_profiles profile ON characters.stateId = profile.stateId
 
-      WHERE a.stateId = ?`,
-      parameters
+      WHERE reportid = ?`,
+      [reportId]
     );
-
-    return results[0] || null;
   }
 
   static async getAnnouncements(page: number): Promise<Announcement[]> {
@@ -158,42 +110,6 @@ export class DB {
 
       ORDER BY id DESC LIMIT ? OFFSET ?`,
       [pageSize, (page - 1) * pageSize]
-    );
-  }
-
-  static async getOfficersInvolved(reportId: number): Promise<FetchOfficers> {
-    return this.query(
-      `
-      SELECT
-        characters.firstName,
-        characters.lastName,
-        characters.stateId,
-        profile.callSign
-      FROM ox_mdt_reports_officers officer
-      LEFT JOIN characters ON characters.stateId = officer.stateId
-      LEFT JOIN ox_mdt_profiles profile ON characters.stateId = profile.stateId
-
-      WHERE reportid = ?`,
-      [reportId]
-    );
-  }
-
-  static async getCriminalsInvolved(reportId: number): Promise<FetchCriminals> {
-    return this.query(
-      `
-      SELECT DISTINCT
-        criminal.stateId,
-        characters.firstName,
-        characters.lastName,
-        criminal.reduction,
-        DATE_FORMAT(criminal.warrantExpiry, "%Y-%m-%d") AS warrantExpiry,
-        criminal.processed,
-        criminal.pleadedGuilty
-      FROM ox_mdt_reports_criminals criminal
-      LEFT JOIN characters ON characters.stateId = criminal.stateId
-
-      WHERE reportid = ?`,
-      [reportId]
     );
   }
 
