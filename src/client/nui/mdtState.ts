@@ -8,7 +8,9 @@ export class MdtUiState {
   private static isLoaded = false;
   private static isOpen: boolean = false;
 
-  static isUiLoaded() { return this.isLoaded };
+  static isUiLoaded() {
+    return this.isLoaded;
+  }
 
   static closeMDT(hideUi: boolean) {
     if (!MdtUiState.isOpen) return;
@@ -82,12 +84,12 @@ on('ox:playerLogout', () => {
 RegisterNuiCallback('hideMDT', (_: unknown, cb: ({}) => void) => {
   SetNuiFocus(false, false);
   MdtUiState.closeMDT(false);
-})
+});
 
 on('onResourceStop', (resource: string) => {
   if (resource !== cache.resource) return;
 
   MdtUiState.closeMDT(true);
-})
+});
 
 exports('openMDT', () => MdtUiState.openMdt());

@@ -95,21 +95,21 @@ onNet('ox:setGroup', () => {
 });
 
 RegisterNuiCallback('getDepartmentsData', (_: null, cb: (data: object) => void) => {
-    let groups: {
-      [key: string]: {
-        label: string;
-        ranks: string[];
-      }
-    } = {};
+  let groups: {
+    [key: string]: {
+      label: string;
+      ranks: string[];
+    };
+  } = {};
 
-    Config.policeGroups.forEach(group => {
-      const groupData = GetGroup(group);
+  Config.policeGroups.forEach((group) => {
+    const groupData = GetGroup(group);
 
-      groups[group] = {
-        label: groupData.label,
-        ranks: groupData.grades,
-      };
-    });
+    groups[group] = {
+      label: groupData.label,
+      ranks: groupData.grades,
+    };
+  });
 
-    cb(groups);
+  cb(groups);
 });

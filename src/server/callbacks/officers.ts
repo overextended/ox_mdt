@@ -93,10 +93,10 @@ registerAuthorisedCallback(
       if (!charId) return false;
 
       const placeholders = Config.policeGroups.map(() => '?').join(',');
-      await oxmysql.update(
-        `DELETE FROM character_groups WHERE charid = ? AND name IN (${placeholders})`,
-        [charId, ...Config.policeGroups]
-      );
+      await oxmysql.update(`DELETE FROM character_groups WHERE charid = ? AND name IN (${placeholders})`, [
+        charId,
+        ...Config.policeGroups,
+      ]);
 
       return true;
     }
@@ -135,9 +135,15 @@ registerAuthorisedCallback(
   'hire_officer'
 );
 
-registerAuthorisedCallback('ox_mdt:fetchRoster', async (source, data: {
-  page: number;
-  search: string;
-}) => {
-  return await DB.fetchRoster(data.page, data.search);
-});
+registerAuthorisedCallback(
+  'ox_mdt:fetchRoster',
+  async (
+    source,
+    data: {
+      page: number;
+      search: string;
+    }
+  ) => {
+    return await DB.fetchRoster(data.page, data.search);
+  }
+);

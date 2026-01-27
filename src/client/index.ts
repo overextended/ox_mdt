@@ -41,8 +41,8 @@ addKeybind({
 });
 
 RegisterNuiCallback('setWaypoint', (data: [number, number], cb: (_: number) => void) => {
-  SetNewWaypoint(data[0], data[1])
-  cb(1)
+  SetNewWaypoint(data[0], data[1]);
+  cb(1);
 });
 
 const blips: Record<string, number> = {};
@@ -56,38 +56,48 @@ onNet('ox_mdt:createCall', (data: { id: number; call: any }) => {
 
   PlaySoundFrontend(-1, 'Near_Miss_Counter_Reset', 'GTAO_FM_Events_Soundset', false);
 
-  SendNuiMessage(JSON.stringify({
-    action: 'addCall',
-    data: data.call
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'addCall',
+      data: data.call,
+    })
+  );
 });
 
 onNet('ox_mdt:editCallUnits', (data: { id: number; call: any }) => {
-  SendNuiMessage(JSON.stringify({
-    action: 'editCallUnits',
-    data: data
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'editCallUnits',
+      data: data,
+    })
+  );
 });
 
 onNet('ox_mdt:updateCallCoords', (data: { id: number; coords: [number, number, number] }) => {
-  SendNuiMessage(JSON.stringify({
-    action: 'updateCallCoords',
-    data: data
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'updateCallCoords',
+      data: data,
+    })
+  );
 });
 
 onNet('ox_mdt:setCallUnits', (data: { id: number; units: any }) => {
-  SendNuiMessage(JSON.stringify({
-    action: 'setCallUnits',
-    data: data
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'setCallUnits',
+      data: data,
+    })
+  );
 });
 
 onNet('ox_mdt:refreshUnits', (data: any) => {
-  SendNuiMessage(JSON.stringify({
-    action: 'refreshUnits',
-    data: data
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'refreshUnits',
+      data: data,
+    })
+  );
 });
 
 onNet('ox_mdt:updateOfficerPositions', (data: any[]) => {
@@ -117,8 +127,10 @@ onNet('ox_mdt:updateOfficerPositions', (data: any[]) => {
     }
   });
 
-  SendNuiMessage(JSON.stringify({
-    action: 'updateOfficerPositions',
-    data: data
-  }));
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'updateOfficerPositions',
+      data: data,
+    })
+  );
 });

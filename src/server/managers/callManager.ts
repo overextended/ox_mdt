@@ -83,7 +83,7 @@ export class CallManager {
   public static addUnitToCall(callId: number, unitId: string) {
     const call = this.activeCalls[callId];
 
-    if (!call || call.units.some(u => u.id === unitId)) return false;
+    if (!call || call.units.some((u) => u.id === unitId)) return false;
 
     const unit = UnitManager.getUnit(unitId);
     if (unit) call.units.push(unit);
@@ -99,7 +99,7 @@ export class CallManager {
   public static removeUnitFromCall(callId: number, unitId: string) {
     const call = this.activeCalls[callId];
 
-    const unitIdx = call.units.findIndex(u => u.id === unitId);
+    const unitIdx = call.units.findIndex((u) => u.id === unitId);
     if (!call || unitIdx !== -1) return false;
 
     delete call.units[unitIdx];

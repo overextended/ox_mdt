@@ -4,7 +4,7 @@ import { OfficerManager } from '../managers/officerManager';
 import { registerAuthorisedCallback } from '../utils/callback';
 
 registerAuthorisedCallback('ox_mdt:getCriminalProfiles', async (source, search) => {
-  return await DB.getCharacters([search], true);
+  return await DB.getCharacters(search);
 });
 
 registerAuthorisedCallback(
@@ -155,12 +155,17 @@ registerAuthorisedCallback(
       search: string;
     }
   ) => {
-    const profiles = await DB.selectProfiles(data.page, data.search);
+    try {
+      const profiles = await DB.selectProfiles(data.page, data.search);
 
-    return {
-      hasMore: profiles.length === 10,
-      profiles,
-    };
+      return {
+        hasMore: profiles.length === 10,
+        profiles,
+      };
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 );
 
