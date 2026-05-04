@@ -1,5 +1,6 @@
 .idea
 .vscode
 node_modules
-dist
-build
+/dist
+/fxmanifest.lua
+.yarn.installed

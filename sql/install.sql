@@ -134,3 +134,7 @@ CREATE TABLE IF NOT EXISTS `ox_mdt_bolos_images`
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+-- This will error in future MariaDB releases
+-- Currently "skips" it on v11.8.5
+ALTER TABLE `characters` ADD FULLTEXT INDEX `idx_mdt_search` (`stateId`, `firstName`, `lastName`);
+ALTER TABLE `vehicles` ADD FULLTEXT INDEX `idx_mdt_search` (`plate`);
